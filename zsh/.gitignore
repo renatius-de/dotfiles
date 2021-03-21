@@ -1,0 +1,7 @@
+*.zwc
+
+/history
+/local
+/plugin
+
+!/local/.keep
