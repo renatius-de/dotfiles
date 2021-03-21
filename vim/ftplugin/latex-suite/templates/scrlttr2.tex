@@ -1,0 +1,77 @@
+<+	+>
+\documentclass[fontsize=12pt,		% Font size
+paper=a4,				% Sheet size
+%enlargefirstpage=on,			% Enlarge the first page
+%pagenumber=headright,		        % Page number on the top right of the header
+headsepline=on,		        	% Line below the page number
+%parskip=half,		        	% Space between paragraphs
+fromalign=right,			% Positioning of the letterhead
+%fromphone=on,		        	% Phone number in the sender's area
+fromrule=on,				% Line below the sender's area (aftername, afteraddress)
+%fromfax=on,				% Fax number
+%fromemail=on,		        	% Mail address
+%fromurl=on,				% Homepage
+%fromlogo=on,				% Company logo
+addrfield=on,				% Adress field for window envelopes
+backaddress=on,		        	% sender address
+%subject=beforeopening,	        	% Positioning of the subject
+%locfield=narrow,			% Additional field for the sender
+foldmarks=on,				% Folding mark
+%numericaldate=on,			% Numerical date
+%refline=narrow,			% Spread of the reference line in the type area
+draft=on				% Draft mode
+]{scrlttr2}
+
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{url}
+
+\setkomafont{fromname}{\sffamily \LARGE}
+\setkomafont{fromaddress}{\sffamily}
+\setkomafont{pagenumber}{\sffamily}
+\setkomafont{subject}{\mdseries}
+\setkomafont{backaddress}{\mdseries}
+
+\begin{document}
+
+\LoadLetterOption{DIN}
+
+\setkomavar{fromname}{Ren\'{e} Six}
+\setkomavar{fromaddress}{Untere Weide 14\\57334 Bad Laasphe}
+\setkomavar{fromphone}{+49 170 475 36 36}
+%\sentkomavar{fromfax}{}
+\setkomavar{fromemail}{mail@rene-six.de}
+\setkomavar{fromurl}{http://www.rene-six.de}
+
+\setkomavar{signature}{Ren\'{e} Six}
+
+%\firsthead{Frei gestalteter Briefkopf}
+%\firstfoot{Fußzeile}
+
+%\setkomavar{place}{Ort}
+%\setkomavar{placeseparator}{, den }
+\setkomavar{date}{\today}
+%\setkomavar{yourmail}{1. 1. 2003}
+%\setkomavar{yourref}{abcdefg}
+%\setkomavar{myref}{}
+%\setkomavar{invoice}{123}
+%\setkomavar{phoneseparator}{}
+
+%\setkomavar{specialmail}{Einschreiben mit Rückschein}
+
+\renewcommand{\enclname}{Anlage}
+\setkomavar{enclseparator}{: }
+\begin{letter}{<++>}
+
+\setkomavar{subject}{Betreff}
+\opening{Sehr geehrte Damen und Herren,}
+
+
+\closing{Mit freundlichen Grüßen,}
+%\ps{PS:}
+%\encl{}
+%\cc{}
+\end{letter}
+\end{document}
