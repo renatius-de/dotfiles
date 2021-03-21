@@ -1,0 +1,50 @@
+# xmcd CD database file
+#
+# Track frame offsets:
+#       150
+#       3959
+#       25166
+#       42722
+#       70532
+#       95630
+#       122412
+#       143060
+#       160917
+#       187772
+#       210552
+#
+# Disc length: 3020 seconds
+#
+# Revision: 2
+# Processed by: cddbd v1.5.2PL0 Copyright (c) Steve Scherf et al.
+# Submitted via: CDex 1.78
+#
+DISCID=880bca0b
+DTITLE=Faun / Midgard
+DYEAR=2016
+DGENRE=Mittelalterliche Musik
+TTITLE0=Midgard Prolog
+TTITLE1=Federkleid
+TTITLE2=Sonnenreigen (Lughnasad)
+TTITLE3=Alba II
+TTITLE4=Nacht des Nordens
+TTITLE5=MacBeth
+TTITLE6=Gold & Seide
+TTITLE7=Brandan
+TTITLE8=Odin
+TTITLE9=Rabenballade
+TTITLE10=Lange Schatten
+EXTD= YEAR: 2016
+EXTT0=
+EXTT1=
+EXTT2=
+EXTT3=
+EXTT4=
+EXTT5=
+EXTT6=
+EXTT7=
+EXTT8=
+EXTT9=
+EXTT10=
+PLAYORDER=
+.
