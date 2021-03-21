@@ -1,0 +1,32 @@
+# xmcd CD database file
+#
+# Track frame offsets:
+#   150
+#   28352
+#   54542
+#   91552
+#   142657
+#
+# Disc length: 2294 seconds
+#
+# Revision: 32
+# Processed by: cddbd v1.5.2PL0 Copyright (c) Steve Scherf et al.
+# Submitted via: CDex 1.70beta2
+#
+DISCID=3508f405
+DTITLE=Madonna / Frozen
+DYEAR=1998
+DGENRE=Pop
+TTITLE0=Frozen (Album Version)
+TTITLE1=Frozen (Stereo MC's Mix)
+TTITLE2=Frozen (Meltdown Mix - Long Version)
+TTITLE3=Frozen (Victor Calderone & Mac Quayle Extended Club Mix)
+TTITLE4=Frozen (Widescreen Mix)
+EXTD= YEAR: 1998
+EXTT0=
+EXTT1=
+EXTT2=
+EXTT3=
+EXTT4=
+PLAYORDER=
+.
