@@ -1,0 +1,237 @@
+[add]
+    ignore-errors = true
+
+[alias]
+    ac = !"git cm --all"
+    acn = !"git cmn --all"
+    ad = add --all --
+    ai = add --interactive --patch --
+    ba = branch -a --verbose
+    bc = checkout -b
+    bd = branch --verbose --delete
+    bdd = branch --verbose --delete --force
+    ca = commit -q --amend --branch --status --verbose
+    cf = checkout --quiet --force
+    cl = !"git clone --progress --verbose --template=${HOME}/.git/template --recurse-submodules"
+    cm = commit --branch --status --verbose
+    cma = !"git co master && git rebase -n origin/master"
+    cmn = !"git cm --no-verify"
+    cn = !"git reflog expire --all && git fsck --unreachable --full && git prune && git gc --aggressive --quiet && git repack -Adq && git prune-packed --quiet"
+    co = checkout
+    di = diff
+    dt = difftool
+    fe = fetch --progress
+    fm = !"git fe --all && git fe --all --tags"
+    ge = grep --break --heading --show-function
+    gf = !"git ge --function-context"
+    gr = !"git ge --ignore-case"
+    lo = !"GIT_PAGER=less git log --pretty=graph --notes --date=short --graph"
+    ma = merge --abort
+    me = merge --stat --summary
+    mf = !"git me --ff"
+    mm = !"git mf origin/$(git branch-name)"
+    mma = !"git mf origin/master"
+    mt = mergetool
+    pd = push --delete --no-verify --progress origin
+    pf = !"git ph --force origin $(git branch-name)"
+    pfn = !"git pf --no-verify"
+    pgh = !"git ph --force github $(git branch-name)"
+    pgl = !"git ph --force gitlab $(git branch-name)"
+    ph = push --progress --set-upstream
+    pl = pull
+    pn = !"git ph --no-verify origin $(git branch-name)"
+    pt = !"for i in $(git remote); do git ph --tags ${i}; done"
+    pu = !"for i in $(git remote); do git ph ${i} $(git branch-name); done"
+    ra = rebase --abort
+    rc = rebase --continue
+    re = reset
+    rh = reset --hard
+    rhn = !"git rh HEAD~${1}; echo"
+    ri = rebase --verbose --stat --interactive --rebase-merge --autosquash
+    rin = !"git ri HEAD~${1}; echo"
+    rp = rebase --skip
+    rs = reset --soft
+    rsn = !"git rs HEAD~${1}; echo"
+    rv = remote --verbose
+    sa = stash push
+    sau = stash push --include-untracked
+    sc = stash clear
+    sf = !"git submodule foreach"
+    sl = stash list
+    sm = submodule
+    so = stash pop
+    sr = !"git sf --recursive"
+    ss = !"git st && git sf \"git st -s; echo\" && git submodule status --recursive"
+    st = status
+    su = !"git pull && echo && git sr \"git pull\" && git submodule -q sync && git ss"
+    sw = switch --progress --recurse-submodules
+    td = !"for i in $(git remote); do git ph --delete ${i} ${1}; done; git tag --delete"
+
+    add-new = !"git ls-files -zo --no-empty-directory --exclude-standard --full-name | xargs -I {} -0 bash -c 'git add \"{}\" && git cm -m \"add file {} to repository\"'"
+    bclean = !"git for-each-ref --format='%(refname:short)' refs/heads | grep -Ev 'master' | xargs git bd"
+    branch-name = !"git for-each-ref --format='%(refname:short)' $(git symbolic-ref HEAD)"
+    remove = !"git ls-files -zd --no-empty-directory --exclude-standard --full-name | xargs -I {} -0 bash -c 'git rm \"{}\" && git cm -m \"remove file {} from repository\"'"
+    update = !"git ls-files -zm --no-empty-directory --exclude-standard --full-name | xargs -I {} -0 bash -c 'git add \"{}\" && git cm -m \"update file {} in repository on date $(date \"+%F\")\"'"
+
+[branch]
+    autoSetupMerge = always
+    autoSetupRebase = always
+
+[clean]
+    requireForce = true
+
+[color]
+    branch = auto
+    diff = auto
+    grep = auto
+    interactive = auto
+    push = auto
+    remote = auto
+    showbranch = auto
+    status = auto
+    transport = auto
+
+[color "branch"]
+    current = green normal bold
+    local = yellow normal bold
+    plain = white normal bold
+    remote = red normal bold
+
+[color "status"]
+    added = green normal bold
+    updated = green normal bold
+    changed = yellow normal bold
+    nobranch = red white blink
+    untracked = red normal bold
+
+[commit]
+    status = true
+    ; template = ~/.git/commit.msg
+
+[core]
+    compression = 9
+    eol = lf
+    excludesfile = ~/.git/ignore
+    hooksPath = ~/.git/template/hooks
+    loosecompression = 9
+    preloadindex = true
+
+[diff]
+    context = 5
+    ignoreSubmodules = all
+    mnemonicprefix = true
+    renameLimit = 8
+    renames = copy
+
+[fetch]
+    output = compact
+    prune = true
+    pruneTags = true
+    recurseSubmodules = true
+
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    process = git-lfs filter-process
+    required = true
+    smudge = git-lfs smudge -- %f
+
+[grep]
+    lineNumber = true
+    extendedRegexp = true
+
+[init]
+    defaultBranch = master
+
+[interactive]
+    singlekey = true
+
+[log]
+    abbrevCommit = true
+    date = iso
+    follow = true
+    showRoot = true
+
+[merge]
+    log = true
+    renameLimit = 8
+    renormalize = true
+    stat = true
+    tool = vimdiff3
+
+[mergetool]
+    keepBackup = false
+    writeToTemp = true
+
+[pack]
+    compression = 9
+
+[pull]
+    ff = only
+
+[push]
+    default = matching
+    followTags = true
+    recurseSubmodules = on-demand
+
+[rebase]
+    abbreviateCommands = true
+    autoSquash = true
+    autoStash = true
+    stat = true
+
+[rerere]
+    autoUpdate = true
+    enabled = true
+
+[status]
+    relativePaths = false
+    showStash = true
+    showUntrackedFiles = all
+
+[tag]
+    sort = version:refname
+
+[transfer]
+    fsckObjects = true
+
+[user]
+    email = info@renatius.de
+    name = René Six
+    useConfigOnly = true
+
+[include]
+    path = ~/.git/local.conf
+
+################################################################################
+# Third party configurations                                                   #
+################################################################################
+[tig]
+    commit-order = topo
+    history-size = 0
+    horizontal-scroll = 95%
+    ignore-case = smart-case
+    ignore-space = some
+    line-graphics = utf-8
+    mouse = no
+    split-view-height = 75%
+    tab-size = 4
+    vertical-split = false
+
+    # View settings
+    main-view = line-number:yes,interval=5 id:no date:default author:abbreviated,width=15 commit-title:yes,graph=yes,refs=yes,overflow=no
+    blame-view = line-number:yes,interval=5 date:default author:abbreviated,width=15 file-name:auto id:yes,color text
+
+    # Pager based views
+    blob-view = line-number:yes,interval=5 text
+    diff-view = line-number:yes,interval=5 text:yes,commit-title-overflow=no
+    log-view = line-number:yes,interval=5 text
+    pager-view = line-number:yes,interval=5 text
+    stage-view = line-number:yes,interval=5 text
+
+[tig "color"]
+    default = default default normal
+    cursor = white blue bold
+    title-blur = blue default
+    title-focus = blue default bold
+
+# vim: filetype=gitconfig foldmethod=indent foldminlines=0
