@@ -1,0 +1,28 @@
+# {{{ remove unwanted files
+[[ -e ~/.aptitude ]]                       && rm -rf ~/.aptitude
+[[ -e ~/.bashburn_history ]]               && rm -f ~/.bashburn_history
+[[ -e ~/.bugz_cookie ]]                    && rm -f ~/.bugz_cookie
+[[ -e ~/.bzr.log ]]                        && rm -f ~/.bzr.log
+[[ -e ~/.config/Trolltech.conf ]]          && rm -f ~/.config/Trolltech.conf
+[[ -e ~/.debglob ]]                        && rm -rf ~/.debglob
+[[ -e ~/.debtags ]]                        && rm -rf ~/.debtags
+[[ -e ~/.fehbg ]]                          && rm -f ~/.fehbg
+[[ -e ~/.fehrc ]]                          && rm -f ~/.fehrc
+[[ -e ~/.joe_state ]]                      && rm -f ~/.joe_state
+[[ -e ~/.lesshst ]]                        && rm -f ~/.lesshst
+[[ -e ~/.mozilla/firefox/Crash\ Reports ]] && rm -rf ~/.mozilla/firefox/Crash\ Reports
+[[ -e ~/.multitail.cmdfilehistory ]]       && rm -f ~/.multitail.cmdfilehistory
+[[ -e ~/.mutthistory ]]                    && rm -f ~/.mutthistory
+[[ -e ~/.notedb ]]                         && rm -f ~/.notedb
+[[ -e ~/.nvidia-settings-rc ]]             && rm -f ~/.nvidia-settings-rc
+[[ -e ~/.recently-used.xbel ]]             && rm -f ~/.recently-used.xbel
+[[ -e ~/.xdvirc ]]                         && rm -f ~/.xdvirc
+[[ -e ~/.xfigrc ]]                         && rm -f ~/.xfigrc
+[[ -e ~/.xsession-errors.old ]]            && rm -f ~/.xsession-errors.old
+#}}}
+
+# {{{ when leaving the console clear the screen to increase privacy
+[[ -x /usr/bin/clear_console ]] && clear_console -q
+#}}}
+
+# vim: filetype=sh textwidth=80
