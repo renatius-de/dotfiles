@@ -1,0 +1,32 @@
+# xmcd
+#
+# Track frame offsets:
+#     150
+#     15097
+#     53865
+#     88561
+#     131693
+#
+# Disc length: 2216
+#
+# Revision: 21
+# Processed by: cddbd v1.5.2PL0 Copyright (c) Steve Scherf et al.
+# Submitted via: fre:ac v1.0.17
+#
+DISCID=3108a605
+DTITLE=Safri Duo / Played-a-Live (The Bongo Song)
+DYEAR=2001
+DGENRE=Trance
+TTITLE0=Played-a-Live (Radio Cut)
+TTITLE1=Played-a-Live (Original Club Version)
+TTITLE2=Played-a-Live (DJ Tandu Mix)
+TTITLE3=Played-a-Live (Spanish Fly Remix)
+TTITLE4=Played-a-Live (Nick Sentience Mix)
+EXTD= YEAR: 2001
+EXTT0=(Radio Cut)
+EXTT1=(Original Club Version)
+EXTT2=(DJ Tandu Mix)
+EXTT3=(Spanish Fly Remix)
+EXTT4=(Nick Sentience Mix)
+PLAYORDER=
+.
