@@ -1,0 +1,29 @@
+# xmcd CD database file
+#
+# Track frame offsets:
+#   150
+#   17055
+#   36062
+#   53712
+#
+# Disc length: 930 seconds
+#
+# Revision: 5
+# Processed by: cddbd v1.5.2PL0 Copyright (c) Steve Scherf et al.
+# Submitted via: CDex 1.40Beta4
+#
+DISCID=2703a004
+DTITLE=Bell Book & Candle / Read my Sign
+DYEAR=1997
+DGENRE=Alternative
+TTITLE0=Read my Sign (Radio Edit)
+TTITLE1=Read my Sign (Long Version)
+TTITLE2=Read my Sign (Ambient Version)
+TTITLE3=Wood Beez
+EXTD= YEAR: 1997 ID3G:  20
+EXTT0=
+EXTT1=
+EXTT2=
+EXTT3=
+PLAYORDER=
+.
