@@ -1,0 +1,53 @@
+# xmcd CD database file
+#
+# Track frame offsets:
+#       150
+#       20400
+#       40937
+#       58400
+#       77242
+#       96112
+#       121300
+#       146737
+#       163854
+#       196175
+#       226145
+#       247050
+#
+# Disc length: 3520 seconds
+#
+# Revision: 3
+# Processed by: cddbd v1.5.2PL0 Copyright (c) Steve Scherf et al.
+# Submitted via: CDex 1.51
+#
+DISCID=a50dbe0c
+DTITLE=Alice Cooper / Poison (CD 1)
+DYEAR=2003
+DGENRE=Rock
+TTITLE0=Poison
+TTITLE1=Hey Stupid
+TTITLE2=Lost in America
+TTITLE3=Hell Is Living Without You
+TTITLE4=Love`s A Loaded Gun
+TTITLE5=Stolen Prayer
+TTITLE6=Cleansed By Fire
+TTITLE7=I´m Your Gun
+TTITLE8=Might As Well Be On Mars
+TTITLE9=Sideshow
+TTITLE10=It`s Me
+TTITLE11=Schools`s Out (live)
+EXTD= YEAR: 2003
+EXTT0=
+EXTT1=
+EXTT2=
+EXTT3=
+EXTT4=
+EXTT5=
+EXTT6=
+EXTT7=
+EXTT8=
+EXTT9=
+EXTT10=
+EXTT11=
+PLAYORDER=
+.
