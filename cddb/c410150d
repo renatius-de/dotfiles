@@ -1,0 +1,56 @@
+# xmcd CD database file
+#
+# Track frame offsets:
+#       150
+#       17730
+#       38497
+#       56907
+#       73100
+#       96500
+#       117707
+#       132962
+#       150330
+#       167210
+#       187267
+#       208042
+#       237630
+#
+# Disc length: 4119 seconds
+#
+# Revision: 7
+# Processed by: cddbd v1.5.2PL0 Copyright (c) Steve Scherf et al.
+# Submitted via: CDex 1.51
+#
+DISCID=c410150d
+DTITLE=Meredith Brooks / Deconstruction
+DYEAR=1999
+DGENRE=Rock
+TTITLE0=Shout
+TTITLE1=Lay Down (Candles In The Rain)
+TTITLE2=I Have Everything
+TTITLE3=Cosmic Woo Woo
+TTITLE4=Nobody's Home
+TTITLE5=All For Nothing
+TTITLE6=I Said It
+TTITLE7=Back To Eden
+TTITLE8=Bored With Myself
+TTITLE9=Careful What You Wish For
+TTITLE10=Sin City
+TTITLE11=Back To Nowhere
+TTITLE12=DATA
+EXTD= YEAR: 1999
+EXTT0=
+EXTT1=
+EXTT2=
+EXTT3=
+EXTT4=
+EXTT5=
+EXTT6=
+EXTT7=
+EXTT8=
+EXTT9=
+EXTT10=
+EXTT11=
+EXTT12=
+PLAYORDER=
+.
