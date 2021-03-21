@@ -1,0 +1,135 @@
+" {{{ dein.vim
+if has("nvim")
+    let g:deinpath=escape(expand("~/.local/share/dein.nvim"), " ")
+else
+    let g:deinpath=escape(expand("~/.local/share/dein.vim"), " ")
+endif
+let g:deinvimpath=escape(expand(deinpath . "/repos/github.com/Shougo/dein.vim"), " ")
+let &runtimepath .= "," . deinvimpath
+
+if dein#load_state(deinpath)
+    call dein#begin(deinpath)
+
+    " Let dein manage dein
+    call dein#add(deinvimpath)
+
+    " Add or remove your plugins here:
+    call dein#add("Shougo/denite.nvim")
+    call dein#add("ciaranm/securemodelines")
+    call dein#add("godlygeek/tabular")
+    call dein#add("google/vim-colorscheme-primary")
+    call dein#add("mhartington/oceanic-next")
+    call dein#add("mhinz/vim-signify")
+    call dein#add("ntpeters/vim-better-whitespace")
+    call dein#add("puppetlabs/puppet-syntax-vim")
+    call dein#add("rking/vim-detailed")
+    call dein#add("rodjek/vim-puppet")
+    call dein#add("tpope/vim-commentary")
+    call dein#add("tpope/vim-fugitive")
+    call dein#add("tpope/vim-git")
+    call dein#add("tpope/vim-sensible")
+    call dein#add("tpope/vim-surround")
+    call dein#add("tpope/vim-unimpaired")
+    call dein#add("vim-airline/vim-airline")
+    call dein#add("vim-airline/vim-airline-themes")
+
+    call dein#add("junegunn/fzf", { "build": "./install --bin --no-bash --no-fish --no-zsh --no-update-rc", "merged": 0, "rtp": "" })
+    call dein#add("junegunn/fzf.vim", { "depends": "fzf" })
+
+    call dein#add('Shougo/defx.nvim')
+    if !has('nvim')
+        call dein#add('roxma/nvim-yarp')
+        call dein#add('roxma/vim-hug-neovim-rpc')
+    endif
+
+    call dein#end()
+    call dein#save_state()
+endif
+unlet deinvimpath
+unlet deinpath
+
+" Install not installed plugins on startup.
+if dein#check_install()
+    call dein#install()
+
+    if has("nvim")
+        call dein#remote_plugins()
+    endif
+endif
+"}}}
+
+" {{{ disabled plugins
+" Bufexplorer disabled
+let g:bufexplorer_version=1
+let g:loaded_minibufexplorer=1
+"}}}
+
+" {{{ Airline
+" {{{ tabline
+" enable/disable enhanced tabline.
+let g:airline#extensions#tabline#enabled=1
+
+" enable/disable displaying buffers with a single tab.
+let g:airline#extensions#tabline#show_buffers=1
+
+" configure how numbers are calculated in tab mode.
+let g:airline#extensions#tabline#tab_nr_type=1
+
+" enable/disable displaying tab number in tabs mode.
+let g:airline#extensions#tabline#show_tab_nr=1
+"}}}
+
+" set default theme
+let g:airline_theme="distinguished"
+"}}}
+
+" {{{ denite
+" Define alias
+call denite#custom#alias("source", "file_rec/git", "file_rec")
+call denite#custom#var("file_rec/git", "command", ["git", "ls-files", "-co", "--exclude-standard"])
+
+" Change mappings.
+call denite#custom#map("insert", "<C-j>", '<denite:move_to_next_line>', "noremap")
+call denite#custom#map("insert", "<C-k>", '<denite:move_to_previous_line>', "noremap")
+
+" ctrlp
+nnoremap <silent> <C-p> :<C-u>Denite file_rec/git<CR>
+"}}}
+
+" {{{ FuGITive
+" {{{ mappings
+nmap <silent> <leader>ga :Gwrite<cr>
+nmap <silent> <leader>gc :Gcommit<cr>
+nmap <silent> <leader>gw :Gwq<cr>
+"}}}
+"}}}
+
+" {{{ LaTeX
+" {{{ tex_flavor
+" If the first line of a *.tex file has the form
+"	%&<format>
+" then this determined the file type: plaintex (for plain TeX), context (for
+" ConTeXt), or tex (for LaTeX). Otherwise, the file is searched for keywords
+" to choose context or tex. If no keywords are found, it defaults to plaintex.
+" You can change the default by defining the variable g:tex_flavor to the
+" format (not the file type) you use most. Use one of these:
+"	let g:tex_flavor="plain"
+"	let g:tex_flavor="context"
+"	let g:tex_flavor="latex"
+" Currently no other formats are recognized.
+let g:tex_flavor="latex"
+"}}}
+"}}}
+
+" {{{ LaTeX-Suite
+" {{{ Tex_DefaultTargetFormat
+" Use this setting to choose the default target format. For example, setting
+" this to pdf makes LaTeX-Suite compile a pdf file when you press \ll and fire
+" up the pdf viewer on pressing \lv. Make sure that a rules for compiling and
+" viewing have been defined for this target format as described here [ls_a_dx]
+" and here [ls_a_dF].
+let g:Tex_DefaultTargetFormat="pdf"
+"}}}
+"}}}
+
+" vim: filetype=vim textwidth=80 foldmethod=marker
