@@ -1,0 +1,32 @@
+" {{{ Common Plugins
+" This variable holds name of all VO modules you want to load. Do NOT use ru
+" directly in this file, because you will get into many strange surprises. If
+" you do not want to load any VO modules leave it blank (default). This
+" variable can be freely modified in ~/.vimoutlinerrc.
+let g:vo_modules_load = "checkbox:hoist"
+"}}}
+
+" {{{ User Preferences ***************************************************
+" {{{ VIMOutliner local settings
+setlocal ignorecase
+setlocal wrap
+setlocal shiftwidth=4
+setlocal smartcase
+setlocal spell
+setlocal tabstop=4
+setlocal tw=80
+setlocal wrapmargin=3
+"}}}
+
+" {{{ local mappings
+imap ä ä
+imap Ä Ä
+imap ü ü
+imap Ü Ü
+imap ö ö
+imap Ö Ö
+imap ß ß
+"}}}
+"}}}
+
+" vim: filetype=vim textwidth=80 foldmethod=marker
