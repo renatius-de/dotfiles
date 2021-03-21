@@ -1,0 +1,53 @@
+# xmcd CD database file
+#
+# Track frame offsets:
+#       150
+#       21300
+#       35066
+#       51454
+#       66612
+#       85549
+#       102222
+#       116440
+#       135037
+#       154905
+#       171033
+#       190278
+#
+# Disc length: 2747 seconds
+#
+# Revision: 0
+# Processed by: cddbd v1.5.2PL0 Copyright (c) Steve Scherf et al.
+# Submitted via: CDex 1.70beta2
+#
+DISCID=9f0ab90c
+DTITLE=Echosmith / Talking Dreams
+DYEAR=2014
+DGENRE=Alternative
+TTITLE0=Come Together
+TTITLE1=Let's Love
+TTITLE2=Cool Kids
+TTITLE3=March Into the Sun
+TTITLE4=Come With Me
+TTITLE5=Bright
+TTITLE6=Talking Dreams
+TTITLE7=Tell Her You Love Her
+TTITLE8=Ran Off in the Night
+TTITLE9=Nothing's Wrong
+TTITLE10=Safest Place
+TTITLE11=Surround You
+EXTD= YEAR: 2014
+EXTT0=
+EXTT1=
+EXTT2=
+EXTT3=
+EXTT4=
+EXTT5=
+EXTT6=
+EXTT7=
+EXTT8=
+EXTT9=
+EXTT10=
+EXTT11=
+PLAYORDER=
+.
