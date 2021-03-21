@@ -1,0 +1,77 @@
+# xmcd CD database file
+#
+# Track frame offsets:
+#       150
+#       8845
+#       17099
+#       24613
+#       30602
+#       45521
+#       63665
+#       75029
+#       92170
+#       105278
+#       111848
+#       128419
+#       145558
+#       162193
+#       172682
+#       186652
+#       211298
+#       223112
+#       237278
+#       254667
+#
+# Disc length: 3483 seconds
+#
+# Revision: 25
+# Processed by: cddbd v1.5.2PL0 Copyright (c) Steve Scherf et al.
+# Submitted via: CDex 1.51
+#
+DISCID=fe0d9914
+DTITLE=Die Roten Rosen / Wir Warten Auf's Christkind
+DYEAR=1998
+DGENRE=Christmas
+TTITLE0=Ave Maria
+TTITLE1=Stille Nacht, Heilige Nacht
+TTITLE2=Ihr Kinderlein Kommet
+TTITLE3=Oh Tannenbaum
+TTITLE4=Merry X-Mas Everybody
+TTITLE5=Weihnachtsmann Vom Dach
+TTITLE6=Auld Lang Syne
+TTITLE7=The Little Drummer Boy
+TTITLE8=Leise Rieselt Der Schnee
+TTITLE9=Alle Jahre Wieder
+TTITLE10=Frohes Fest
+TTITLE11=White Christmas
+TTITLE12=Weihnachten Bei Den Brandts
+TTITLE13=Hark! The Herald Angels Sing
+TTITLE14=We Wish You A Merry Christmas
+TTITLE15=In Dulci Jubilo
+TTITLE16=Happy X-Mas (War Is Over)
+TTITLE17=Jingle Bells
+TTITLE18=I Wish It Could Be Christmas Every Day
+TTITLE19=Still, Still, Still
+EXTD=Die Roten Rosen = Die Toten Hosen\nWeihnachtslieder einmal anders YEAR: 1998
+EXTT0=
+EXTT1=
+EXTT2=
+EXTT3=
+EXTT4=
+EXTT5=
+EXTT6=
+EXTT7=
+EXTT8=
+EXTT9=
+EXTT10=
+EXTT11=
+EXTT12=
+EXTT13=
+EXTT14=
+EXTT15=
+EXTT16=
+EXTT17=
+EXTT18=
+EXTT19=
+PLAYORDER=
+.
