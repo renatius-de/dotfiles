@@ -1,0 +1,6 @@
+name: Main
+root: ~/
+
+windows:
+  - System: htop
+  - Shell:
