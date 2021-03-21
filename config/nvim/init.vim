@@ -1,0 +1,1 @@
+/home/rene/.vim/config/nvimrc
