@@ -1,0 +1,56 @@
+# xmcd CD database file
+#
+# Track frame offsets:
+#       150
+#       13775
+#       29496
+#       41116
+#       53680
+#       72335
+#       86068
+#       104329
+#       119802
+#       135533
+#       152434
+#       169135
+#       184660
+#
+# Disc length: 2642 seconds
+#
+# Revision: 8
+# Processed by: cddbd v1.5.2PL0 Copyright (c) Steve Scherf et al.
+# Submitted via: CDex 1.51
+#
+DISCID=b20a500d
+DTITLE=Annett Louisan / Bohème
+DYEAR=2004
+DGENRE=Pop
+TTITLE0=das spiel
+TTITLE1=die lüge
+TTITLE2=die dinge
+TTITLE3=das gefühl
+TTITLE4=daddy
+TTITLE5=die katze
+TTITLE6=der schöne
+TTITLE7=die gelegenheit
+TTITLE8=der blender
+TTITLE9=die trägheit
+TTITLE10=die formel
+TTITLE11=das liebeslied
+TTITLE12=das spiel (radiomix)
+EXTD= YEAR: 2004
+EXTT0=
+EXTT1=
+EXTT2=
+EXTT3=
+EXTT4=
+EXTT5=
+EXTT6=
+EXTT7=
+EXTT8=
+EXTT9=
+EXTT10=
+EXTT11=
+EXTT12=
+PLAYORDER=
+.
