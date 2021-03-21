@@ -1,0 +1,77 @@
+# xmcd CD database file
+#
+# Track frame offsets:
+#       150
+#       10705
+#       19417
+#       30005
+#       40877
+#       50745
+#       62252
+#       72627
+#       84955
+#       99245
+#       109657
+#       119062
+#       131692
+#       141827
+#
+# Disc length: 2029 seconds
+#
+# Revision: 1
+# Processed by: cddbd v1.5.2PL0 Copyright (c) Steve Scherf et al.
+# Submitted via: CDex 1.40Release
+#
+DISCID=b607eb0e
+DTITLE=The Beatles / One - Disc One
+DYEAR=2000
+DGENRE=Rock
+TTITLE0=Love Me Do
+TTITLE1=From Me To You
+TTITLE2= She Loves You
+TTITLE3=I Want To Hold Your Hand
+TTITLE4=Can't Buy Me Love
+TTITLE5=Hard Day's Night
+TTITLE6=I Feel Fine
+TTITLE7=Eight Days A Week
+TTITLE8=Ticket To Ride
+TTITLE9=Help!
+TTITLE10=Yesterday
+TTITLE11=Day Tripper
+TTITLE12=We Can Work It Out
+TTITLE13=Paperback Writer
+EXTD=\n
+EXTD=BEATLES    The one (cd 1 of 2)\n
+EXTD=\n
+EXTD=\n
+EXTD=1.  Love me do\n
+EXTD=2.  From me to you\n
+EXTD=3.  She loves you\n
+EXTD=4.  I want to hold your hand\n
+EXTD=5.  Can't by me love\n
+EXTD=6.  Hard day's night\n
+EXTD=7.  I feel fine\n
+EXTD=8.  Eight days a week\n
+EXTD=9.  Ticket to ride\n
+EXTD=10.  Help!\n
+EXTD=11.  Yesterday\n
+EXTD=12.  Day tripper\n
+EXTD=13.  We can work it out\n
+EXTD=14.  Paperback writer\n
+EXTD= YEAR: 2000 ID3G: 17
+EXTT0=
+EXTT1=
+EXTT2=
+EXTT3=
+EXTT4=
+EXTT5=
+EXTT6=
+EXTT7=
+EXTT8=
+EXTT9=
+EXTT10=
+EXTT11=
+EXTT12=
+EXTT13=
+PLAYORDER=
+.
