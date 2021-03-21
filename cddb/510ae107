@@ -1,0 +1,38 @@
+# xmcd CD database file
+#
+# Track frame offsets:
+#   150
+#   32123
+#   57599
+#   77541
+#   124844
+#   160333
+#   180898
+#
+# Disc length: 2787 seconds
+#
+# Revision: 2
+# Processed by: cddbd v1.5.2PL0 Copyright (c) Steve Scherf et al.
+# Submitted via: CDex 1.70beta2
+#
+DISCID=510ae107
+DTITLE=Nightwish / Showtime, Storytime
+DYEAR=2013
+DGENRE=Gothic Metal
+TTITLE0=Bless The Child (Live)
+TTITLE1=Romanticide (Live)
+TTITLE2=Amaranth (Live)
+TTITLE3=Ghost Love Score (Live)
+TTITLE4=Song Of Myself (Live)
+TTITLE5=Last Ride Of The Day (Live)
+TTITLE6=Imaginaerum (Outro) (Live)
+EXTD= YEAR: 2013
+EXTT0=
+EXTT1=
+EXTT2=
+EXTT3=
+EXTT4=
+EXTT5=
+EXTT6=
+PLAYORDER=
+.
