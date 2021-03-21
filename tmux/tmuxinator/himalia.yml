@@ -1,0 +1,8 @@
+name: Main
+root: ~/
+
+windows:
+    - System: htop
+    - FileManager: mc
+    - EMail: mutt
+    - IRC: weechat
