@@ -1,0 +1,37 @@
+" {{{ ConvertToUnix
+function! DosToUnix()
+    execute "update"
+    execute "edit ++ff=dos"
+    execute "setlocal ff=unix"
+    execute "write"
+endfunction
+command! DosToUnix call DosToUnix()
+"}}}
+
+" {{{ StripDoubleEmptyLines
+function! StripDoubleEmptyLines()
+    if !&binary && &filetype != 'diff'
+        normal mz
+        normal Hmy
+        %s/^\s\+$//e
+        %s/\(^$\n\)\{2,\}/\r/e
+        normal 'yz<CR>
+        normal `z
+    endif
+endfunction
+command! StripDoubleEmptyLines call StripDoubleEmptyLines()
+"}}}
+
+function! UpdatePlugin()
+    " If you want to install not installed plugins on startup.
+    if dein#check_update()
+        call dein#update()
+
+        if has("nvim")
+            call dein#remote_plugins()
+        endif
+    endif
+endfunction
+command! UpdatePlugin call UpdatePlugin()
+
+" vim: filetype=vim textwidth=80 foldmethod=marker
