@@ -1,0 +1,53 @@
+# xmcd CD database file
+#
+# Track frame offsets:
+#       182
+#       25045
+#       49402
+#       66475
+#       95507
+#       125822
+#       143847
+#       162175
+#       191332
+#       210572
+#       233712
+#       264437
+#
+# Disc length: 3759 seconds
+#
+# Revision: 16
+# Processed by: cddbd v1.5.2PL0 Copyright (c) Steve Scherf et al.
+# Submitted via: CDex 1.70beta2
+#
+DISCID=ab0ead0c
+DTITLE=Metallica / Metallica
+DYEAR=1991
+DGENRE=Metal
+TTITLE0=Enter Sandman
+TTITLE1=Sad But True
+TTITLE2=Holier Than Thou
+TTITLE3=The Unforgiven
+TTITLE4=Wherever I May Roam
+TTITLE5=Don't Tread on Me
+TTITLE6=Through the Never
+TTITLE7=Nothing Else Matters
+TTITLE8=Of Wolf and Man
+TTITLE9=The God that Failed
+TTITLE10=My Friend of Misery
+TTITLE11=The Struggle Within
+EXTD= YEAR: 1991
+EXTT0=
+EXTT1=
+EXTT2=
+EXTT3=
+EXTT4=
+EXTT5=
+EXTT6=
+EXTT7=
+EXTT8=
+EXTT9=
+EXTT10=
+EXTT11=
+PLAYORDER=
+.
