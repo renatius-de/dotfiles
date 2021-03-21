@@ -1,0 +1,8 @@
+if test -d /etc/profile.d/; then
+    for profile in /etc/profile.d/*.sh; do
+        test -r "$profile" && . "$profile"
+    done
+    unset profile
+fi
+
+# vim: filetype=sh foldmethod=marker textwidth=0
