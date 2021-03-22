@@ -1,12 +1,8 @@
 name: <%= @settings["name"] ? @settings["name"].capitalize : "Shell" %>
-root: <%= @settings["name"] ? "~/git/flavia/" + @settings["name"].to_s : "~" %>
+root: <%= @settings["root"] ? @settings["root"].to_s : "~" %>
 
 windows:
-    - Shell:
-        panes:
-            - clear
-            - clear
-    - Shell:
-        panes:
-            - test -d vagrant && cd vagrant || test -d docker && cd docker ; clear
-            - test -d vagrant && cd vagrant || test -d docker && cd docker ; clear
+  - Shell:
+    panes:
+      -
+      -
