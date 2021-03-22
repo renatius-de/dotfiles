@@ -140,7 +140,7 @@
     extendedRegexp = true
 
 [init]
-    defaultBranch = master
+    defaultBranch = main
 
 [interactive]
     singlekey = true
