@@ -113,12 +113,12 @@
     compression = 9
     eol = lf
     excludesfile = ~/.git/ignore
-    hooksPath = ~/.git/template/hooks
+    ; hooksPath = ~/.git/template/hooks
     loosecompression = 9
     preloadindex = true
 
 [diff]
-    context = 5
+    context = 8
     ignoreSubmodules = all
     mnemonicprefix = true
     renameLimit = 8
@@ -201,7 +201,7 @@
     useConfigOnly = true
 
 [include]
-    path = ~/.git/local.conf
+    path = ~/.gitconfig.local
 
 ################################################################################
 # Third party configurations                                                   #
