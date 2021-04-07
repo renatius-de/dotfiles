@@ -8,6 +8,7 @@ if [[ -r ~/.zsh/plugin/antigen.zsh ]]; then
     antigen bundle direnv
     antigen bundle django
     antigen bundle docker
+    antigen bundle docker-compose
     antigen bundle editor
     antigen bundle extract
     antigen bundle gpg-agent
