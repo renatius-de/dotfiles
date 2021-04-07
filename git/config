@@ -109,6 +109,7 @@
     ; template = ~/.git/commit.msg
 
 [core]
+    autocrlf = input
     compression = 9
     eol = lf
     excludesfile = ~/.git/ignore
