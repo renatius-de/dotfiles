@@ -4,6 +4,7 @@ CACHE = ${HOME}/.cache
 NVIM  = ${HOME}/.config/nvim
 SHARE = ${HOME}/.local/share
 
+.PHONY: clean
 clean:
 	rm -fr ${CACHE}/nvim
 	rm -fr ${CACHE}/vim
@@ -21,6 +22,7 @@ clean:
 	gem uninstall --all --user-install neovim || true
 	gem uninstall --all --user-install puppet-lint || true
 
+.PHONY: install
 install: | ${HOME}/.vim dein
 	mkdir -p ${CACHE}/nvim
 	mkdir -p ${CACHE}/vim
@@ -51,3 +53,6 @@ dein:
 ruby:
 	gem install --user-install neovim
 	gem install --user-install puppet-lint
+
+.PHONY: default
+default: | clean install

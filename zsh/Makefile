@@ -6,6 +6,7 @@ PLUGIN_DIRECTORY = $(ROOT_DIR)/plugin
 SDKMAN           = ${HOME}/.sdkman
 SHARE            = ${HOME}/.cache/zsh
 
+.PHONY: clean
 clean:
 	rm -fr ${HOME}/.antigen
 	rm -f ${HOME}/.zcompdump
@@ -20,6 +21,7 @@ clean:
 	#
 	find ${HOME} -name '*.zwc' -delete
 
+.PHONY: install
 install: | plugin
 	mkdir -p $(SHARE)
 	#
@@ -49,4 +51,5 @@ ${FZF}:
 ${SDKMAN}:
 	curl --silent 'https://get.sdkman.io?rcupdate=false' | bash
 
-.PHONY: install
+.PHONY: default
+default: | clean install

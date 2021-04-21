@@ -1,5 +1,6 @@
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
+.PHONY: clean
 clean:
 	rm -f ${HOME}/.abcde.conf
 	rm -f ${HOME}/.aspell.conf
@@ -9,6 +10,7 @@ clean:
 	rm -f ${HOME}/.Xdefaults
 	rm -f ${HOME}/.Xmodmap
 
+.PHONY: install
 install:
 	mkdir -p ${HOME}/.config/gtk-3.0
 	ln -snf ${ROOT_DIR}/abcde.conf ${HOME}/.abcde.conf
@@ -17,3 +19,6 @@ install:
 	ln -snf ${ROOT_DIR}/gtkrc-2.0 ${HOME}/.gtkrc-2.0
 	ln -snf ${ROOT_DIR}/Xdefaults ${HOME}/.Xdefaults
 	ln -snf ${ROOT_DIR}/Xmodmap ${HOME}/.Xmodmap
+
+.PHONY: default
+default: | clean install

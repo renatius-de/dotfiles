@@ -1,5 +1,6 @@
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
+.PHONY: clean
 clean:
 	rm -f $(ROOT_DIR)/nvm.sh
 	rm -f ${HOME}/.editrc
@@ -9,6 +10,7 @@ clean:
 	rm -f ${HOME}/.my.cnf
 	rm -f ${HOME}/.profile
 
+.PHONY: install
 install: ${HOME}/.shell
 	ln -snf ${ROOT_DIR}/editrc ${HOME}/.editrc
 	ln -snf ${ROOT_DIR}/inputrc ${HOME}/.inputrc
@@ -19,3 +21,6 @@ install: ${HOME}/.shell
 
 ${HOME}/.shell:
 	ln -snf ${ROOT_DIR} ${HOME}/.shell
+
+.PHONY: default
+default: | clean install

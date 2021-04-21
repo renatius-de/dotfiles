@@ -3,6 +3,7 @@ ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 PLUGIN_DIRECTORY = plugins
 TPM              = ${PLUGIN_DIRECTORY}/tpm
 
+.PHONY: clean
 clean:
 	rm -f ${HOME}/.screenrc
 	rm -f ${HOME}/.tmux.conf
@@ -10,6 +11,7 @@ clean:
 	#
 	gem uninstall --all --user-install tmuxinator || true
 
+.PHONY: install
 install: | plugin ${HOME}/.tmux ${HOME}/.tmuxinator
 	ln -snf ${ROOT_DIR}/tmux.conf ${HOME}/.tmux.conf
 
@@ -26,3 +28,6 @@ plugin: | ${TPM}
 
 ${TPM}:
 	git clone --quiet https://github.com/tmux-plugins/tpm ${TPM}
+
+.PHONY: default
+default: | clean install

@@ -28,4 +28,5 @@ $(GIT_IGNORE_REPOSITORY):
 
 plugin: | $(GIT_ATTRIBUES_REPOSITORY) $(GIT_IGNORE_REPOSITORY)
 
-.PHONY: install
+.PHONY: default
+default: | clean install

@@ -21,4 +21,4 @@ ${HOME}/.rvm:
 	curl -sSL https://get.rvm.io | bash -s -- stable --ignore-dotfiles
 
 .PHONY: default
-default: install
+default: | clean install

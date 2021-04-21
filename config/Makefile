@@ -9,4 +9,4 @@ install:
 	ln -snf ${ROOT_DIR} ${HOME}/.config
 
 .PHONY: default
-default: | install
+default: | clean install
