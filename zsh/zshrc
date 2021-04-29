@@ -97,6 +97,9 @@ typeset -U path
 [[ -d /usr/bin ]]        && path=(/usr/bin $path)
 [[ -d /usr/local/bin ]]  && path=(/usr/local/bin $path)
 
+# set PATH so it includes user's private bin if it exists
+[[ -d ~/bin ]] && path=(~/bin $path)
+
 # add rvm to path
 [[ -d ~/.rvm/bin ]]                && path=(~/.rvm/bin $path)
 [[ -d ~/.rvm/rubies/default/bin ]] && path=(~/.rvm/rubies/default/bin $path)
@@ -105,9 +108,6 @@ typeset -U path
 if which ruby > /dev/null 2>&1 && which gem > /dev/null 2>&1; then
     path=("$(ruby -e 'puts Gem.user_dir')"/bin $path)
 fi
-
-# set PATH so it includes user's private bin if it exists
-[[ -d ~/bin ]] && path=(~/bin $path)
 export PATH
 
 # REPORTTIME
