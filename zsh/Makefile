@@ -52,7 +52,7 @@ ${FZF}:
 	${FZF}/install --completion --key-bindings --no-bash --no-fish --no-update-rc
 
 ${RUST}:
-	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path -y
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- --no-modify-path -y
 
 ${SDKMAN}:
 	curl --silent 'https://get.sdkman.io?rcupdate=false' | sh
