@@ -45,8 +45,8 @@ dein:
 	#
 	curl --silent https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh --output install.sh
 	#
-	if [ ! -d ${SHARE}/dein.nvim ]; then sh install.sh ${SHARE}/dein.nvim; fi
-	if [ ! -d ${SHARE}/dein.vim ]; then sh install.sh ${SHARE}/dein.vim; fi
+	if [ ! -d ${SHARE}/dein.nvim ]; then bash install.sh ${SHARE}/dein.nvim; fi
+	if [ ! -d ${SHARE}/dein.vim ]; then bash install.sh ${SHARE}/dein.vim; fi
 	#
 	rm -f install.sh
 
