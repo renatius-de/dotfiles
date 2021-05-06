@@ -3,6 +3,7 @@ ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 ANTIGEN          = ${PLUGIN_DIRECTORY}/antigen.zsh
 FZF              = ${PLUGIN_DIRECTORY}/fzf
 PLUGIN_DIRECTORY = $(ROOT_DIR)/plugin
+RUST             = ${HOME}/.cargo/env
 SDKMAN           = ${HOME}/.sdkman
 SHARE            = ${HOME}/.cache/zsh
 
@@ -18,6 +19,8 @@ clean:
 	rm -f ${HOME}/.cache/zsh/history
 	rm -fr $(PLUGIN_DIRECTORY)
 	rm -fr $(SHARE)
+	rm -rf ${HOME}/.cargo
+	rm -rf ${HOME}/.rustup
 	#
 	find ${HOME} -name '*.zwc' -delete
 
@@ -31,7 +34,7 @@ install: | plugin
 	ln -snf ${ROOT_DIR}/zshenv ${HOME}/.zshenv
 	ln -snf ${ROOT_DIR}/zshrc ${HOME}/.zshrc
 
-plugin: | antigen ${FZF} ${SDKMAN}
+plugin: | antigen ${FZF} ${RUST} ${SDKMAN}
 
 antigen: | ${HOME}/.zsh ${ANTIGEN}
 
@@ -48,8 +51,11 @@ ${FZF}:
 	#
 	${FZF}/install --completion --key-bindings --no-bash --no-fish --no-update-rc
 
+${RUST}:
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
 ${SDKMAN}:
-	curl --silent 'https://get.sdkman.io?rcupdate=false' | bash
+	curl --silent 'https://get.sdkman.io?rcupdate=false' | sh
 
 .PHONY: default
 default: | clean install
