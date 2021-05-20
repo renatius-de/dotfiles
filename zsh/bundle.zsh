@@ -15,6 +15,7 @@ if [[ -r ~/.zsh/plugin/antigen.zsh ]]; then
     antigen bundle gradle
     antigen bundle history-substring-search
     antigen bundle keychain
+    antigen bundle mfaerevaag/wd
     antigen bundle mvn
     antigen bundle nmap
     antigen bundle pass
