@@ -5,6 +5,7 @@ GIT_IGNORE_REPOSITORY    = $(ROOT_DIR)/GitIgnoreRepository
 
 .PHONY: clean
 clean:
+	rm -f ${HOME}/.git
 	rm -f ${HOME}/.git_template
 	rm -f ${HOME}/.gitconfig
 	rm -f ${HOME}/.gitignore

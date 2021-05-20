@@ -9,6 +9,7 @@ clean:
 	rm -f ${HOME}/.logout
 	rm -f ${HOME}/.my.cnf
 	rm -f ${HOME}/.profile
+	rm -f ${HOME}/.shell
 
 .PHONY: install
 install: ${HOME}/.shell
