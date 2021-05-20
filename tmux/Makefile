@@ -6,7 +6,9 @@ TPM              = ${PLUGIN_DIRECTORY}/tpm
 .PHONY: clean
 clean:
 	rm -f ${HOME}/.screenrc
+	rm -f ${HOME}/.tmux
 	rm -f ${HOME}/.tmux.conf
+	rm -f ${HOME}/.tmuxinator
 	rm -fr $(PLUGIN_DIRECTORY)
 	#
 	gem uninstall --all --user-install tmuxinator || true

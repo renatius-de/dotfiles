@@ -10,17 +10,19 @@ SHARE            = ${HOME}/.cache/zsh
 .PHONY: clean
 clean:
 	rm -fr ${HOME}/.antigen
+	rm -f ${HOME}/.cache/zsh/history
+	rm -rf ${HOME}/.cargo
+	rm -f ${HOME}/.fzf.zsh
+	rm -rf ${HOME}/.rustup
 	rm -f ${HOME}/.zcompdump
 	rm -f ${HOME}/.zlogin
 	rm -f ${HOME}/.zlogout
 	rm -f ${HOME}/.zprofile
+	rm -f ${HOME}/.zsh
 	rm -f ${HOME}/.zshenv
 	rm -f ${HOME}/.zshrc
-	rm -f ${HOME}/.cache/zsh/history
 	rm -fr $(PLUGIN_DIRECTORY)
 	rm -fr $(SHARE)
-	rm -rf ${HOME}/.cargo
-	rm -rf ${HOME}/.rustup
 	#
 	find ${HOME} -name '*.zwc' -delete
 

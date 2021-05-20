@@ -9,6 +9,7 @@ clean:
 	rm -fr ${CACHE}/nvim
 	rm -fr ${CACHE}/vim
 	rm -f ${HOME}/.ctags
+	rm -f ${HOME}/.vim
 	rm -f ${HOME}/.viminfo
 	rm -f ${HOME}/.vimoutlinerrc
 	rm -f ${HOME}/.vimpagerrc
