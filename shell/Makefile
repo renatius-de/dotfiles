@@ -10,6 +10,7 @@ clean:
 	rm -f ${HOME}/.profile
 	rm -f ${HOME}/.shell
 	rm -f ${HOME}/.sudo_as_admin_successful
+	#
 	rm -f $(ROOT_DIR)/nvm.sh
 
 .PHONY: install

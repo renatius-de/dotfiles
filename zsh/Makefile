@@ -21,7 +21,9 @@ clean:
 	rm -f ${HOME}/.zsh
 	rm -f ${HOME}/.zshenv
 	rm -f ${HOME}/.zshrc
+	#
 	rm -fr $(PLUGIN_DIRECTORY)
+	#
 	rm -fr $(SHARE)
 	#
 	find ${HOME} -name '*.zwc' -delete

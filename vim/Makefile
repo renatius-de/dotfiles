@@ -8,13 +8,16 @@ SHARE = ${HOME}/.local/share
 clean:
 	rm -fr ${CACHE}/nvim
 	rm -fr ${CACHE}/vim
+	#
 	rm -f ${HOME}/.ctags
 	rm -f ${HOME}/.vim
 	rm -f ${HOME}/.viminfo
 	rm -f ${HOME}/.vimoutlinerrc
 	rm -f ${HOME}/.vimpagerrc
 	rm -f ${HOME}/.vimrc
+	#
 	rm -fr ${NVIM}
+	#
 	rm -fr ${SHARE}/dein.nvim
 	rm -fr ${SHARE}/dein.vim
 	rm -fr ${SHARE}/nvim
@@ -27,6 +30,7 @@ clean:
 install: | ${HOME}/.vim dein
 	mkdir -p ${CACHE}/nvim
 	mkdir -p ${CACHE}/vim
+	#
 	mkdir -p ${NVIM}
 	#
 	ln -snf ${ROOT_DIR}/after ${NVIM}/after
