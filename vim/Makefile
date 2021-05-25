@@ -34,10 +34,7 @@ install: | ${HOME}/.vim dein
 	mkdir -p ${NVIM}
 	#
 	ln -snf ${ROOT_DIR}/after ${NVIM}/after
-	ln -snf ${ROOT_DIR}/config/ctagsrc ${HOME}/.ctags
 	ln -snf ${ROOT_DIR}/config/nvimrc ${NVIM}/init.vim
-	ln -snf ${ROOT_DIR}/config/vimoutlinerrc ${HOME}/.vimoutlinerrc
-	ln -snf ${ROOT_DIR}/config/vimpagerrc ${HOME}/.vimpagerrc
 	ln -snf ${ROOT_DIR}/config/vimrc ${HOME}/.vimrc
 
 ${HOME}/.vim:
