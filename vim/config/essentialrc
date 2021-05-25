@@ -1,5 +1,0 @@
-set nocompatible
-syntax on
-filetype plugin on
-
-" vim: filetype=vim textwidth=80 foldmethod=marker
