@@ -1,7 +1,0 @@
-LANG=en_US.UTF-8
-
-#include <calendar.birthday>
-#include <calendar.computer>
-#include <calendar.german>
-#include <calendar.history>
-#include <calendar.music>
