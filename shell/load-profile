@@ -4,5 +4,3 @@ if test -d /etc/profile.d/; then
     done
     unset profile
 fi
-
-# vim: filetype=sh foldmethod=marker textwidth=0
