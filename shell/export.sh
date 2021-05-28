@@ -63,34 +63,20 @@ export TZ="Europe/Berlin"
 #}}}
 
 # {{{ language variables
-readonly LC_ADDRESS=de_DE.UTF-8
-export LC_ADDRESS
-readonly LC_COLLATE=en_US.UTF-8
-export LC_COLLATE
-readonly LC_CTYPE=en_US.UTF-8
-export LC_CTYPE
-readonly LC_IDENTIFICATION=en_US.UTF-8
-export LC_IDENTIFICATION
-readonly LC_MEASUREMENT=de_DE.UTF-8
-export LC_MEASUREMENT
-readonly LC_MESSAGES=en_US.UTF-8
-export LC_MESSAGES
-readonly LC_MONETARY=en_US.UTF-8
-export LC_MONETARY
-readonly LC_NAME=de_DE.UTF-8
-export LC_NAME
-readonly LC_NUMERIC=en_US.UTF-8
-export LC_NUMERIC
-readonly LC_PAPER=de_DE.UTF-8
-export LC_PAPER
-readonly LC_TELEPHONE=de_DE.UTF-8
-export LC_TELEPHONE
-readonly LC_TIME=de_DE.UTF-8
-export LC_TIME
+export LC_ADDRESS=de_DE.UTF-8
+export LC_COLLATE=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
+export LC_IDENTIFICATION=en_US.UTF-8
+export LC_MEASUREMENT=de_DE.UTF-8
+export LC_MESSAGES=en_US.UTF-8
+export LC_MONETARY=en_US.UTF-8
+export LC_NAME=de_DE.UTF-8
+export LC_NUMERIC=en_US.UTF-8
+export LC_PAPER=de_DE.UTF-8
+export LC_TELEPHONE=de_DE.UTF-8
+export LC_TIME=de_DE.UTF-8
 unset LC_ALL
 
-readonly LANG=en_US.UTF-8
-export LANG
-readonly LANGUAGE=en_GB:en_US:en:de_DE:de
-export LANGUAGE
+export LANG=en_US.UTF-8
+export LANGUAGE=en_GB:en_US:en:de_DE:de
 #}}}
