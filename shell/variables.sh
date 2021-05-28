@@ -1,8 +1,8 @@
 # {{{ test for an interactive shell
 case $- in
-    !*i*)
-        return
-        ;;
+!*i*)
+  return
+  ;;
 esac
 [[ -z "$PS1" ]] && return
 #}}}
@@ -15,13 +15,11 @@ esac
 # no trap is set, and the idle time of the terminal is not less than the value
 # of the TMOUT parameter, shell terminates. Otherwise a new alarm is scheduled
 # to TMOUT seconds after the last key press.
-if [[ ${TERM} = linux ]]; then
-    TMOUT=300
-    readonly TMOUT
-    export TMOUT
+if [[ ${TERM} == linux ]]; then
+  TMOUT=300
+  readonly TMOUT
+  export TMOUT
 else
-    unset TMOUT
+  unset TMOUT
 fi
 #}}}
-
-# vim: filetype=sh textwidth=80 foldmethod=marker
