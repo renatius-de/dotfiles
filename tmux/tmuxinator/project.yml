@@ -1,8 +1,0 @@
-name: <%= @settings["name"] ? @settings["name"].capitalize : "Shell" %>
-root: <%= @settings["root"] ? @settings["root"].to_s : "~" %>
-
-windows:
-  - Shell:
-    panes:
-      -
-      -
