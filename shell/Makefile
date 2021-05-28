@@ -15,11 +15,8 @@ clean:
 
 .PHONY: install
 install: ${HOME}/.shell
-	ln -snf ${ROOT_DIR}/editrc ${HOME}/.editrc
-	ln -snf ${ROOT_DIR}/inputrc ${HOME}/.inputrc
 	ln -snf ${ROOT_DIR}/logout ${HOME}/.logout
 	ln -snf ${ROOT_DIR}/my.cnf ${HOME}/.my.cnf
-	ln -snf ${ROOT_DIR}/profile ${HOME}/.profile
 	#
 	touch ${HOME}/.hushlogin
 	touch ${HOME}/.sudo_as_admin_successful
