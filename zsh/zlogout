@@ -9,5 +9,3 @@
 # finally run commands
 setopt null_glob
 [[ -r ~/.shell/logout ]]  && source ~/.shell/logout  || true
-
-# vim: filetype=zsh textwidth=80 foldmethod=marker
