@@ -5,5 +5,3 @@
 # This file is sourced by bash for login shells. The following line runs your
 # login scripts.
 [[ -f ~/.shell/login ]] && . ~/.shell/login || true
-
-# vim: filetype=sh textwidth=80
