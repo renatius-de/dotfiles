@@ -14,5 +14,3 @@
 # Mesg controls the access to your terminal by others. It's typically used to
 # allow or disallow other users to write to your terminal (see write(1)).
 [[ -x /usr/bin/mesg ]]     && /usr/bin/mesg n          || true
-
-# vim: filetype=zsh textwidth=80 foldmethod=marker
