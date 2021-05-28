@@ -106,14 +106,12 @@
 
 [commit]
     status = true
-    ; template = ~/.git/commit.msg
 
 [core]
     autocrlf = input
     compression = 9
     eol = lf
     excludesfile = ~/.git/ignore
-    ; hooksPath = ~/.git/template/hooks
     loosecompression = 9
     preloadindex = true
 
@@ -234,5 +232,3 @@
     cursor = white blue bold
     title-blur = blue default
     title-focus = blue default bold
-
-# vim: filetype=gitconfig foldmethod=indent foldminlines=0
