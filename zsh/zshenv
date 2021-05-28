@@ -7,7 +7,6 @@
 # source the default .zshenv, especialy interisting in Gentoo Linux systems
 [[ -r /etc/zsh/zshenv ]] && source /etc/zsh/zshenv || true
 [[ -r /etc/zshenv ]]     && source /etc/zshenv     || true
-[[ -r ~/.shell/export ]] && source ~/.shell/export || true
 #}}}
 
 # {{{ load colors
@@ -37,5 +36,3 @@ if [[ $- = *i* ]]; then
     fi
 fi
 #}}}
-
-# vim: filetype=zsh textwidth=80 foldmethod=marker
