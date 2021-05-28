@@ -16,9 +16,6 @@ install:
 	ln -snf ${ROOT_DIR}/abcde.conf ${HOME}/.abcde.conf
 	ln -snf ${ROOT_DIR}/aspell.conf ${HOME}/.aspell.conf
 	ln -snf ${ROOT_DIR}/gtk-bookmarks ${HOME}/.config/gtk-3.0/bookmarks
-	ln -snf ${ROOT_DIR}/gtkrc-2.0 ${HOME}/.gtkrc-2.0
-	ln -snf ${ROOT_DIR}/Xdefaults ${HOME}/.Xdefaults
-	ln -snf ${ROOT_DIR}/Xmodmap ${HOME}/.Xmodmap
 
 .PHONY: default
 default: | clean install
