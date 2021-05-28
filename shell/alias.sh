@@ -124,14 +124,10 @@ fi
 
 # {{{ keychain
 if which keychain > /dev/null 2>&1; then
-    alias kdefault="keychain --systemd"
+    alias keychain="keychain --systemd"
 
-    alias kadd="kdefault --timeout $((60 * 1))"
-    alias knormal="kdefault --timeout $((60 * 12))"
-
-    alias kansible="kadd keys/id_rsa.ansible"
+    alias kadd="keychain --timeout $((60 * 12))"
     alias kclear="keychain --clear"
-    alias krenatius="knormal keys/id_rsa.{git{,hub,lab},himalia}"
 fi
 #}}}
 
