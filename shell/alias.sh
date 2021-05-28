@@ -1,7 +1,8 @@
 # {{{ test for an interactive shell
 case $- in
-    !*i*) return
-        ;;
+!*i*)
+  return
+  ;;
 esac
 [[ -z "$PS1" ]] && return
 #}}}
@@ -64,71 +65,69 @@ alias grep="grep --color=auto"
 #}}}
 
 # {{{ defaults parameter for wget
-which wget > /dev/null 2>&1 && alias wget="wget --tries=10 --continue --timeout=30 --wait=30"
+which wget >/dev/null 2>&1 && alias wget="wget --tries=10 --continue --timeout=30 --wait=30"
 #}}}
 
 # {{{ use htop as top replacement
-which htop > /dev/null 2>&1 && alias top="htop"
+which htop >/dev/null 2>&1 && alias top="htop"
 #}}}
 
 # {{{ default options for locate
-which locate > /dev/null 2>&1 && alias locate="locate --ignore-case --existing --regex"
+which locate >/dev/null 2>&1 && alias locate="locate --ignore-case --existing --regex"
 #}}}
 
 # {{{ default options for cal
-if which ncal > /dev/null 2>&1; then
-    alias cal="cal -A 1 -B 1"
+if which ncal >/dev/null 2>&1; then
+  alias cal="cal -A 1 -B 1"
 else
-    alias cal="cal -3m"
+  alias cal="cal -3m"
 fi
 #}}}
 
 # {{{ default options for bc
-which bc > /dev/null 2>&1 && alias bc="bc -l"
+which bc >/dev/null 2>&1 && alias bc="bc -l"
 #}}}
 
 # {{{ default options for lsattr and chattr
-which lsattr > /dev/null 2>&1 && alias lsattr="lsattr -a"
-which chattr > /dev/null 2>&1 && alias chattr="chattr -R"
+which lsattr >/dev/null 2>&1 && alias lsattr="lsattr -a"
+which chattr >/dev/null 2>&1 && alias chattr="chattr -R"
 #}}}
 
 # {{{ default options for rsync
-if which rsync > /dev/null 2>&1; then
-    OPTS="--recursive --links --perms --times --owner --group --devices \
+if which rsync >/dev/null 2>&1; then
+  OPTS="--recursive --links --perms --times --owner --group --devices \
         --specials --hard-links --whole-file --delete --cvs-exclude \
         --prune-empty-dirs --compress --stats --human-readable --progress"
-    alias rsync="rsync ${OPTS}"
-    alias rsync_fat="rsync --chmod='u=rwX,go=' --chown=$(id -u):$(id -g) --size-only"
+  alias rsync="rsync ${OPTS}"
+  alias rsync_fat="rsync --chmod='u=rwX,go=' --chown=$(id -u):$(id -g) --size-only"
 fi
 #}}}
 
 # {{{ pwgen
-if which pwgen > /dev/null 2>&1; then
-    alias pwgen="pwgen -cns"
-    alias pgen="pwgen 30 1"
+if which pwgen >/dev/null 2>&1; then
+  alias pwgen="pwgen -cns"
+  alias pgen="pwgen 30 1"
 fi
 #}}}
 
 # {{{ vim/view
-if which nvim > /dev/null 2>&1; then
-    alias ex="nvim -E"
-    alias vi="nvim"
-    alias view="nvim -R"
-    alias vim="nvim"
-    alias vimdiff="nvim -d"
-elif which vim > /dev/null 2>&1; then
-    alias vi="vim"
-    alias ex="vim -E"
+if which nvim >/dev/null 2>&1; then
+  alias ex="nvim -E"
+  alias vi="nvim"
+  alias view="nvim -R"
+  alias vim="nvim"
+  alias vimdiff="nvim -d"
+elif which vim >/dev/null 2>&1; then
+  alias vi="vim"
+  alias ex="vim -E"
 fi
 #}}}
 
 # {{{ keychain
-if which keychain > /dev/null 2>&1; then
-    alias keychain="keychain --systemd"
+if which keychain >/dev/null 2>&1; then
+  alias keychain="keychain --systemd"
 
-    alias kadd="keychain --timeout $((60 * 12))"
-    alias kclear="keychain --clear"
+  alias kadd="keychain --timeout $((60 * 12))"
+  alias kclear="keychain --clear"
 fi
 #}}}
-
-# vim: filetype=sh foldmethod=marker textwidth=0
