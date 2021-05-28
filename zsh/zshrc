@@ -520,6 +520,11 @@ if [[ -d ~/git ]]; then
         hash -d "g_$(basename "$(dirname "${i}")")"="$(dirname "${i}")"
     done
 fi
+if [[ -d ~/dev ]]; then
+    for i in ~/dev/**/.git(/); do
+        hash -d "d_$(basename "$(dirname "${i}")")"="$(dirname "${i}")"
+    done
+fi
 #}}}
 
 # {{{ Aliases
@@ -687,5 +692,3 @@ for sh in ~/.zsh/local/*.sh(.); do
 done
 unset sh
 #}}}
-
-# vim: filetype=zsh textwidth=80 foldmethod=marker
