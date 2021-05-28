@@ -1,5 +1,3 @@
 # {{{ when leaving the console clear the screen to increase privacy
 [[ -x /usr/bin/clear_console ]] && clear_console -q
 #}}}
-
-# vim: filetype=sh textwidth=80
