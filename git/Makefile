@@ -1,6 +1,6 @@
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
-GIT_ATTRIBUES_REPOSITORY = $(ROOT_DIR)/GitAttributesRepository
+GIT_ATTRIBUTES_REPOSITORY = $(ROOT_DIR)/GitAttributesRepository
 GIT_IGNORE_REPOSITORY    = $(ROOT_DIR)/GitIgnoreRepository
 
 .PHONY: clean
@@ -10,7 +10,7 @@ clean:
 	rm -f ${HOME}/.gitconfig
 	rm -f ${HOME}/.gitignore
 	rm -f ${HOME}/.tig_history
-	rm -fr $(GIT_ATTRIBUES_REPOSITORY)
+	rm -fr $(GIT_ATTRIBUTES_REPOSITORY)
 	rm -fr $(GIT_IGNORE_REPOSITORY)
 	rm -fr $(ROOT_DIR)/GitTemplate
 
@@ -21,13 +21,13 @@ install: | ${HOME}/.git plugin
 ${HOME}/.git:
 	ln -snf $(ROOT_DIR) ${HOME}/.git
 
-$(GIT_ATTRIBUES_REPOSITORY):
-	git clone --quiet git://github.com/alexkaratarakis/gitattributes.git $(GIT_ATTRIBUES_REPOSITORY)
+$(GIT_ATTRIBUTES_REPOSITORY):
+	git clone --quiet git://github.com/alexkaratarakis/gitattributes.git $(GIT_ATTRIBUTES_REPOSITORY)
 
 $(GIT_IGNORE_REPOSITORY):
 	git clone --quiet git://github.com/github/gitignore.git $(GIT_IGNORE_REPOSITORY)
 
-plugin: | $(GIT_ATTRIBUES_REPOSITORY) $(GIT_IGNORE_REPOSITORY)
+plugin: | $(GIT_ATTRIBUTES_REPOSITORY) $(GIT_IGNORE_REPOSITORY)
 
 .PHONY: default
 default: | clean install
