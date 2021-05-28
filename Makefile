@@ -1,5 +1,6 @@
 .PHONY: clean
 clean:
+	rm -f ${HOME}/.calendar
 	rm -fr ${HOME}/.rvm
 	#
 	@for f in $$(ls -d *); do \
