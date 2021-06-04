@@ -1,0 +1,11 @@
+version: '3.6'
+
+services:
+  super-linter:
+    container_name: super-linter
+    image: github/super-linter
+    environment:
+      - RUN_LOCAL=true
+      - FILTER_REGEX_EXCLUDE=.*/cddb/.*
+    volumes:
+      - ./:/tmp/lint:ro
