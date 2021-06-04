@@ -1,1 +1,0 @@
-/home/rene/.dotfiles-public/vim/config/nvimrc
