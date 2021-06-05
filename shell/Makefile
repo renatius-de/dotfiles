@@ -15,9 +15,6 @@ clean:
 
 .PHONY: install
 install: ${HOME}/.shell
-	ln -snf ${ROOT_DIR}/logout ${HOME}/.logout
-	ln -snf ${ROOT_DIR}/my.cnf ${HOME}/.my.cnf
-	#
 	touch ${HOME}/.hushlogin
 	touch ${HOME}/.sudo_as_admin_successful
 
