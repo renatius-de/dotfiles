@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 PATH=/bin:/usr/bin
 DIR=${1:-~/Maildir}
 OFFLINE_IMAP=${2:-~/.offlineimap}
@@ -15,6 +15,7 @@ for d in "${DIR}"/*; do
   [ "${d}" = "${DIR}/templates" ] && continue
   [ "${d}" = "${DIR}/trash" ] && continue
 
+  # shellcheck disable=SC2046
   if [ $(find "${d}" -type f | wc -l) -eq 0 ]; then
     rmdir -v "${d}"/cur "${d}"/new "${d}"/tmp "${d}"
 
