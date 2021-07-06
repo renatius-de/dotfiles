@@ -66,6 +66,7 @@
     su = !"git pull && echo && git sr \"git pull\" && git submodule -q sync && git ss"
     sw = switch --progress --recurse-submodules
     td = !"for i in $(git remote); do git ph --delete ${i} ${1}; done; git tag --delete"
+    zip = archive --format=zip --worktree-attributes -9
 
     add-new = !"git ls-files -zo --no-empty-directory --exclude-standard --full-name | xargs -I {} -0 bash -c 'git add \"{}\" && git cm -m \"add file {} to repository\"'"
     bclean = !"git for-each-ref --format='%(refname:short)' refs/heads | grep -Ev 'master' | xargs git bd"
