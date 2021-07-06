@@ -65,9 +65,3 @@ if which keychain >/dev/null 2>&1; then
   alias kadd="keychain --timeout 720"
   alias kclear="keychain --clear"
 fi
-
-if which docker >/dev/null 2>&1; then
-    alias dc="docker run --interactive --rm --tty --volume $(pwd):/app:ro --workdir /app docker/compose"
-    alias dcb="dc build --force-rm --pull"
-    alias dcr="dc --user=$(id -u):$(id -g) --rm"
-if
