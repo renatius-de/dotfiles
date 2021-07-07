@@ -62,6 +62,10 @@ fi
 if which keychain >/dev/null 2>&1; then
   alias keychain="keychain --systemd"
 
-  alias kadd="keychain --timeout 720"
+  if [ "${SHELL}" -eq "/bin/zsh" ]; then
+    alias kadd="keychain --timeout $((60 * 12)) ~/.ssh/keys/**/id*~*.pub"
+  else
+    alias kadd="keychain --timeout $((60 * 12))"
+  fi
   alias kclear="keychain --clear"
 fi
