@@ -1,34 +1,22 @@
 if [[ -r ~/.zsh/plugin/antigen.zsh ]]; then
+    # shellcheck disable=SC1090
     source ~/.zsh/plugin/antigen.zsh
 
     # load the oh-my-zsh's library.
     antigen use oh-my-zsh
 
     # bundles from the default repo (robbyrussell's oh-my-zsh).
-    antigen bundle direnv
-    antigen bundle django
     antigen bundle docker
-    antigen bundle docker-compose
     antigen bundle editor
-    antigen bundle extract
     antigen bundle gpg-agent
-    antigen bundle gradle
     antigen bundle history-substring-search
     antigen bundle keychain
-    antigen bundle mvn
-    antigen bundle nmap
     antigen bundle pass
     antigen bundle rvm
-    antigen bundle sbt
     antigen bundle sdk
     antigen bundle ssh-agent
-    antigen bundle sudo
-    antigen bundle systemd
     antigen bundle themes
-    antigen bundle tmux
     antigen bundle tmuxinator
-    antigen bundle ubuntu
-    antigen bundle vagrant
     antigen bundle vi-mode
     antigen bundle zsh_reload
 

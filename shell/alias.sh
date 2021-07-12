@@ -62,6 +62,7 @@ fi
 if which keychain >/dev/null 2>&1; then
   alias keychain="keychain --systemd"
 
+  # shellcheck disable=SC2139
   alias kadd="keychain --timeout $((60 * 12))"
   alias kclear="keychain --clear"
 fi
