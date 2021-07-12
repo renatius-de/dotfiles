@@ -62,10 +62,12 @@ fi
 if which keychain >/dev/null 2>&1; then
   alias keychain="keychain --systemd"
 
-  if [ "${SHELL}" -eq "/bin/zsh" ]; then
-    alias kadd="keychain --timeout $((60 * 12)) ~/.ssh/keys/**/id*~*.pub"
-  else
-    alias kadd="keychain --timeout $((60 * 12))"
-  fi
+  alias kadd="keychain --timeout $((60 * 12))"
   alias kclear="keychain --clear"
+fi
+
+if which keychain >/dev/null 2>&1; then
+  alias dcb="docker-compose build --force-rm --pull"
+  alias dcd="docker-compose down --volumes --remove-orphans"
+  alias dcu="docker-compose up --abort-on-container-exit"
 fi
