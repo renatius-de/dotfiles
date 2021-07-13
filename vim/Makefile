@@ -22,9 +22,6 @@ clean:
 	rm -fr ${SHARE}/dein.vim
 	rm -fr ${SHARE}/nvim
 	rm -fr ${SHARE}/vim
-	#
-	gem uninstall --all --user-install neovim || true
-	gem uninstall --all --user-install puppet-lint || true
 
 .PHONY: install
 install: | ${HOME}/.vim dein
@@ -51,10 +48,6 @@ dein:
 	if [ ! -d ${SHARE}/dein.vim ]; then bash install.sh ${SHARE}/dein.vim; fi
 	#
 	rm -f install.sh
-
-ruby:
-	gem install --user-install neovim
-	gem install --user-install puppet-lint
 
 .PHONY: default
 default: | clean install
