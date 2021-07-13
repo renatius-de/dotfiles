@@ -638,5 +638,5 @@ for sh in ~/.zsh/local/*.sh(.); do
 done
 unset sh
 
-[[ -r "~/.zsh/alias.zsh" ]] && source "~/.zsh/alias.zsh" || true
+[[ -r ~/.zsh/alias.zsh ]] && source ~/.zsh/alias.zsh || true
 #}}}
