@@ -46,6 +46,8 @@ export LC_NUMERIC=en_US.UTF-8
 export LC_PAPER=de_DE.UTF-8
 export LC_TELEPHONE=de_DE.UTF-8
 export LC_TIME=de_DE.UTF-8
-unset LC_ALL
+
 export LANG=en_US.UTF-8
-export LANGUAGE=en_GB:en_US:en:de_DE:de
+export LANGUAGE=en_GB:en_US:en
+
+unset LC_ALL
