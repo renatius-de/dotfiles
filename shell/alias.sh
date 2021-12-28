@@ -63,11 +63,15 @@ if which keychain >/dev/null 2>&1; then
   alias keychain="keychain --systemd"
 
   # shellcheck disable=SC2139
+  alias kadd="keychain ~/.ssh/keys/**/id*~*.pub"
+
+  # shellcheck disable=SC2139
   alias kclear="keychain --clear"
 fi
 
-if which keychain >/dev/null 2>&1; then
+if which docker-compose >/dev/null 2>&1; then
   alias dcb="docker-compose build --force-rm --pull"
-  alias dcd="docker-compose down --volumes --remove-orphans"
+  alias dcd="docker-compose down --remove-orphans --volumes"
+  alias dcda="dcd --rmi all"
   alias dcu="docker-compose up --abort-on-container-exit"
 fi

@@ -11,6 +11,3 @@ alias cp='nocorrect cp'
 alias mv='nocorrect mv'
 alias ln='nocorrect ln'
 alias mkdir='nocorrect mkdir'
-
-# shellcheck disable=SC2139
-which keychain >/dev/null 2>&1 && alias kadd="keychain --timeout $((60 * 12)) ~/.ssh/keys/**/id*~*.pub"
