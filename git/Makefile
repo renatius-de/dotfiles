@@ -1,7 +1,7 @@
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 GIT_ATTRIBUTES_REPOSITORY = $(ROOT_DIR)/GitAttributesRepository
-GIT_IGNORE_REPOSITORY    = $(ROOT_DIR)/GitIgnoreRepository
+GIT_IGNORE_REPOSITORY = $(ROOT_DIR)/GitIgnoreRepository
 
 .PHONY: clean
 clean:
