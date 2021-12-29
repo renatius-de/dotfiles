@@ -4,11 +4,6 @@ else
     let g:vimfiles=escape(expand("~/vimfiles"), ' ')
 endif
 
-let g:pathToRc=split(&runtimepath, ",")[0] . "/config/pluginrc"
-if filereadable(pathToRc)
-    execute "source " . pathToRc
-endif
-
 if has("autocmd")
     filetype plugin indent on
 endif

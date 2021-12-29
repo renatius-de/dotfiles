@@ -24,30 +24,17 @@ clean:
 	rm -fr ${SHARE}/vim
 
 .PHONY: install
-install: | ${HOME}/.vim dein
+install: | ${HOME}/.vim
 	mkdir -p ${CACHE}/nvim
 	mkdir -p ${CACHE}/vim
 	#
 	mkdir -p ${NVIM}
 	#
-	ln -snf ${ROOT_DIR}/after ${NVIM}/after
 	ln -snf ${ROOT_DIR}/config/nvimrc ${NVIM}/init.vim
 	ln -snf ${ROOT_DIR}/config/vimrc ${HOME}/.vimrc
 
 ${HOME}/.vim:
 	ln -snf $(ROOT_DIR) ${HOME}/.vim
-
-dein:
-	mkdir -p ${SHARE}
-	mkdir -p ${SHARE}/nvim
-	mkdir -p ${SHARE}/vim
-	#
-	curl --silent https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh --output install.sh
-	#
-	if [ ! -d ${SHARE}/dein.nvim ]; then bash install.sh ${SHARE}/dein.nvim; fi
-	if [ ! -d ${SHARE}/dein.vim ]; then bash install.sh ${SHARE}/dein.vim; fi
-	#
-	rm -f install.sh
 
 .PHONY: default
 default: | clean install
