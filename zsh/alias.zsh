@@ -1,7 +1,3 @@
-# Global aliases
-alias -g G='|& egrep --ignore-case'
-alias -g N='&> /dev/null'
-
 # remap the buildin commads
 alias which='whence -vas'
 alias where='whence -cas'

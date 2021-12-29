@@ -5,14 +5,9 @@
 
 # Shell is non-interactive. Be done now
 [[ $- != *i* ]] && return
-
-# load /etc/profile.d files
-[[ -r ~/.shell/load-profile ]] && source ~/.shell/load-profile
 #}}}
 
 # {{{ Add Plugin
-[[ -r ~/.cargo/env ]]                 && source ~/.cargo/env
-[[ -r ~/.fzf.zsh ]]                   && source ~/.fzf.zsh
 [[ -r ~/.sdkman/bin/sdkman-init.sh ]] && source ~/.sdkman/bin/sdkman-init.sh
 [[ -r ~/.zsh/bundle.zsh ]]            && source ~/.zsh/bundle.zsh
 #}}}
