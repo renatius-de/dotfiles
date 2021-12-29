@@ -1,7 +1,7 @@
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 PLUGIN_DIRECTORY = plugins
-TPM              = ${PLUGIN_DIRECTORY}/tpm
+TPM = ${PLUGIN_DIRECTORY}/tpm
 
 .PHONY: clean
 clean:
