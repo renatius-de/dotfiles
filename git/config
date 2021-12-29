@@ -3,76 +3,41 @@
 
 [alias]
     ac = !"git cm --all"
-    acn = !"git cmn --all"
     ad = add --all --
-    ai = add --interactive --patch --
     ba = branch -a --verbose
-    bc = checkout -b
     bd = branch --verbose --delete
-    bdd = branch --verbose --delete --force
     ca = commit -q --amend --branch --status --verbose
     cf = checkout --quiet --force
-    cl = !"git clone --progress --verbose --template=${HOME}/.git/template --recurse-submodules"
+    cl = !"git clone --progress --verbose --recurse-submodules"
     cm = commit --branch --status --verbose
-    cma = !"git co master && git rebase -n origin/master"
-    cmn = !"git cm --no-verify"
     cn = !"git reflog expire --all && git fsck --unreachable --full && git prune && git gc --aggressive --quiet && git repack -Adq && git prune-packed --quiet"
-    co = checkout
-    di = diff
     dt = difftool
     fe = fetch --progress
     fm = !"git fe --all && git fe --all --tags"
-    ge = grep --break --heading --show-function
-    gf = !"git ge --function-context"
-    gr = !"git ge --ignore-case"
-    lo = !"GIT_PAGER=less git log --pretty=graph --notes --date=short --graph"
     ma = merge --abort
     me = merge --stat --summary
-    mf = !"git me --ff"
     mm = !"git mf origin/$(git branch-name)"
-    mma = !"git mf origin/master"
     mt = mergetool
-    pd = push --delete --no-verify --progress origin
     pf = !"git ph --force origin $(git branch-name)"
-    pfn = !"git pf --no-verify"
-    pgh = !"git ph --force github $(git branch-name)"
-    pgl = !"git ph --force gitlab $(git branch-name)"
     ph = push --progress --set-upstream
     pl = pull
-    pn = !"git ph --no-verify origin $(git branch-name)"
-    pt = !"for i in $(git remote); do git ph --tags ${i}; done"
     pu = !"for i in $(git remote); do git ph ${i} $(git branch-name); done"
     ra = rebase --abort
     rc = rebase --continue
     re = reset
     rh = reset --hard
-    rhn = !"git rh HEAD~${1}; echo"
     ri = rebase --verbose --stat --interactive --rebase-merge --autosquash
-    rin = !"git ri HEAD~${1}; echo"
     rp = rebase --skip
     rs = reset --soft
-    rsn = !"git rs HEAD~${1}; echo"
     rv = remote --verbose
     sa = stash push
-    sau = stash push --include-untracked
     sc = stash clear
-    sf = !"git submodule foreach"
     sl = stash list
-    sm = submodule
     so = stash pop
-    sr = !"git sf --recursive"
-    ss = !"git st && git sf \"git st -s; echo\" && git submodule status --recursive"
     st = status
-    su = !"git pull && echo && git sr \"git pull\" && git submodule -q sync && git ss"
-    sw = switch --progress --recurse-submodules
-    td = !"for i in $(git remote); do git ph --delete ${i} ${1}; done; git tag --delete"
-    zip = archive --format=zip --worktree-attributes -9
 
-    add-new = !"git ls-files -zo --no-empty-directory --exclude-standard --full-name | xargs -I {} -0 bash -c 'git add \"{}\" && git cm -m \"add file {} to repository\"'"
     bclean = !"git for-each-ref --format='%(refname:short)' refs/heads | grep -Ev 'master' | xargs git bd"
     branch-name = !"git for-each-ref --format='%(refname:short)' $(git symbolic-ref HEAD)"
-    remove = !"git ls-files -zd --no-empty-directory --exclude-standard --full-name | xargs -I {} -0 bash -c 'git rm \"{}\" && git cm -m \"remove file {} from repository\"'"
-    update = !"git ls-files -zm --no-empty-directory --exclude-standard --full-name | xargs -I {} -0 bash -c 'git add \"{}\" && git cm -m \"update file {} in repository on date $(date \"+%F\")\"'"
 
 [branch]
     autoSetupMerge = always
