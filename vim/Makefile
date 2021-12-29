@@ -1,7 +1,7 @@
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 CACHE = ${HOME}/.cache
-NVIM  = ${HOME}/.config/nvim
+NVIM = ${HOME}/.config/nvim
 SHARE = ${HOME}/.local/share
 
 .PHONY: clean
