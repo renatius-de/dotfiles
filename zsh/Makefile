@@ -14,6 +14,7 @@ clean:
 	rm -f ${HOME}/.zlogout
 	rm -f ${HOME}/.zprofile
 	rm -f ${HOME}/.zsh
+	rm -f ${HOME}/.zshenv
 	rm -f ${HOME}/.zshrc
 	rm -fr ${HOME}/.antigen
 	rm -rf ${HOME}/.nvm
@@ -31,6 +32,7 @@ install: | plugin
 	#
 	ln -snf ${ROOT_DIR}/zlogout ${HOME}/.zlogout
 	ln -snf ${ROOT_DIR}/zprofile ${HOME}/.zprofile
+	ln -snf ${ROOT_DIR}/zshenv ${HOME}/.zshenv
 	ln -snf ${ROOT_DIR}/zshrc ${HOME}/.zshrc
 
 plugin: | antigen ${SDKMAN}

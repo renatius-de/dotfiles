@@ -1,0 +1,25 @@
+if [[ $- = *i* ]]; then
+    autoload -Uz colors zsh/terminfo
+    [[ $terminfo[colors] -ge 8 ]] && colors
+
+    NO_COLOR=%{$reset_color%}
+
+    BLINK=%{$terminfo[blink]%}
+    INVERSE=%{$terminfo[inverse]%}
+    UNDERLINE=%{$terminfo[underline]%}
+    BOLD=%{$bold_color%}
+
+    for color in BLACK BLUE CYAN DEFAULT GREEN GREY MAGENTA RED WHITE YELLOW
+    do
+        builtin eval ${color}=%{$fg[${(L)color}]%}
+        builtin eval BACK_${color}=%{$bg[${(L)color}]%}
+
+        builtin eval BOLD_${color}=%{${BOLD}$fg[${(L)color}]%}
+        builtin eval BACKBOLD${color}=%{${BOLD}$bg[${(L)color}]%}
+    done
+
+    # colors for ls, etc.
+    if [[ -x /usr/bin/dircolors ]]; then
+        builtin eval $(dircolors -b)
+    fi
+fi

@@ -464,11 +464,6 @@ if [[ -d ~/git ]]; then
         hash -d "g_$(basename "$(dirname "${i}")")"="$(dirname "${i}")"
     done
 fi
-if [[ -d ~/Desktop/git ]]; then
-    for i in ~/Desktop/git/**/.git(/); do
-        hash -d "dg_$(basename "$(dirname "${i}")")"="$(dirname "${i}")"
-    done
-fi
 if [[ -d ~/dev ]]; then
     for i in ~/dev/**/.git(/); do
         hash -d "d_$(basename "$(dirname "${i}")")"="$(dirname "${i}")"
