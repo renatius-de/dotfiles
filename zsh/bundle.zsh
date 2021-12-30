@@ -12,6 +12,7 @@ if [[ -r ~/.zsh/plugin/antigen.zsh ]]; then
     antigen bundle sdk
     antigen bundle ssh-agent
     antigen bundle themes
+    antigen bundle tmuxinator
     antigen bundle vi-mode
 
     # add bundles from ush users
