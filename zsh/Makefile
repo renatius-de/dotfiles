@@ -3,22 +3,21 @@ ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 ANTIGEN = ${PLUGIN_DIRECTORY}/antigen.zsh
 FZF = ${PLUGIN_DIRECTORY}/fzf
 PLUGIN_DIRECTORY = $(ROOT_DIR)/plugin
-RUST = ${HOME}/.cargo/env
 SDKMAN = ${HOME}/.sdkman
 SHARE = ${HOME}/.cache/zsh
 
 .PHONY: clean
 clean:
-	rm -fr ${HOME}/.antigen
 	rm -f ${HOME}/.cache/zsh/history
-	rm -rf ${HOME}/.cargo
 	rm -f ${HOME}/.fzf.zsh
-	rm -rf ${HOME}/.rustup
 	rm -f ${HOME}/.zcompdump
 	rm -f ${HOME}/.zlogout
 	rm -f ${HOME}/.zprofile
 	rm -f ${HOME}/.zsh
 	rm -f ${HOME}/.zshrc
+	rm -fr ${HOME}/.antigen
+	rm -rf ${HOME}/.nvm
+	rm -rf ${HOME}/.sdkman
 	#
 	rm -fr $(PLUGIN_DIRECTORY)
 	#
@@ -47,7 +46,7 @@ ${ANTIGEN}:
 	curl --silent --location git.io/antigen --output ${ANTIGEN}
 
 ${SDKMAN}:
-	curl --silent 'https://get.sdkman.io?rcupdate=false' | sh
+	curl --silent 'https://get.sdkman.io?rcupdate=false' | bash
 
 .PHONY: default
 default: | clean install
