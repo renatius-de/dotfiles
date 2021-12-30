@@ -1,7 +1,3 @@
-# clean maybe broken zcompdump file
-[[ -e ~/.zcompdump ]]          && rm -f ~/.zcompdump
-[[ -e ~/.cache/zsh/compinit ]] && rm -f ~/.cache/zsh/compinit
-
 # finally run commands
-setopt null_glob
-[[ -r ~/.shell/logout ]]  && source ~/.shell/logout  || true
+clear
+[[ -x /usr/bin/clear_console ]] && clear_console -q || true

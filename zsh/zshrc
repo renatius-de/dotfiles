@@ -1,19 +1,16 @@
-# {{{ pre requirements
+# pre requirements
 # Test for an interactive shell. There is no need to set anything past this
 # point for scp and rcp, and it is important to refrain from outputting anything
 # in those cases.
 
 # Shell is non-interactive. Be done now
 [[ $- != *i* ]] && return
-#}}}
 
-# {{{ Add Plugin
+# Add Plugin
 [[ -r ~/.sdkman/bin/sdkman-init.sh ]] && source ~/.sdkman/bin/sdkman-init.sh
 [[ -r ~/.zsh/bundle.zsh ]]            && source ~/.zsh/bundle.zsh
-#}}}
 
-# {{{ Parameters Used By The Shell
-###############################################################################
+# Parameters Used By The Shell
 # cdpath <S> <Z> (CDPATH <S>)
 # An array (colon-separated list) of directories specifying the search path for
 # the cd command.
@@ -123,6 +120,17 @@ export RPROMPT
 # The maximum number of history events to save in the history file.
 export SAVEHIST="10000"
 
+# TMOUT
+# If this parameter is nonzero, the shell will receive an ALRM signal if a command is not entered within the specified
+# number of seconds after issuing a prompt. If there is a trap on SIGALRM, it will be executed and a new alarm is
+# scheduled using the value of the TMOUT parameter after executing the trap. If no trap is set, and the idle time of
+# the terminal is not less than the value of the TMOUT parameter, zsh terminates. Otherwise a new alarm is scheduled to
+# TMOUT seconds after the last keypress.
+if [[ ${TERM} == linux ]]; then
+  readonly TMOUT=300
+  export TMOUT
+fi
+
 # TERM <S>
 # The type of terminal in use. This is used when looking up termcap sequences.
 # An assignment to TERM causes zsh to re-initialize the terminal, even if the
@@ -144,56 +152,44 @@ esac
 # all of these components may be present in an entry; if a login/logout event
 # matches all of them, it is reported.
 watch=(notme root)
-#}}}
 
-# {{{ Description of Options
-###############################################################################
-# {{{ Changing Directories
-################################################################################
-# {{{ AUTO_CD (-J)
+# Description of Options
+# Changing Directories
+# AUTO_CD (-J)
 # If a command is issued that can"t be executed as a normal command, and the
 # command is the name of a directory, perform the cd command to that directory.
 setopt auto_cd
-#}}}
 
-# {{{ AUTO_PUSHD (-N)
+# AUTO_PUSHD (-N)
 # Make cd push the old directory onto the directory stack.
 setopt auto_pushd
-#}}}
 
-# {{{ CDABLE_VARS (-T)
+# CDABLE_VARS (-T)
 # If the argument to a cd command (or an implied cd with the AUTO_CD option set)
 # is not a directory, and does not begin with a slash, try to expand the
 # expression as if it were preceded by a "~" (see the section "Filename
 # Expansion").
 setopt cdable_vars
-#}}}
 
-# {{{ PUSHD_IGNORE_DUPS
+# PUSHD_IGNORE_DUPS
 # Don"t push multiple copies of the same directory onto the directory stack.
 setopt pushd_ignore_dups
-#}}}
 
-# {{{ Completion
-################################################################################
-# {{{ LIST_BEEP <D>
+# Completion
+# LIST_BEEP <D>
 # Beep on an ambiguous completion. More accurately, this forces the completion
 # widgets to return status 1 on an ambiguous completion, which causes the shell
 # to beep if the option BEEP is also set; this may be modified if completion is
 # called from a user-defined widget.
 setopt no_list_beep
-#}}}
 
-# {{{ LIST_PACKED
+# LIST_PACKED
 # Try to make the completion list smaller (occupying less lines) by printing the
 # matches in columns with different widths.
 setopt list_packed
-#}}}
-#}}}
 
-# {{{ Expansion and Globbing
-################################################################################
-# {{{ CASE_GLOB <D>
+# Expansion and Globbing
+# CASE_GLOB <D>
 # Make globbing (filename generation) sensitive to case. Note that other uses of
 # patterns are always sensitive to case. If the option is unset, the presence of
 # any character which is special to filename generation will cause
@@ -201,22 +197,19 @@ setopt list_packed
 # owing to the presence of the globbing flag (unless the option BARE_GLOB_QUAL
 # is unset).
 setopt no_case_glob
-#}}}
 
-# {{{ EXTENDED_GLOB
+# EXTENDED_GLOB
 # Treat the "#", "~" and "^" characters as part of patterns for filename
 # generation, etc. (An initial unquoted "~" always produces named directory
 # expansion.)
 setopt extended_glob
-#}}}
 
-# {{{ MARK_DIRS (-, ksh: -X)
+# MARK_DIRS (-, ksh: -X)
 # Append a trailing "/" to all directory names resulting from filename
 # generation (globbing).
 setopt mark_dirs
-#}}}
 
-# {{{ MULTIBYTE <C> <K> <Z>
+# MULTIBYTE <C> <K> <Z>
 # Respect multibyte characters when found in strings. When this option is set,
 # strings are examined using the system library to determine how many bytes form
 # a character, depending on the current locale. This affects the way characters
@@ -238,19 +231,15 @@ setopt mark_dirs
 # determine multibyte characters. This is because the character set displayed by
 # the terminal emulator is independent of shell settings.
 setopt no_multibyte
-#}}}
 
-# {{{ NOMATCH (+) <C> <Z>
+# NOMATCH (+) <C> <Z>
 # If a pattern for filename generation has no matches, print an error, instead
 # of leaving it unchanged in the argument list. This also applies to file
 # expansion of an initial "~" or "=".
 setopt nonomatch
-#}}}
-#}}}
 
-# {{{ History
-################################################################################
-# {{{ APPEND_HISTORY <D>
+# History
+# APPEND_HISTORY <D>
 # If this is set, zsh sessions will append their history list to the history
 # file, rather than replace it. Thus, multiple parallel zsh sessions will all
 # have the new entries from their history lists added to the history file, in
@@ -258,14 +247,12 @@ setopt nonomatch
 # trim it when the number of lines grows 20% beyond the value specified by
 # ${SAVEHIST} (see also the HIST_SAVE_BY_COPY option).
 setopt append_history
-#}}}
 
-# {{{ HIST_BEEP <D>
+# HIST_BEEP <D>
 # Beep when an attempt is made to access a history entry which isn"t there.
 setopt no_hist_beep
-#}}}
 
-# {{{ HIST_EXPIRE_DUPS_FIRST
+# HIST_EXPIRE_DUPS_FIRST
 # If the internal history needs to be trimmed to add the current command line,
 # setting this option will cause the oldest history event that has a duplicate
 # to be lost before losing a unique event from the list. You should be sure to
@@ -273,29 +260,25 @@ setopt no_hist_beep
 # you some room for the duplicated events, otherwise this option will behave
 # just like HIST_IGNORE_ALL_DUPS once the history fills up with unique events.
 setopt hist_expire_dups_first
-#}}}
 
-# {{{ HIST_FIND_NO_DUPS
+# HIST_FIND_NO_DUPS
 # When searching for history entries in the line editor, do not display
 # duplicates of a line previously found, even if the duplicates are not
 # contiguous.
 setopt hist_find_no_dups
-#}}}
 
-# {{{ HIST_IGNORE_ALL_DUPS
+# HIST_IGNORE_ALL_DUPS
 # If a new command line being added to the history list duplicates an older one,
 # the older command is removed from the list (even if it is not the previous
 # event).
 setopt hist_ignore_all_dups
-#}}}
 
-# {{{ HIST_IGNORE_DUPS (-h)
+# HIST_IGNORE_DUPS (-h)
 # Do not enter command lines into the history list if they are duplicates of the
 # previous event.
 setopt hist_ignore_dups
-#}}}
 
-# {{{ HIST_IGNORE_SPACE (-g)
+# HIST_IGNORE_SPACE (-g)
 # Remove command lines from the history list when the first character on the
 # line is a space, or when one of the expanded aliases contains a leading space.
 # Note that the command lingers in the internal history until the next command
@@ -303,29 +286,25 @@ setopt hist_ignore_dups
 # If you want to make it vanish right away without entering another command,
 # type a space and press return.
 setopt hist_ignore_space
-#}}}
 
-# {{{ HIST_NO_FUNCTIONS
+# HIST_NO_FUNCTIONS
 # Remove function definitions from the history list. Note that the function
 # lingers in the internal history until the next command is entered before it
 # vanishes, allowing you to briefly reuse or edit the definition.
 setopt hist_no_functions
-#}}}
 
-# {{{ HIST_NO_STORE
+# HIST_NO_STORE
 # Remove the history (fc -l) command from the history list when invoked. Note
 # that the command lingers in the internal history until the next command is
 # entered before it vanishes, allowing you to briefly reuse or edit the line.
 setopt hist_no_store
-#}}}
 
-# {{{ HIST_REDUCE_BLANKS
+# HIST_REDUCE_BLANKS
 # Remove superfluous blanks from each command line being added to the history
 # list.
 setopt hist_reduce_blanks
-#}}}
 
-# {{{ HIST_SAVE_BY_COPY <D>
+# HIST_SAVE_BY_COPY <D>
 # When the history file is re-written, we normally write out a copy of the file
 # named ${HISTFILE}.new and then rename it over the old one. However, if this
 # option is unset, we instead truncate the old history file and write out the
@@ -339,53 +318,42 @@ setopt hist_reduce_blanks
 # permissions and group information, but will refuse to write out a new file if
 # it would change the history file"s owner.
 setopt hist_save_by_copy
-#}}}
 
-# {{{ HIST_SAVE_NO_DUPS
+# HIST_SAVE_NO_DUPS
 # When writing out the history file, older commands that duplicate newer ones
 # are omitted.
 setopt hist_save_no_dups
-#}}}
 
-# {{{ HIST_VERIFY
+# HIST_VERIFY
 # Whenever the user enters a line with history expansion, don't execute the line
 # directly; instead, perform history expansion and reload the line into the
 # editing buffer.
 setopt hist_verify
-#}}}
-#}}}
 
-# {{{ Input/Output
-################################################################################
-# {{{ CORRECT (-)
+# Input/Output
+# CORRECT (-)
 # Try to correct the spelling of commands. Note that, when the HASH_LIST_ALL
 # option is not set or when some directories in the path are not readable, this
 # may falsely report spelling errors the first time some commands are used.
 setopt correct
-#}}}
 
-# {{{ MAIL_WARNING (-U)
+# MAIL_WARNING (-U)
 # Print a warning message if a mail file has been accessed since the shell last
 # checked.
 setopt no_mail_warning
-#}}}
 
-# {{{ SHORT_LOOPS <C> <Z>
+# SHORT_LOOPS <C> <Z>
 # Allow the short forms of for, repeat, select, if, and function constructs.
 setopt short_loops
-#}}}
-#}}}
 
-# {{{ Job Control
-################################################################################
-# {{{ AUTO_CONTINUE
+# Job Control
+# AUTO_CONTINUE
 # With this option set, stopped jobs that are removed from the job table with
 # the disown builtin command are automatically sent a CONT signal to make them
 # running.
 setopt auto_continue
-#}}}
 
-# {{{ CHECK_JOBS <Z>
+# CHECK_JOBS <Z>
 # Report the status of background and suspended jobs before exiting a shell with
 # job control; a second attempt to exit the shell will succeed. NO_CHECK_JOBS is
 # best used only in combination with NO_HUP, else such jobs will be killed
@@ -397,37 +365,28 @@ setopt auto_continue
 # functions defined in the section SPECIAL FUNCTIONS in zshmisc(1) is not
 # counted for this purpose.
 setopt no_check_jobs
-#}}}
 
-# {{{ LONG_LIST_JOBS (-R)
+# LONG_LIST_JOBS (-R)
 # List jobs in the long format by default.
 setopt long_list_jobs
-#}}}
 
-# {{{ MONITOR (-m, ksh: -m)
+# MONITOR (-m, ksh: -m)
 # Allow job control. Set by default in interactive shells.
 setopt monitor
-#}}}
 
-# {{{ NOTIFY (-, ksh: -b) <Z>
+# NOTIFY (-, ksh: -b) <Z>
 # Report the status of background jobs immediately, rather than waiting until
 # just before printing a prompt.
 setopt notify
-#}}}
-#}}}
 
-# {{{ Scripts and Functions
-################################################################################
-# {{{ MULTIOS <Z>
+# Scripts and Functions
+# MULTIOS <Z>
 # Perform implicit tees or cats when multiple redirections are attempted (see
 # the section "Redirection").
 setopt multios
-#}}}
-#}}}
 
-# {{{ Shell Emulation
-################################################################################
-# {{{ POSIX_BUILTINS <K> <S>
+# Shell Emulation
+# POSIX_BUILTINS <K> <S>
 # When this option is set the command builtin can be used to execute shell
 # builtin commands. Parameter assignments specified before shell functions and
 # special builtins are kept after the command completes unless the special
@@ -435,40 +394,30 @@ setopt multios
 # break, continue, declare, eval, exit, export, integer, local, readonly,
 # return, set, shift, source, times, trap and unset.
 setopt posix_builtins
-#}}}
-#}}}
 
-# {{{ Zle
-################################################################################
-# {{{ BEEP (+B) <D>
+# Zle
+# BEEP (+B) <D>
 # Beep on error in ZLE.
 setopt nobeep
-#}}}
 
-# {{{ EMACS
+# EMACS
 # If ZLE is loaded, turning on this option has the equivalent effect of "bindkey
 # -e". In addition, the VI option is unset. Turning it off has no effect. The
 # option setting is not guaranteed to reflect the current keymap. This option is
 # provided for compatibility; bindkey is the recommended interface.
 setopt no_emacs
-#}}}
 
-# {{{ VI
+# VI
 # If ZLE is loaded, turning on this option has the equivalent effect of "bindkey
 # -v". In addition, the EMACS option is unset. Turning it off has no effect. The
 # option setting is not guaranteed to reflect the current keymap. This option is
 # provided for compatibility; bindkey is the recommended interface.
 setopt vi
-#}}}
 
-# {{{ PromptSubst
+# PromptSubst
 setopt promptsubst
-#}}}
-#}}}
-#}}}
 
-# {{{ Hashes
-################################################################################
+# Hashes
 # hash [ -Ldfmrv ] [ name[=value] ] ...
 #
 # hash can be used to directly modify the contents of the command hash table,
@@ -525,9 +474,8 @@ if [[ -d ~/dev ]]; then
         hash -d "d_$(basename "$(dirname "${i}")")"="$(dirname "${i}")"
     done
 fi
-#}}}
 
-# {{{ Functions
+# Functions
 # Executed before each prompt. Note that precommand functions are not reexecuted
 # simply because the command line is redrawn, as happens, for example, when a
 # notification about an exiting job is displayed.
@@ -539,10 +487,8 @@ function precmd() {
         RPROMPT=""
     fi
 }
-#}}}
 
-# {{{ ulimit
-###############################################################################
+# ulimit
 # ulimit [ -SHacdflmnpstv [ limit ] ... ]
 # Set or display resource limits of the shell and the processes started by the
 # shell. The value of limit can be a number in the unit specified below or the
@@ -580,10 +526,8 @@ unlimit
 limit stack 8192
 limit core 0
 limit -s
-#}}}
 
-# {{{ umask
-###############################################################################
+# umask
 # umask [ -S ] [ mask ]
 # The umask is set to mask. mask can be either an octal number or a symbolic
 # value as described in man page chmod(1). If mask is omitted, the current value
@@ -607,10 +551,8 @@ zstyle ':vcs_info:*:prompt:*' formats "%u%c${NO_COLOR} (${BOLD_BLACK}%s${NO_COLO
 zstyle ':vcs_info:*:prompt:*' get-revision true
 zstyle ':vcs_info:*:prompt:*' stagedstr "${BOLD_GREEN}*"
 zstyle ':vcs_info:*:prompt:*' unstagedstr "${BOLD_YELLOW}!"
-#}}}
-#}}}
 
-# # {{{ ZSh Modules
+# # ZSh Modules
 # THE ZSH/TERMCAP MODULE
 # The zsh/termcap module makes available one builtin command:
 #
@@ -622,21 +564,7 @@ zstyle ':vcs_info:*:prompt:*' unstagedstr "${BOLD_YELLOW}!"
 # termcap
 #   An associative array that maps termcap capability codes to their values.
 autoload -Uz zsh/termcap
-#}}}
 
-# {{{ Load Resources
-# load none ZSH components and/or configurations for all shells but jump to HOME
-# before
-if [[ -d ~/.shell ]]; then
-    for sh in ~/.shell/*.sh(.); do
-        [[ -r "${sh}" ]] && source "${sh}" || true
-    done
-fi
-
-for sh in ~/.zsh/local/*.sh(.); do
-    [[ -r "${sh}" ]] && source "${sh}" || true
-done
-unset sh
-
+# Load Resources
 [[ -r ~/.zsh/alias.zsh ]] && source ~/.zsh/alias.zsh || true
-#}}}
+[[ -r ~/.zsh/export.zsh ]] && source ~/.zsh/export.zsh || true

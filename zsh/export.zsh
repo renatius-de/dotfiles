@@ -1,21 +1,3 @@
-# shellcheck shell=bash
-case $- in
-!*i*)
-  return
-  ;;
-esac
-[[ -z "$PS1" ]] && return
-
-if [[ -z $CYG_SYS_BASHRC ]]; then
-  # clear screen once
-  clear
-
-  builtin echo "--- $(date '+%a %d %b %Y') --------------------------------------------------------------"
-  uname -snr
-  uptime
-  builtin echo -e "---------------------------------------------------------------------------------"
-fi
-
 if which nvim >/dev/null 2>&1; then
   EDITOR="nvim"
 elif which vim >/dev/null 2>&1; then
