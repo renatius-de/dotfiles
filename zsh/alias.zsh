@@ -1,23 +1,36 @@
 alias which="whence -vas"
 alias where="whence -cas"
 
-alias ls="ls --color=auto --classify --dereference-command-line-symlink-to-dir --hide-control-chars --sort=version"
-alias l="ls --human-readable --numeric-uid-gid -l --time-style=+'%Y-%m-%d %H:%m'"
-alias la="ls --almost-all"
-alias ll="l --almost-all"
-
-alias chgrp="chgrp --changes"
-alias chmod="chmod --changes"
-alias chown="chown --changes"
-alias cp="nocorrect cp -av"
-alias grep="grep --color=auto"
+alias cp="nocorrect cp"
 alias ln="nocorrect ln"
 alias mkdir="nocorrect mkdir"
-alias md="mkdir --mode=0700 --parents --verbose"
 alias mv="nocorrect mv"
-alias rd="rmdir --parents --ignore-fail-on-non-empty"
-alias rm="rm --interactive=once --verbose"
-alias rmdir="rmdir --verbose"
+
+if which dircolors > /dev/null 2>&1; then
+  alias ls="ls --color=auto --classify --dereference-command-line-symlink-to-dir --hide-control-chars --sort=version"
+  alias l="ls --human-readable --numeric-uid-gid -l --time-style=+'%Y-%m-%d %H:%m'"
+  alias la="ls --almost-all"
+  alias ll="l --almost-all"
+
+  alias chgrp="chgrp --changes"
+  alias chmod="chmod --changes"
+  alias chown="chown --changes"
+  alias cp="cp -av"
+  alias grep="grep --color=auto"
+  alias md="mkdir --mode=0700 --parents --verbose"
+  alias rd="rmdir --parents --ignore-fail-on-non-empty"
+  alias rm="rm --interactive=once --verbose"
+  alias rmdir="rmdir --verbose"
+else
+  alias ls="ls -@FG"
+  alias l="ls -hln"
+  alias la="ls -A"
+  alias ll="l -A"
+
+  alias rm="rm -iv"
+  alias md="mkdir -m 0700 -pv"
+  alias rd="rmdir -p"
+fi
 
 which lsattr >/dev/null 2>&1 && alias lsattr="lsattr -a"
 which chattr >/dev/null 2>&1 && alias chattr="chattr -R"
