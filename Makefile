@@ -19,9 +19,6 @@ install:
 		$(MAKE) -C $$f install; \
 	    fi \
 	done
-	#
-	chmod -R go= ${HOME}
-	chown -R $(shell id -u):$(shell id -g) ${HOME}
 
 .PHONY: default
 default: | clean install

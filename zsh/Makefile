@@ -23,8 +23,6 @@ clean:
 	rm -fr $(PLUGIN_DIRECTORY)
 	#
 	rm -fr $(SHARE)
-	#
-	find ${HOME} -name '*.zwc' -delete
 
 .PHONY: install
 install: | plugin
