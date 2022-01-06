@@ -7,7 +7,6 @@ if [[ -r ~/.zsh/plugin/antigen.zsh ]]; then
 
     # bundles from the default repo (robbyrussell's oh-my-zsh).
     antigen bundle docker
-    antigen bundle gpg-agent
     antigen bundle keychain
     antigen bundle sdk
     antigen bundle ssh-agent
