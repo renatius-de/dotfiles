@@ -22,10 +22,10 @@ ${HOME}/.git:
 	ln -snf $(ROOT_DIR) ${HOME}/.git
 
 $(GIT_ATTRIBUTES_REPOSITORY):
-	git clone --quiet git://github.com/alexkaratarakis/gitattributes.git $(GIT_ATTRIBUTES_REPOSITORY)
+	git clone --quiet https://github.com/alexkaratarakis/gitattributes.git $(GIT_ATTRIBUTES_REPOSITORY)
 
 $(GIT_IGNORE_REPOSITORY):
-	git clone --quiet git://github.com/github/gitignore.git $(GIT_IGNORE_REPOSITORY)
+	git clone --quiet https://github.com/github/gitignore.git $(GIT_IGNORE_REPOSITORY)
 
 plugin: | $(GIT_ATTRIBUTES_REPOSITORY) $(GIT_IGNORE_REPOSITORY)
 
