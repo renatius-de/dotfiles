@@ -1,21 +1,12 @@
-if has("unix")
-    let g:vimfiles=escape(expand("~/.vim"), ' ')
-else
-    let g:vimfiles=escape(expand("~/vimfiles"), ' ')
-endif
-
 if has("autocmd")
     filetype plugin indent on
 endif
+
 if has("syntax") && !exists("g:syntax_on")
     syntax enable
 endif
 
-if ! empty(globpath(&runtimepath, "colors/detailed.vim"))
-    colorscheme detailed
-else
-    colorscheme evening
-endif
+colorscheme evening
 
 set autoindent
 set background=dark

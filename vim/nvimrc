@@ -1,8 +1,6 @@
-set runtimepath^=~/.vim runtimepath+=~/.vim/after
-
 let &packpath = &runtimepath
 
-source ~/.vim/config/vimrc
+source ~/.vimrc
 
 if filereadable("/usr/bin/python3")
     let g:python3_host_prog = "/usr/bin/python3"
