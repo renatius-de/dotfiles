@@ -121,7 +121,7 @@
     renameLimit = 8
     renormalize = true
     stat = true
-    tool = vimdiff3
+    tool = nvimdiff3
 
 [mergetool]
     keepBackup = false
