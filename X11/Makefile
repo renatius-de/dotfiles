@@ -1,14 +1,18 @@
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
+ABCDE_CONF = $(HOME)/.abcde.conf
+ASPELL_CONF = $(HOME)/.aspell.conf
+
+$(ABCDE_CONF):
+	ln -snf $(ROOT_DIR)/abcde.conf $(ABCDE_CONF)
+
+$(ASPELL_CONF):
+	ln -snf $(ROOT_DIR)/aspell.conf $(ASPELL_CONF)
+
 .PHONY: clean
 clean:
-	rm -f ${HOME}/.abcde.conf
-	rm -f ${HOME}/.aspell.conf
+	rm -f $(ABCDE_CONF)
+	rm -f $(ASPELL_CONF)
 
 .PHONY: install
-install:
-	ln -snf ${ROOT_DIR}/abcde.conf ${HOME}/.abcde.conf
-	ln -snf ${ROOT_DIR}/aspell.conf ${HOME}/.aspell.conf
-
-.PHONY: default
-default: | clean install
+install: | $(ABCDE_CONF) $(ASPELL_CONF)

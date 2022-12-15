@@ -1,52 +1,68 @@
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
-ANTIGEN = ${PLUGIN_DIRECTORY}/antigen.zsh
-FZF = ${PLUGIN_DIRECTORY}/fzf
+DIRECTORY = $(HOME)/.zsh
+ZSH_CONFIG = $(HOME)/.zshrc
+ZSH_ENV = $(HOME)/.zshenv
+ZSH_LOGOUT = $(HOME)/.zlogout
+ZSH_PROFILE = $(HOME)/.zprofile
+
+ANTIGEN = ${PLUGIN_DIRECTORY}/antigen
 PLUGIN_DIRECTORY = $(ROOT_DIR)/plugin
-SDKMAN = ${HOME}/.sdkman
-SHARE = ${HOME}/.cache/zsh
-
-.PHONY: clean
-clean:
-	rm -f ${HOME}/.cache/zsh/history
-	rm -f ${HOME}/.fzf.zsh
-	rm -f ${HOME}/.zcompdump
-	rm -f ${HOME}/.zlogout
-	rm -f ${HOME}/.zprofile
-	rm -f ${HOME}/.zsh
-	rm -f ${HOME}/.zshenv
-	rm -f ${HOME}/.zshrc
-	rm -fr ${HOME}/.antigen
-	rm -rf ${HOME}/.nvm
-	rm -rf ${HOME}/.sdkman
-	#
-	rm -fr $(PLUGIN_DIRECTORY)
-	#
-	rm -fr $(SHARE)
-
-.PHONY: install
-install: | plugin
-	mkdir -p $(SHARE)
-	#
-	ln -snf ${ROOT_DIR}/zlogout ${HOME}/.zlogout
-	ln -snf ${ROOT_DIR}/zprofile ${HOME}/.zprofile
-	ln -snf ${ROOT_DIR}/zshenv ${HOME}/.zshenv
-	ln -snf ${ROOT_DIR}/zshrc ${HOME}/.zshrc
-
-plugin: | antigen ${SDKMAN}
-
-antigen: | ${HOME}/.zsh ${ANTIGEN}
-
-${HOME}/.zsh:
-	ln -snf $(ROOT_DIR) ${HOME}/.zsh
+SDKMAN = $(HOME)/.sdkman
+SHARE = $(HOME)/.cache/zsh
 
 ${ANTIGEN}:
 	mkdir -p ${PLUGIN_DIRECTORY}
 	#
-	curl --silent --location git.io/antigen --output ${ANTIGEN}
+	git clone --quiet --depth=1 https://github.com/zsh-users/antigen.git ${ANTIGEN}
 
-${SDKMAN}:
+$(SDKMAN):
 	curl --silent 'https://get.sdkman.io?rcupdate=false' | bash
 
-.PHONY: default
-default: | clean install
+plugin: | $(ANTIGEN) $(SDKMAN)
+
+$(DIRECTORY):
+	ln -snf $(ROOT_DIR) $(DIRECTORY)
+
+$(SHARE):
+	mkdir -p $(SHARE)
+
+$(ZSH_CONFIG):
+	ln -snf $(ROOT_DIR)/zshrc $(ZSH_CONFIG)
+
+$(ZSH_ENV):
+	ln -snf $(ROOT_DIR)/zshenv $(ZSH_ENV)
+
+$(ZSH_LOGOUT):
+	ln -snf $(ROOT_DIR)/zlogout $(ZSH_LOGOUT)
+
+$(ZSH_PROFILE):
+	ln -snf $(ROOT_DIR)/zprofile $(ZSH_PROFILE)
+
+.PHONY: clean
+clean:
+	rm -f $(HOME)/.fzf.zsh
+	rm -f $(HOME)/.zcompdump
+	rm -f $(HOME)/.zsh_history
+	rm -f $(HOME)/.zshrc.zwc
+	rm -rf $(HOME)/.npm
+	rm -rf $(HOME)/.nvm
+	rm -rf $(HOME)/.zsh_sessions
+	#
+	rm -fr $(HOME)/.antigen
+	rm -fr $(ANTIGEN)
+	rm -fr $(SDKMAN)
+	#
+	rm -fr $(PLUGIN_DIRECTORY)
+	rm -fr $(SHARE)
+	#
+	rm -f $(DIRECTORY)
+	rm -f $(ZSH_CONFIG)
+	rm -f $(ZSH_ENV)
+	rm -f $(ZSH_LOGOUT)
+	rm -f $(ZSH_PROFILE)
+
+configuration: | $(DIRECTORY) $(SHARE) $(ZSH_CONFIG) $(ZSH_ENV) $(ZSH_LOGOUT) $(ZSH_PROFILE)
+
+.PHONY: install
+install: | plugin configuration

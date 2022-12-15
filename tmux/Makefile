@@ -1,25 +1,20 @@
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
-PLUGIN_DIRECTORY = plugins
-TPM = ${PLUGIN_DIRECTORY}/tpm
+DIRECTORY = $(HOME)/.tmux
+TMUX_CONF = $(HOME)/.tmux.conf
+
+$(DIRECTORY):
+	ln -snf $(ROOT_DIR) $(DIRECTORY)
+
+$(TMUX_CONF):
+	ln -snf $(ROOT_DIR)/tmux.conf $(TMUX_CONF)
 
 .PHONY: clean
 clean:
-	rm -f ${HOME}/.screenrc
-	rm -f ${HOME}/.tmux
-	rm -f ${HOME}/.tmux.conf
-	rm -f ${HOME}/.tmuxinator
-	rm -fr $(PLUGIN_DIRECTORY)
+	rm -f $(HOME)/.screenrc
+	#
+	rm -f $(DIRECTORY)
+	rm -f $(TMUX_CONF)
 
 .PHONY: install
-install: | ${HOME}/.tmux ${HOME}/.tmuxinator
-	ln -snf ${ROOT_DIR}/tmux.conf ${HOME}/.tmux.conf
-
-${HOME}/.tmux:
-	ln -snf ${ROOT_DIR} ${HOME}/.tmux
-
-${HOME}/.tmuxinator:
-	ln -snf ${ROOT_DIR}/tmuxinator ${HOME}/.tmuxinator
-
-.PHONY: default
-default: | clean install
+install: | $(DIRECTORY) $(TMUX_CONF)

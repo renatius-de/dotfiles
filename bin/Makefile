@@ -1,12 +1,13 @@
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
+DIRECTORY = $(HOME)/bin
+
+$(DIRECTORY):
+	ln -snf $(ROOT_DIR) $(DIRECTORY)
+
 .PHONY: clean
 clean:
-	rm -f ${HOME}/bin
+	rm -f $(DIRECTORY)
 
 .PHONY: install
-install:
-	ln -snf ${ROOT_DIR} ${HOME}/bin
-
-.PHONY: default
-default: | clean install
+install: | $(DIRECTORY)
