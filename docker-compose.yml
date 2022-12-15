@@ -1,4 +1,4 @@
-version: '3.6'
+version: '3.9'
 
 services:
   super-linter:
@@ -6,6 +6,5 @@ services:
     image: github/super-linter
     environment:
       - RUN_LOCAL=true
-      - FILTER_REGEX_EXCLUDE=.*/cddb/.*
     volumes:
       - ./:/tmp/lint:ro
