@@ -4,5 +4,4 @@ root: ~/
 
 windows:
   - System: htop
-  - EMail: mutt
   - IRC: weechat
