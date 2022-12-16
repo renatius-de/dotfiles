@@ -1,7 +1,7 @@
 .PHONY: clean
 clean:
 	rm -f $(HOME)/.calendar
-	rm -f ${HOME}/.lesshst
+	rm -f $(HOME)/.lesshst
 	#
 	rm -rf $(HOME)/.cache
 	rm -rf $(HOME)/.keychain
