@@ -49,13 +49,3 @@ elif which vim >/dev/null 2>&1; then
   alias vi="vim"
   alias ex="vim -E"
 fi
-
-if which keychain >/dev/null 2>&1; then
-  alias keychain="keychain --systemd"
-
-  # shellcheck disable=SC2139
-  alias kadd="keychain ~/.ssh/keys/**/id*~*.pub"
-
-  # shellcheck disable=SC2139
-  alias kclear="keychain --clear"
-fi
