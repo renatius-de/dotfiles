@@ -1,6 +1,8 @@
 [[ $- != *i* ]] && return
 
+[[ -r ~/.docker/init-zsh.sh ]]        && source ~/.docker/init-zsh.sh
 [[ -r ~/.sdkman/bin/sdkman-init.sh ]] && source ~/.sdkman/bin/sdkman-init.sh
+
 [[ -r ~/.zsh/bundle.zsh ]]            && source ~/.zsh/bundle.zsh
 [[ -r ~/.zsh/alias.zsh ]]             && source ~/.zsh/alias.zsh
 [[ -r ~/.zsh/export.zsh ]]            && source ~/.zsh/export.zsh
