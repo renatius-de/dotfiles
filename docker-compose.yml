@@ -1,6 +1,4 @@
 ---
-version: '3.9'
-
 services:
   super-linter:
     container_name: super-linter
