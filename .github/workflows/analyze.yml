@@ -7,18 +7,21 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  analyze:
     name: Lint Code Base
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: Lint Code Base
-        uses: github/super-linter@v4
+      - name: Get Environment for SuperLinter
+        run: cat .github/super-linter.env >> "$GITHUB_ENV"
+
+      - name: SuperLinter Scan
+        uses: github/super-linter/slim
         env:
-          DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LOG_LEVEL: NOTICE

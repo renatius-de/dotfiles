@@ -2,8 +2,10 @@
 services:
   super-linter:
     container_name: super-linter
-    image: github/super-linter
+    image: github/super-linter:slim-latest
+    env_file:
+      - ./.github/super-linter.env
     environment:
-      - RUN_LOCAL=true
+      RUN_LOCAL: true
     volumes:
       - ./:/tmp/lint:ro
