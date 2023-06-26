@@ -1,7 +1,0 @@
----
-name: Main
-root: ~/
-
-windows:
-  - System: htop
-  - IRC: weechat
