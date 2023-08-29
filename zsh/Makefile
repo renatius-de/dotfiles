@@ -10,10 +10,10 @@ ANTIGEN = $(PLUGIN_DIRECTORY)/antigen
 PLUGIN_DIRECTORY = $(ROOT_DIR)/plugin
 SHARE = $(HOME)/.cache/zsh
 
-${ANTIGEN}:
-	mkdir -p ${PLUGIN_DIRECTORY}
+$(ANTIGEN):
+	mkdir -p $(PLUGIN_DIRECTORY)
 	#
-	git clone --quiet --depth=1 https://github.com/zsh-users/antigen.git ${ANTIGEN}
+	git clone --quiet --depth=1 https://github.com/zsh-users/antigen.git $(ANTIGEN)
 
 plugin: | $(ANTIGEN)
 
