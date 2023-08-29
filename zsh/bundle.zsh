@@ -8,7 +8,6 @@ if [[ -r ~/.zsh/plugin/antigen/antigen.zsh ]]; then
     # bundles from the default repo (robbyrussell's oh-my-zsh).
     antigen bundle history-substring-search
     antigen bundle nvm
-    antigen bundle rvm
     antigen bundle sdk
     antigen bundle themes
     antigen bundle vi-mode
