@@ -34,3 +34,12 @@ clean:
 
 .PHONY: install
 install: | $(DIRECTORY) $(GIT_CONFIG) plugin
+
+.PHONY: upgrade
+upgrade: | install
+
+	cd $(GIT_ATTRIBUTES)
+	git pull --depth=1 --quiet --update-shallow
+	#
+	cd $(GIT_IGNORE)
+	git pull --depth=1 --quiet --update-shallow

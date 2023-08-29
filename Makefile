@@ -20,3 +20,11 @@ install:
 		$(MAKE) -C $$f install; \
 	    fi \
 	done
+
+.PHONY: upgrade
+upgrade:
+	@for f in $$(ls -d *); do \
+	    if [ -d $$f ]; then \
+		$(MAKE) -C $$f upgrade; \
+	    fi \
+	done

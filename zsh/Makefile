@@ -62,3 +62,8 @@ configuration: | $(DIRECTORY) $(SHARE) $(ZSH_CONFIG) $(ZSH_ENV) $(ZSH_LOGOUT) $(
 
 .PHONY: install
 install: | plugin configuration
+
+.PHONY: upgrade
+upgrade: | install
+	cd $(ANTIGEN)
+	git pull --quiet --depth=1 --update-shallow

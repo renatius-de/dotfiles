@@ -15,4 +15,7 @@ clean:
 	rm -f $(ASPELL_CONF)
 
 .PHONY: install
-install: | $(ABCDE_CONF) $(ASPELL_CONF)
+install: | $(ABCDE_CONF)
+
+.PHONY: upgrade
+upgrade: | install

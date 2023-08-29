@@ -53,3 +53,6 @@ clean:
 
 .PHONY: install
 install: | $(DIRECTORY) $(VIM_CONFIG) $(NEOVIM_CONFIG) $(VIM_CACHE) $(NEOVIM_CACHE)
+
+.PHONY: upgrade
+upgrade: | install

@@ -11,3 +11,6 @@ clean:
 
 .PHONY: install
 install: | $(DIRECTORY)
+
+.PHONY: upgrade
+upgrade: | install
