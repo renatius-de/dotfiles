@@ -8,7 +8,6 @@ ZSH_PROFILE = $(HOME)/.zprofile
 
 ANTIGEN = ${PLUGIN_DIRECTORY}/antigen
 PLUGIN_DIRECTORY = $(ROOT_DIR)/plugin
-SDKMAN = $(HOME)/.sdkman
 SHARE = $(HOME)/.cache/zsh
 
 ${ANTIGEN}:
@@ -16,10 +15,7 @@ ${ANTIGEN}:
 	#
 	git clone --quiet --depth=1 https://github.com/zsh-users/antigen.git ${ANTIGEN}
 
-$(SDKMAN):
-	curl --silent 'https://get.sdkman.io?rcupdate=false' | bash
-
-plugin: | $(ANTIGEN) $(SDKMAN)
+plugin: | $(ANTIGEN)
 
 $(DIRECTORY):
 	ln -snf $(ROOT_DIR) $(DIRECTORY)
