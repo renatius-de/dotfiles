@@ -6,7 +6,7 @@ ZSH_ENV = $(HOME)/.zshenv
 ZSH_LOGOUT = $(HOME)/.zlogout
 ZSH_PROFILE = $(HOME)/.zprofile
 
-ANTIGEN = ${PLUGIN_DIRECTORY}/antigen
+ANTIGEN = $(PLUGIN_DIRECTORY)/antigen
 PLUGIN_DIRECTORY = $(ROOT_DIR)/plugin
 SHARE = $(HOME)/.cache/zsh
 
@@ -47,7 +47,6 @@ clean:
 	#
 	rm -fr $(HOME)/.antigen
 	rm -fr $(ANTIGEN)
-	rm -fr $(SDKMAN)
 	#
 	rm -fr $(PLUGIN_DIRECTORY)
 	rm -fr $(SHARE)
