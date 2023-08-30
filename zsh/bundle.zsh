@@ -17,18 +17,6 @@ if [[ -r ~/.zsh/plugin/antigen/antigen.zsh ]]; then
       antigen bundle brew
     fi
 
-    which docker >/dev/null 2>&1 && antigen bundle docker
-    which docker-compose >/dev/null 2>&1 && antigen bundle docker-compose
-    which git >/dev/null 2>&1 && antigen bundle git
-    which gradle >/dev/null 2>&1 && antigen bundle gradle
-    which helm >/dev/null 2>&1 && antigen bundle helm
-    which kubectl >/dev/null 2>&1 && antigen bundle kubectl
-    which kubectl >/dev/null 2>&1 && antigen bundle kubectx
-    which mvn >/dev/null 2>&1 && antigen bundle mvn
-    which sbt >/dev/null 2>&1 && antigen bundle sbt
-    which ssh-agent >/dev/null 2>&1 && antigen bundle ssh-agent
-    which terraform >/dev/null 2>&1 && antigen bundle terraform
-
     # add bundles from ush users
     antigen bundle zsh-users/zsh-autosuggestions
     antigen bundle zsh-users/zsh-completions
