@@ -56,8 +56,6 @@ install: | nvm sdkman
 
 .PHONY: upgrade
 upgrade: | install
-	$(NVM_COMMAND) install-latest-npm
-	#
 	$(SDKMAN_COMMAND) update
 	$(SDKMAN_COMMAND) selfupdate
 	$(SDKMAN_COMMAND) upgrade
