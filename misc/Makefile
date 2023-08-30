@@ -50,6 +50,9 @@ nvm: | $(NVM_DIR) nodejs
 .PHONY: clean
 clean:
 	rm -fr $(SDKMAN_DIR)
+	#
+	rm -rf $(NVM_DIR)
+	rm -rf $(HOME)/.npm
 
 .PHONY: install
 install: | nvm sdkman
