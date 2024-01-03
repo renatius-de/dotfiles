@@ -10,6 +10,7 @@
 .fastRequest
 .fseventsd
 .fuse_hidden*
+.jpb
 .LSOverride
 .nfs*
 .sdkmanrc
