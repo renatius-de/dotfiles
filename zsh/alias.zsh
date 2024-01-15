@@ -35,9 +35,12 @@ fi
 which lsattr >/dev/null 2>&1 && alias lsattr="lsattr -a"
 which chattr >/dev/null 2>&1 && alias chattr="chattr -R"
 
-if which rsync >/dev/null 2>&1; then
-  alias rsync="nocorrect rsync --recursive --links --perms --times --owner --group --devices --specials --hard-links --whole-file --delete --cvs-exclude --prune-empty-dirs --compress --stats --human-readable --progress"
-  alias rsync_fat="rsync --chmod='u=rwX,go=' --size-only"
+if which mvn >/dev/null 2>&1; then
+  alias mvn="mvn --errors --fail-fast --update-snapshots --update-plugins"
+  alias mk="mvn clean install -DskipTests -DskipITs"
+  alias mks="mvn --activate-profiles senec clean install -DskipTests -DskipITs"
+  alias mka="mvn clean install"
+  alias mksa="mvn --activate-profiles senec clean install"
 fi
 
 if which nvim >/dev/null 2>&1; then
@@ -48,4 +51,9 @@ if which nvim >/dev/null 2>&1; then
 elif which vim >/dev/null 2>&1; then
   alias vi="vim"
   alias ex="vim -E"
+fi
+
+if which rsync >/dev/null 2>&1; then
+  alias rsync="nocorrect rsync --recursive --links --perms --times --owner --group --devices --specials --hard-links --whole-file --delete --cvs-exclude --prune-empty-dirs --compress --stats --human-readable --progress"
+  alias rsync_fat="rsync --chmod='u=rwX,go=' --size-only"
 fi
