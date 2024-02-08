@@ -16,6 +16,7 @@
 .sdkmanrc
 .Spotlight-V100
 .TemporaryItems
+.tool-versions
 .Trash-*
 .Trashes
 .VolumeIcon.icns
