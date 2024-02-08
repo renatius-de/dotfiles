@@ -6,9 +6,8 @@ if [[ -r ~/.zsh/plugin/antigen/antigen.zsh ]]; then
     antigen use oh-my-zsh
 
     # bundles from the default repo (robbyrussell's oh-my-zsh).
+    antigen bundle asdf
     antigen bundle history-substring-search
-    antigen bundle nvm
-    antigen bundle sdk
     antigen bundle themes
     antigen bundle vi-mode
 
