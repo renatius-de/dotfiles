@@ -21,9 +21,6 @@ if [[ -r ~/.zsh/plugin/antigen/antigen.zsh ]]; then
     antigen bundle zsh-users/zsh-completions
     antigen bundle zsh-users/zsh-syntax-highlighting
 
-    # bundles from misc repos
-    antigen bundle lukechilds/zsh-nvm
-
     antigen theme candy
 
     # tell antigen that you're done.
