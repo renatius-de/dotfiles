@@ -6,14 +6,18 @@ PLUGINS = $(DIR_ASDF)/plugins
 
 COMMAND_ASDF = $(DIR_ASDF)/bin/asdf
 
+DENO = $(PLUGINS)/deno
+GIT = $(PLUGINS)/git
 GRADLE = $(PLUGINS)/gradle
 HELM = $(PLUGINS)/helm
 JAVA = $(PLUGINS)/java
+JQ = $(PLUGINS)/jq
 K9S = $(PLUGINS)/k9s
 KOTLIN = $(PLUGINS)/kotlin
 KUBECTL = $(PLUGINS)/kubectl
 KUBECTX = $(PLUGINS)/kubectx
 KUBELOGIN = $(PLUGINS)/kubelogin
+MAKE = $(PLUGINS)/make
 MAVEN = $(PLUGINS)/maven
 NEOVIM = $(PLUGINS)/neovim
 NODEJS = $(PLUGINS)/nodejs
@@ -26,6 +30,14 @@ $(ASDF_CONFIG):
 
 $(DIR_ASDF): | $(ASDF_CONFIG)
 	git clone https://github.com/asdf-vm/asdf.git $(DIR_ASDF)
+
+$(DENO): | $(DIR_ASDF)
+	$(COMMAND_ASDF) plugin add deno
+	$(COMMAND_ASDF) install deno latest
+
+$(GIT): | $(DIR_ASDF)
+	$(COMMAND_ASDF) plugin add git
+	$(COMMAND_ASDF) install git latest
 
 $(GRADLE): | $(DIR_ASDF)
 	$(COMMAND_ASDF) plugin add gradle
@@ -41,6 +53,10 @@ $(JAVA): $(DIR_ASDF)
 	$(COMMAND_ASDF) install java latest:corretto-11
 	$(COMMAND_ASDF) install java latest:corretto-17
 	$(COMMAND_ASDF) install java latest:corretto-21
+
+$(JQ): $(DIR_ASDF)
+	$(COMMAND_ASDF) plugin add jq
+	$(COMMAND_ASDF) install jq latest
 
 $(K9S): | $(DIR_ASDF)
 	$(COMMAND_ASDF) plugin add k9s
@@ -61,6 +77,10 @@ $(KUBECTX): | $(DIR_ASDF)
 $(KUBELOGIN): | $(DIR_ASDF)
 	$(COMMAND_ASDF) plugin add kubelogin
 	$(COMMAND_ASDF) install kubelogin latest
+
+$(MAKE): | $(DIR_ASDF)
+	$(COMMAND_ASDF) plugin add make
+	$(COMMAND_ASDF) install make latest
 
 $(MAVEN): | $(DIR_ASDF)
 	$(COMMAND_ASDF) plugin add maven
@@ -87,7 +107,25 @@ $(TERRAFORM): | $(DIR_ASDF)
 	$(COMMAND_ASDF) install terraform latest
 
 .PHONY: asdf
-asdf: | $(GRADLE) $(HELM) $(JAVA) $(K9S) $(KOTLIN) $(KUBECTL) $(KUBECTX) $(KUBELOGIN) $(MAVEN) $(NEOVIM) $(NODEJS) $(SBT) $(SCALA) $(TERRAFORM)
+asdf: | \
+	$(DENO) \
+    $(GIT) \
+    $(GRADLE) \
+    $(HELM) \
+    $(JAVA) \
+    $(JQ) \
+    $(K9S) \
+    $(KOTLIN) \
+    $(KUBECTL) \
+    $(KUBECTX) \
+    $(KUBELOGIN) \
+    $(MAKE) \
+    $(MAVEN) \
+    $(NEOVIM) \
+    $(NODEJS) \
+    $(SBT) \
+    $(SCALA) \
+    $(TERRAFORM)
 
 .PHONY: clean
 clean:
