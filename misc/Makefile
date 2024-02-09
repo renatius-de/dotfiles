@@ -21,6 +21,7 @@ MAKE = $(PLUGINS)/make
 MAVEN = $(PLUGINS)/maven
 NEOVIM = $(PLUGINS)/neovim
 NODEJS = $(PLUGINS)/nodejs
+PYTHON = $(PLUGINS)/python
 SBT = $(PLUGINS)/sbt
 SCALA = $(PLUGINS)/scala
 TERRAFORM = $(PLUGINS)/terraform
@@ -109,6 +110,11 @@ $(NODEJS): | $(DIR_ASDF)
 	$(COMMAND_ASDF) plugin add nodejs
 	$(COMMAND_ASDF) install nodejs latest
 	$(COMMAND_ASDF) global nodejs latest
+
+$(PYTHON): | $(DIR_ASDF)
+	$(COMMAND_ASDF) plugin add python
+	$(COMMAND_ASDF) install python latest
+	$(COMMAND_ASDF) global python latest
 
 $(SBT): | $(DIR_ASDF)
 	$(COMMAND_ASDF) plugin add sbt
