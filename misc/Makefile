@@ -7,7 +7,6 @@ PLUGINS = $(DIR_ASDF)/plugins
 COMMAND_ASDF = $(DIR_ASDF)/bin/asdf
 
 DENO = $(PLUGINS)/deno
-GIT = $(PLUGINS)/git
 GRADLE = $(PLUGINS)/gradle
 HELM = $(PLUGINS)/helm
 JAVA = $(PLUGINS)/java
@@ -34,10 +33,6 @@ $(DIR_ASDF): | $(ASDF_CONFIG)
 $(DENO): | $(DIR_ASDF)
 	$(COMMAND_ASDF) plugin add deno
 	$(COMMAND_ASDF) install deno latest
-
-$(GIT): | $(DIR_ASDF)
-	$(COMMAND_ASDF) plugin add git
-	$(COMMAND_ASDF) install git latest
 
 $(GRADLE): | $(DIR_ASDF)
 	$(COMMAND_ASDF) plugin add gradle
