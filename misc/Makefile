@@ -58,8 +58,7 @@ $(JAVA): $(DIR_ASDF)
 	$(COMMAND_ASDF) install java latest:corretto-11
 	$(COMMAND_ASDF) install java latest:corretto-17
 	$(COMMAND_ASDF) install java latest:corretto-21
-	$(COMMAND_ASDF) install java latest
-	$(COMMAND_ASDF) global java latest
+	$(COMMAND_ASDF) global java latest:corretto-21
 
 $(JQ): $(DIR_ASDF)
 	$(COMMAND_ASDF) plugin add jq
