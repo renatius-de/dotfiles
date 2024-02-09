@@ -17,7 +17,6 @@ KOTLIN = $(PLUGINS)/kotlin
 KUBECTL = $(PLUGINS)/kubectl
 KUBECTX = $(PLUGINS)/kubectx
 KUBELOGIN = $(PLUGINS)/kubelogin
-MAKE = $(PLUGINS)/make
 MAVEN = $(PLUGINS)/maven
 NEOVIM = $(PLUGINS)/neovim
 NODEJS = $(PLUGINS)/nodejs
@@ -90,11 +89,6 @@ $(KUBELOGIN): | $(DIR_ASDF)
 	$(COMMAND_ASDF) install kubelogin latest
 	$(COMMAND_ASDF) global kubelogin latest
 
-$(MAKE): | $(DIR_ASDF)
-	$(COMMAND_ASDF) plugin add make
-	$(COMMAND_ASDF) install make latest
-	$(COMMAND_ASDF) global make latest
-
 $(MAVEN): | $(DIR_ASDF)
 	$(COMMAND_ASDF) plugin add maven
 	$(COMMAND_ASDF) install maven latest
@@ -142,7 +136,6 @@ asdf: | \
     $(KUBECTL) \
     $(KUBECTX) \
     $(KUBELOGIN) \
-    $(MAKE) \
     $(MAVEN) \
     $(NEOVIM) \
     $(NODEJS) \
