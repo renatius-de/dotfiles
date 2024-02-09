@@ -7,6 +7,7 @@ PLUGINS = $(DIR_ASDF)/plugins
 COMMAND_ASDF = $(DIR_ASDF)/bin/asdf
 
 DENO = $(PLUGINS)/deno
+EDITORCONFIG_CHECKER = $(PLUGINS)/editorconfig-checker
 GRADLE = $(PLUGINS)/gradle
 HELM = $(PLUGINS)/helm
 JAVA = $(PLUGINS)/java
@@ -29,6 +30,11 @@ $(ASDF_CONFIG):
 
 $(DIR_ASDF): | $(ASDF_CONFIG)
 	git clone https://github.com/asdf-vm/asdf.git $(DIR_ASDF)
+
+$(EDITORCONFIG_CHECKER): | $(DIR_ASDF)
+	$(COMMAND_ASDF) plugin add editorconfig-checker
+	$(COMMAND_ASDF) install editorconfig-checker latest
+	$(COMMAND_ASDF) global editorconfig-checker latest
 
 $(DENO): | $(DIR_ASDF)
 	$(COMMAND_ASDF) plugin add deno
