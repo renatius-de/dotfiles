@@ -6,8 +6,8 @@ PLUGINS = $(DIR_ASDF)/plugins
 
 COMMAND_ASDF = $(DIR_ASDF)/bin/asdf
 
+ALIAS = $(PLUGINS)/alias
 DENO = $(PLUGINS)/deno
-EDITORCONFIG_CHECKER = $(PLUGINS)/editorconfig-checker
 GRADLE = $(PLUGINS)/gradle
 HELM = $(PLUGINS)/helm
 JAVA = $(PLUGINS)/java
@@ -19,6 +19,7 @@ KUBECTX = $(PLUGINS)/kubectx
 KUBELOGIN = $(PLUGINS)/kubelogin
 MAVEN = $(PLUGINS)/maven
 NEOVIM = $(PLUGINS)/neovim
+NERDCTL = $(PLUGINS)/nerdctl
 NODEJS = $(PLUGINS)/nodejs
 PYTHON = $(PLUGINS)/python
 SBT = $(PLUGINS)/sbt
@@ -31,10 +32,10 @@ $(ASDF_CONFIG):
 $(DIR_ASDF): | $(ASDF_CONFIG)
 	git clone https://github.com/asdf-vm/asdf.git $(DIR_ASDF)
 
-$(EDITORCONFIG_CHECKER): | $(DIR_ASDF)
-	$(COMMAND_ASDF) plugin add editorconfig-checker
-	$(COMMAND_ASDF) install editorconfig-checker latest
-	$(COMMAND_ASDF) global editorconfig-checker latest
+$(ALIAS): | $(DIR_ASDF)
+	$(COMMAND_ASDF) plugin add alias
+	$(COMMAND_ASDF) install alias latest
+	$(COMMAND_ASDF) global alias latest
 
 $(DENO): | $(DIR_ASDF)
 	$(COMMAND_ASDF) plugin add deno
@@ -51,12 +52,16 @@ $(HELM): | $(DIR_ASDF)
 	$(COMMAND_ASDF) install helm latest
 	$(COMMAND_ASDF) global helm latest
 
-$(JAVA): $(DIR_ASDF)
+$(JAVA): | $(DIR_ASDF) $(ALIAS))
 	$(COMMAND_ASDF) plugin add java
 	$(COMMAND_ASDF) install java latest:corretto-8
+	$(COMMAND_ASDF) alias java 8 latest:corretto-8
 	$(COMMAND_ASDF) install java latest:corretto-11
+	$(COMMAND_ASDF) alias java 11 latest:corretto-11
 	$(COMMAND_ASDF) install java latest:corretto-17
+	$(COMMAND_ASDF) alias java 17 latest:corretto-17
 	$(COMMAND_ASDF) install java latest:corretto-21
+	$(COMMAND_ASDF) alias java 21 latest:corretto-21
 	$(COMMAND_ASDF) global java latest:corretto-21
 
 $(JQ): $(DIR_ASDF)
@@ -98,6 +103,11 @@ $(NEOVIM): | $(DIR_ASDF)
 	$(COMMAND_ASDF) plugin add neovim
 	$(COMMAND_ASDF) install neovim latest
 	$(COMMAND_ASDF) global neovim latest
+
+$(NERDCTL): | $(DIR_ASDF)
+	$(COMMAND_ASDF) plugin add nerdctl
+	$(COMMAND_ASDF) install nerdctl latest
+	$(COMMAND_ASDF) global nerdctl latest
 
 $(NODEJS): | $(DIR_ASDF)
 	$(COMMAND_ASDF) plugin add nodejs
