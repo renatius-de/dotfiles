@@ -19,7 +19,6 @@ KUBECTX = $(PLUGINS)/kubectx
 KUBELOGIN = $(PLUGINS)/kubelogin
 MAVEN = $(PLUGINS)/maven
 NEOVIM = $(PLUGINS)/neovim
-NERDCTL = $(PLUGINS)/nerdctl
 NODEJS = $(PLUGINS)/nodejs
 PYTHON = $(PLUGINS)/python
 SBT = $(PLUGINS)/sbt
@@ -52,16 +51,13 @@ $(HELM): | $(DIR_ASDF)
 	$(COMMAND_ASDF) install helm latest
 	$(COMMAND_ASDF) global helm latest
 
-$(JAVA): | $(DIR_ASDF) $(ALIAS))
+$(JAVA): | $(DIR_ASDF) $(ALIAS)
 	$(COMMAND_ASDF) plugin add java
 	$(COMMAND_ASDF) install java latest:corretto-8
-	$(COMMAND_ASDF) alias java 8 latest:corretto-8
 	$(COMMAND_ASDF) install java latest:corretto-11
-	$(COMMAND_ASDF) alias java 11 latest:corretto-11
 	$(COMMAND_ASDF) install java latest:corretto-17
-	$(COMMAND_ASDF) alias java 17 latest:corretto-17
 	$(COMMAND_ASDF) install java latest:corretto-21
-	$(COMMAND_ASDF) alias java 21 latest:corretto-21
+	$(COMMAND_ASDF) alias java --auto
 	$(COMMAND_ASDF) global java latest:corretto-21
 
 $(JQ): $(DIR_ASDF)
@@ -104,11 +100,6 @@ $(NEOVIM): | $(DIR_ASDF)
 	$(COMMAND_ASDF) install neovim latest
 	$(COMMAND_ASDF) global neovim latest
 
-$(NERDCTL): | $(DIR_ASDF)
-	$(COMMAND_ASDF) plugin add nerdctl
-	$(COMMAND_ASDF) install nerdctl latest
-	$(COMMAND_ASDF) global nerdctl latest
-
 $(NODEJS): | $(DIR_ASDF)
 	$(COMMAND_ASDF) plugin add nodejs
 	$(COMMAND_ASDF) install nodejs latest
@@ -136,7 +127,8 @@ $(TERRAFORM): | $(DIR_ASDF)
 
 .PHONY: asdf
 asdf: | \
-	$(DENO) \
+	$(ALIAS) \
+    $(DENO) \
     $(GRADLE) \
     $(HELM) \
     $(JAVA) \
@@ -149,6 +141,7 @@ asdf: | \
     $(MAVEN) \
     $(NEOVIM) \
     $(NODEJS) \
+    $(PYTHON) \
     $(SBT) \
     $(SCALA) \
     $(TERRAFORM)
