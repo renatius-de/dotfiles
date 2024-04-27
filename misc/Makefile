@@ -8,6 +8,7 @@ COMMAND_ASDF = $(DIR_ASDF)/bin/asdf
 
 ALIAS = $(PLUGINS)/alias
 DENO = $(PLUGINS)/deno
+GOLANG = $(PLUGINS)/golang
 GRADLE = $(PLUGINS)/gradle
 HELM = $(PLUGINS)/helm
 JAVA = $(PLUGINS)/java
@@ -42,6 +43,12 @@ $(DENO): | $(DIR_ASDF)
 	$(COMMAND_ASDF) install deno latest
 	$(COMMAND_ASDF) global deno latest
 	$(COMMAND_ASDF) alias deno --auto
+
+$(GOLANG): | $(DIR_ASDF)
+	$(COMMAND_ASDF) plugin add golang
+	$(COMMAND_ASDF) install golang latest
+	$(COMMAND_ASDF) global golang latest
+	$(COMMAND_ASDF) alias golang --auto
 
 $(GRADLE): | $(DIR_ASDF)
 	$(COMMAND_ASDF) plugin add gradle
@@ -150,6 +157,7 @@ $(TERRAFORM): | $(DIR_ASDF)
 asdf: | \
 	$(ALIAS) \
     $(DENO) \
+    $(GOLANG) \
     $(GRADLE) \
     $(HELM) \
     $(JAVA) \
