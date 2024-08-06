@@ -1,0 +1,12 @@
+include config.local
+
+Host *
+    CheckHostIP yes
+    Compression yes
+    EnableSSHKeysign yes
+    ExitOnForwardFailure yes
+    HashKnownHosts yes
+    IdentitiesOnly yes
+    PubKeyAuthentication yes
+    StrictHostKeyChecking yes
+    UseKeychain yes
