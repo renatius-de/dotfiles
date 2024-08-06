@@ -38,8 +38,7 @@ which chattr >/dev/null 2>&1 && alias chattr="chattr -R"
 
 if which mvn >/dev/null 2>&1; then
   alias mvn="mvn --errors --fail-fast --update-snapshots --update-plugins"
-  alias mk="mvn clean install -DskipTests -DskipITs"
-  alias mka="mvn clean install"
+  alias mka="mvn clean install site"
 fi
 
 if which nvim >/dev/null 2>&1; then
