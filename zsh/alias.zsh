@@ -37,7 +37,7 @@ which lsattr >/dev/null 2>&1 && alias lsattr="lsattr -a"
 which chattr >/dev/null 2>&1 && alias chattr="chattr -R"
 
 if which mvn >/dev/null 2>&1; then
-  alias mvn="mvn --errors --fail-fast --update-snapshots --update-plugins"
+  alias mvn="mvn --errors --fail-fast --update-snapshots"
   alias mka="mvn clean install site"
 fi
 
