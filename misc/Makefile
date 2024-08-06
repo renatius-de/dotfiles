@@ -49,10 +49,10 @@ $(JAVA): | $(DIR_ASDF) $(ALIAS)
 	$(COMMAND_ASDF) plugin add java
 	$(COMMAND_ASDF) install java latest:corretto-17
 	$(COMMAND_ASDF) install java latest:corretto-21
-	$(COMMAND_ASDF) global java latest:corretto-21
 	$(COMMAND_ASDF) alias java --auto
 	$(COMMAND_ASDF) alias java 17 latest:corretto-17
 	$(COMMAND_ASDF) alias java 21 latest:corretto-21
+	$(COMMAND_ASDF) global java corretto-21
 
 $(JQ): $(DIR_ASDF)
 	$(COMMAND_ASDF) plugin add jq
