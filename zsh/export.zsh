@@ -26,6 +26,5 @@ fi
 export EDITOR="${EDITOR:-vi}"
 export VISUAL="${VISUAL:-${EDITOR}}"
 
-export MANWIDTH="72"
-export TAR_OPTIONS="--auto-compress --delay-directory-restore --exclude-backups --exclude-caches --no-overwrite-dir --numeric-owner --totals"
+export MANWIDTH="120"
 export TZ="Europe/Berlin"
