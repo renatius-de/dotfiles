@@ -19,6 +19,7 @@ alias grep="grep --color=auto"
 
 if which docker-compose > /dev/null 2>&1; then
   alias dc="docker compose"
+  alias dcsprune="docker system prune --all --force --volumes"
 
   alias dcb="dc build"
   alias dcdn="dc down --remove-orphans --volumes"
@@ -32,6 +33,7 @@ if which mvn > /dev/null 2>&1; then
   alias mvn="mvn --errors --fail-fast --update-snapshots"
 
   alias mka="mvn clean install site"
+  alias mkas="mka -DskipTest -DskipIT"
   alias mkd="mvn -P dev"
 fi
 
