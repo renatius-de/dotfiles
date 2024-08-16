@@ -1,34 +1,20 @@
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
-DIRECTORY = $(HOME)/.vim
-NEOVIM_DIRECTORY = $(HOME)/.config/nvim
-
-VIM_CONFIG = $(HOME)/.vimrc
-NEOVIM_CONFIG = $(NEOVIM_DIRECTORY)/init.vim
-
 CACHE = $(HOME)/.cache
-VIM_CACHE = $(CACHE)/vim
-NEOVIM_CACHE = $(CACHE)/nvim
-
 SHARE = $(HOME)/.local/share
 
-$(DIRECTORY):
-	ln -snf $(ROOT_DIR) $(DIRECTORY)
+NEOVIM_DIRECTORY = $(HOME)/.config/nvim
+NEOVIM_CONFIG = $(NEOVIM_DIRECTORY)/init.vim
+NEOVIM_CACHE = $(CACHE)/nvim
 
 $(NEOVIM_CACHE):
 	mkdir -p $(NEOVIM_CACHE)
 
-$(NEOVIM_CONFIG): | $(NEOVIM_DIRECTORY)
-	ln -snf $(ROOT_DIR)/config/nvimrc $(NEOVIM_CONFIG)
+$(NEOVIM_CONFIG): | $(NEOVIM_DIRECTORY)  $(NEOVIM_CACHE)
+	ln -snf $(ROOT_DIR)/nvimrc $(NEOVIM_CONFIG)
 
 $(NEOVIM_DIRECTORY):
 	mkdir -p $(NEOVIM_DIRECTORY)
-
-$(VIM_CACHE):
-	mkdir -p $(VIM_CACHE)
-
-$(VIM_CONFIG):
-	ln -snf $(ROOT_DIR)/vimrc $(VIM_CONFIG)
 
 .PHONY: clean
 clean:
@@ -42,18 +28,17 @@ clean:
 	rm -fr $(SHARE)/nvim
 	rm -fr $(SHARE)/vim
 	#
-	rm -f $(DIRECTORY)
+	rm -f $(HOME)/.vim
 	rm -fr $(NEOVIM_DIRECTORY)
 	#
-	rm -f $(VIM_CONFIG)
+	rm -f $(HOME)/.vimrc
 	rm -f $(NEOVIM_CONFIG)
 	#
-	rm -fr $(VIM_CACHE)
+	rm -fr $(CACHE)/vim
 	rm -fr $(NEOVIM_CACHE)
 
 .PHONY: install
-install: | $(DIRECTORY) $(VIM_CONFIG) $(NEOVIM_CONFIG) $(VIM_CACHE) $(NEOVIM_CACHE)
+install: | $(NEOVIM_CONFIG)
 
 .PHONY: upgrade
 upgrade: | install
-	#
