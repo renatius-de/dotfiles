@@ -6,7 +6,13 @@ SSH_CONFIG = $(DIRECTORY)/config
 $(DIRECTORY):
 	mkdir -m 0700 $(DIRECTORY)
 
-$(SSH_CONFIG): | $(DIRECTORY)
+$(DIRECTORY)/keys:
+	mkdir -m 0700 $(DIRECTORY)/keys
+
+$(HOME)/.ssh/config.local: | $(DIRECTORY)
+	touch $(SSH_CONFIG).local
+
+$(SSH_CONFIG): | $(DIRECTORY) $(HOME)/.ssh/config.local
 	ln -snf $(ROOT_DIR)/config $(SSH_CONFIG)
 
 .PHONY: clean

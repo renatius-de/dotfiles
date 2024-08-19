@@ -1,3 +1,8 @@
+Match host="github.*,gitlab.*,bitbucket.*"
+    IdentitiesOnly yes
+    PasswordAuthentication no
+    User git
+
 include config.local
 
 Host *
