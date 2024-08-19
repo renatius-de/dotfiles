@@ -15,6 +15,9 @@ $(GIT_ATTRIBUTES):
 $(GIT_CONFIG):
 	ln -snf $(ROOT_DIR)/config $(GIT_CONFIG)
 
+$(HOME)/.gitconfig.local:
+	touch $(HOME)/.gitconfig.local
+
 $(GIT_IGNORE):
 	git clone --quiet --depth=1 https://github.com/github/gitignore.git $(GIT_IGNORE)
 
