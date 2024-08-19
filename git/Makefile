@@ -37,9 +37,6 @@ install: | $(DIRECTORY) $(GIT_CONFIG) plugin
 
 .PHONY: upgrade
 upgrade: | install
-
-	cd $(GIT_ATTRIBUTES)
-	git pull --depth=1 --quiet --update-shallow
+	git -C $(GIT_ATTRIBUTES) pull --depth=1 --quiet --update-shallow
 	#
-	cd $(GIT_IGNORE)
-	git pull --depth=1 --quiet --update-shallow
+	git -C $(GIT_IGNORE) pull --depth=1 --quiet --update-shallow

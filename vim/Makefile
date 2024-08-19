@@ -7,6 +7,8 @@ NEOVIM_DIRECTORY = $(HOME)/.config/nvim
 NEOVIM_CONFIG = $(NEOVIM_DIRECTORY)/init.vim
 NEOVIM_CACHE = $(CACHE)/nvim
 
+VIM_CONFIG = $(HOME)/.vimrc
+
 $(NEOVIM_CACHE):
 	mkdir -p $(NEOVIM_CACHE)
 
@@ -15,6 +17,9 @@ $(NEOVIM_CONFIG): | $(NEOVIM_DIRECTORY)  $(NEOVIM_CACHE)
 
 $(NEOVIM_DIRECTORY):
 	mkdir -p $(NEOVIM_DIRECTORY)
+
+$(VIM_CONFIG):
+	ln -snf $(ROOT_DIR)/vimrc $(VIM_CONFIG)
 
 .PHONY: clean
 clean:
@@ -31,14 +36,14 @@ clean:
 	rm -f $(HOME)/.vim
 	rm -fr $(NEOVIM_DIRECTORY)
 	#
-	rm -f $(HOME)/.vimrc
+	rm -f $(VIM_CONFIG)
 	rm -f $(NEOVIM_CONFIG)
 	#
 	rm -fr $(CACHE)/vim
 	rm -fr $(NEOVIM_CACHE)
 
 .PHONY: install
-install: | $(NEOVIM_CONFIG)
+install: | $(NEOVIM_CONFIG) $(VIM_CONFIG)
 
 .PHONY: upgrade
 upgrade: | install
