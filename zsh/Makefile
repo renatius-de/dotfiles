@@ -62,5 +62,4 @@ install: | plugin configuration
 
 .PHONY: upgrade
 upgrade: | install
-	cd $(ANTIGEN)
-	git pull --quiet --depth=1 --update-shallow
+	git -C $(ANTIGEN) pull --quiet --depth=1 --update-shallow

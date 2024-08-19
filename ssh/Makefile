@@ -15,3 +15,6 @@ clean:
 
 .PHONY: install
 install: | $(SSH_CONFIG)
+
+.PHONY: upgrade
+upgrade: | install

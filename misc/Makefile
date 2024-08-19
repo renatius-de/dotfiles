@@ -17,7 +17,6 @@ KOTLIN = $(INSTALLS)/kotlin
 KUBECTL = $(INSTALLS)/kubectl
 KUBECTX = $(INSTALLS)/kubectx
 KUBELOGIN = $(INSTALLS)/kubelogin
-KUBIE = $(INSTALLS)/kubie
 MAVEN = $(INSTALLS)/maven
 NEOVIM = $(INSTALLS)/neovim
 NODEJS = $(INSTALLS)/nodejs
@@ -50,7 +49,7 @@ $(HELM): | $(DIR_ASDF)
 	$(COMMAND_ASDF) install helm latest
 	$(COMMAND_ASDF) global helm latest
 
-$(JAVA): | $(DIR_ASDF)
+$(JAVA): | $(ALIAS) $(DIR_ASDF)
 	$(COMMAND_ASDF) plugin add java
 	$(COMMAND_ASDF) install java latest:corretto
 	$(COMMAND_ASDF) alias java --auto
@@ -94,11 +93,6 @@ $(KUBELOGIN): | $(DIR_ASDF)
 	$(COMMAND_ASDF) install kubelogin latest
 	$(COMMAND_ASDF) global kubelogin latest
 
-$(KUBIE): | $(DIR_ASDF)
-	$(COMMAND_ASDF) plugin add kubie
-	$(COMMAND_ASDF) install kubie latest
-	$(COMMAND_ASDF) global kubie latest
-
 $(MAVEN): | $(DIR_ASDF)
 	$(COMMAND_ASDF) plugin add maven
 	$(COMMAND_ASDF) install maven latest
@@ -124,29 +118,6 @@ $(PYTHON): | $(DIR_ASDF)
 	$(COMMAND_ASDF) install python latest
 	$(COMMAND_ASDF) global python latest
 
-asdf: | \
-	$(ALIAS) \
-	$(GRADLE) \
-	$(HELM) \
-	$(JAVA) \
-	$(JAVA)/corretto-17 \
-	$(JAVA)/corretto-21 \
-	$(JQ) \
-	$(K9S) \
-	$(KOTLIN) \
-	$(KUBECTL) \
-	$(KUBECTX) \
-	$(MAVEN) \
-	$(NEOVIM) \
-	$(NODEJS) \
-	$(PNPM) \
-	$(PYTHON) \
-	#
-
-asdf_upgrade: | asdf
-	$(COMMAND_ASDF) update
-	$(COMMAND_ASDF) plugin update --all
-
 .PHONY: clean
 clean:
 	rm -fr $(HOME)/.tool-versions
@@ -162,7 +133,28 @@ clean:
 	rm -rf $(HOME)/.npm
 
 .PHONY: install
-install: | asdf
+install: | \
+	$(ALIAS) \
+	$(CHEAT) \
+	$(GRADLE) \
+	$(HELM) \
+	$(JAVA) \
+	$(JQ) \
+	$(K9S) \
+	$(KOTLIN) \
+	$(KUBECTL) \
+	$(KUBECTX) \
+	$(KUBELOGIN) \
+	$(MAVEN) \
+	$(NEOVIM) \
+	$(NODEJS) \
+	$(PNPM) \
+	$(PYTHON) \
+	$(JAVA)/corretto-17 \
+	$(JAVA)/corretto-21 \
+	#
 
 .PHONY: upgrade
-upgrade: | asdf_upgrade
+upgrade: | install
+	$(COMMAND_ASDF) update
+	$(COMMAND_ASDF) plugin update --all
