@@ -1,3 +1,4 @@
+.DEFAULT_GOAL := install
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 DIRECTORY = $(HOME)/.ssh
@@ -15,12 +16,12 @@ $(HOME)/.ssh/config.local: | $(DIRECTORY)
 $(SSH_CONFIG): | $(DIRECTORY) $(HOME)/.ssh/config.local
 	ln -snf $(ROOT_DIR)/config $(SSH_CONFIG)
 
-.PHONY: clean
-clean:
-	rm -f $(SSH_CONFIG)
-
 .PHONY: install
 install: | $(SSH_CONFIG)
 
 .PHONY: upgrade
 upgrade: | install
+
+.PHONY: clean
+clean:
+	rm -f $(SSH_CONFIG)

@@ -1,3 +1,4 @@
+.DEFAULT_GOAL := install
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 ASDF_CONFIG = $(HOME)/.asdfrc
@@ -118,20 +119,6 @@ $(PYTHON): | $(DIR_ASDF)
 	$(COMMAND_ASDF) install python latest
 	$(COMMAND_ASDF) global python latest
 
-.PHONY: clean
-clean:
-	rm -fr $(HOME)/.tool-versions
-	#
-	rm -fr $(ASDF_CONFIG)
-	rm -fr $(DIR_ASDF)
-	#
-	rm -fr $(HOME)/.config/cheat
-	#
-	rm -fr $(HOME)/.sdkman
-	#
-	rm -rf $(HOME)/.nvm
-	rm -rf $(HOME)/.npm
-
 .PHONY: install
 install: | \
 	$(ALIAS) \
@@ -158,3 +145,17 @@ install: | \
 upgrade: | install
 	$(COMMAND_ASDF) update
 	$(COMMAND_ASDF) plugin update --all
+
+.PHONY: clean
+clean:
+	rm -fr $(HOME)/.tool-versions
+	#
+	rm -fr $(ASDF_CONFIG)
+	rm -fr $(DIR_ASDF)
+	#
+	rm -fr $(HOME)/.config/cheat
+	#
+	rm -fr $(HOME)/.sdkman
+	#
+	rm -rf $(HOME)/.nvm
+	rm -rf $(HOME)/.npm

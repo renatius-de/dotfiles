@@ -1,3 +1,4 @@
+.DEFAULT_GOAL := install
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 DIRECTORY = $(HOME)/.git
@@ -23,6 +24,15 @@ $(GIT_IGNORE):
 
 plugin: | $(GIT_ATTRIBUTES) $(GIT_IGNORE)
 
+.PHONY: install
+install: | $(DIRECTORY) $(GIT_CONFIG) plugin
+
+.PHONY: upgrade
+upgrade: | install
+	git -C $(GIT_ATTRIBUTES) pull --depth=1 --quiet --update-shallow
+	#
+	git -C $(GIT_IGNORE) pull --depth=1 --quiet --update-shallow
+
 .PHONY: clean
 clean:
 	rm -f $(HOME)/.git_template
@@ -34,12 +44,3 @@ clean:
 	#
 	rm -fr $(GIT_ATTRIBUTES)
 	rm -fr $(GIT_IGNORE)
-
-.PHONY: install
-install: | $(DIRECTORY) $(GIT_CONFIG) plugin
-
-.PHONY: upgrade
-upgrade: | install
-	git -C $(GIT_ATTRIBUTES) pull --depth=1 --quiet --update-shallow
-	#
-	git -C $(GIT_IGNORE) pull --depth=1 --quiet --update-shallow
