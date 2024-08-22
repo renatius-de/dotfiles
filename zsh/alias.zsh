@@ -17,7 +17,7 @@ alias rd="rmdir -p"
 
 alias grep="grep --color=auto"
 
-if which docker-compose > /dev/null 2>&1; then
+if which docker > /dev/null 2>&1; then
   alias dc="docker compose"
   alias dcsprune="docker system prune --all --force --volumes"
 
