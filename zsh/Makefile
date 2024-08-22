@@ -1,3 +1,4 @@
+.DEFAULT_GOAL := install
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 ZSH_DIR = $(HOME)/.zsh
@@ -35,6 +36,22 @@ $(ZSH_LOGOUT):
 $(ZSH_PROFILE):
 	ln -snf $(ROOT_DIR)/zprofile $(ZSH_PROFILE)
 
+configuration: | \
+ 	$(ZSH_DIR) \
+ 	$(ZSH_CACHE) \
+ 	$(ZSH_CONFIG) \
+ 	$(ZSH_ENV) \
+ 	$(ZSH_LOGOUT) \
+ 	$(ZSH_PROFILE) \
+	#
+
+.PHONY: install
+install: | plugin configuration
+
+.PHONY: upgrade
+upgrade: | install
+	git -C $(ANTIGEN) pull --quiet --depth=1 --update-shallow
+
 .PHONY: clean
 clean:
 	rm -f $(HOME)/.fzf.zsh
@@ -54,12 +71,3 @@ clean:
 	rm -f $(ZSH_ENV)
 	rm -f $(ZSH_LOGOUT)
 	rm -f $(ZSH_PROFILE)
-
-configuration: | $(ZSH_DIR) $(ZSH_CACHE) $(ZSH_CONFIG) $(ZSH_ENV) $(ZSH_LOGOUT) $(ZSH_PROFILE)
-
-.PHONY: install
-install: | plugin configuration
-
-.PHONY: upgrade
-upgrade: | install
-	git -C $(ANTIGEN) pull --quiet --depth=1 --update-shallow

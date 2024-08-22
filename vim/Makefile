@@ -1,3 +1,4 @@
+.DEFAULT_GOAL := install
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 CACHE = $(HOME)/.cache
@@ -21,6 +22,12 @@ $(NEOVIM_DIRECTORY):
 $(VIM_CONFIG):
 	ln -snf $(ROOT_DIR)/vimrc $(VIM_CONFIG)
 
+.PHONY: install
+install: | $(NEOVIM_CONFIG) $(VIM_CONFIG)
+
+.PHONY: upgrade
+upgrade: | install
+
 .PHONY: clean
 clean:
 	rm -f $(HOME)/.ctags
@@ -41,9 +48,3 @@ clean:
 	#
 	rm -fr $(CACHE)/vim
 	rm -fr $(NEOVIM_CACHE)
-
-.PHONY: install
-install: | $(NEOVIM_CONFIG) $(VIM_CONFIG)
-
-.PHONY: upgrade
-upgrade: | install
