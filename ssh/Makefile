@@ -4,21 +4,22 @@ ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 DIRECTORY = $(HOME)/.ssh
 SSH_CONFIG = $(DIRECTORY)/config
+SSH_CONFIG_LOCAL = $(DIRECTORY)/config.local
 
 $(DIRECTORY):
 	mkdir -m 0700 $(DIRECTORY)
 
-$(DIRECTORY)/keys:
+$(DIRECTORY)/keys: | $(DIRECTORY)
 	mkdir -m 0700 $(DIRECTORY)/keys
 
-$(HOME)/.ssh/config.local: | $(DIRECTORY)
+$(SSH_CONFIG_LOCAL): | $(DIRECTORY)/keys
 	touch $(SSH_CONFIG).local
 
-$(SSH_CONFIG): | $(DIRECTORY) $(HOME)/.ssh/config.local
+$(SSH_CONFIG): | $(DIRECTORY)
 	ln -snf $(ROOT_DIR)/config $(SSH_CONFIG)
 
 .PHONY: install
-install: | $(SSH_CONFIG)
+install: | $(SSH_CONFIG) $(SSH_CONFIG_LOCAL)
 
 .PHONY: upgrade
 upgrade: | install
