@@ -1,4 +1,5 @@
 .DEFAULT_GOAL := install
+.DELETE_ON_ERROR:
 
 .PHONY: install
 install:
