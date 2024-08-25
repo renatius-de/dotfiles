@@ -10,6 +10,7 @@ COMMAND_ASDF = $(DIR_ASDF)/bin/asdf
 
 ALIAS = $(INSTALLS)/alias
 CHEAT = $(INSTALLS)/cheat
+FLYWAY = $(INSTALLS)/flyway
 GRADLE = $(INSTALLS)/gradle
 HELM = $(INSTALLS)/helm
 JAVA = $(INSTALLS)/java
@@ -18,7 +19,7 @@ K9S = $(INSTALLS)/k9s
 KOTLIN = $(INSTALLS)/kotlin
 KUBECTL = $(INSTALLS)/kubectl
 KUBECTX = $(INSTALLS)/kubectx
-KUBELOGIN = $(INSTALLS)/kubelogin
+LIQUIBASE = $(INSTALLS)/liquibase
 MAVEN = $(INSTALLS)/maven
 NEOVIM = $(INSTALLS)/neovim
 NODEJS = $(INSTALLS)/nodejs
@@ -41,6 +42,11 @@ $(CHEAT): | $(DIR_ASDF)
 	$(COMMAND_ASDF) install cheat latest
 	$(COMMAND_ASDF) global cheat latest
 
+$(FLYWAY): | $(DIR_ASDF)
+	$(COMMAND_ASDF) plugin add flyway
+	$(COMMAND_ASDF) install flyway latest
+	$(COMMAND_ASDF) global flyway latest
+
 $(GRADLE): | $(DIR_ASDF)
 	$(COMMAND_ASDF) plugin add gradle
 	$(COMMAND_ASDF) install gradle latest
@@ -54,6 +60,7 @@ $(HELM): | $(DIR_ASDF)
 $(JAVA): | $(ALIAS) $(DIR_ASDF)
 	$(COMMAND_ASDF) plugin add java
 	$(COMMAND_ASDF) install java latest:corretto
+	$(COMMAND_ASDF) global java latest:corretto
 	$(COMMAND_ASDF) alias java --auto
 
 $(JAVA)/corretto-17: | $(JAVA)
@@ -90,10 +97,10 @@ $(KUBECTX): | $(DIR_ASDF)
 	$(COMMAND_ASDF) install kubectx latest
 	$(COMMAND_ASDF) global kubectx latest
 
-$(KUBELOGIN): | $(DIR_ASDF)
-	$(COMMAND_ASDF) plugin add kubelogin
-	$(COMMAND_ASDF) install kubelogin latest
-	$(COMMAND_ASDF) global kubelogin latest
+$(LIQUIBASE): | $(DIR_ASDF)
+	$(COMMAND_ASDF) plugin add liquibase
+	$(COMMAND_ASDF) install liquibase latest
+	$(COMMAND_ASDF) global liquibase latest
 
 $(MAVEN): | $(DIR_ASDF)
 	$(COMMAND_ASDF) plugin add maven
@@ -124,6 +131,7 @@ $(PYTHON): | $(DIR_ASDF)
 install: | \
 	$(ALIAS) \
 	$(CHEAT) \
+	$(FLYWAY) \
 	$(GRADLE) \
 	$(HELM) \
 	$(JAVA) \
@@ -132,12 +140,13 @@ install: | \
 	$(KOTLIN) \
 	$(KUBECTL) \
 	$(KUBECTX) \
-	$(KUBELOGIN) \
+	$(LIQUIBASE) \
 	$(MAVEN) \
 	$(NEOVIM) \
 	$(NODEJS) \
 	$(PNPM) \
 	$(PYTHON) \
+	\
 	$(JAVA)/corretto-17 \
 	$(JAVA)/corretto-21 \
 	#
