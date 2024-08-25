@@ -1,4 +1,5 @@
 .DEFAULT_GOAL := install
+.DELETE_ON_ERROR:
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 ASDF_CONFIG = $(HOME)/.asdfrc
