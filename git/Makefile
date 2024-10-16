@@ -23,16 +23,19 @@ $(HOME)/.gitconfig.local:
 $(GIT_IGNORE):
 	git clone --quiet --depth=1 https://github.com/github/gitignore.git $(GIT_IGNORE)
 
+pre_remove:
+	rm -fr $(GIT_ATTRIBUTES)
+	rm -fr $(GIT_IGNORE)
+
 plugin: | $(GIT_ATTRIBUTES) $(GIT_IGNORE)
 
 .PHONY: install
 install: | $(DIRECTORY) $(GIT_CONFIG) plugin
 
 .PHONY: upgrade
-upgrade: | install
-	git -C $(GIT_ATTRIBUTES) pull --depth=1 --quiet --update-shallow
-	#
-	git -C $(GIT_IGNORE) pull --depth=1 --quiet --update-shallow
+upgrade: | \
+	pre_remove \
+	install \
 
 .PHONY: clean
 clean:
