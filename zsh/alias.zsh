@@ -29,13 +29,15 @@ if which docker > /dev/null 2>&1; then
   alias dcup="dc up --build --detach --quiet-pull --remove-orphans --wait"
 fi
 
+which kubectl > /dev/null 2>&1 && alias k="kubectl"
+
 if which mvn > /dev/null 2>&1; then
   alias mvn="mvn --errors --fail-fast --update-snapshots"
 
   alias mvna="mvn clean install"
   alias mvnac="mvn -DskipTests -DskipITs clean install"
-  alias mvnad="mvna -P dev"
-  alias mvnadc="mvnac -P dev"
+
+  alias mvni="mvn -pl integration-test -P integration-test clean verify"
 fi
 
 if which nvim > /dev/null 2>&1; then
