@@ -75,6 +75,12 @@ java: | $(JAVA)
 	$(COMMAND_ASDF) global java latest:corretto
 	$(COMMAND_ASDF) alias java --auto
 
+$(JAVA)/corretto-11: | $(JAVA)
+
+java-11: | $(JAVA)/corretto-11
+	$(COMMAND_ASDF) install java latest:corretto-11
+	$(COMMAND_ASDF) alias java --auto
+
 $(JAVA)/corretto-17: | $(JAVA)
 
 java-17: | $(JAVA)/corretto-17
@@ -174,6 +180,7 @@ install: | \
 	gradle \
 	helm \
 	java \
+	java-11 \
 	java-17 \
 	java-21 \
 	jq \
