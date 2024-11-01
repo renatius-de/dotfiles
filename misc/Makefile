@@ -148,8 +148,9 @@ $(NODEJS): | $(DIR_ASDF)
 	$(COMMAND_ASDF) plugin add nodejs
 
 nodejs: | $(NODEJS)
-	$(COMMAND_ASDF) install nodejs latest
-	$(COMMAND_ASDF) global nodejs latest
+	$(COMMAND_ASDF) nodejs update-nodebuild
+	$(COMMAND_ASDF) install nodejs $(shell $(COMMAND_ASDF) nodejs resolve lts --latest-available)
+	$(COMMAND_ASDF) global nodejs $(shell $(COMMAND_ASDF) nodejs resolve lts --latest-installed)
 
 $(PNPM): | $(DIR_ASDF)
 	$(COMMAND_ASDF) plugin add pnpm
