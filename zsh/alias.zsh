@@ -32,7 +32,7 @@ fi
 which kubectl > /dev/null 2>&1 && alias k="kubectl"
 
 if which mvn > /dev/null 2>&1; then
-  alias mvn="mvn --errors --fail-fast --update-snapshots"
+  alias mvn="umask 0022 && chmod -R u+rwX,go+rX ~/.m2 * ; mvn --errors --fail-fast --update-snapshots"
 
   alias mvna="mvn clean install"
   alias mvnac="mvn -DskipTests -DskipITs clean install"
