@@ -18,15 +18,7 @@ alias rd="rmdir -p"
 alias grep="grep --color=auto"
 
 if which docker > /dev/null 2>&1; then
-  alias dc="docker compose"
   alias dcsprune="docker system prune --all --force --volumes"
-
-  alias dcb="dc build"
-  alias dcdn="dc down --remove-orphans --volumes"
-  alias dcl="dc logs --timestamps"
-  alias dclf="dcl --follow"
-  alias dcps="dc ps --all"
-  alias dcup="dc up --build --detach --quiet-pull --remove-orphans --wait"
 fi
 
 which kubectl > /dev/null 2>&1 && alias k="kubectl"
