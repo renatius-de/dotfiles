@@ -18,7 +18,7 @@ alias rd="rmdir -p"
 alias grep="grep --color=auto"
 
 if which docker > /dev/null 2>&1; then
-  alias dcsprune="docker system prune --all --force --volumes"
+  alias dprune="docker system prune --all --force --volumes ; docker builder prune --all --force"
 fi
 
 which kubectl > /dev/null 2>&1 && alias k="kubectl"
