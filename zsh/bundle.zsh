@@ -26,3 +26,5 @@ if [[ -r ~/.zsh/plugin/antigen/antigen.zsh ]]; then
     # tell antigen that you're done.
     antigen apply
 fi
+
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
