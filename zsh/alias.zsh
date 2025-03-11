@@ -30,6 +30,8 @@ if which mvn > /dev/null 2>&1; then
   alias mvnac="mvn -DskipTests -DskipITs clean install"
 
   alias mvni="mvn -pl integration-test -P integration-test clean verify"
+  alias mvndu="mvn -pl integration-test -P integration-test docker:start docker:volume-create"
+  alias mvndd="mvn -pl integration-test -P integration-test docker:stop docker:remove docker:volume-remove"
 fi
 
 if which nvim > /dev/null 2>&1; then
