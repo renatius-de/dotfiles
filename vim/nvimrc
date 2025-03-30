@@ -2,8 +2,4 @@ let &packpath = &runtimepath
 
 source ~/.vimrc
 
-if filereadable("/usr/bin/python3")
-    let g:python3_host_prog = "/usr/bin/python3"
-elseif filereadable("/usr/local/bin/python3")
-    let g:python3_host_prog = "/usr/local/bin/python3"
-endif
+let g:python3_host_prog = "/usr/bin/python3"

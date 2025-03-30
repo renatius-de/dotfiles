@@ -14,9 +14,7 @@ set backspace=indent,eol,start
 set nobackup
 set cindent
 set cmdwinheight=5
-if v:version >= 703
-    set colorcolumn=+1
-endif
+set colorcolumn=+1
 set confirm
 set cursorcolumn
 set cursorline
@@ -55,5 +53,4 @@ endif
 set spellsuggest=best,10
 set splitbelow
 set splitright
-set termencoding=utf-8
 set visualbell
