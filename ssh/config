@@ -1,4 +1,4 @@
-Match host="github.*,gitlab.*,bitbucket.*"
+Match host "github.*,gitlab.*,bitbucket.*"
     IdentitiesOnly yes
     PasswordAuthentication no
     User git
