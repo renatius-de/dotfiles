@@ -28,3 +28,9 @@ export VISUAL="${VISUAL:-${EDITOR}}"
 
 export MANWIDTH="120"
 export TZ="Europe/Berlin"
+
+if [[ -r /Library/Java/JavaVirtualMachines/amazon-corretto-21.jdk/Contents/Home ]]; then
+  export JAVA_HOME=/Library/Java/JavaVirtualMachines/amazon-corretto-21.jdk/Contents/Home
+elif [[ -r /Library/Java/JavaVirtualMachines/amazon-corretto-17.jdk/Contents/Home ]]; then
+  export JAVA_HOME=/Library/Java/JavaVirtualMachines/amazon-corretto-17.jdk/Contents/Home
+fi
