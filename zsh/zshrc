@@ -1,8 +1,8 @@
 [[ $- != *i* ]] && return
 
-[[ -r ~/.zsh/bundle.zsh ]]            && source ~/.zsh/bundle.zsh
-[[ -r ~/.zsh/alias.zsh ]]             && source ~/.zsh/alias.zsh
-[[ -r ~/.zsh/export.zsh ]]            && source ~/.zsh/export.zsh
+[[ -r ~/.zsh/bundle.zsh ]] && source ~/.zsh/bundle.zsh
+[[ -r ~/.zsh/alias.zsh ]]  && source ~/.zsh/alias.zsh
+[[ -r ~/.zsh/export.zsh ]] && source ~/.zsh/export.zsh
 
 watch=(notme root)
 setopt auto_cd
