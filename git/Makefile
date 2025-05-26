@@ -4,6 +4,7 @@ ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 DIRECTORY = $(HOME)/.git
 GIT_CONFIG = $(HOME)/.gitconfig
+GIT_CONFIG_LOCAL = $(HOME)/.gitconfig.local
 
 GIT_ATTRIBUTES = $(ROOT_DIR)/GitAttributesRepository
 GIT_IGNORE = $(ROOT_DIR)/GitIgnoreRepository
@@ -17,7 +18,7 @@ $(GIT_ATTRIBUTES):
 $(GIT_CONFIG):
 	ln -snf $(ROOT_DIR)/config $(GIT_CONFIG)
 
-$(HOME)/.gitconfig.local:
+$(GIT_CONFIG_LOCAL):
 	touch $(HOME)/.gitconfig.local
 
 $(GIT_IGNORE):
@@ -30,7 +31,7 @@ pre_remove:
 plugin: | $(GIT_ATTRIBUTES) $(GIT_IGNORE)
 
 .PHONY: install
-install: | $(DIRECTORY) $(GIT_CONFIG) plugin
+install: | $(DIRECTORY) $(GIT_CONFIG) $(GIT_CONFIG_LOCAL) plugin
 
 .PHONY: upgrade
 upgrade: | \
