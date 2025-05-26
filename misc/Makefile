@@ -4,6 +4,9 @@ ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 .PHONY: install
 install:
+ifeq (,$(wildcard $(HOME)/dev/optadata/optadata-gruppe-ODA-DC1-CA.cer))
+	keytool -import -trustcacerts -alias od-cert -file ~/dev/optadata/optadata-gruppe-ODA-DC1-CA.cer -cacerts -storepass changeit -noprompt
+endif
 
 .PHONY: upgrade
 upgrade:
