@@ -2,10 +2,14 @@
 .DELETE_ON_ERROR:
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
+CERT_FILE = $(HOME)/dev/optadata/optadata-gruppe-ODA-DC1-CA.cer
+
 .PHONY: install
-install:
-ifeq (,$(wildcard $(HOME)/dev/optadata/optadata-gruppe-ODA-DC1-CA.cer))
-	keytool -import -trustcacerts -alias od-cert -file ~/dev/optadata/optadata-gruppe-ODA-DC1-CA.cer -cacerts -storepass changeit -noprompt
+install: | $(CERT_FILE)
+ifneq ("$(wildcard $(CERT_FILE))","")
+	sudo /Library/Java/JavaVirtualMachines/amazon-corretto-24.jdk/Contents/Home/bin/keytool -import -trustcacerts -alias opta_data-gruppe-certificate -file $(CERT_FILE) -cacerts -storepass changeit -noprompt
+	sudo /Library/Java/JavaVirtualMachines/amazon-corretto-21.jdk/Contents/Home/bin/keytool -import -trustcacerts -alias opta_data-gruppe-certificate -file $(CERT_FILE) -cacerts -storepass changeit -noprompt
+	sudo /Library/Java/JavaVirtualMachines/amazon-corretto-17.jdk/Contents/Home/bin/keytool -import -trustcacerts -alias opta_data-gruppe-certificate -file $(CERT_FILE) -cacerts -storepass changeit -noprompt
 endif
 
 .PHONY: upgrade
