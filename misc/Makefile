@@ -7,9 +7,9 @@ CERT_FILE = $(HOME)/dev/optadata/optadata-gruppe-ODA-DC1-CA.cer
 .PHONY: install
 install: | $(CERT_FILE)
 ifneq ("$(wildcard $(CERT_FILE))","")
-	sudo /Library/Java/JavaVirtualMachines/amazon-corretto-24.jdk/Contents/Home/bin/keytool -import -trustcacerts -alias opta_data-gruppe-certificate -file $(CERT_FILE) -cacerts -storepass changeit -noprompt
-	sudo /Library/Java/JavaVirtualMachines/amazon-corretto-21.jdk/Contents/Home/bin/keytool -import -trustcacerts -alias opta_data-gruppe-certificate -file $(CERT_FILE) -cacerts -storepass changeit -noprompt
-	sudo /Library/Java/JavaVirtualMachines/amazon-corretto-17.jdk/Contents/Home/bin/keytool -import -trustcacerts -alias opta_data-gruppe-certificate -file $(CERT_FILE) -cacerts -storepass changeit -noprompt
+	sudo /Library/Java/JavaVirtualMachines/amazon-corretto-24.jdk/Contents/Home/bin/keytool -import -trustcacerts -alias opta_data-gruppe-certificate -file $(CERT_FILE) -cacerts -storepass changeit -noprompt || true
+	sudo /Library/Java/JavaVirtualMachines/amazon-corretto-21.jdk/Contents/Home/bin/keytool -import -trustcacerts -alias opta_data-gruppe-certificate -file $(CERT_FILE) -cacerts -storepass changeit -noprompt || true
+	sudo /Library/Java/JavaVirtualMachines/amazon-corretto-17.jdk/Contents/Home/bin/keytool -import -trustcacerts -alias opta_data-gruppe-certificate -file $(CERT_FILE) -cacerts -storepass changeit -noprompt || true
 endif
 
 .PHONY: upgrade

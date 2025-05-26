@@ -32,6 +32,9 @@ brew_install:
 	$(BREW_COMMAND) update
 	#
 	$(BREW_COMMAND) autoremove
+	#
+	$(BREW_COMMAND) doctor
+	$(BREW_COMMAND) analytics off
 
 brew_uninstall:
 	$(BREW_COMMAND) uninstall --force --ignore-dependencies asdf
