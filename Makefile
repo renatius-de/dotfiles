@@ -10,7 +10,9 @@ brew_install:
 	$(BREW_COMMAND) install curl
 	$(BREW_COMMAND) install flyway
 	$(BREW_COMMAND) install git
+	$(BREW_COMMAND) install gitbucket
 	$(BREW_COMMAND) install gnupg
+	$(BREW_COMMAND) install google-benchmark
 	$(BREW_COMMAND) install gradle
 	$(BREW_COMMAND) install insomnia
 	$(BREW_COMMAND) install jq
@@ -27,6 +29,8 @@ brew_install:
 	$(BREW_COMMAND) install node
 	$(BREW_COMMAND) install node@22
 	$(BREW_COMMAND) install pnpm
+	$(BREW_COMMAND) install postman
+	$(BREW_COMMAND) install python
 	$(BREW_COMMAND) install sourcetree
 	$(BREW_COMMAND) install tig
 	$(BREW_COMMAND) update
@@ -44,7 +48,10 @@ brew_uninstall:
 	$(BREW_COMMAND) uninstall --force --ignore-dependencies curl
 	$(BREW_COMMAND) uninstall --force --ignore-dependencies flyway
 	$(BREW_COMMAND) uninstall --force --ignore-dependencies git
+	$(BREW_COMMAND) uninstall --force --ignore-dependencies gitbucket
 	$(BREW_COMMAND) uninstall --force --ignore-dependencies gnupg
+	$(BREW_COMMAND) uninstall --force --ignore-dependencies google-benchmark
+	$(BREW_COMMAND) uninstall --force --ignore-dependencies gradle
 	$(BREW_COMMAND) uninstall --force --ignore-dependencies gradle
 	$(BREW_COMMAND) uninstall --force --ignore-dependencies insomnia
 	$(BREW_COMMAND) uninstall --force --ignore-dependencies jq
@@ -61,6 +68,8 @@ brew_uninstall:
 	$(BREW_COMMAND) uninstall --force --ignore-dependencies node
 	$(BREW_COMMAND) uninstall --force --ignore-dependencies node@22
 	$(BREW_COMMAND) uninstall --force --ignore-dependencies pnpm
+	$(BREW_COMMAND) uninstall --force --ignore-dependencies postman
+	$(BREW_COMMAND) uninstall --force --ignore-dependencies python
 	$(BREW_COMMAND) uninstall --force --ignore-dependencies sourcetree
 	$(BREW_COMMAND) uninstall --force --ignore-dependencies tig
 	#
