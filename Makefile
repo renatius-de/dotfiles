@@ -12,7 +12,6 @@ brew_install:
 	$(BREW_COMMAND) install git
 	$(BREW_COMMAND) install gitbucket
 	$(BREW_COMMAND) install gnupg
-	$(BREW_COMMAND) install google-benchmark
 	$(BREW_COMMAND) install gradle
 	$(BREW_COMMAND) install insomnia
 	$(BREW_COMMAND) install jq
@@ -50,7 +49,6 @@ brew_uninstall:
 	$(BREW_COMMAND) uninstall --force --ignore-dependencies git
 	$(BREW_COMMAND) uninstall --force --ignore-dependencies gitbucket
 	$(BREW_COMMAND) uninstall --force --ignore-dependencies gnupg
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies google-benchmark
 	$(BREW_COMMAND) uninstall --force --ignore-dependencies gradle
 	$(BREW_COMMAND) uninstall --force --ignore-dependencies gradle
 	$(BREW_COMMAND) uninstall --force --ignore-dependencies insomnia
