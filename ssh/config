@@ -1,9 +1,9 @@
+Include config.local
+
 Match host "github.*,gitlab.*,bitbucket.*"
     IdentitiesOnly yes
     PasswordAuthentication no
     User git
-
-include config.local
 
 Host *
     CheckHostIP yes
@@ -13,5 +13,3 @@ Host *
     HashKnownHosts yes
     IdentitiesOnly yes
     PubKeyAuthentication yes
-    StrictHostKeyChecking yes
-    UseKeychain yes
