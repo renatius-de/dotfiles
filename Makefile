@@ -28,7 +28,6 @@ brew_install:
 	$(BREW_COMMAND) install node
 	$(BREW_COMMAND) install node@22
 	$(BREW_COMMAND) install pnpm
-	$(BREW_COMMAND) install postman
 	$(BREW_COMMAND) install python
 	$(BREW_COMMAND) install sourcetree
 	$(BREW_COMMAND) install tig
