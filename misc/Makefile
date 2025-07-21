@@ -14,6 +14,11 @@ endif
 
 .PHONY: upgrade
 upgrade:
+ifneq ("$(wildcard $(CERT_FILE))","")
+	sudo /Library/Java/JavaVirtualMachines/amazon-corretto-24.jdk/Contents/Home/bin/keytool -import -trustcacerts -alias opta_data-gruppe-certificate -file $(CERT_FILE) -cacerts -storepass changeit -noprompt || true
+	sudo /Library/Java/JavaVirtualMachines/amazon-corretto-21.jdk/Contents/Home/bin/keytool -import -trustcacerts -alias opta_data-gruppe-certificate -file $(CERT_FILE) -cacerts -storepass changeit -noprompt || true
+	sudo /Library/Java/JavaVirtualMachines/amazon-corretto-17.jdk/Contents/Home/bin/keytool -import -trustcacerts -alias opta_data-gruppe-certificate -file $(CERT_FILE) -cacerts -storepass changeit -noprompt || true
+endif
 
 .PHONY: clean
 clean:
