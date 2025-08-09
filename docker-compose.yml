@@ -1,11 +1,15 @@
 ---
 services:
-  super-linter:
+  linter:
     container_name: super-linter
     image: github/super-linter:slim-latest
     env_file:
       - ./.github/super-linter.env
     environment:
-      RUN_LOCAL: true
+      FIX_DOCKERFILES: "true"
+      FIX_GITHUB_ACTIONS_FILES: "true"
+      FIX_MARKDOWN_FILES: "true"
+      FIX_YAML_FILES: "true"
+      RUN_LOCAL: "true"
     volumes:
       - ./:/tmp/lint:ro

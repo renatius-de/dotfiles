@@ -1,11 +1,14 @@
+---
 name: Static Analysis
 on:
   push:
-    branches: &branches
+    branches:
       - main
       - master
   pull_request:
-    branches: *branches
+    branches:
+      - main
+      - master
   workflow_dispatch:
 
 concurrency:
@@ -36,6 +39,6 @@ jobs:
         run: cat .github/super-linter.env >> "$GITHUB_ENV"
 
       - name: Run Super-Linter
-        uses: super-linter/super-linter@v8
+        uses: super-linter/super-linter/slim@v8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
