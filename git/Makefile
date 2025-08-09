@@ -2,41 +2,44 @@
 .DELETE_ON_ERROR:
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
-DIRECTORY = $(HOME)/.git
-GIT_CONFIG = $(HOME)/.gitconfig
-GIT_CONFIG_LOCAL = $(HOME)/.gitconfig.local
+DIRECTORY           = $(HOME)/.git
+GIT_CONFIG          = $(HOME)/.gitconfig
+GIT_CONFIG_LOCAL    = $(HOME)/.gitconfig.local
+GIT_ATTRIBUTES      = $(ROOT_DIR)/GitAttributesRepository
+GIT_IGNORE          = $(ROOT_DIR)/GitIgnoreRepository
 
-GIT_ATTRIBUTES = $(ROOT_DIR)/GitAttributesRepository
-GIT_IGNORE = $(ROOT_DIR)/GitIgnoreRepository
+GIT_ATTRIBUTES_URL  = https://github.com/alexkaratarakis/gitattributes.git
+GIT_IGNORE_URL      = https://github.com/github/gitignore.git
+
+define clone_repo
+	git clone --quiet --depth=1 $(1) $(2)
+endef
 
 $(DIRECTORY):
-	ln -snf $(ROOT_DIR) $(DIRECTORY)
+	ln -snf $(ROOT_DIR) $@
 
 $(GIT_ATTRIBUTES):
-	git clone --quiet --depth=1 https://github.com/alexkaratarakis/gitattributes.git $(GIT_ATTRIBUTES)
-
-$(GIT_CONFIG):
-	ln -snf $(ROOT_DIR)/config $(GIT_CONFIG)
-
-$(GIT_CONFIG_LOCAL):
-	touch $(HOME)/.gitconfig.local
+	$(call clone_repo,$(GIT_ATTRIBUTES_URL),$@)
 
 $(GIT_IGNORE):
-	git clone --quiet --depth=1 https://github.com/github/gitignore.git $(GIT_IGNORE)
+	$(call clone_repo,$(GIT_IGNORE_URL),$@)
+
+$(GIT_CONFIG):
+	ln -snf $(ROOT_DIR)/config $@
+
+$(GIT_CONFIG_LOCAL):
+	touch $@
 
 pre_remove:
-	rm -fr $(GIT_ATTRIBUTES)
-	rm -fr $(GIT_IGNORE)
+	-rm -rf $(GIT_ATTRIBUTES)
+	-rm -rf $(GIT_IGNORE)
 
 plugin: | $(GIT_ATTRIBUTES) $(GIT_IGNORE)
 
-.PHONY: install
+.PHONY: install upgrade pre_remove plugin
 install: | $(DIRECTORY) $(GIT_CONFIG) $(GIT_CONFIG_LOCAL) plugin
 
-.PHONY: upgrade
-upgrade: | \
-	pre_remove \
-	install \
+upgrade: | pre_remove install
 
 .PHONY: clean
 clean:
