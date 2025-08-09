@@ -1,6 +1,4 @@
----
 name: Security Scan
-
 on:
   push:
     branches: &branches
@@ -16,26 +14,23 @@ jobs:
   security-scan:
     name: Security Scan
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     concurrency:
       group: security-scan-${{ github.workflow }}-${{ github.ref }}
       cancel-in-progress: true
-
     permissions:
       contents: read
-      actions: read
       security-events: write
-
     env:
       SARIF_OUTPUT: results.sarif
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Run Codacy Analysis
+        if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.fork == false }}
         uses: codacy/codacy-analysis-cli-action@v4
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
@@ -43,9 +38,10 @@ jobs:
           output: ${{ env.SARIF_OUTPUT }}
           format: sarif
           gh-code-scanning-compat: true
-          max-allowed-issues: 2147483647
+          # max-allowed-issues: 2147483647 # Entfernen oder auf sinnvollen Wert setzen
 
       - name: Upload SARIF to GitHub
+        if: ${{ always() && hashFiles(env.SARIF_OUTPUT) != '' }}
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: ${{ env.SARIF_OUTPUT }}

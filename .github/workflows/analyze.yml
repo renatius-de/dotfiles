@@ -1,6 +1,4 @@
----
 name: Static Analysis
-
 on:
   push:
     branches: &branches
@@ -11,7 +9,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: analyze-${{ github.workflow }}-${{ github.ref }}
+  group: analyze-${{ github.workflow }}-${{ github.ref_name }}
   cancel-in-progress: true
 
 permissions:
@@ -19,21 +17,19 @@ permissions:
 
 jobs:
   analyze:
-    name: Super-Linter (${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
+    name: Super-Linter
+    runs-on: ubuntu-latest
     permissions:
-      security-events: write
-    strategy:
-      matrix:
-        os:
-          - macos-latest
-          - ubuntu-latest
-      fail-fast: false
+      contents: read
+      checks: write
+      pull-requests: write
+    timeout-minutes: 15
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 2
 
       - name: Load Super-Linter environment
         if: ${{ hashFiles('.github/super-linter.env') != '' }}
