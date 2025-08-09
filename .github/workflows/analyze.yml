@@ -1,34 +1,45 @@
 ---
-name: Analyze
+name: Static Analysis
+
 on:
   push:
-    branches: [ main, master ]
+    branches: &branches
+      - main
+      - master
   pull_request:
-    branches: [ main, master ]
+    branches: *branches
   workflow_dispatch:
-permissions: read-all
+
+concurrency:
+  group: analyze-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
   analyze:
-    name: Analyze
-    runs-on: ubuntu-latest
+    name: Super-Linter (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
     permissions:
-      actions: read
-      contents: read
       security-events: write
     strategy:
       matrix:
         os:
           - macos-latest
           - ubuntu-latest
-      fail-fast: true
+      fail-fast: false
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Get Environment for SuperLinter
+
+      - name: Load Super-Linter environment
+        if: ${{ hashFiles('.github/super-linter.env') != '' }}
         run: cat .github/super-linter.env >> "$GITHUB_ENV"
-      - name: SuperLinter Scan
-        uses: super-linter/super-linter@v6
+
+      - name: Run Super-Linter
+        uses: super-linter/super-linter@v8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
