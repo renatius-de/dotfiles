@@ -1,102 +1,110 @@
 .DEFAULT_GOAL := install
 .DELETE_ON_ERROR:
 
-BREW_COMMAND = /opt/homebrew/bin/brew
+BREW_BIN := /opt/homebrew/bin/brew
+BREW_PACKAGES := \
+	bitwarden \
+	corretto \
+	corretto@17 \
+	corretto@21 \
+	curl \
+	docker-desktop \
+	flyway \
+	git \
+	gitbucket \
+	gnupg \
+	google-chrome \
+	gradle \
+	jetbrains-toolbox \
+	jq \
+	jwt-cli \
+	k9s \
+	kotlin \
+	kubectl \
+	kubectx \
+	liquibase \
+	make \
+	maven \
+	ncdu \
+	neovim \
+	node \
+	node@22 \
+	pnpm \
+	python \
+	tig \
+	whatsapp
 
-brew_install:
-	$(BREW_COMMAND) install corretto
-	$(BREW_COMMAND) install corretto@17
-	$(BREW_COMMAND) install corretto@21
-	$(BREW_COMMAND) install curl
-	$(BREW_COMMAND) install flyway
-	$(BREW_COMMAND) install git
-	$(BREW_COMMAND) install gitbucket
-	$(BREW_COMMAND) install gnupg
-	$(BREW_COMMAND) install gradle
-	$(BREW_COMMAND) install insomnia
-	$(BREW_COMMAND) install jq
-	$(BREW_COMMAND) install jwt-cli
-	$(BREW_COMMAND) install k9s
-	$(BREW_COMMAND) install kotlin
-	$(BREW_COMMAND) install kubectl
-	$(BREW_COMMAND) install kubectx
-	$(BREW_COMMAND) install liquibase
-	$(BREW_COMMAND) install make
-	$(BREW_COMMAND) install maven
-	$(BREW_COMMAND) install ncdu
-	$(BREW_COMMAND) install neovim
-	$(BREW_COMMAND) install node
-	$(BREW_COMMAND) install node@22
-	$(BREW_COMMAND) install pnpm
-	$(BREW_COMMAND) install python
-	$(BREW_COMMAND) install sourcetree
-	$(BREW_COMMAND) install tig
-	$(BREW_COMMAND) update
-	#
-	$(BREW_COMMAND) autoremove
-	#
-	$(BREW_COMMAND) doctor
-	$(BREW_COMMAND) analytics off
+define brew_run_on_packages
+	@set -e; \
+	for pkg in $(BREW_PACKAGES); do \
+		echo "==> $(1) $$pkg"; \
+		$(BREW_BIN) $(2) $$pkg; \
+	done
+endef
 
-brew_uninstall:
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies asdf
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies corretto
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies corretto@17
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies corretto@21
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies curl
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies flyway
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies git
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies gitbucket
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies gnupg
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies gradle
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies gradle
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies insomnia
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies jq
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies jwt-cli
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies k9s
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies kotlin
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies kubectl
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies kubectx
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies liquibase
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies make
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies maven
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies ncdu
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies neovim
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies node
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies node@22
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies pnpm
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies postman
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies python
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies sourcetree
-	$(BREW_COMMAND) uninstall --force --ignore-dependencies tig
-	#
-	$(BREW_COMMAND) autoremove
+.PHONY: \
+	brew-update \
+	brew-install-packages \
+	brew-uninstall-packages \
+	brew-cleanup \
+	brew-post-install \
+	brew-install \
+	brew-outdated \
+	brew-perform-upgrade \
+	brew-upgrade \
+	install \
+	upgrade
 
-brew_upgrade:
-	$(BREW_COMMAND) update
-	$(BREW_COMMAND) outdated
-	$(BREW_COMMAND) upgrade
-	#
-	$(BREW_COMMAND) autoremove
+brew-update:
+	$(BREW_BIN) update
 
-.PHONY: install
-install: | brew_install
+brew-install-packages:
+	$(call brew_run_on_packages,Installing,install)
+
+brew-uninstall-packages:
+	$(call brew_run_on_packages,Uninstalling,uninstall --force)
+
+brew-cleanup:
+	$(BREW_BIN) autoremove
+
+brew-post-install:
+	$(BREW_BIN) doctor
+	$(BREW_BIN) analytics off
+
+brew-install: | \
+	brew-update \
+	brew-install-packages \
+	brew-cleanup \
+	brew-post-install
+
+brew-outdated:
+	$(BREW_BIN) outdated
+
+brew-perform-upgrade:
+	$(BREW_BIN) upgrade
+
+brew-upgrade: | \
+	brew-update \
+	brew-outdated \
+	brew-perform-upgrade \
+	brew-cleanup
+
+install: | brew-install
 	@for f in $$(ls -d *); do \
 	    if [ -d $$f ]; then \
 		$(MAKE) -C $$f install; \
-	    fi \
+	    fi; \
 	done
 
-.PHONY: upgrade
-upgrade: | brew_upgrade
+upgrade: | brew-upgrade
 	@for f in $$(ls -d *); do \
 	    if [ -d $$f ]; then \
 		$(MAKE) -C $$f upgrade; \
-	    fi \
+	    fi; \
 	done
 
 .PHONY: clean
-clean: | brew_uninstall
+clean: | brew-uninstall-packages
 	rm -f $(HOME)/.calendar
 	rm -f $(HOME)/.lesshst
 	#
