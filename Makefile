@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := install
 .DELETE_ON_ERROR:
 
-BREW_BIN := /opt/homebrew/bin/brew
+BREW := $(shell command -v brew 2>/dev/null || printf /opt/homebrew/bin/brew)
 BREW_PACKAGES := \
 	bitwarden \
 	corretto \
@@ -34,11 +34,20 @@ BREW_PACKAGES := \
 	tig \
 	whatsapp
 
-define brew_run_on_packages
+define brew_for_each_package
 	@set -e; \
 	for pkg in $(BREW_PACKAGES); do \
 		echo "==> $(1) $$pkg"; \
-		$(BREW_BIN) $(2) $$pkg; \
+		$(BREW) $(2) $$pkg; \
+	done
+endef
+
+define run_in_sub_dirs
+	@set -e; \
+	for d in */; do \
+		if [ -d "$$d" ]; then \
+			$(MAKE) -C "$$d" $(1); \
+		fi; \
 	done
 endef
 
@@ -53,23 +62,24 @@ endef
 	brew-perform-upgrade \
 	brew-upgrade \
 	install \
-	upgrade
+	upgrade \
+	clean
 
 brew-update:
-	$(BREW_BIN) update
+	$(BREW) update
 
 brew-install-packages:
-	$(call brew_run_on_packages,Installing,install)
+	$(call brew_for_each_package,Installing,install)
 
 brew-uninstall-packages:
-	$(call brew_run_on_packages,Uninstalling,uninstall --force)
+	$(call brew_for_each_package,Uninstalling,uninstall --force)
 
 brew-cleanup:
-	$(BREW_BIN) autoremove
+	$(BREW) autoremove
 
 brew-post-install:
-	$(BREW_BIN) doctor
-	$(BREW_BIN) analytics off
+	$(BREW) doctor
+	$(BREW) analytics off
 
 brew-install: | \
 	brew-update \
@@ -78,10 +88,10 @@ brew-install: | \
 	brew-post-install
 
 brew-outdated:
-	$(BREW_BIN) outdated
+	$(BREW) outdated
 
 brew-perform-upgrade:
-	$(BREW_BIN) upgrade
+	$(BREW) upgrade
 
 brew-upgrade: | \
 	brew-update \
@@ -90,20 +100,11 @@ brew-upgrade: | \
 	brew-cleanup
 
 install: | brew-install
-	@for f in $$(ls -d *); do \
-	    if [ -d $$f ]; then \
-		$(MAKE) -C $$f install; \
-	    fi; \
-	done
+	$(call run_in_subdirs,install)
 
 upgrade: | brew-upgrade
-	@for f in $$(ls -d *); do \
-	    if [ -d $$f ]; then \
-		$(MAKE) -C $$f upgrade; \
-	    fi; \
-	done
+	$(call run_in_subdirs,upgrade)
 
-.PHONY: clean
 clean: | brew-uninstall-packages
 	rm -f $(HOME)/.calendar
 	rm -f $(HOME)/.lesshst
@@ -112,8 +113,4 @@ clean: | brew-uninstall-packages
 	rm -rf $(HOME)/.keychain
 	rm -rf $(HOME)/.local
 	#
-	@for f in $$(ls -d *); do \
-	    if [ -d $$f ]; then \
-		$(MAKE) -C $$f clean; \
-	    fi \
-	done
+	$(call run_in_subdirs,clean)
