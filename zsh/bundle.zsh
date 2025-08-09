@@ -6,14 +6,13 @@ if [[ -r ~/.zsh/plugin/antigen/antigen.zsh ]]; then
     antigen use oh-my-zsh
 
     # bundles from the default repo (robbyrussell's oh-my-zsh).
-    antigen bundle asdf
     antigen bundle history-substring-search
     antigen bundle themes
     antigen bundle vi-mode
 
     if [ "$(uname)" = "Darwin" ];then
-      antigen bundle macos
       antigen bundle brew
+      antigen bundle macos
     fi
 
     # add bundles from ush users
@@ -26,5 +25,3 @@ if [[ -r ~/.zsh/plugin/antigen/antigen.zsh ]]; then
     # tell antigen that you're done.
     antigen apply
 fi
-
-export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"

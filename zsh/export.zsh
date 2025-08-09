@@ -29,8 +29,10 @@ export VISUAL="${VISUAL:-${EDITOR}}"
 export MANWIDTH="120"
 export TZ="Europe/Berlin"
 
-if [[ -r /Library/Java/JavaVirtualMachines/amazon-corretto-21.jdk/Contents/Home ]]; then
-  export JAVA_HOME=/Library/Java/JavaVirtualMachines/amazon-corretto-21.jdk/Contents/Home
-elif [[ -r /Library/Java/JavaVirtualMachines/amazon-corretto-17.jdk/Contents/Home ]]; then
-  export JAVA_HOME=/Library/Java/JavaVirtualMachines/amazon-corretto-17.jdk/Contents/Home
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:${PATH})"
+if [[ -d /opt/homebrew/bin ]]; then
+  export PATH="/opt/homebrew/bin:${PATH}"
+fi
+if [[ -d /opt/homebrew/sbin ]]; then
+  export PATH="/opt/homebrew/sbin:${PATH}"
 fi
