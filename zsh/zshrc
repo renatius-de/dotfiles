@@ -51,3 +51,6 @@ limit -s
 umask 0077
 
 autoload -Uz zsh/termcap
+fpath=(/Users/r.six/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
