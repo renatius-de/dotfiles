@@ -13,6 +13,8 @@ if [[ -r ~/.zsh/plugin/antigen/antigen.zsh ]]; then
     if [ "$(uname)" = "Darwin" ];then
       antigen bundle brew
       antigen bundle macos
+
+      export HOMEBREW_NO_ENV_HINTS=1
     fi
 
     # add bundles from ush users
