@@ -29,7 +29,7 @@ BREW_PACKAGES := \
 	ncdu \
 	neovim \
 	node \
-	node@22 \
+	nodeenv \
 	pnpm \
 	pyenv \
 	python \
@@ -49,8 +49,7 @@ CLEAN_DIRS := \
 define brew_for_each_package
 	@set -e; \
 	for pkg in $(BREW_PACKAGES); do \
-		echo "==> $(1) $$pkg"; \
-		$(BREW) $(2) $$pkg; \
+		$(BREW) $(1) $$pkg; \
 	done
 endef
 
@@ -82,10 +81,10 @@ brew-update:
 	$(BREW) update
 
 brew-install-packages:
-	$(call brew_for_each_package,Installing,install)
+	$(call brew_for_each_package,install)
 
 brew-uninstall-packages:
-	$(call brew_for_each_package,Uninstalling,uninstall --force)
+	$(call brew_for_each_package,uninstall --ignore-dependencies --force)
 
 brew-cleanup:
 	$(BREW) autoremove
