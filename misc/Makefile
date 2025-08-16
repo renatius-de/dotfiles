@@ -23,7 +23,6 @@ define do_import_ca_certs
 	@for v in $(CORRETTO_VERSIONS); do \
 		KEYTOOL_BIN="$(call JDK_BIN,$${v})/$(KEYTOOL)"; \
 		if [ -x "$$KEYTOOL_BIN" ]; then \
-			echo "✔ Importiere CA-Zertifikat in Corretto $$v ..."; \
 			$(SUDO) "$$KEYTOOL_BIN" $(KEYTOOL_CA_CERTS_CMD) || true; \
 		fi; \
 	done
@@ -43,7 +42,7 @@ install-java:
 	@for v in $(CORRETTO_VERSIONS); do \
 		JDK_DIR="$(call JDK_HOME,$${v})"; \
 		if [ ! -d "$$JDK_DIR" ]; then \
-			$(SUDO) $(BREW) install --cask "amazon-corretto$${v}"; \
+			$(BREW) install --cask "amazon-corretto@$${v}"; \
 			$(JENV) add "$$JDK_DIR/Contents/Home" || true; \
 		fi; \
 	done
