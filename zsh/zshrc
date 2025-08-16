@@ -1,56 +1,64 @@
 [[ $- != *i* ]] && return
+typeset -r ZSH_CFG_DIR="${ZDOTDIR:-$HOME/.zsh}"
+typeset -ra ZSH_CFG_FILES=(bundle alias export)
 
-[[ -r ~/.zsh/bundle.zsh ]] && source ~/.zsh/bundle.zsh
-[[ -r ~/.zsh/alias.zsh ]]  && source ~/.zsh/alias.zsh
-[[ -r ~/.zsh/export.zsh ]] && source ~/.zsh/export.zsh
+apply_zsh_options() {
+  typeset -ra SETOPTS=(
+    auto_cd
+    auto_pushd
+    cdable_vars
+    pushd_ignore_dups
+    list_packed
+    extended_glob
+    mark_dirs
+    append_history
+    hist_expire_dups_first
+    hist_find_no_dups
+    hist_ignore_all_dups
+    hist_ignore_dups
+    hist_ignore_space
+    hist_no_functions
+    hist_no_store
+    hist_reduce_blanks
+    hist_save_by_copy
+    hist_save_no_dups
+    hist_verify
+    correct
+    short_loops
+    auto_continue
+    long_list_jobs
+    monitor
+    notify
+    multios
+    posix_builtins
+    promptsubst
+  )
+  typeset -ra UNSETOPTS=(
+    list_beep
+    caseglob
+    multibyte
+    nomatch
+    hist_beep
+    mail_warning
+    check_jobs
+    beep
+  )
+  setopt "${SETOPTS[@]}"
+  unsetopt "${UNSETOPTS[@]}"
+}
+
+apply_limits() {
+  unlimit
+  limit stack 8192
+  limit core 0
+  limit -s
+  umask 0077
+}
+
+for f in "${ZSH_CFG_FILES[@]}"; do
+  [[ -r "${ZSH_CFG_DIR}/${f}.zsh" ]] && source "${ZSH_CFG_DIR}/${f}.zsh"
+done
 
 watch=(notme root)
-setopt auto_cd
-setopt auto_pushd
-setopt cdable_vars
-setopt pushd_ignore_dups
-setopt no_list_beep
-setopt list_packed
-setopt no_case_glob
-setopt extended_glob
-setopt mark_dirs
-setopt no_multibyte
-setopt nonomatch
-setopt append_history
-setopt no_hist_beep
-setopt hist_expire_dups_first
-setopt hist_find_no_dups
-setopt hist_ignore_all_dups
-setopt hist_ignore_dups
-setopt hist_ignore_space
-setopt hist_no_functions
-setopt hist_no_store
-setopt hist_reduce_blanks
-setopt hist_save_by_copy
-setopt hist_save_no_dups
-setopt hist_verify
-setopt correct
-setopt no_mail_warning
-setopt short_loops
-setopt auto_continue
-setopt no_check_jobs
-setopt long_list_jobs
-setopt monitor
-setopt notify
-setopt multios
-setopt posix_builtins
-setopt nobeep
-setopt no_emacs
-setopt vi
-setopt promptsubst
-
-unlimit
-limit stack 8192
-limit core 0
-limit -s
-umask 0077
-
-autoload -Uz zsh/termcap
-fpath=(/Users/r.six/.docker/completions $fpath)
-autoload -Uz compinit
-compinit
+apply_zsh_options
+apply_limits
