@@ -3,16 +3,16 @@
 
 SHELL := /bin/bash
 
-SUDO              ?= sudo
-BREW              ?= brew
-JENV              ?= jenv
+SUDO              := sudo
+BREW              := brew
+JENV              := jenv
 
-STORE_PASS        ?= changeit
-CERT_FILE         ?= $(HOME)/dev/optadata/optadata-gruppe-ODA-DC1-CA.cer
-JAVA_HOME_BASE    ?= /Library/Java/JavaVirtualMachines
-CORRETTO_VERSIONS ?= 24 21 17
-CERT_ALIAS        ?= opta_data-gruppe-certificate
-KEYTOOL           ?= keytool
+STORE_PASS        := changeit
+CERT_FILE         := $(HOME)/dev/optadata/optadata-gruppe-ODA-DC1-CA.cer
+JAVA_HOME_BASE    := /Library/Java/JavaVirtualMachines
+CORRETTO_VERSIONS := 21
+CERT_ALIAS        := opta_data-gruppe-certificate
+KEYTOOL           := keytool
 
 JDK_HOME = $(JAVA_HOME_BASE)/amazon-corretto-$(1).jdk
 JDK_BIN  = $(call JDK_HOME,$(1))/Contents/Home/bin
@@ -33,17 +33,17 @@ endef
 import-ca-certs:
 	@if [ ! -r "$(CERT_FILE)" ]; then \
 		echo "Fehler: Zertifikatsdatei nicht gefunden: $(CERT_FILE)"; \
-		exit 1; \
+		exit 0; \
 	fi
 	$(do_import_ca_certs)
 
 install-java:
-	@echo "Installing Java versions..."
 	@for v in $(CORRETTO_VERSIONS); do \
 		JDK_DIR="$(call JDK_HOME,$${v})"; \
 		if [ ! -d "$$JDK_DIR" ]; then \
-			$(BREW) install --cask "amazon-corretto@$${v}"; \
+			$(BREW) install --cask "corretto@$${v}"; \
 			$(JENV) add "$$JDK_DIR/Contents/Home" || true; \
+			$(JENV) global "$${v}" || true; \
 		fi; \
 	done
 
