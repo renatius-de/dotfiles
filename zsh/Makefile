@@ -1,22 +1,20 @@
 .DEFAULT_GOAL := install
 .DELETE_ON_ERROR:
+
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+LN := ln -snf
+MKDIR := mkdir -p
+HOME_DIR := $(HOME)
 
-LN      := ln -snf
-MKDIR   := mkdir -p
-GIT     := git
+ZSH_DIR := $(HOME_DIR)/.zsh
+ZSH_CACHE := $(HOME_DIR)/.cache/zsh
 
-ZSH_DIR      = $(HOME)/.zsh
-ZSH_CACHE    = $(HOME)/.cache/zsh
-ZSH_CONFIG   = $(HOME)/.zshrc
-ZSH_ENV      = $(HOME)/.zshenv
-ZSH_LOGOUT   = $(HOME)/.zlogout
-ZSH_PROFILE  = $(HOME)/.zprofile
+DOTFILES := zshrc zshenv zlogout zprofile
+ZSH_TARGETS := $(addprefix $(HOME_DIR)/.,$(DOTFILES))
 
-ZSH_PLUGIN_DIR = $(ROOT_DIR)/plugin
-ANTIGEN_DIR    = $(ZSH_PLUGIN_DIR)/antigen
-ANTIGEN_REPO   = https://github.com/zsh-users/antigen.git
-
+ZSH_PLUGIN_DIR := $(ROOT_DIR)/plugin
+ANTIGEN_DIR := $(ZSH_PLUGIN_DIR)/antigen
+ANTIGEN_REPO := https://github.com/zsh-users/antigen.git
 
 $(ZSH_DIR):
 	$(LN) $(ROOT_DIR) $(ZSH_DIR)
@@ -24,52 +22,24 @@ $(ZSH_DIR):
 $(ZSH_CACHE):
 	$(MKDIR) $(ZSH_CACHE)
 
-$(ZSH_CONFIG): SRC=$(ROOT_DIR)/zshrc
-$(ZSH_CONFIG):
-	$(LN) $(SRC) $@
+$(ZSH_TARGETS): $(HOME_DIR)/.%: $(ROOT_DIR)/%
+	$(LN) $< $@
 
-$(ZSH_ENV): SRC=$(ROOT_DIR)/zshenv
-$(ZSH_ENV):
-	$(LN) $(SRC) $@
+.PHONY: configuration install upgrade clean
+configuration: | $(ZSH_DIR) $(ZSH_CACHE) $(ZSH_TARGETS)
 
-$(ZSH_LOGOUT): SRC=$(ROOT_DIR)/zlogout
-$(ZSH_LOGOUT):
-	$(LN) $(SRC) $@
-
-$(ZSH_PROFILE): SRC=$(ROOT_DIR)/zprofile
-$(ZSH_PROFILE):
-	$(LN) $(SRC) $@
-
-.PHONY: configuration
-configuration: | \
- 	$(ZSH_DIR) \
- 	$(ZSH_CACHE) \
- 	$(ZSH_CONFIG) \
- 	$(ZSH_ENV) \
- 	$(ZSH_LOGOUT) \
- 	$(ZSH_PROFILE)
-
-.PHONY: install
 install: | configuration
-
 upgrade: | install
 
-.PHONY: clean
 clean:
-	rm -f $(HOME)/.fzf.zsh
-	rm -f $(HOME)/.zcompdump
-	rm -f $(HOME)/.zsh_history
-	rm -f $(HOME)/.zshrc.zwc
-	rm -rf $(HOME)/.zsh_sessions
-	#
-	rm -fr $(HOME)/.antigen
-	rm -fr $(ANTIGEN)
-	#
-	rm -fr $(ZSH_PLUGIN_DIR)
-	rm -fr $(ZSH_CACHE)
-	#
-	rm -f $(ZSH_DIR)
-	rm -f $(ZSH_CONFIG)
-	rm -f $(ZSH_ENV)
-	rm -f $(ZSH_LOGOUT)
-	rm -f $(ZSH_PROFILE)
+	rm -f $(HOME_DIR)/.fzf.zsh \
+	      $(HOME_DIR)/.zcompdump \
+	      $(HOME_DIR)/.zsh_history \
+	      $(HOME_DIR)/.zshrc.zwc
+	rm -rf $(HOME_DIR)/.zsh_sessions
+	rm -rf $(HOME_DIR)/.antigen \
+	       $(ANTIGEN_DIR) \
+	       $(ZSH_PLUGIN_DIR) \
+	       $(ZSH_CACHE)
+	rm -f $(ZSH_TARGETS) \
+	      $(ZSH_DIR)
