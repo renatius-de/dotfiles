@@ -3,7 +3,6 @@
 
 BREW := $(shell command -v brew 2>/dev/null || printf /opt/homebrew/bin/brew)
 
-# Zentrale Paketliste
 BREW_PACKAGES := \
 	antigen \
 	bitwarden \
@@ -36,7 +35,6 @@ BREW_PACKAGES := \
 	tig \
 	whatsapp
 
-# Zentrale Clean-Definitionen (einfach erweiterbar)
 CLEAN_FILES := \
 	$(HOME)/.calendar \
 	$(HOME)/.lesshst
@@ -45,7 +43,11 @@ CLEAN_DIRS := \
 	$(HOME)/.keychain \
 	$(HOME)/.local
 
-# Hilfs-Makros
+EXCLUDED_SUBDIRS ?=
+SUBDIRS := $(filter-out $(EXCLUDED_SUBDIRS),$(sort $(wildcard */)))
+
+RMDIR := rm -rf
+
 define brew_for_each_package
 	@set -e; \
 	for pkg in $(BREW_PACKAGES); do \
@@ -53,17 +55,15 @@ define brew_for_each_package
 	done
 endef
 
-# Renaming/Consistency: einheitlicher Name (Bugfix)
-define run_in_subdirs
+define do_in_subdirs
 	@set -e; \
-	for d in */; do \
-		if [ -d "$$d" ]; then \
-			$(MAKE) -C "$$d" $(1); \
-		fi; \
+	for d in $(SUBDIRS); do \
+		$(MAKE) -C "$$d" $(1); \
 	done
 endef
 
 .PHONY: \
+	brew-ensure \
 	brew-update \
 	brew-install-packages \
 	brew-uninstall-packages \
@@ -77,19 +77,25 @@ endef
 	upgrade \
 	clean
 
-brew-update:
+brew-ensure:
+	@command -v "$(BREW)" >/dev/null 2>&1 || { \
+		echo "Fehler: Homebrew nicht gefunden unter '$(BREW)'."; \
+		exit 1; \
+	}
+
+brew-update: | brew-ensure
 	$(BREW) update
 
-brew-install-packages:
+brew-install-packages: | brew-ensure
 	$(call brew_for_each_package,install)
 
-brew-uninstall-packages:
+brew-uninstall-packages: | brew-ensure
 	$(call brew_for_each_package,uninstall --ignore-dependencies --force)
 
-brew-cleanup:
+brew-cleanup: | brew-ensure
 	$(BREW) autoremove
 
-brew-post-install:
+brew-post-install: | brew-ensure
 	$(BREW) doctor
 	$(BREW) analytics off
 
@@ -99,10 +105,10 @@ brew-install: | \
 	brew-cleanup \
 	brew-post-install
 
-brew-outdated:
+brew-outdated: | brew-ensure
 	$(BREW) outdated
 
-brew-perform-upgrade:
+brew-perform-upgrade: | brew-ensure
 	$(BREW) upgrade
 
 brew-upgrade: | \
@@ -112,12 +118,12 @@ brew-upgrade: | \
 	brew-cleanup
 
 install: | brew-install
-	$(call run_in_subdirs,install)
+	$(call do_in_subdirs,install)
 
 upgrade: | brew-upgrade
-	$(call run_in_subdirs,upgrade)
+	$(call do_in_subdirs,upgrade)
 
 clean: | brew-uninstall-packages
-	rm -f $(CLEAN_FILES)
-	rm -rf $(CLEAN_DIRS)
-	$(call run_in_subdirs,clean)
+	$(RM) $(CLEAN_FILES)
+	$(RMDIR) $(CLEAN_DIRS)
+	$(call do_in_subdirs,clean)
