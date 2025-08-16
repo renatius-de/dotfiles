@@ -21,8 +21,8 @@ BREW_PACKAGES := \
 	jwt-cli \
 	k9s \
 	kotlin \
-	kubectx \
 	kubectl \
+	kubectx \
 	liquibase \
 	make \
 	maven \
@@ -31,6 +31,7 @@ BREW_PACKAGES := \
 	node \
 	node@22 \
 	pnpm \
+	pyenv \
 	python \
 	tig \
 	whatsapp
