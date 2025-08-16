@@ -18,13 +18,6 @@ ANTIGEN_DIR    = $(ZSH_PLUGIN_DIR)/antigen
 ANTIGEN_REPO   = https://github.com/zsh-users/antigen.git
 
 
-$(ANTIGEN_DIR):
-	$(MKDIR) $(ZSH_PLUGIN_DIR)
-	$(GIT) clone --quiet --depth=1 $(ANTIGEN_REPO) $(ANTIGEN_DIR)
-
-.PHONY: plugin
-plugin: | $(ANTIGEN_DIR)
-
 $(ZSH_DIR):
 	$(LN) $(ROOT_DIR) $(ZSH_DIR)
 
@@ -57,11 +50,9 @@ configuration: | \
  	$(ZSH_PROFILE)
 
 .PHONY: install
-install: | plugin configuration
+install: | configuration
 
-.PHONY: upgrade
 upgrade: | install
-	$(GIT) -C $(ANTIGEN_DIR) pull --quiet --depth=1 --update-shallow
 
 .PHONY: clean
 clean:
