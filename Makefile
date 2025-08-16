@@ -2,11 +2,11 @@
 .DELETE_ON_ERROR:
 
 BREW := $(shell command -v brew 2>/dev/null || printf /opt/homebrew/bin/brew)
+
+# Zentrale Paketliste
 BREW_PACKAGES := \
+	antigen \
 	bitwarden \
-	corretto \
-	corretto@17 \
-	corretto@21 \
 	curl \
 	docker-desktop \
 	flyway \
@@ -15,13 +15,14 @@ BREW_PACKAGES := \
 	gnupg \
 	google-chrome \
 	gradle \
+	jenv \
 	jetbrains-toolbox \
 	jq \
 	jwt-cli \
 	k9s \
 	kotlin \
-	kubectl \
 	kubectx \
+	kubectl \
 	liquibase \
 	make \
 	maven \
@@ -34,6 +35,16 @@ BREW_PACKAGES := \
 	tig \
 	whatsapp
 
+# Zentrale Clean-Definitionen (einfach erweiterbar)
+CLEAN_FILES := \
+	$(HOME)/.calendar \
+	$(HOME)/.lesshst
+CLEAN_DIRS := \
+	$(HOME)/.cache \
+	$(HOME)/.keychain \
+	$(HOME)/.local
+
+# Hilfs-Makros
 define brew_for_each_package
 	@set -e; \
 	for pkg in $(BREW_PACKAGES); do \
@@ -42,7 +53,8 @@ define brew_for_each_package
 	done
 endef
 
-define run_in_sub_dirs
+# Renaming/Consistency: einheitlicher Name (Bugfix)
+define run_in_subdirs
 	@set -e; \
 	for d in */; do \
 		if [ -d "$$d" ]; then \
@@ -106,11 +118,6 @@ upgrade: | brew-upgrade
 	$(call run_in_subdirs,upgrade)
 
 clean: | brew-uninstall-packages
-	rm -f $(HOME)/.calendar
-	rm -f $(HOME)/.lesshst
-	#
-	rm -rf $(HOME)/.cache
-	rm -rf $(HOME)/.keychain
-	rm -rf $(HOME)/.local
-	#
+	rm -f $(CLEAN_FILES)
+	rm -rf $(CLEAN_DIRS)
 	$(call run_in_subdirs,clean)
