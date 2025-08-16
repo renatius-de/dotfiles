@@ -1,29 +1,30 @@
 .DEFAULT_GOAL := install
 .DELETE_ON_ERROR:
-
 SHELL := /bin/bash
+.SHELLFLAGS := -eu -o pipefail -c
 
-SUDO              := sudo
-BREW              := brew
-JENV              := jenv
+SUDO           := sudo
+BREW           := brew
+JENV           := jenv
+KEYTOOL        := keytool
 
-STORE_PASS        := changeit
-CERT_FILE         := $(HOME)/dev/optadata/optadata-gruppe-ODA-DC1-CA.cer
-JAVA_HOME_BASE    := /Library/Java/JavaVirtualMachines
+STORE_PASS     := changeit
+CERT_FILE      := $(HOME)/dev/optadata/optadata-gruppe-ODA-DC1-CA.cer
+CERT_ALIAS     := opta_data-gruppe-certificate
+
+JAVA_HOME_BASE := /Library/Java/JavaVirtualMachines
 CORRETTO_VERSIONS := 21
-CERT_ALIAS        := opta_data-gruppe-certificate
-KEYTOOL           := keytool
 
-JDK_HOME = $(JAVA_HOME_BASE)/amazon-corretto-$(1).jdk
-JDK_BIN  = $(call JDK_HOME,$(1))/Contents/Home/bin
+JDK_HOME_OF    = $(JAVA_HOME_BASE)/amazon-corretto-$(1).jdk
+JDK_BIN_OF     = $(call JDK_HOME_OF,$(1))/Contents/Home/bin
 
-KEYTOOL_CA_CERTS_CMD = -import -trustcacerts -alias "$(CERT_ALIAS)" -file "$(CERT_FILE)" -cacerts -storepass "$(STORE_PASS)" -noprompt
+KEYTOOL_CA_CERTS_ARGS = -import -trustcacerts -alias "$(CERT_ALIAS)" -file "$(CERT_FILE)" -cacerts -storepass "$(STORE_PASS)" -noprompt
 
-define do_import_ca_certs
+define import_ca_certs_for_all
 	@for v in $(CORRETTO_VERSIONS); do \
-		KEYTOOL_BIN="$(call JDK_BIN,$${v})/$(KEYTOOL)"; \
+		KEYTOOL_BIN="$(call JDK_BIN_OF,$${v})/$(KEYTOOL)"; \
 		if [ -x "$$KEYTOOL_BIN" ]; then \
-			$(SUDO) "$$KEYTOOL_BIN" $(KEYTOOL_CA_CERTS_CMD) || true; \
+			$(SUDO) "$$KEYTOOL_BIN" $(KEYTOOL_CA_CERTS_ARGS) || true; \
 		fi; \
 	done
 endef
@@ -35,11 +36,11 @@ import-ca-certs:
 		echo "Fehler: Zertifikatsdatei nicht gefunden: $(CERT_FILE)"; \
 		exit 0; \
 	fi
-	$(do_import_ca_certs)
+	$(import_ca_certs_for_all)
 
 install-java:
 	@for v in $(CORRETTO_VERSIONS); do \
-		JDK_DIR="$(call JDK_HOME,$${v})"; \
+		JDK_DIR="$(call JDK_HOME_OF,$${v})"; \
 		if [ ! -d "$$JDK_DIR" ]; then \
 			$(BREW) install --cask "corretto@$${v}"; \
 			$(JENV) add "$$JDK_DIR/Contents/Home" || true; \
