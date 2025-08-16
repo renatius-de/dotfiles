@@ -1,54 +1,54 @@
 .DEFAULT_GOAL := install
 .DELETE_ON_ERROR:
+
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
-DIRECTORY           = $(HOME)/.git
-GIT_CONFIG          = $(HOME)/.gitconfig
-GIT_CONFIG_LOCAL    = $(HOME)/.gitconfig.local
-GIT_ATTRIBUTES      = $(ROOT_DIR)/GitAttributesRepository
-GIT_IGNORE          = $(ROOT_DIR)/GitIgnoreRepository
+GIT_DIR_SYMLINK        := $(HOME)/.git
+GIT_CONFIG_FILE        := $(HOME)/.gitconfig
+GIT_CONFIG_LOCAL_FILE  := $(HOME)/.gitconfig.local
 
-GIT_ATTRIBUTES_URL  = https://github.com/alexkaratarakis/gitattributes.git
-GIT_IGNORE_URL      = https://github.com/github/gitignore.git
+GITATTR_REPO_DIR       := $(ROOT_DIR)/GitAttributesRepository
+GITIGNORE_REPO_DIR     := $(ROOT_DIR)/GitIgnoreRepository
+GIT_ATTRIBUTES_URL     := https://github.com/alexkaratarakis/gitattributes.git
+GIT_IGNORE_URL         := https://github.com/github/gitignore.git
 
-define clone_repo
+LN_SNF := ln -snf
+RM_F   := rm -f
+RM_RF  := rm -rf
+
+REPO_DIRS := $(GITATTR_REPO_DIR) $(GITIGNORE_REPO_DIR)
+
+define git_clone_shallow
 	git clone --quiet --depth=1 $(1) $(2)
 endef
 
-$(DIRECTORY):
-	ln -snf $(ROOT_DIR) $@
+# Ziele
+$(GIT_DIR_SYMLINK):
+	$(LN_SNF) $(ROOT_DIR) $@
 
-$(GIT_ATTRIBUTES):
-	$(call clone_repo,$(GIT_ATTRIBUTES_URL),$@)
+$(GITATTR_REPO_DIR):
+	$(call git_clone_shallow,$(GIT_ATTRIBUTES_URL),$@)
 
-$(GIT_IGNORE):
-	$(call clone_repo,$(GIT_IGNORE_URL),$@)
+$(GITIGNORE_REPO_DIR):
+	$(call git_clone_shallow,$(GIT_IGNORE_URL),$@)
 
-$(GIT_CONFIG):
-	ln -snf $(ROOT_DIR)/config $@
+$(GIT_CONFIG_FILE):
+	$(LN_SNF) $(ROOT_DIR)/config $@
 
-$(GIT_CONFIG_LOCAL):
+$(GIT_CONFIG_LOCAL_FILE):
 	touch $@
 
 pre_remove:
-	-rm -rf $(GIT_ATTRIBUTES)
-	-rm -rf $(GIT_IGNORE)
+	-$(RM_RF) $(REPO_DIRS)
 
-plugin: | $(GIT_ATTRIBUTES) $(GIT_IGNORE)
+plugin: | $(REPO_DIRS)
 
-.PHONY: install upgrade pre_remove plugin
-install: | $(DIRECTORY) $(GIT_CONFIG) $(GIT_CONFIG_LOCAL) plugin
+install: $(GIT_DIR_SYMLINK) $(GIT_CONFIG_FILE) $(GIT_CONFIG_LOCAL_FILE) plugin
+upgrade: pre_remove install
 
-upgrade: | pre_remove install
+.PHONY: install upgrade pre_remove plugin clean
 
-.PHONY: clean
 clean:
-	rm -f $(HOME)/.git_template
-	rm -f $(HOME)/.gitignore
-	rm -f $(HOME)/.tig_history
-	#
-	rm -f $(GIT_CONFIG)
-	rm -f $(DIRECTORY)
-	#
-	rm -fr $(GIT_ATTRIBUTES)
-	rm -fr $(GIT_IGNORE)
+	$(RM_F) $(HOME)/.git_template $(HOME)/.gitignore $(HOME)/.tig_history
+	$(RM_F) $(GIT_CONFIG_FILE) $(GIT_DIR_SYMLINK)
+	$(RM_RF) $(REPO_DIRS)
