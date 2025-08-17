@@ -16,6 +16,24 @@ ZSH_PLUGIN_DIR := $(ROOT_DIR)/plugin
 ANTIGEN_DIR := $(ZSH_PLUGIN_DIR)/antigen
 ANTIGEN_REPO := https://github.com/zsh-users/antigen.git
 
+RM_F  := rm -f
+RM_RF := rm -rf
+
+CLEAN_FILES := \
+  $(HOME_DIR)/.fzf.zsh \
+  $(HOME_DIR)/.zcompdump \
+  $(HOME_DIR)/.zsh_history \
+  $(HOME_DIR)/.zshrc.zwc \
+  $(ZSH_TARGETS) \
+  $(ZSH_DIR)
+
+CLEAN_DIRS := \
+  $(HOME_DIR)/.zsh_sessions \
+  $(HOME_DIR)/.antigen \
+  $(ANTIGEN_DIR) \
+  $(ZSH_PLUGIN_DIR) \
+  $(ZSH_CACHE)
+
 $(ZSH_DIR):
 	$(LN) $(ROOT_DIR) $(ZSH_DIR)
 
@@ -32,14 +50,5 @@ install: | configuration
 upgrade: | install
 
 clean:
-	rm -f $(HOME_DIR)/.fzf.zsh \
-	      $(HOME_DIR)/.zcompdump \
-	      $(HOME_DIR)/.zsh_history \
-	      $(HOME_DIR)/.zshrc.zwc
-	rm -rf $(HOME_DIR)/.zsh_sessions
-	rm -rf $(HOME_DIR)/.antigen \
-	       $(ANTIGEN_DIR) \
-	       $(ZSH_PLUGIN_DIR) \
-	       $(ZSH_CACHE)
-	rm -f $(ZSH_TARGETS) \
-	      $(ZSH_DIR)
+	$(RM_F)  $(CLEAN_FILES)
+	$(RM_RF) $(CLEAN_DIRS)
