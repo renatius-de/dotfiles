@@ -4,49 +4,47 @@
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 LN := ln -snf
 MKDIR := mkdir -p
-HOME_DIR := $(HOME)
 
-ZSH_DIR := $(HOME_DIR)/.zsh
-ZSH_CACHE := $(HOME_DIR)/.cache/zsh
+ZSH_HOME := $(HOME)/.zsh
+ZSH_CACHE_DIR := $(HOME)/.cache/zsh
 
 DOTFILES := zshrc zshenv zlogout zprofile
-ZSH_TARGETS := $(addprefix $(HOME_DIR)/.,$(DOTFILES))
+ZSH_LINK_TARGETS := $(addprefix $(HOME)/.,$(DOTFILES))
 
-ZSH_PLUGIN_DIR := $(ROOT_DIR)/plugin
-ANTIGEN_DIR := $(ZSH_PLUGIN_DIR)/antigen
-ANTIGEN_REPO := https://github.com/zsh-users/antigen.git
+PLUGINS_DIR := $(ROOT_DIR)/plugin
 
 RM_F  := rm -f
 RM_RF := rm -rf
 
 CLEAN_FILES := \
-  $(HOME_DIR)/.fzf.zsh \
-  $(HOME_DIR)/.zcompdump \
-  $(HOME_DIR)/.zsh_history \
-  $(HOME_DIR)/.zshrc.zwc \
-  $(ZSH_TARGETS) \
-  $(ZSH_DIR)
-
+  $(HOME)/.fzf.zsh \
+  $(HOME)/.zcompdump \
+  $(HOME)/.zsh_history \
+  $(HOME)/.zshrc.zwc \
+  $(ZSH_LINK_TARGETS) \
+  $(ZSH_HOME)
 CLEAN_DIRS := \
-  $(HOME_DIR)/.zsh_sessions \
-  $(HOME_DIR)/.antigen \
-  $(ANTIGEN_DIR) \
-  $(ZSH_PLUGIN_DIR) \
-  $(ZSH_CACHE)
+  $(HOME)/.zsh_sessions \
+  $(HOME)/.antigen \
+  $(PLUGINS_DIR) \
+  $(ZSH_CACHE_DIR)
 
-$(ZSH_DIR):
-	$(LN) $(ROOT_DIR) $(ZSH_DIR)
+$(ZSH_HOME):
+	$(LN) $(ROOT_DIR) $(ZSH_HOME)
 
-$(ZSH_CACHE):
-	$(MKDIR) $(ZSH_CACHE)
+$(ZSH_CACHE_DIR):
+	$(MKDIR) $(ZSH_CACHE_DIR)
 
-$(ZSH_TARGETS): $(HOME_DIR)/.%: $(ROOT_DIR)/%
+$(ZSH_LINK_TARGETS): $(HOME)/.%: $(ROOT_DIR)/%
 	$(LN) $< $@
 
-.PHONY: configuration install upgrade clean
-configuration: | $(ZSH_DIR) $(ZSH_CACHE) $(ZSH_TARGETS)
+PHONY_TARGETS := configuration install upgrade clean
+.PHONY: $(PHONY_TARGETS)
+
+configuration: | $(ZSH_HOME) $(ZSH_CACHE_DIR) $(ZSH_LINK_TARGETS)
 
 install: | configuration
+
 upgrade: | install
 
 clean:
