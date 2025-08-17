@@ -1,12 +1,7 @@
-# Antigen-Setup mit gebündelten, gut strukturierten Bundles
-
-# Konstanten/Defaults
 typeset -gr ANTIGEN_DEFAULT_FILE="/opt/homebrew/share/antigen/antigen.zsh"
 typeset -gr ANTIGEN_THEME="candy"
 
-# Arrays (global, read-only)
 typeset -gra ANTIGEN_COMMON_BUNDLES=(
-  docker
   docker-compose
   gradle
   history-substring-search
@@ -29,7 +24,6 @@ typeset -gra ANTIGEN_EXTRA_BUNDLES=(
   zsh-users/zsh-syntax-highlighting
 )
 
-# Anwender-Override ermöglichen
 ANTIGEN_FILE="${ANTIGEN_FILE:-$ANTIGEN_DEFAULT_FILE}"
 
 if [[ -r "$ANTIGEN_FILE" ]]; then
@@ -38,7 +32,6 @@ if [[ -r "$ANTIGEN_FILE" ]]; then
 
   antigen use oh-my-zsh
 
-  # Helferfunktion: klarer Name + zentrierte Bundle-Ladelogik
   antigen_load_bundles() {
     local bundle
     for bundle in "$@"; do
@@ -46,16 +39,13 @@ if [[ -r "$ANTIGEN_FILE" ]]; then
     done
   }
 
-  # Gemeinsame Bundles laden
   antigen_load_bundles "${ANTIGEN_COMMON_BUNDLES[@]}"
 
-  # OS-spezifische Bundles und Variablen
   if [[ "$(uname -s)" == "Darwin" ]]; then
     antigen_load_bundles "${ANTIGEN_DARWIN_BUNDLES[@]}"
     export HOMEBREW_NO_ENV_HINTS=1
   fi
 
-  # Zusätzliche Bundles und Theme anwenden
   antigen_load_bundles "${ANTIGEN_EXTRA_BUNDLES[@]}"
   antigen theme "$ANTIGEN_THEME"
   antigen apply
