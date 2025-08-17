@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := install
 .DELETE_ON_ERROR:
 
-BREW := $(shell command -v brew 2>/dev/null || printf /opt/homebrew/bin/brew)
+BREW := $(shell command -v brew 2>/dev/null || command -v /opt/homebrew/bin/brew 2>/dev/null || command -v /usr/local/bin/brew 2>/dev/null || printf brew)
 
 BREW_PACKAGES := \
 	antigen \
@@ -45,7 +45,7 @@ CLEAN_DIRS := \
 	$(HOME)/.gnupg \
 	$(HOME)/.gradle \
 	$(HOME)/.jenv \
-	$(HOME)/.pyenv \
+	$(HOME)/.pyenv
 
 EXCLUDED_SUBDIRS ?=
 SUBDIRS := $(filter-out $(EXCLUDED_SUBDIRS),$(sort $(wildcard */)))
@@ -62,7 +62,9 @@ endef
 define do_in_subdirs
 	@set -e; \
 	for d in $(SUBDIRS); do \
-		$(MAKE) -C "$$d" $(1); \
+		if [ -d "$$d" ] && [ -f "$$d/Makefile" ]; then \
+			$(MAKE) -C "$$d" $(1); \
+		fi; \
 	done
 endef
 
