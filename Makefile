@@ -6,6 +6,7 @@ BREW := $(shell command -v brew 2>/dev/null || printf /opt/homebrew/bin/brew)
 BREW_PACKAGES := \
 	antigen \
 	bitwarden \
+	corretto \
 	curl \
 	docker-desktop \
 	flyway \
@@ -20,20 +21,18 @@ BREW_PACKAGES := \
 	jwt-cli \
 	k9s \
 	kotlin \
-	kubectl \
 	kubectx \
+	kubernetes-cli \
 	liquibase \
 	make \
 	maven \
+	minikube \
 	ncdu \
 	neovim \
 	node \
-	nodeenv \
 	pnpm \
-	pyenv \
 	python \
-	tig \
-	whatsapp
+	tig
 
 CLEAN_FILES := \
 	$(HOME)/.calendar \
@@ -41,7 +40,12 @@ CLEAN_FILES := \
 CLEAN_DIRS := \
 	$(HOME)/.cache \
 	$(HOME)/.keychain \
-	$(HOME)/.local
+	$(HOME)/.local \
+	$(HOME)/.docker \
+	$(HOME)/.gnupg \
+	$(HOME)/.gradle \
+	$(HOME)/.jenv \
+	$(HOME)/.pyenv \
 
 EXCLUDED_SUBDIRS ?=
 SUBDIRS := $(filter-out $(EXCLUDED_SUBDIRS),$(sort $(wildcard */)))
