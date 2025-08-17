@@ -47,6 +47,8 @@ define install_java_for_version
 	JDK_DIR="$(call JDK_HOME_OF,$(1))"; \
 	if [ ! -d "$$JDK_DIR" ]; then \
 		$(BREW) install --cask "$(call CASK_NAME_OF,$(1))"; \
+	fi; \
+	if [ -d "$$JDK_DIR" ]; then \
 		$(JENV) add "$(call JDK_CONTENTS_HOME_OF,$(1))" || true; \
 		$(JENV) global "$(1)" || true; \
 	fi
