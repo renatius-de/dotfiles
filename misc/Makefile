@@ -4,7 +4,7 @@ SHELL := /bin/bash
 .SHELLFLAGS := -eu -o pipefail -c
 
 SUDO    := sudo
-BREW    := brew
+BREW    := $(shell command -v brew 2>/dev/null || command -v /opt/homebrew/bin/brew 2>/dev/null || command -v /usr/local/bin/brew 2>/dev/null || printf brew)
 JENV    := jenv
 KEYTOOL := keytool
 
@@ -14,7 +14,7 @@ CERT_ALIAS := opta_data-gruppe-certificate
 
 JAVA_HOME_BASE    := /Library/Java/JavaVirtualMachines
 CORRETTO_VERSIONS := 21
-BREW_CASK_PREFIX  := amazon-corretto@
+CORRETTO_CASK_PREFIX  := corretto@
 
 JDK_HOME_OF          = $(JAVA_HOME_BASE)/amazon-corretto-$(1).jdk
 JDK_CONTENTS_HOME_OF = $(call JDK_HOME_OF,$(1))/Contents/Home
@@ -22,6 +22,10 @@ JDK_BIN_OF           = $(call JDK_CONTENTS_HOME_OF,$(1))/bin
 KEYTOOL_BIN_OF       = $(call JDK_BIN_OF,$(1))/$(KEYTOOL)
 
 KEYTOOL_CA_CERTS_ARGS := -import -trustcacerts -alias "$(CERT_ALIAS)" -file "$(CERT_FILE)" -cacerts -storepass "$(STORE_PASS)" -noprompt
+
+define ensure_cmd
+	@command -v $(1) >/dev/null 2>&1 || { echo "Fehler: Befehl '$(1)' nicht gefunden."; exit 1; }
+endef
 
 define for_each_corretto_version
 	@for v in $(CORRETTO_VERSIONS); do \
@@ -33,7 +37,7 @@ define import_ca_certs_for_version
 	if [ -r "$(CERT_FILE)" ]; then \
 		KEYTOOL_BIN="$(call KEYTOOL_BIN_OF,$(1))"; \
 		if [ -x "$$KEYTOOL_BIN" ]; then \
-			$(SUDO) "$$KEYTOOL_BIN" $(KEYTOOL_CA_CERTS_ARGS) || { echo "Warnung: Zertifikatsimport für $$KEYTOOL_BIN fehlgeschlagen"; exit 1; }; \
+			$(SUDO) "$$KEYTJOOL_BIN" $(KEYTOOL_CA_CERTS_ARGS) || { echo "Warnung: Zertifikatsimport für $$KEYTOOL_BIN fehlgeschlagen"; }; \
 		fi \
 	fi
 endef
@@ -41,33 +45,54 @@ endef
 define install_java_for_version
 	JDK_DIR="$(call JDK_HOME_OF,$(1))"; \
 	if [ ! -d "$$JDK_DIR" ]; then \
-		$(BREW) install --cask "$(BREW_CASK_PREFIX)$(1)"; \
+		$(BREW) install --cask "$(CORRETTO_CASK_PREFIX)$(1)"; \
 		$(JENV) add "$(call JDK_CONTENTS_HOME_OF,$(1))" || true; \
 		$(JENV) global "$(1)" || true; \
 	fi
 endef
 
-.PHONY: import-ca-certs install-java install upgrade clean
+define uninstall_java_for_version
+	JDK_DIR="$(call JDK_HOME_OF,$(1))"; \
+	if [ -d "$$JDK_DIR" ]; then \
+		$(BREW) uninstall --ignore-dependencies --force "$(CORRETTO_CASK_PREFIX)$(1)"; \
+	fi
+endef
+
+.PHONY: ensure-prereqs import-ca-certs install-java uninstall-java install upgrade clean
+
+ensure-prereqs:
+	$(call ensure_cmd,$(BREW))
+	$(call ensure_cmd,$(JENV))
 
 import-ca-certs:
 	$(call for_each_corretto_version, \
 		$(call import_ca_certs_for_version,$${v}) \
 	)
 
-install-java:
+install-java: | ensure-prereqs
 	$(call for_each_corretto_version, \
 		$(call install_java_for_version,$${v}) \
+	)
+
+uninstall-java:
+	$(call for_each_corretto_version, \
+		$(call uninstall_java_for_version,$${v}) \
 	)
 
 install: install-java import-ca-certs
 
 upgrade: install-java import-ca-certs
 
-clean:
-	- rm -rf -- "$(HOME)/.tool-versions" \
-	          "$(HOME)/.asdf" \
-	          "$(HOME)/.config/cheat" \
-	          "$(HOME)/.sdkman" \
-	          "$(HOME)/.nvm" \
-	          "$(HOME)/.npm"
-	- [ -n "$${ASDF_CONFIG-}" ] && rm -rf -- "$${ASDF_CONFIG}" || true
+TOOL_STATE_DIRS := \
+  $(HOME)/.tool-versions \
+  $(HOME)/.asdf \
+  $(HOME)/.config/cheat \
+  $(HOME)/.sdkman \
+  $(HOME)/.nvm \
+  $(HOME)/.npm
+
+clean: | uninstall-java
+	# Remove known tool state directories
+	rm -rf -- $(TOOL_STATE_DIRS)
+	# Remove ASDF_CONFIG directory only if the variable is set and non-empty
+	if [ -n "$${ASDF_CONFIG:-}" ]; then rm -rf -- "$${ASDF_CONFIG}"; fi
