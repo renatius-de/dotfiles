@@ -6,10 +6,18 @@ typeset -gr ANTIGEN_THEME="candy"
 
 # Arrays (global, read-only)
 typeset -gra ANTIGEN_COMMON_BUNDLES=(
+  docker
+  docker-compose
+  gradle
   history-substring-search
   jenv
+  k9s
+  kubectl
+  minikube
+  mvn
   themes
   vi-mode
+  zsh-navigation-tools
 )
 typeset -gra ANTIGEN_DARWIN_BUNDLES=(
   brew
