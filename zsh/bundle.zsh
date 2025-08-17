@@ -9,7 +9,6 @@ typeset -gra ANTIGEN_COMMON_BUNDLES=(
   history-substring-search
   jenv
   themes
-  pyenv
   vi-mode
 )
 typeset -gra ANTIGEN_DARWIN_BUNDLES=(
