@@ -12,10 +12,11 @@ STORE_PASS ?= changeit
 CERT_FILE  := $(HOME)/dev/optadata/optadata-gruppe-ODA-DC1-CA.cer
 CERT_ALIAS := opta_data-gruppe-certificate
 
-JAVA_HOME_BASE    := /Library/Java/JavaVirtualMachines
-CORRETTO_VERSIONS := 21
+JAVA_HOME_BASE        := /Library/Java/JavaVirtualMachines
+CORRETTO_VERSIONS     := 24 21
 CORRETTO_CASK_PREFIX  := corretto@
 
+CASK_NAME_OF         = $(CORRETTO_CASK_PREFIX)$(1)
 JDK_HOME_OF          = $(JAVA_HOME_BASE)/amazon-corretto-$(1).jdk
 JDK_CONTENTS_HOME_OF = $(call JDK_HOME_OF,$(1))/Contents/Home
 JDK_BIN_OF           = $(call JDK_CONTENTS_HOME_OF,$(1))/bin
@@ -37,7 +38,7 @@ define import_ca_certs_for_version
 	if [ -r "$(CERT_FILE)" ]; then \
 		KEYTOOL_BIN="$(call KEYTOOL_BIN_OF,$(1))"; \
 		if [ -x "$$KEYTOOL_BIN" ]; then \
-			$(SUDO) "$$KEYTJOOL_BIN" $(KEYTOOL_CA_CERTS_ARGS) || { echo "Warnung: Zertifikatsimport für $$KEYTOOL_BIN fehlgeschlagen"; }; \
+			$(SUDO) "$$KEYTOOL_BIN" $(KEYTOOL_CA_CERTS_ARGS) || { echo "Warnung: Zertifikatsimport für $$KEYTOOL_BIN fehlgeschlagen"; }; \
 		fi \
 	fi
 endef
@@ -45,7 +46,7 @@ endef
 define install_java_for_version
 	JDK_DIR="$(call JDK_HOME_OF,$(1))"; \
 	if [ ! -d "$$JDK_DIR" ]; then \
-		$(BREW) install --cask "$(CORRETTO_CASK_PREFIX)$(1)"; \
+		$(BREW) install --cask "$(call CASK_NAME_OF,$(1))"; \
 		$(JENV) add "$(call JDK_CONTENTS_HOME_OF,$(1))" || true; \
 		$(JENV) global "$(1)" || true; \
 	fi
@@ -54,7 +55,7 @@ endef
 define uninstall_java_for_version
 	JDK_DIR="$(call JDK_HOME_OF,$(1))"; \
 	if [ -d "$$JDK_DIR" ]; then \
-		$(BREW) uninstall --ignore-dependencies --force "$(CORRETTO_CASK_PREFIX)$(1)"; \
+		$(BREW) uninstall --ignore-dependencies --force "$(call CASK_NAME_OF,$(1))"; \
 	fi
 endef
 
@@ -64,7 +65,7 @@ ensure-prereqs:
 	$(call ensure_cmd,$(BREW))
 	$(call ensure_cmd,$(JENV))
 
-import-ca-certs:
+import-ca-certs: | install-java
 	$(call for_each_corretto_version, \
 		$(call import_ca_certs_for_version,$${v}) \
 	)
@@ -92,7 +93,5 @@ TOOL_STATE_DIRS := \
   $(HOME)/.npm
 
 clean: | uninstall-java
-	# Remove known tool state directories
 	rm -rf -- $(TOOL_STATE_DIRS)
-	# Remove ASDF_CONFIG directory only if the variable is set and non-empty
 	if [ -n "$${ASDF_CONFIG:-}" ]; then rm -rf -- "$${ASDF_CONFIG}"; fi
