@@ -26,9 +26,6 @@ which kubectl > /dev/null 2>&1 && alias k="kubectl"
 if which mvn > /dev/null 2>&1; then
   alias mvn="umask 0022 && chmod -R u+rwX,go+rX ~/.m2 * ; mvn --errors --fail-fast --update-snapshots"
 
-  alias mvna="mvn clean install"
-  alias mvnac="mvn -DskipTests -DskipITs clean install"
-
   alias mvni="mvn -pl integration-test -P integration-test clean verify"
   alias mvndu="mvn -pl integration-test -P integration-test docker:start docker:volume-create"
   alias mvndd="mvn -pl integration-test -P integration-test docker:stop docker:remove docker:volume-remove"
