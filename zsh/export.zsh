@@ -28,11 +28,3 @@ export VISUAL="${VISUAL:-${EDITOR}}"
 
 export MANWIDTH="120"
 export TZ="Europe/Berlin"
-
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:${PATH})"
-if [[ -d /opt/homebrew/bin ]]; then
-  export PATH="/opt/homebrew/bin:${PATH}"
-fi
-if [[ -d /opt/homebrew/sbin ]]; then
-  export PATH="/opt/homebrew/sbin:${PATH}"
-fi
