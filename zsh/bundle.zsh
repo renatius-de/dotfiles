@@ -16,7 +16,6 @@ typeset -gra ANTIGEN_COMMON_BUNDLES=(
 )
 typeset -gra ANTIGEN_DARWIN_BUNDLES=(
   brew
-  macos
 )
 typeset -gra ANTIGEN_EXTRA_BUNDLES=(
   zsh-users/zsh-autosuggestions
@@ -39,13 +38,12 @@ if [[ -r "$ANTIGEN_FILE" ]]; then
     done
   }
 
-  antigen_load_bundles "${ANTIGEN_COMMON_BUNDLES[@]}"
-
   if [[ "$(uname -s)" == "Darwin" ]]; then
     antigen_load_bundles "${ANTIGEN_DARWIN_BUNDLES[@]}"
     export HOMEBREW_NO_ENV_HINTS=1
   fi
 
+  antigen_load_bundles "${ANTIGEN_COMMON_BUNDLES[@]}"
   antigen_load_bundles "${ANTIGEN_EXTRA_BUNDLES[@]}"
   antigen theme "$ANTIGEN_THEME"
   antigen apply
