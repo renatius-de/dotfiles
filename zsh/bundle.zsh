@@ -23,10 +23,11 @@ typeset -gra ANTIGEN_EXTRA_BUNDLES=(
 )
 typeset -gr OH_MY_ZSH_CACHE_DIR="$HOME/.antigen/bundles/robbyrussell/oh-my-zsh/cache"
 typeset -gr OH_MY_ZSH_COMPLETIONS_DIR="$OH_MY_ZSH_CACHE_DIR/completions"
-# shellcheck disable=SC2155
-typeset -gr IS_MAC_OS="$([[ $(uname -s) == "Darwin" ]] && echo 1 || echo 0)"
-
 ANTIGEN_FILE="${ANTIGEN_FILE:-$ANTIGEN_DEFAULT_FILE}"
+
+is_darwin() {
+  [[ "$(uname -s)" == "Darwin" ]]
+}
 
 load_antigen_bundles() {
   local bundle
@@ -35,18 +36,23 @@ load_antigen_bundles() {
   done
 }
 
-ensure_ohmyzsh_cache_dirs() {
-  if [[ -d "$OH_MY_ZSH_CACHE_DIR" ]] && [[ ! -d "$OH_MY_ZSH_COMPLETIONS_DIR" ]]; then
-    mkdir -m 0700 "$OH_MY_ZSH_COMPLETIONS_DIR"
+ensure_ohmyzsh_cache() {
+  mkdir -p -m 0700 "$OH_MY_ZSH_COMPLETIONS_DIR"
+}
+
+enable_jenv_export() {
+  if command -v jenv >/dev/null 2>&1; then
+    jenv enable-plugin export
   fi
 }
 
 setup_antigen() {
+  local antigen_file="$1"
   # shellcheck disable=SC1090
-  source "$ANTIGEN_FILE"
+  source "$antigen_file"
   antigen use oh-my-zsh
 
-  if [[ "$IS_MAC_OS" -eq 1 ]]; then
+  if is_darwin; then
     load_antigen_bundles "${ANTIGEN_DARWIN_BUNDLES[@]}"
     export HOMEBREW_NO_ENV_HINTS=1
   fi
@@ -59,7 +65,8 @@ setup_antigen() {
 }
 
 if [[ -r "$ANTIGEN_FILE" ]]; then
-  setup_antigen
+  setup_antigen "$ANTIGEN_FILE"
 fi
 
-ensure_ohmyzsh_cache_dirs
+ensure_ohmyzsh_cache
+enable_jenv_export
