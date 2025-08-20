@@ -26,7 +26,6 @@ BREW_PACKAGES := \
 	liquibase \
 	make \
 	maven \
-	minikube \
 	ncdu \
 	neovim \
 	node \
