@@ -17,11 +17,7 @@ alias rd="rmdir -p"
 
 alias grep="grep --color=auto"
 
-if which docker > /dev/null 2>&1; then
-  alias dprune="docker system prune --all --force --volumes ; docker builder prune --all --force"
-fi
-
-which kubectl > /dev/null 2>&1 && alias k="kubectl"
+which docker > /dev/null 2>&1 && alias dprune="docker system prune --all --force --volumes ; docker builder prune --all --force"
 
 if which mvn > /dev/null 2>&1; then
   alias mvn="umask 0022 && chmod -R u+rwX,go+rX ~/.m2 * ; mvn --errors --fail-fast --update-snapshots"
