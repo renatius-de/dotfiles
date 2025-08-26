@@ -24,9 +24,9 @@ fi
 
 # shellcheck disable=SC2154
 if (( $+commands[mvn] )); then
-  alias mvni="mvn -pl integration-test -P integration-test clean verify"
-  alias mvndu="mvn -pl integration-test -P integration-test docker:start docker:volume-create"
-  alias mvndd="mvn -pl integration-test -P integration-test docker:stop docker:remove docker:volume-remove"
+  alias mvnpcv="mvn -pl integration-test -P integration-test clean verify"
+  alias mvnpdu="mvn -pl integration-test -P integration-test docker:start docker:volume-create"
+  alias mvndpdd="mvn -pl integration-test -P integration-test docker:stop docker:remove docker:volume-remove"
 fi
 
 # shellcheck disable=SC2154
