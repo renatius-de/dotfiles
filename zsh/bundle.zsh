@@ -58,7 +58,7 @@ ensure_omz_cache() {
   mkdir -p "$OH_MY_ZSH_COMPLETIONS_DIR"
 }
 
-jenv_enable_export() {
+java_environment_enable_export() {
   if command -v jenv >/dev/null 2>&1; then
     jenv enable-plugin export
   fi
@@ -104,7 +104,7 @@ RPROMPT+='%{$reset_color%}JDK: %{$fg[cyan]%}$(jenv_prompt_info)%{$reset_color%})
 export RPROMPT
 
 ensure_omz_cache
-jenv_enable_export
+java_environment_enable_export
 path_prepend "${CUSTOM_PATH_DIRECTORIES[@]}"
 
 typeset -ga __TEMP_FUNCS=(
