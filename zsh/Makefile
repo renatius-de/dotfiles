@@ -19,12 +19,10 @@ RM_RF := rm -rf
 CLEAN_FILES := \
   $(HOME)/.fzf.zsh \
   $(HOME)/.zcompdump \
-  $(HOME)/.zsh_history \
   $(HOME)/.zshrc.zwc \
   $(ZSH_LINK_TARGETS) \
   $(ZSH_HOME)
 CLEAN_DIRS := \
-  $(HOME)/.zsh_sessions \
   $(HOME)/.antigen \
   $(PLUGINS_DIR) \
   $(ZSH_CACHE_DIR)
