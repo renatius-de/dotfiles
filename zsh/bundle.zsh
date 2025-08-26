@@ -39,80 +39,80 @@ typeset -gra CUSTOM_PATH_DIRECTORIES=(
   /usr/bin
   /bin
 )
-typeset -gr OH_MY_ZSH_CACHE_DIR="$HOME/.antigen/bundles/robbyrussell/oh-my-zsh/cache"
+typeset -gr OH_MY_ZSH_CACHE_DIR="${ZSH_CACHE_DIR:-${HOME}/.antigen/bundles/robbyrussell/oh-my-zsh/cache}"
 typeset -gr OH_MY_ZSH_COMPLETIONS_DIR="${OH_MY_ZSH_CACHE_DIR}/completions"
 ANTIGEN_FILE="${ANTIGEN_FILE:-$ANTIGEN_DEFAULT_FILE}"
 
-is_darwin() {
+is_macos() {
   [[ "$(uname -s)" == "Darwin" ]]
 }
 
-load_antigen_bundles() {
+antigen_load_bundles() {
   local bundle
   for bundle in "$@"; do
     antigen bundle "$bundle"
   done
 }
 
-ensure_oh_my_zsh_cache() {
+ensure_omz_cache() {
   mkdir -p "$OH_MY_ZSH_COMPLETIONS_DIR"
 }
 
-enable_java_environment_export() {
+jenv_enable_export() {
   if command -v jenv >/dev/null 2>&1; then
     jenv enable-plugin export
   fi
 }
 
-setup_antigen() {
+antigen_setup() {
   local antigen_file="$1"
   # shellcheck disable=SC1090
   source "$antigen_file"
   antigen use oh-my-zsh
 
-  if is_darwin; then
-    load_antigen_bundles "${ANTIGEN_DARWIN_BUNDLES[@]}"
+  if is_macos; then
+    antigen_load_bundles "${ANTIGEN_DARWIN_BUNDLES[@]}"
     export HOMEBREW_NO_ENV_HINTS=1
     export SHELL_SESSIONS_DISABLE=1
   fi
 
-  load_antigen_bundles "${ANTIGEN_COMMON_BUNDLES[@]}"
-  load_antigen_bundles "${ANTIGEN_EXTRA_BUNDLES[@]}"
-
+  antigen_load_bundles "${ANTIGEN_COMMON_BUNDLES[@]}"
+  antigen_load_bundles "${ANTIGEN_EXTRA_BUNDLES[@]}"
   antigen theme "$ANTIGEN_THEME"
   antigen apply
 }
 
-if [[ -r "$ANTIGEN_FILE" ]]; then
-  setup_antigen "$ANTIGEN_FILE"
-fi
-
-
 typeset -Ua path
-prepend_to_path() {
+path_prepend() {
   local dir
   for dir in "$@"; do
     dir=${dir:A}
-    [[ ! -d "$dir" ]] && return
-
-    path=("$dir" ${path[@]})
+    [[ ! -d "$dir" ]] && continue
+    path=("$dir" "${path[@]}")
   done
 }
 
-ensure_oh_my_zsh_cache
-enable_java_environment_export
-prepend_to_path "${CUSTOM_PATH_DIRECTORIES[@]}"
+if [[ -r "$ANTIGEN_FILE" ]]; then
+  antigen_setup "$ANTIGEN_FILE"
+fi
 
 autoload -U colors
 colors
-RPROMPT='%{$reset_color%} (K: %{$fg[cyan]%}${ZSH_KUBECTL_PROMPT}%{$reset_color%}'
+RPROMPT+='%{$reset_color%} (K8s: %{$fg[cyan]%}${ZSH_KUBECTL_PROMPT}%{$reset_color%}'
 RPROMPT+=' | '
-RPROMPT+='%{$reset_color%}J: %{$fg[cyan]%}$(jenv_prompt_info)%{$reset_color%})'
+RPROMPT+='%{$reset_color%}JDK: %{$fg[cyan]%}$(jenv_prompt_info)%{$reset_color%})'
 export RPROMPT
 
-unfunction enable_java_environment_export
-unfunction ensure_oh_my_zsh_cache
-unfunction is_darwin
-unfunction load_antigen_bundles
-unfunction setup_antigen
-unfunction prepend_to_path
+ensure_omz_cache
+jenv_enable_export
+path_prepend "${CUSTOM_PATH_DIRECTORIES[@]}"
+
+typeset -ga __TEMP_FUNCS=(
+  jenv_enable_export
+  ensure_omz_cache
+  is_macos
+  antigen_load_bundles
+  antigen_setup
+  path_prepend
+)
+unfunction "${__TEMP_FUNCS[@]}"
