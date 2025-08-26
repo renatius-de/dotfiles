@@ -23,11 +23,6 @@ set diffopt=filler,context:3,vertical,foldcolumn:3
 set display+=lastline
 set encoding=utf-8
 set expandtab
-set foldcolumn=2
-set foldlevel=0
-set foldlevelstart=0
-set foldmethod=syntax
-set foldnestmax=10
 set helpheight=0
 set helplang=en,de
 if &t_Co > 2
