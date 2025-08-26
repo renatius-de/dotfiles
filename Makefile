@@ -1,23 +1,19 @@
 .DEFAULT_GOAL := install
 .DELETE_ON_ERROR:
 
+ifndef BREW
 BREW := $(shell command -v brew 2>/dev/null || command -v /opt/homebrew/bin/brew 2>/dev/null || command -v /usr/local/bin/brew 2>/dev/null || printf brew)
-
-BREW_PACKAGES := \
+endif
+BREW_FORMULAS := \
 	antigen \
-	bitwarden \
-	corretto \
 	curl \
-	docker-desktop \
 	flyway \
 	git \
 	gitbucket \
 	gnupg \
-	google-chrome \
 	gradle \
 	helm \
 	jenv \
-	jetbrains-toolbox \
 	jq \
 	jwt-cli \
 	k9s \
@@ -33,7 +29,12 @@ BREW_PACKAGES := \
 	pnpm \
 	python \
 	tig
-
+BREW_CASKS := \
+	bitwarden \
+	corretto \
+	docker-desktop \
+	google-chrome \
+	jetbrains-toolbox
 CLEAN_FILES := \
 	$(HOME)/.calendar \
 	$(HOME)/.lesshst
@@ -46,20 +47,19 @@ CLEAN_DIRS := \
 	$(HOME)/.gradle \
 	$(HOME)/.jenv \
 	$(HOME)/.pyenv
-
 EXCLUDED_SUB_DIRECTORIES :=
 SUB_DIRECTORIES := $(filter-out $(EXCLUDED_SUB_DIRECTORIES),$(sort $(wildcard */)))
-
+HOME_DEV_DIR := $(HOME)/dev
 RMDIR := rm -rf
 
-define brew_for_each_package
+define brew_for_each
 	@set -e; \
-	for pkg in $(BREW_PACKAGES); do \
-		$(BREW) $(1) $$pkg; \
+	for pkg in $(1); do \
+		$(BREW) $(2) $$pkg; \
 	done
 endef
 
-define do_in_subdirs
+define do_in_sub_directories
 	@set -e; \
 	for d in $(SUB_DIRECTORIES); do \
 		if [ -d "$$d" ] && [ -f "$$d/Makefile" ]; then \
@@ -85,7 +85,7 @@ endef
 
 brew-ensure:
 	@command -v "$(BREW)" >/dev/null 2>&1 || { \
-		echo "Fehler: Homebrew nicht gefunden unter '$(BREW)'."; \
+		echo "Error: Homebrew not found at '$(BREW)'."; \
 		exit 1; \
 	}
 
@@ -93,10 +93,12 @@ brew-update: | brew-ensure
 	$(BREW) update
 
 brew-install-packages: | brew-ensure
-	$(call brew_for_each_package,install)
+	$(call brew_for_each,$(BREW_FORMULAS),install --formula)
+	$(call brew_for_each,$(BREW_CASKS),install --cask)
 
 brew-uninstall-packages: | brew-ensure
-	$(call brew_for_each_package,uninstall --ignore-dependencies --force)
+	$(call brew_for_each,$(BREW_FORMULAS),uninstall --formula --ignore-dependencies --force)
+	$(call brew_for_each,$(BREW_CASKS),uninstall --cask --zap --ignore-dependencies --force)
 
 brew-cleanup: | brew-ensure
 	$(BREW) autoremove
@@ -127,9 +129,8 @@ install: | brew-install fix-permissions-of-home
 	$(call do_in_subdirs,install)
 
 fix-permissions-of-home:
-	chmod u=rwX,go= $(HOME)
-	chmod -R u=rwX,go= $(HOME)/.*
-	chmod -R u=rwX,go= $(HOME)/dev
+	chmod u=rwX,go= "$(HOME)"
+	chmod -R u=rwX,go= "$(HOME_DEV_DIR)"
 
 upgrade: | brew-upgrade
 	$(call do_in_subdirs,upgrade)
