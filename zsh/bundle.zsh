@@ -109,7 +109,7 @@ java_environment_enable_export
 path_prepend "${CUSTOM_PATH_DIRECTORIES[@]}"
 
 typeset -ga __TEMP_FUNCS=(
-  jenv_enable_export
+  java_environment_enable_export
   ensure_omz_cache
   is_macos
   antigen_load_bundles
