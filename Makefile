@@ -15,6 +15,7 @@ BREW_PACKAGES := \
 	gnupg \
 	google-chrome \
 	gradle \
+	helm \
 	jenv \
 	jetbrains-toolbox \
 	jq \
@@ -46,8 +47,8 @@ CLEAN_DIRS := \
 	$(HOME)/.jenv \
 	$(HOME)/.pyenv
 
-EXCLUDED_SUBDIRS ?=
-SUBDIRS := $(filter-out $(EXCLUDED_SUBDIRS),$(sort $(wildcard */)))
+EXCLUDED_SUB_DIRECTORIES :=
+SUB_DIRECTORIES := $(filter-out $(EXCLUDED_SUB_DIRECTORIES),$(sort $(wildcard */)))
 
 RMDIR := rm -rf
 
@@ -60,7 +61,7 @@ endef
 
 define do_in_subdirs
 	@set -e; \
-	for d in $(SUBDIRS); do \
+	for d in $(SUB_DIRECTORIES); do \
 		if [ -d "$$d" ] && [ -f "$$d/Makefile" ]; then \
 			$(MAKE) -C "$$d" $(1); \
 		fi; \
@@ -122,8 +123,13 @@ brew-upgrade: | \
 	brew-perform-upgrade \
 	brew-cleanup
 
-install: | brew-install
+install: | brew-install fix-permissions-of-home
 	$(call do_in_subdirs,install)
+
+fix-permissions-of-home:
+	chmod u=rwX,go= $(HOME)
+	chmod -R u=rwX,go= $(HOME)/.*
+	chmod -R u=rwX,go= $(HOME)/dev
 
 upgrade: | brew-upgrade
 	$(call do_in_subdirs,upgrade)
