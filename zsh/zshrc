@@ -52,7 +52,7 @@ apply_limits() {
   limit stack 8192
   limit core 0
   limit -s
-  umask 0077
+  umask 0022
 }
 
 for f in "${ZSH_CFG_FILES[@]}"; do
