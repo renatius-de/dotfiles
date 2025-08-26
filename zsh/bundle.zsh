@@ -99,7 +99,7 @@ fi
 
 autoload -U colors
 colors
-RPROMPT+='%{$reset_color%} (K8s: %{$fg[cyan]%}${ZSH_KUBECTL_PROMPT}%{$reset_color%}'
+RPROMPT='%{$reset_color%} (K8s: %{$fg[cyan]%}${ZSH_KUBECTL_PROMPT}%{$reset_color%}'
 RPROMPT+=' | '
 RPROMPT+='%{$reset_color%}JDK: %{$fg[cyan]%}$(jenv_prompt_info)%{$reset_color%})'
 export RPROMPT
