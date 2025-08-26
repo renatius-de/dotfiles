@@ -2,6 +2,7 @@ typeset -gr ANTIGEN_DEFAULT_FILE="/opt/homebrew/share/antigen/antigen.zsh"
 typeset -gr ANTIGEN_THEME="candy"
 typeset -gra ANTIGEN_COMMON_BUNDLES=(
   aliases
+  common-aliases
   docker
   docker-compose
   gradle
