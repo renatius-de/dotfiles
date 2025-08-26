@@ -17,22 +17,22 @@ alias rd="rmdir -p"
 
 alias grep="grep --color=auto"
 
-which docker > /dev/null 2>&1 && alias dprune="docker system prune --all --force --volumes ; docker builder prune --all --force"
+# shellcheck disable=SC2154
+if (( $+commands[docker] )); then
+  alias dprune="docker system prune --all --force --volumes ; docker builder prune --all --force"
+fi
 
-if which mvn > /dev/null 2>&1; then
-  alias mvn="umask 0022 && chmod -R u+rwX,go+rX ~/.m2 * ; mvn --errors --fail-fast --update-snapshots"
-
+# shellcheck disable=SC2154
+if (( $+commands[mvn] )); then
   alias mvni="mvn -pl integration-test -P integration-test clean verify"
   alias mvndu="mvn -pl integration-test -P integration-test docker:start docker:volume-create"
   alias mvndd="mvn -pl integration-test -P integration-test docker:stop docker:remove docker:volume-remove"
 fi
 
-if which nvim > /dev/null 2>&1; then
+# shellcheck disable=SC2154
+if (( $+commands[nvim] )); then
   alias vi="nvim"
   alias view="nvim -R"
   alias vim="nvim"
   alias vimdiff="nvim -d"
-elif which vim >/dev/null 2>&1; then
-  alias vi="vim"
-  alias ex="vim -E"
 fi
