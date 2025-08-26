@@ -26,18 +26,18 @@ typeset -gra ANTIGEN_EXTRA_BUNDLES=(
   zsh-users/zsh-syntax-highlighting
 )
 typeset -gra CUSTOM_PATH_DIRECTORIES=(
-  ~/.jenv/shims
-
-  /opt/homebrew/sbin
-  /opt/homebrew/bin
-
-  /usr/local/sbin
-  /usr/sbin
-  /sbin
-
-  /usr/local/bin
-  /usr/bin
   /bin
+  /usr/bin
+  /usr/local/bin
+
+  /sbin
+  /usr/sbin
+  /usr/local/sbin
+
+  /opt/homebrew/bin
+  /opt/homebrew/sbin
+
+  ~/.jenv/shims
 )
 typeset -gr OH_MY_ZSH_CACHE_DIR="${ZSH_CACHE_DIR:-${HOME}/.antigen/bundles/robbyrussell/oh-my-zsh/cache}"
 typeset -gr OH_MY_ZSH_COMPLETIONS_DIR="${OH_MY_ZSH_CACHE_DIR}/completions"
