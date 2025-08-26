@@ -28,3 +28,5 @@ export VISUAL="${VISUAL:-${EDITOR}}"
 
 export MANWIDTH="120"
 export TZ="Europe/Berlin"
+
+export MAVEN_ARGS="--errors --fail-fast --update-snapshots --update-plugins --show-version"
