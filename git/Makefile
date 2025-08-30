@@ -49,6 +49,5 @@ upgrade: pre_remove install
 .PHONY: install upgrade pre_remove plugin clean
 
 clean:
-	$(RM_F) $(HOME)/.git_template $(HOME)/.gitignore $(HOME)/.tig_history
-	$(RM_F) $(GIT_CONFIG_FILE) $(GIT_DIR_SYMLINK)
+	$(RM_F) $(HOME)/.git_template $(HOME)/.gitignore $(HOME)/.tig_history $(GIT_CONFIG_FILE) $(GIT_DIR_SYMLINK)
 	$(RM_RF) $(REPO_DIRS)
