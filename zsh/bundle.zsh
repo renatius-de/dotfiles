@@ -61,7 +61,7 @@ ensure_omz_cache() {
 
 java_environment_enable_export() {
   if command -v jenv >/dev/null 2>&1; then
-    jenv enable-plugin export
+    jenv enable-plugin export >/dev/null 2>&1
   fi
 }
 
