@@ -1,16 +1,14 @@
 .DEFAULT_GOAL := install
 .DELETE_ON_ERROR:
 
-ifndef BREW
+SHELL := /bin/bash
 BREW := $(shell command -v brew 2>/dev/null || command -v /opt/homebrew/bin/brew 2>/dev/null || command -v /usr/local/bin/brew 2>/dev/null || printf brew)
-endif
 BREW_FORMULAS := \
 	antigen \
 	curl \
-	flyway \
 	git \
-	gitbucket \
 	gnupg \
+	go \
 	gradle \
 	helm \
 	jenv \
@@ -20,15 +18,13 @@ BREW_FORMULAS := \
 	kotlin \
 	kubectx \
 	kubernetes-cli \
-	liquibase \
 	make \
 	maven \
 	ncdu \
 	neovim \
 	node \
 	pnpm \
-	python \
-	tig
+	python
 BREW_CASKS := \
 	bitwarden \
 	corretto \
@@ -36,17 +32,31 @@ BREW_CASKS := \
 	google-chrome \
 	jetbrains-toolbox
 CLEAN_FILES := \
+	$(HOME)/.asdfrc \
 	$(HOME)/.calendar \
-	$(HOME)/.lesshst
-CLEAN_DIRS := \
+	$(HOME)/.lesshst \
+	$(HOME)/.testcontainers.properties
+CLEAN_DIRECTORIES := \
+	$(HOME)/.asdf \
 	$(HOME)/.cache \
-	$(HOME)/.keychain \
-	$(HOME)/.local \
+	$(HOME)/.config/cheat \
 	$(HOME)/.docker \
 	$(HOME)/.gnupg \
 	$(HOME)/.gradle \
+	$(HOME)/.hawtjni \
 	$(HOME)/.jenv \
-	$(HOME)/.pyenv
+	$(HOME)/.junie \
+	$(HOME)/.keychain \
+	$(HOME)/.kotlinc_history \
+	$(HOME)/.local \
+	$(HOME)/.npm \
+	$(HOME)/.nvm \
+	$(HOME)/.pyenv \
+	$(HOME)/.rewrite-cache \
+	$(HOME)/.sdkman \
+	$(HOME)/.sonar \
+	$(HOME)/.sonarlint \
+	$(HOME)/.tool-versions
 EXCLUDED_SUB_DIRECTORIES :=
 SUB_DIRECTORIES := $(filter-out $(EXCLUDED_SUB_DIRECTORIES),$(sort $(wildcard */)))
 HOME_DEV_DIR := $(HOME)/dev
@@ -69,19 +79,20 @@ define do_in_sub_directories
 endef
 
 .PHONY: \
-	brew-ensure \
-	brew-update \
-	brew-install-packages \
-	brew-uninstall-packages \
 	brew-cleanup \
-	brew-post-install \
+	brew-ensure \
 	brew-install \
+	brew-install-packages \
 	brew-outdated \
 	brew-perform-upgrade \
+	brew-post-install \
+	brew-uninstall-packages \
+	brew-update \
 	brew-upgrade \
+	clean \
+	fix-permissions-of-home \
 	install \
-	upgrade \
-	clean
+	upgrade
 
 brew-ensure:
 	@command -v "$(BREW)" >/dev/null 2>&1 || { \
@@ -98,7 +109,7 @@ brew-install-packages: | brew-ensure
 
 brew-uninstall-packages: | brew-ensure
 	$(call brew_for_each,$(BREW_FORMULAS),uninstall --formula --ignore-dependencies --force)
-	$(call brew_for_each,$(BREW_CASKS),uninstall --cask --zap --ignore-dependencies --force)
+	$(call brew_for_each,$(BREW_CASKS),uninstall --cask --ignore-dependencies --force)
 
 brew-cleanup: | brew-ensure
 	$(BREW) autoremove
@@ -126,16 +137,16 @@ brew-upgrade: | \
 	brew-cleanup
 
 install: | brew-install fix-permissions-of-home
-	$(call do_in_subdirs,install)
+	$(call do_in_sub_directories,install)
 
 fix-permissions-of-home:
 	chmod u=rwX,go= "$(HOME)"
 	chmod -R u=rwX,go= "$(HOME_DEV_DIR)"
 
 upgrade: | brew-upgrade
-	$(call do_in_subdirs,upgrade)
+	$(call do_in_sub_directories,upgrade)
 
 clean: | brew-uninstall-packages
 	$(RM) $(CLEAN_FILES)
-	$(RMDIR) $(CLEAN_DIRS)
-	$(call do_in_subdirs,clean)
+	$(RMDIR) $(CLEAN_DIRECTORIES)
+	$(call do_in_sub_directories,clean)
