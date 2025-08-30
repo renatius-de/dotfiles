@@ -19,11 +19,13 @@ RM_RF := rm -rf
 CLEAN_FILES := \
   $(HOME)/.fzf.zsh \
   $(HOME)/.zcompdump \
+  $(HOME)/.zsh_history \
   $(HOME)/.zshrc.zwc \
-  $(ZSH_LINK_TARGETS) \
-  $(ZSH_HOME)
-CLEAN_DIRS := \
+  $(ZSH_HOME) \
+  $(ZSH_LINK_TARGETS)
+CLEAN_DIRECTORIES := \
   $(HOME)/.antigen \
+  $(HOME)/.zsh_sessions \
   $(PLUGINS_DIR) \
   $(ZSH_CACHE_DIR)
 
@@ -46,5 +48,5 @@ install: | configuration
 upgrade: | install
 
 clean:
-	$(RM_F)  $(CLEAN_FILES)
-	$(RM_RF) $(CLEAN_DIRS)
+	$(RM_F) $(CLEAN_FILES)
+	$(RM_RF) $(CLEAN_DIRECTORIES)
