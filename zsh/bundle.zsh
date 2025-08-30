@@ -97,12 +97,20 @@ if [[ -r "$ANTIGEN_FILE" ]]; then
   antigen_setup "$ANTIGEN_FILE"
 fi
 
-autoload -U colors
+autoload -U colors;
 colors
-RPROMPT='%{$reset_color%} (K8s: %{$fg[cyan]%}${ZSH_KUBECTL_PROMPT}%{$reset_color%}'
-RPROMPT+=' | '
-RPROMPT+='%{$reset_color%}JDK: %{$fg[cyan]%}$(jenv_prompt_info)%{$reset_color%})'
-export RPROMPT
+function right_prompt() {
+  local prompt
+
+  prompt="%{$reset_color%}("
+  [[ -r ~/.kube/config ]] && prompt+="%{$reset_color%}K8s: %{$fg[blue]%}${ZSH_KUBECTL_PROMPT}"
+  [[ -r ~/.kube/config ]] && which docker > /dev/null 2>&1 && prompt+=" %{$fg[yellow]%}| "
+  which docker > /dev/null 2>&1 && prompt+="%{$reset_color%}JDK: %{$fg[cyan]%}$(jenv_prompt_info)"
+  prompt+="%{$reset_color%})"
+
+  echo ${prompt}
+}
+export RPROMPT='$(right_prompt)'
 
 ensure_omz_cache
 java_environment_enable_export
