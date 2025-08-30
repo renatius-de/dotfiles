@@ -1,7 +1,6 @@
 .DEFAULT_GOAL := install
 .DELETE_ON_ERROR:
 SHELL := /bin/bash
-.SHELLFLAGS := -eu -o pipefail -c
 
 SUDO    := sudo
 BREW    := $(shell command -v brew 2>/dev/null || command -v /opt/homebrew/bin/brew 2>/dev/null || command -v /usr/local/bin/brew 2>/dev/null || printf brew)
@@ -86,14 +85,4 @@ install: install-java import-ca-certs
 
 upgrade: install-java import-ca-certs
 
-TOOL_STATE_DIRS := \
-  $(HOME)/.tool-versions \
-  $(HOME)/.asdf \
-  $(HOME)/.config/cheat \
-  $(HOME)/.sdkman \
-  $(HOME)/.nvm \
-  $(HOME)/.npm
-
 clean: | uninstall-java
-	rm -rf -- $(TOOL_STATE_DIRS)
-	if [ -n "$${ASDF_CONFIG:-}" ]; then rm -rf -- "$${ASDF_CONFIG}"; fi
