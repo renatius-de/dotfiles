@@ -12,7 +12,7 @@ CERT_FILE  := $(HOME)/dev/optadata/optadata-gruppe-ODA-DC1-CA.cer
 CERT_ALIAS := opta_data-gruppe-certificate
 
 JAVA_HOME_BASE        := /Library/Java/JavaVirtualMachines
-CORRETTO_VERSIONS     := 24 21
+CORRETTO_VERSIONS     := 25 21
 CORRETTO_CASK_PREFIX  := corretto@
 
 CASK_NAME_OF         = $(CORRETTO_CASK_PREFIX)$(1)
