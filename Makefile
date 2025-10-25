@@ -1,8 +1,15 @@
 .DEFAULT_GOAL := install
 .DELETE_ON_ERROR:
+.ONESHELL:
 
 SHELL := /bin/bash
-BREW := $(shell command -v brew 2>/dev/null || command -v /opt/homebrew/bin/brew 2>/dev/null || command -v /usr/local/bin/brew 2>/dev/null || printf brew)
+.SHELLFLAGS := -e -u -o pipefail -c
+
+BREW := $(shell command -v brew 2>/dev/null || \
+	command -v /opt/homebrew/bin/brew 2>/dev/null || \
+	command -v /usr/local/bin/brew 2>/dev/null || \
+	echo "")
+
 BREW_FORMULAS := \
 	antigen \
 	curl \
@@ -25,6 +32,7 @@ BREW_FORMULAS := \
 	node \
 	pnpm \
 	python
+
 BREW_CASKS := \
 	bitwarden \
 	corretto \
@@ -32,11 +40,13 @@ BREW_CASKS := \
 	google-chrome \
 	jetbrains-toolbox \
 	visual-studio-code
+
 CLEAN_FILES := \
 	$(HOME)/.asdfrc \
 	$(HOME)/.calendar \
 	$(HOME)/.lesshst \
 	$(HOME)/.testcontainers.properties
+
 CLEAN_DIRECTORIES := \
 	$(HOME)/.asdf \
 	$(HOME)/.cache \
@@ -58,23 +68,19 @@ CLEAN_DIRECTORIES := \
 	$(HOME)/.sonar \
 	$(HOME)/.sonarlint \
 	$(HOME)/.tool-versions
+
 EXCLUDED_SUB_DIRECTORIES :=
 SUB_DIRECTORIES := $(filter-out $(EXCLUDED_SUB_DIRECTORIES),$(sort $(wildcard */)))
 HOME_DEV_DIR := $(HOME)/dev
-RMDIR := rm -rf
 
 define brew_for_each
-	@set -e; \
-	for pkg in $(1); do \
-		$(BREW) $(2) $$pkg; \
-	done
+	@printf '%s\n' $(1) | xargs -n 1 -P 4 $(BREW) $(2) || true
 endef
 
 define do_in_sub_directories
-	@set -e; \
-	for d in $(SUB_DIRECTORIES); do \
-		if [ -d "$$d" ] && [ -f "$$d/Makefile" ]; then \
-			$(MAKE) -C "$$d" $(1); \
+	@for d in $(SUB_DIRECTORIES); do \
+		if [ -f "$$d/Makefile" ]; then \
+			$(MAKE) -C "$$d" $(1) || exit 1; \
 		fi; \
 	done
 endef
@@ -96,28 +102,33 @@ endef
 	upgrade
 
 brew-ensure:
-	@command -v "$(BREW)" >/dev/null 2>&1 || { \
-		echo "Error: Homebrew not found at '$(BREW)'."; \
+	@if [ -z "$(BREW)" ] || ! command -v "$(BREW)" >/dev/null 2>&1; then \
+		echo "Error: Homebrew not found. Please install it from https://brew.sh"; \
 		exit 1; \
-	}
+	fi
 
 brew-update: | brew-ensure
-	$(BREW) update
+	@$(BREW) update
 
 brew-install-packages: | brew-ensure
+	@echo "Installing formulas..."
 	$(call brew_for_each,$(BREW_FORMULAS),install --formula)
+	@echo "Installing casks..."
 	$(call brew_for_each,$(BREW_CASKS),install --cask)
 
 brew-uninstall-packages: | brew-ensure
+	@echo "Uninstalling formulas..."
 	$(call brew_for_each,$(BREW_FORMULAS),uninstall --formula --ignore-dependencies --force)
+	@echo "Uninstalling casks..."
 	$(call brew_for_each,$(BREW_CASKS),uninstall --cask --ignore-dependencies --force)
 
 brew-cleanup: | brew-ensure
-	$(BREW) autoremove
+	@$(BREW) autoremove
+	@$(BREW) cleanup
 
 brew-post-install: | brew-ensure
-	$(BREW) doctor
-	$(BREW) analytics off
+	-@$(BREW) doctor
+	@$(BREW) analytics off
 
 brew-install: | \
 	brew-update \
@@ -126,10 +137,10 @@ brew-install: | \
 	brew-post-install
 
 brew-outdated: | brew-ensure
-	$(BREW) outdated
+	@$(BREW) outdated
 
 brew-perform-upgrade: | brew-ensure
-	$(BREW) upgrade
+	@$(BREW) upgrade
 
 brew-upgrade: | \
 	brew-update \
@@ -141,13 +152,15 @@ install: | brew-install fix-permissions-of-home
 	$(call do_in_sub_directories,install)
 
 fix-permissions-of-home:
-	chmod u=rwX,go= "$(HOME)"
-	chmod -R u=rwX,go= "$(HOME_DEV_DIR)"
+	@if [ -d "$(HOME_DEV_DIR)" ]; then \
+		chmod -R u=rwX,go= "$(HOME_DEV_DIR)"; \
+	fi
+	@chmod u=rwX,go= "$(HOME)"
 
 upgrade: | brew-upgrade
 	$(call do_in_sub_directories,upgrade)
 
 clean: | brew-uninstall-packages
-	$(RM) $(CLEAN_FILES)
-	$(RMDIR) $(CLEAN_DIRECTORIES)
+	@$(RM) $(CLEAN_FILES)
+	@$(RM) -r $(CLEAN_DIRECTORIES)
 	$(call do_in_sub_directories,clean)
