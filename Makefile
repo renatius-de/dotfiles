@@ -30,7 +30,8 @@ BREW_CASKS := \
 	corretto \
 	docker-desktop \
 	google-chrome \
-	jetbrains-toolbox
+	jetbrains-toolbox \
+	visual-studio-code
 CLEAN_FILES := \
 	$(HOME)/.asdfrc \
 	$(HOME)/.calendar \
