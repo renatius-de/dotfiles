@@ -12,7 +12,6 @@ BREW := $(shell command -v brew 2>/dev/null || \
 
 BREW_FORMULAS := \
 	antigen \
-	chatgpt \
 	curl \
 	git \
 	gnupg \
@@ -36,6 +35,7 @@ BREW_FORMULAS := \
 
 BREW_CASKS := \
 	bitwarden \
+	chatgpt \
 	corretto \
 	docker-desktop \
 	google-chrome \
