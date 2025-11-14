@@ -31,7 +31,8 @@ BREW_FORMULAS := \
 	neovim \
 	node \
 	pnpm \
-	python
+	python \
+	#
 
 BREW_CASKS := \
 	bitwarden \
@@ -40,13 +41,14 @@ BREW_CASKS := \
 	docker-desktop \
 	google-chrome \
 	jetbrains-toolbox \
-	visual-studio-code
+	#
 
 CLEAN_FILES := \
 	$(HOME)/.asdfrc \
 	$(HOME)/.calendar \
 	$(HOME)/.lesshst \
-	$(HOME)/.testcontainers.properties
+	$(HOME)/.testcontainers.properties \
+	#
 
 CLEAN_DIRECTORIES := \
 	$(HOME)/.asdf \
@@ -68,7 +70,8 @@ CLEAN_DIRECTORIES := \
 	$(HOME)/.sdkman \
 	$(HOME)/.sonar \
 	$(HOME)/.sonarlint \
-	$(HOME)/.tool-versions
+	$(HOME)/.tool-versions \
+	#
 
 EXCLUDED_SUB_DIRECTORIES :=
 SUB_DIRECTORIES := $(filter-out $(EXCLUDED_SUB_DIRECTORIES),$(sort $(wildcard */)))
