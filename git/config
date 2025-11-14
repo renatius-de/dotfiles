@@ -7,7 +7,7 @@
     cf = checkout --quiet --force
     cl = !"git clone --progress --verbose --recurse-submodules"
     cm = commit --branch --status --verbose
-    cn = !"git reflog expire --all && git fsck --unreachable --full && git prune && git gc --aggressive --quiet && git repack -Adq && git prune-packed --quiet"
+    cn = !"git gc --auto --prune=$(date -v-7d +'%Y-%m-%d')"
     dt = difftool
     fe = fetch --progress
     fm = !"git fe --all && git fe --all --tags"
@@ -71,9 +71,12 @@
 
 [core]
     autocrlf = input
+    commitgraph = true
     eol = lf
     excludesfile = ~/.git/ignore
+    fsmonitor = true
     preloadindex = true
+    untrackedcache = true
 
 [diff]
     context = 8
@@ -82,11 +85,15 @@
     renameLimit = 8
     renames = copy
 
+[feature]
+    manyFiles = true
+
 [fetch]
     output = compact
     prune = true
     pruneTags = true
     recurseSubmodules = true
+    writeCommitGraph = true
 
 [grep]
     lineNumber = true
