@@ -36,7 +36,6 @@ BREW_FORMULAS := \
 
 BREW_CASKS := \
 	bitwarden \
-	chatgpt \
 	corretto \
 	docker-desktop \
 	google-chrome \
