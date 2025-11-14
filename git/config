@@ -5,12 +5,11 @@
     bd = branch --verbose --delete
     ca = commit -q --amend --branch --status --verbose
     cf = checkout --quiet --force
-    cl = !"git clone --progress --verbose --recurse-submodules"
+    cl = clone --progress --verbose --recurse-submodules
     cm = commit --branch --status --verbose
-    cn = !"git gc --auto --prune=$(date -v-7d +'%Y-%m-%d')"
+    cn = gc --auto --prune
     dt = difftool
     fe = fetch --progress
-    fm = !"git fe --all && git fe --all --tags"
     ma = merge --abort
     me = merge --stat --summary
     mm = !"git mf origin/$(git branch-name)"
