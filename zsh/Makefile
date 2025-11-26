@@ -21,6 +21,7 @@ OMZ_PLUGINS := \
 	docker \
 	docker-compose \
 	git \
+	git-flow \
 	gradle \
 	history-substring-search \
 	jenv \

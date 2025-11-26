@@ -13,6 +13,7 @@ BREW := $(shell command -v brew 2>/dev/null || \
 BREW_FORMULAS := \
 	curl \
 	git \
+	git-flow \
 	gnupg \
 	go \
 	gradle \
