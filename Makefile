@@ -11,7 +11,6 @@ BREW := $(shell command -v brew 2>/dev/null || \
 	echo "")
 
 BREW_FORMULAS := \
-	antigen \
 	curl \
 	git \
 	gnupg \
@@ -114,15 +113,11 @@ brew-update: | brew-ensure
 	@$(BREW) update
 
 brew-install-packages: | brew-ensure
-	@echo "Installing formulas..."
 	$(call brew_for_each,$(BREW_FORMULAS),install --formula)
-	@echo "Installing casks..."
 	$(call brew_for_each,$(BREW_CASKS),install --cask)
 
 brew-uninstall-packages: | brew-ensure
-	@echo "Uninstalling formulas..."
 	$(call brew_for_each,$(BREW_FORMULAS),uninstall --formula --ignore-dependencies --force)
-	@echo "Uninstalling casks..."
 	$(call brew_for_each,$(BREW_CASKS),uninstall --cask --ignore-dependencies --force)
 
 brew-cleanup: | brew-ensure

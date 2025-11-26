@@ -5,3 +5,5 @@
 /plugin
 
 !/local/.keep
+
+/omz-plugins.zsh
