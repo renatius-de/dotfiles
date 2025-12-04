@@ -8,6 +8,7 @@
     cl = clone --progress --verbose --recurse-submodules
     cm = commit --branch --status --verbose
     cn = gc --auto --prune
+    cn = !"git reflog expire --all && git fsck --unreachable --full && git prune && git gc --aggressive --quiet && git repack -Adq && git prune-packed --quiet"
     dt = difftool
     fe = fetch --progress
     ma = merge --abort
