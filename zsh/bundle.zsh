@@ -11,7 +11,6 @@ plugins=(
   docker
   docker-compose
   git
-  git-flow
   gradle
   history-substring-search
   jenv
