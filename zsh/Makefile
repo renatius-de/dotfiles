@@ -45,7 +45,7 @@ RM_RF := rm -rf
 
 CLEAN_FILES := \
 	$(HOME)/.fzf.zsh \
-	$(HOME)/.zcompdump \
+	$(HOME)/.zcompdump* \
 	$(HOME)/.zsh_history \
 	$(HOME)/.zshrc.zwc \
 	$(HOME)/.zshrc.pre-oh-my-zsh \
