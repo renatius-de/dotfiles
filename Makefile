@@ -35,10 +35,8 @@ BREW_FORMULAS := \
 	#
 
 BREW_CASKS := \
-	bitwarden \
 	corretto \
 	docker-desktop \
-	google-chrome \
 	jetbrains-toolbox \
 	#
 
@@ -53,6 +51,7 @@ CLEAN_DIRECTORIES := \
 	$(HOME)/.asdf \
 	$(HOME)/.cache \
 	$(HOME)/.config/cheat \
+	$(HOME)/.dlv \
 	$(HOME)/.docker \
 	$(HOME)/.gnupg \
 	$(HOME)/.gradle \
@@ -70,6 +69,8 @@ CLEAN_DIRECTORIES := \
 	$(HOME)/.sonar \
 	$(HOME)/.sonarlint \
 	$(HOME)/.tool-versions \
+	$(HOME)/.tree-sitter \
+	$(HOME)/.vscode \
 	#
 
 EXCLUDED_SUB_DIRECTORIES :=
