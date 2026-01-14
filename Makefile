@@ -30,6 +30,7 @@ BREW_FORMULAS := \
 	neovim \
 	node \
 	pnpm \
+	pre-commit \
 	python \
 	#
 
