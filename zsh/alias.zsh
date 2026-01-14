@@ -19,6 +19,7 @@ alias grep="grep --color=auto"
 
 # shellcheck disable=SC2154
 if (( $+commands[docker] )); then
+  alias dr="docker container run --interactive --rm --tty"
   alias dspruea="docker system prune --all --force --volumes ; docker builder prune --all --force"
   alias dbpru="docker builder prune"
 fi
