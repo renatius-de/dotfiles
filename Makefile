@@ -32,6 +32,7 @@ BREW_FORMULAS := \
 	pnpm \
 	pre-commit \
 	python \
+	tig \
 	#
 
 BREW_CASKS := \
