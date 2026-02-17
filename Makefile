@@ -18,7 +18,6 @@ BREW_FORMULAS := \
 	gradle \
 	helm \
 	jenv \
-	jq \
 	jwt-cli \
 	k9s \
 	kotlin \
@@ -33,6 +32,7 @@ BREW_FORMULAS := \
 	pre-commit \
 	python \
 	tig \
+	yq \
 	#
 
 BREW_CASKS := \
