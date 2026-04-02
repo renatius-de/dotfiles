@@ -11,6 +11,8 @@ BREW := $(shell command -v brew 2>/dev/null || \
 	echo "")
 
 BREW_FORMULAS := \
+	bat \
+	btop \
 	curl \
 	git \
 	gnupg \
