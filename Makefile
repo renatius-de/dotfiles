@@ -27,6 +27,7 @@ BREW_FORMULAS := \
 	kotlin \
 	kubectx \
 	kubernetes-cli \
+	lazygit \
 	make \
 	maven \
 	ncdu \
