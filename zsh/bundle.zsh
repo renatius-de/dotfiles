@@ -22,7 +22,10 @@ plugins=(
 )
 
 if [[ "$(uname -s)" == "Darwin" ]]; then
-  plugins+=(brew)
+  plugins+=(
+    brew
+    eza
+  )
   export HOMEBREW_NO_ENV_HINTS=1
   export SHELL_SESSIONS_DISABLE=1
 fi

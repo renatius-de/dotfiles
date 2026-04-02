@@ -14,6 +14,7 @@ BREW_FORMULAS := \
 	bat \
 	btop \
 	curl \
+	eza \
 	git \
 	gnupg \
 	go \

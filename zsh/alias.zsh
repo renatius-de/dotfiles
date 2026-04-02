@@ -6,7 +6,12 @@ alias ln="nocorrect ln"
 alias mkdir="nocorrect mkdir"
 alias mv="nocorrect mv"
 
-alias ls="ls -@FG"
+# shellcheck disable=SC2154
+if (( $+commands[eza] )); then
+  alias ls="eza -@G"
+else
+  alias ls="ls -@FG"
+fi
 alias l="ls -hln"
 alias la="ls -A"
 alias ll="l -A"
