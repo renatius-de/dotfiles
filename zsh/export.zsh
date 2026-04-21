@@ -29,4 +29,4 @@ export VISUAL="${VISUAL:-${EDITOR}}"
 export MANWIDTH="120"
 export TZ="Europe/Berlin"
 
-export MAVEN_ARGS="--also-make --also-make-dependents --strict-checksums --errors --fail-fast --show-version"
+export MAVEN_ARGS="--strict-checksums --errors --fail-fast --show-version"
