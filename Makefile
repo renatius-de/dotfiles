@@ -37,7 +37,6 @@ BREW_FORMULAS := \
 	pre-commit \
 	python \
 	stern \
-	tig \
 	yq \
 	#
 
