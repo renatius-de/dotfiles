@@ -1,3 +1,4 @@
+# Locale settings
 export LC_ADDRESS=de_DE.UTF-8
 export LC_COLLATE=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
@@ -16,17 +17,20 @@ export LANGUAGE=en_GB:en_US:en
 
 unset LC_ALL
 
-if which nvim >/dev/null 2>&1; then
-  EDITOR="nvim"
+# Editor configuration
+if command -v nvim &>/dev/null; then
+  EDITOR=nvim
   VISUAL="nvim -R"
-elif which vim >/dev/null 2>&1; then
-  EDITOR="vim"
+elif command -v vim &>/dev/null; then
+  EDITOR=vim
   VISUAL="vim -R"
 fi
 export EDITOR="${EDITOR:-vi}"
-export VISUAL="${VISUAL:-${EDITOR}}"
+export VISUAL="${VISUAL:-$EDITOR}"
 
-export MANWIDTH="120"
-export TZ="Europe/Berlin"
+# System settings
+export MANWIDTH=120
+export TZ=Europe/Berlin
 
+# Maven configuration
 export MAVEN_ARGS="--strict-checksums --errors --fail-fast --show-version"

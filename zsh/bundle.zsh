@@ -22,10 +22,7 @@ plugins=(
 )
 
 if [[ "$(uname -s)" == "Darwin" ]]; then
-  plugins+=(
-    brew
-    eza
-  )
+  plugins+=(brew eza)
   export HOMEBREW_NO_ENV_HINTS=1
   export SHELL_SESSIONS_DISABLE=1
 fi
@@ -42,30 +39,34 @@ source "$ZSH/oh-my-zsh.sh"
 
 for plugin in "${external_plugins[@]}"; do
   plugin_file="$ZSH_CUSTOM/plugins/$plugin/$plugin.plugin.zsh"
-  [ -f "$plugin_file" ] && source "$plugin_file"
+  [[ -f "$plugin_file" ]] && source "$plugin_file"
 done
 
 command -v jenv >/dev/null 2>&1 && jenv enable-plugin export >/dev/null 2>&1
 
-CUSTOM_PATH_DIRECTORIES=(
-  /bin /usr/bin /usr/local/bin
-  /sbin /usr/sbin /usr/local/sbin
+typeset -Ua path
+path=(
   /opt/homebrew/bin /opt/homebrew/sbin
+  /usr/local/bin /usr/local/sbin
+  /usr/bin /usr/sbin
+  /bin /sbin
   ~/.jenv/shims
+  "${path[@]}"
 )
 
-typeset -Ua path
-for dir in "${CUSTOM_PATH_DIRECTORIES[@]}"; do
-  [[ -d "$dir" ]] && path=("$dir" "${path[@]}")
-done
-
 autoload -U colors; colors
+
 right_prompt() {
   local prompt="%{$reset_color%}("
-  [[ -r ~/.kube/config ]] && prompt+="%{$reset_color%}K8s: %{$fg[blue]%}${ZSH_KUBECTL_PROMPT}"
-  command -v jenv >/dev/null 2>&1 && [[ -r ~/.kube/config ]] && prompt+=" %{$fg[yellow]%}| "
-  command -v jenv >/dev/null 2>&1 && prompt+="%{$reset_color%}JDK: %{$fg[cyan]%}$(jenv_prompt_info)"
+  if [[ -r ~/.kube/config ]]; then
+    prompt+="%{$reset_color%}K8s: %{$fg[blue]%}${ZSH_KUBECTL_PROMPT}"
+  fi
+  if command -v jenv >/dev/null 2>&1; then
+    [[ -r ~/.kube/config ]] && prompt+=" %{$fg[yellow]%}| "
+    prompt+="%{$reset_color%}JDK: %{$fg[cyan]%}$(jenv_prompt_info)"
+  fi
   prompt+="%{$reset_color%})"
-  echo $prompt
+  echo "$prompt"
 }
+
 export RPROMPT='$(right_prompt)'

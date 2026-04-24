@@ -1,50 +1,48 @@
 [[ $- != *i* ]] && return
+
 typeset -r ZSH_CFG_DIR="${ZDOTDIR:-$HOME/.zsh}"
 typeset -ra ZSH_CFG_FILES=(bundle omz-plugins alias export)
 
 apply_zsh_options() {
-  typeset -ra SETOPTS=(
-    auto_cd
-    auto_pushd
-    cdable_vars
-    pushd_ignore_dups
-    list_packed
-    extended_glob
-    mark_dirs
-    append_history
-    hist_expire_dups_first
-    hist_find_no_dups
-    hist_ignore_all_dups
-    hist_ignore_dups
-    hist_ignore_space
-    hist_no_functions
-    hist_no_store
-    hist_reduce_blanks
-    hist_save_by_copy
-    hist_save_no_dups
-    hist_verify
-    correct
-    short_loops
-    auto_continue
-    long_list_jobs
-    monitor
-    notify
-    multios
-    posix_builtins
+  setopt \
+    auto_cd \
+    auto_pushd \
+    cdable_vars \
+    pushd_ignore_dups \
+    list_packed \
+    extended_glob \
+    mark_dirs \
+    append_history \
+    hist_expire_dups_first \
+    hist_find_no_dups \
+    hist_ignore_all_dups \
+    hist_ignore_dups \
+    hist_ignore_space \
+    hist_no_functions \
+    hist_no_store \
+    hist_reduce_blanks \
+    hist_save_by_copy \
+    hist_save_no_dups \
+    hist_verify \
+    correct \
+    short_loops \
+    auto_continue \
+    long_list_jobs \
+    monitor \
+    notify \
+    multios \
+    posix_builtins \
     promptsubst
-  )
-  typeset -ra UNSETOPTS=(
-    list_beep
-    caseglob
-    multibyte
-    nomatch
-    hist_beep
-    mail_warning
-    check_jobs
+
+  unsetopt \
+    list_beep \
+    caseglob \
+    multibyte \
+    nomatch \
+    hist_beep \
+    mail_warning \
+    check_jobs \
     beep
-  )
-  setopt "${SETOPTS[@]}"
-  unsetopt "${UNSETOPTS[@]}"
 }
 
 apply_limits() {
