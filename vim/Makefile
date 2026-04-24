@@ -10,7 +10,7 @@ NVIM_CACHE_DIR := $(CACHE_DIR)/nvim
 VIM_RC         := $(HOME)/.vimrc
 
 NVIMRC_SRC := nvimrc
-VIMRC_SRC  := vimrc
+VIMRC_SRC := vimrc
 
 define ensure_dir
 	mkdir -p $(1)
@@ -32,6 +32,7 @@ $(VIM_RC):
 	$(call ln_from_root,$(VIMRC_SRC),$@)
 
 .PHONY: install upgrade clean
+
 install: | $(NVIM_INIT) $(VIM_RC)
 
 upgrade: install

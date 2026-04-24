@@ -4,14 +4,12 @@
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 LN := ln -snf
 MKDIR := mkdir -p
-DOWNLOAD = curl --fail --location --silent --show-error \
+DOWNLOAD := curl --fail --location --silent --show-error \
 	--retry 3 --retry-delay 2 --retry-all-errors --max-time 20
 
 ZSH_HOME := $(HOME)/.zsh
 ZSH_CACHE_DIR := $(HOME)/.cache/zsh
 OH_MY_ZSH := $(HOME)/.oh-my-zsh
-PLUGINS_DIR := $(ROOT_DIR)/plugin
-
 OMZ_CUSTOM := $(OH_MY_ZSH)/custom/plugins
 OMZ_PLUGIN_LOADER := omz-plugins.zsh
 
@@ -29,6 +27,7 @@ OMZ_PLUGINS := \
 	mvn \
 	vi-mode \
 	zsh-navigation-tools
+
 EXTERNAL_PLUGINS := \
 	MichaelAquilina/zsh-you-should-use \
 	superbrothers/zsh-kubectl-prompt \
@@ -38,9 +37,6 @@ EXTERNAL_PLUGINS := \
 
 DOTFILES := zshrc zshenv zlogout zprofile
 ZSH_LINK_TARGETS := $(addprefix $(HOME)/.,$(DOTFILES))
-
-RM_F := rm -f
-RM_RF := rm -rf
 
 CLEAN_FILES := \
 	$(HOME)/.fzf.zsh \
@@ -57,8 +53,7 @@ CLEAN_DIRECTORIES := \
 	$(OH_MY_ZSH) \
 	$(ZSH_CACHE_DIR)
 
-PHONY_TARGETS := configuration install upgrade ohmyzsh ohmyzsh_update clone-or-update-external generate-omz-loader clean
-.PHONY: $(PHONY_TARGETS)
+.PHONY: configuration install upgrade ohmyzsh ohmyzsh_update clone-or-update-external generate-omz-loader clean
 
 $(ZSH_HOME):
 	$(LN) $(ROOT_DIR) $(ZSH_HOME)

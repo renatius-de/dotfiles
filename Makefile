@@ -1,6 +1,7 @@
 .DEFAULT_GOAL := install
 .DELETE_ON_ERROR:
 .ONESHELL:
+.SILENT:
 
 SHELL := /bin/bash
 .SHELLFLAGS := -e -u -o pipefail -c
@@ -89,9 +90,7 @@ endef
 
 define do_in_sub_directories
 	@for d in $(SUB_DIRECTORIES); do \
-		if [ -f "$$d/Makefile" ]; then \
-			$(MAKE) -C "$$d" $(1) || exit 1; \
-		fi; \
+		[ -f "$$d/Makefile" ] && $(MAKE) -C "$$d" $(1) || exit 1; \
 	done
 endef
 
