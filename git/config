@@ -96,6 +96,11 @@
     recurseSubmodules = true
     writeCommitGraph = true
 
+[gc]
+	auto = 1000
+	pruneExpire = 1 day ago
+	reflogExpireUnreachable = 1 day ago
+
 [grep]
     lineNumber = true
     extendedRegexp = true
