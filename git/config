@@ -97,9 +97,8 @@
     writeCommitGraph = true
 
 [gc]
-	auto = 1000
-	pruneExpire = 1 day ago
-	reflogExpireUnreachable = 1 day ago
+	pruneExpire = 7 days ago
+	reflogExpireUnreachable = 7 days ago
 
 [grep]
     lineNumber = true
