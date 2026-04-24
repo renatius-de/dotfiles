@@ -1,35 +1,25 @@
----
 version: 2
 
 updates:
   - package-ecosystem: github-actions
-    directory: "/.github"
+    directory: /.github
     schedule:
       interval: weekly
       day: monday
       time: "07:30"
-      timezone: "Europe/Berlin"
+      timezone: UTC
     open-pull-requests-limit: 5
     rebase-strategy: auto
-
     groups:
       all-actions:
         patterns:
           - "*"
-
     labels:
       - dependencies
       - github-actions
-
     commit-message:
-      prefix: "deps"
+      prefix: deps
       include: scope
-
-    reviewers:
-      - "<github-username-or-team>"
-    assignees:
-      - "<github-username>"
-
     ignore:
       - dependency-name: "*"
-        update-types: ["version-update:semver-major"]
+        update-types:
