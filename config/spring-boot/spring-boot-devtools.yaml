@@ -1,0 +1,7 @@
+---
+spring:
+  devtools:
+    restart:
+      enabled: true
+      livereload: true
+      logfile: target/restart.log
