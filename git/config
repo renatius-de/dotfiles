@@ -86,9 +86,6 @@
     renameLimit = 8
     renames = copy
 
-[feature]
-    manyFiles = true
-
 [fetch]
     output = compact
     prune = true
@@ -97,8 +94,8 @@
     writeCommitGraph = true
 
 [gc]
-	pruneExpire = 7 days ago
-	reflogExpireUnreachable = 7 days ago
+    pruneExpire = 7 days ago
+    reflogExpireUnreachable = 7 days ago
 
 [grep]
     lineNumber = true
