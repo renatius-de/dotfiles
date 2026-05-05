@@ -1,24 +1,14 @@
-.DEFAULT_GOAL := install
-.DELETE_ON_ERROR:
+include ../make/common.mk
 
-ROOT_DIR       := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-CACHE_DIR      := $(HOME)/.cache
-SHARE_DIR      := $(HOME)/.local/share
-NVIM_DIR       := $(HOME)/.config/nvim
-NVIM_INIT      := $(NVIM_DIR)/init.vim
+CACHE_DIR := $(HOME)/.cache
+SHARE_DIR := $(HOME)/.local/share
+NVIM_DIR := $(HOME)/.config/nvim
+NVIM_INIT := $(NVIM_DIR)/init.vim
 NVIM_CACHE_DIR := $(CACHE_DIR)/nvim
-VIM_RC         := $(HOME)/.vimrc
+VIM_RC := $(HOME)/.vimrc
 
 NVIMRC_SRC := nvimrc
 VIMRC_SRC := vimrc
-
-define ensure_dir
-	mkdir -p $(1)
-endef
-
-define ln_from_root
-	ln -snf $(ROOT_DIR)/$(1) $(2)
-endef
 
 REQUIRED_DIRS := $(NVIM_DIR) $(NVIM_CACHE_DIR)
 
@@ -26,10 +16,10 @@ $(REQUIRED_DIRS):
 	$(call ensure_dir,$@)
 
 $(NVIM_INIT): | $(REQUIRED_DIRS)
-	$(call ln_from_root,$(NVIMRC_SRC),$@)
+	$(symlink) $(ROOT_DIR)/$(NVIMRC_SRC) $@
 
 $(VIM_RC):
-	$(call ln_from_root,$(VIMRC_SRC),$@)
+	$(symlink) $(ROOT_DIR)/$(VIMRC_SRC) $@
 
 .PHONY: install upgrade clean
 
@@ -56,5 +46,5 @@ CLEAN_DIRS := \
 	$(NVIM_CACHE_DIR)
 
 clean:
-	-rm -f $(CLEAN_FILES)
-	-rm -rf $(CLEAN_DIRS)
+	$(RM_F) $(CLEAN_FILES)
+	$(RM_RF) $(CLEAN_DIRS)

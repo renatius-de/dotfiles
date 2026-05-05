@@ -1,11 +1,4 @@
-.DEFAULT_GOAL := install
-.DELETE_ON_ERROR:
-
-ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-LN := ln -snf
-MKDIR := mkdir -p
-DOWNLOAD := curl --fail --location --silent --show-error \
-	--retry 3 --retry-delay 2 --retry-all-errors --max-time 20
+include ../make/common.mk
 
 ZSH_HOME := $(HOME)/.zsh
 ZSH_CACHE_DIR := $(HOME)/.cache/zsh
@@ -56,19 +49,19 @@ CLEAN_DIRECTORIES := \
 .PHONY: configuration install upgrade ohmyzsh ohmyzsh_update clone-or-update-external generate-omz-loader clean
 
 $(ZSH_HOME):
-	$(LN) $(ROOT_DIR) $(ZSH_HOME)
+	$(symlink) $(ROOT_DIR) $@
 
 $(ZSH_CACHE_DIR):
-	$(MKDIR) $(ZSH_CACHE_DIR)
+	$(MKDIR) $@
 
 $(ZSH_LINK_TARGETS): $(HOME)/.%: $(ROOT_DIR)/%
-	$(LN) $< $@
+	$(symlink) $< $@
 
 ohmyzsh:
 	@if [ ! -d "$(OH_MY_ZSH)" ]; then \
 		sh -c "$$($(DOWNLOAD) https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended"; \
 	fi
-	$(RM) $(HOME)/.zshrc
+	$(RM_F) $(HOME)/.zshrc
 
 ohmyzsh_update:
 	@if [ -d "$(OH_MY_ZSH)" ]; then \
@@ -77,7 +70,7 @@ ohmyzsh_update:
 	@$(MAKE) clone-or-update-external
 
 clone-or-update-external:
-	@mkdir -p $(OMZ_CUSTOM)
+	@$(MKDIR) $(OMZ_CUSTOM)
 	@$(foreach repo,$(EXTERNAL_PLUGINS), \
 		name=$$(basename $(repo)); \
 		dir=$(OMZ_CUSTOM)/$$name; \
@@ -89,12 +82,12 @@ clone-or-update-external:
 	)
 
 generate-omz-loader: clone-or-update-external
-	@rm -f $(OMZ_PLUGIN_LOADER)
+	@$(RM_F) $(OMZ_PLUGIN_LOADER)
 	@$(foreach plugin,$(OMZ_PLUGINS), \
-		printf "source \$$ZSH/plugins/%s/%s.plugin.zsh\n" "$(plugin)" "$(plugin)" >> $(OMZ_PLUGIN_LOADER);)
+		printf "source $$ZSH/plugins/%s/%s.plugin.zsh\n" "$(plugin)" "$(plugin)" >> $(OMZ_PLUGIN_LOADER);)
 	@$(foreach repo,$(EXTERNAL_PLUGINS), \
 		name=$$(basename $(repo)); \
-		printf "source \$$ZSH_CUSTOM/plugins/%s/%s.plugin.zsh\n" "$$name" "$$name" >> $(OMZ_PLUGIN_LOADER);)
+		printf "source $$ZSH_CUSTOM/plugins/%s/%s.plugin.zsh\n" "$$name" "$$name" >> $(OMZ_PLUGIN_LOADER);)
 
 configuration: | $(ZSH_HOME) $(ZSH_CACHE_DIR) $(ZSH_LINK_TARGETS)
 

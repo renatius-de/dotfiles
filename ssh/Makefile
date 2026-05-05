@@ -1,33 +1,29 @@
-.DEFAULT_GOAL := install
-.DELETE_ON_ERROR:
+include ../make/common.mk
 
-ROOT_DIR          := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-SSH_DIR           := $(HOME)/.ssh
-SSH_CONFIG        := $(SSH_DIR)/config
-SSH_CONFIG_LOCAL  := $(SSH_DIR)/config.local
-SSH_KEYS_DIR      := $(SSH_DIR)/keys
+SSH_DIR := $(HOME)/.ssh
+SSH_CONFIG := $(SSH_DIR)/config
+SSH_CONFIG_LOCAL := $(SSH_DIR)/config.local
+SSH_KEYS_DIR := $(SSH_DIR)/keys
 SSH_CONFIG_SOURCE := $(ROOT_DIR)/config
-
-DIR_MODE          := 0700
-FILE_MODE         := 0600
+FILE_MODE := 0600
 
 .PHONY: install upgrade clean
 
 $(SSH_DIR):
-	install -d -m $(DIR_MODE) $@
+	$(MKDIR) $@
 
 $(SSH_KEYS_DIR): | $(SSH_DIR)
-	install -d -m $(DIR_MODE) $@
+	$(MKDIR) $@
 
 $(SSH_CONFIG_LOCAL): | $(SSH_KEYS_DIR)
-	@[ -e "$@" ] || install -m $(FILE_MODE) /dev/null "$@"
+	@[ -e "$@" ] || $(INSTALL_FILE) $(FILE_MODE) /dev/null "$@"
 
 $(SSH_CONFIG): | $(SSH_DIR)
-	ln -snf $(SSH_CONFIG_SOURCE) $@
+	$(symlink) $(SSH_CONFIG_SOURCE) $@
 
 install: $(SSH_CONFIG) $(SSH_CONFIG_LOCAL)
 
 upgrade: install
 
 clean:
-	rm -f $(SSH_CONFIG)
+	$(RM_F) $(SSH_CONFIG)

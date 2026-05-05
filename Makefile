@@ -1,15 +1,6 @@
-.DEFAULT_GOAL := install
-.DELETE_ON_ERROR:
-.ONESHELL:
-.SILENT:
+include make/common.mk
 
-SHELL := /bin/bash
-.SHELLFLAGS := -e -u -o pipefail -c
-
-BREW := $(shell command -v brew 2>/dev/null || \
-	command -v /opt/homebrew/bin/brew 2>/dev/null || \
-	command -v /usr/local/bin/brew 2>/dev/null || \
-	echo "")
+BREW := $(shell command -v brew 2>/dev/null || command -v /opt/homebrew/bin/brew 2>/dev/null || command -v /usr/local/bin/brew 2>/dev/null || echo)
 
 BREW_FORMULAS := \
 	bat \
@@ -166,6 +157,6 @@ upgrade: | brew-upgrade
 	$(call do_in_sub_directories,upgrade)
 
 clean: | brew-uninstall-packages
-	@$(RM) $(CLEAN_FILES)
-	@$(RM) -r $(CLEAN_DIRECTORIES)
+	@$(RM_F) $(CLEAN_FILES)
+	@$(RM_RF) $(CLEAN_DIRECTORIES)
 	$(call do_in_sub_directories,clean)
