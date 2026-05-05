@@ -3,13 +3,13 @@
 Personal configuration files and install scripts for macOS/Linux.
 
 ## What it contains
-- Zsh configuration and plugin bootstrap — `zsh/`
-- Vim/Neovim configuration — `vim/`
+- Additional config modules — `config/`
 - Git configuration — `git/`
+- Local lint environment — `docker-compose.yml`
 - SSH configuration — `ssh/`
 - Utility scripts and helpers — `misc/`
-- Additional config modules — `config/`
-- Local lint environment — `docker-compose.yml`
+- Vim/Neovim configuration — `vim/`
+- Zsh configuration and plugin bootstrap — `zsh/`
 
 ## Install
 1. Clone the repository.
@@ -26,11 +26,18 @@ Run the local linter with:
 - `docker-compose up`
 
 ## Related
-- `AGENTS.md` — AI assistance guidance
-- `CONTRIBUTING.md`
-- `CODE_OF_CONDUCT.md`
-- `SECURITY.md`
 - `.github/workflows/security-scan.yml`
+- `AGENTS.md` — AI assistance guidance
+- `CODE_OF_CONDUCT.md`
+- `CONTRIBUTING.md`
+- `SECURITY.md`
+- `docs/MAKEFILE.md` — root Makefile overview
+- `config/README.md`
+- `git/README.md`
+- `misc/README.md`
+- `ssh/README.md`
+- `vim/README.md`
+- `zsh/README.md`
 
 ## License
 MIT License — `LICENSE`
