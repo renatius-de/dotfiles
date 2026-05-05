@@ -59,7 +59,7 @@ $(ZSH_LINK_TARGETS): $(HOME)/.%: $(ROOT_DIR)/%
 	$(symlink) $< $@
 
 $(ZSHRC_LOCAL_FILE):
-	@[ -e "$@" ] || touch "$@"
+	$(call create_local_file,$@)
 
 ohmyzsh:
 	@if [ ! -d "$(OH_MY_ZSH)" ]; then \

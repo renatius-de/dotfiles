@@ -31,7 +31,7 @@ $(GIT_CONFIG_FILE):
 	$(symlink) $(ROOT_DIR)/config $@
 
 $(GIT_CONFIG_LOCAL_FILE):
-	@[ -e "$@" ] || touch "$@"
+	$(call create_local_file,$@)
 
 .PHONY: install upgrade plugin clean
 

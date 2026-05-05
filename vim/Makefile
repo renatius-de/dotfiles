@@ -13,7 +13,7 @@ VIMRC_SRC := vimrc
 REQUIRED_DIRS := $(NVIM_DIR) $(NVIM_CACHE_DIR)
 
 $(REQUIRED_DIRS):
-	$(call ensure_dir,$@)
+	$(MKDIR) $@
 
 $(NVIM_INIT): | $(REQUIRED_DIRS)
 	$(symlink) $(ROOT_DIR)/$(NVIMRC_SRC) $@

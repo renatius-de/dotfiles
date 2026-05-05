@@ -33,3 +33,7 @@ define clone_or_update_repo
 		git -C "$$dir" pull --ff-only >/dev/null 2>&1 || true; \
 	fi
 endef
+
+define create_local_file
+	@[ -e "$(1)" ] || $(INSTALL_FILE) /dev/null "$(1)"
+endef

@@ -16,7 +16,7 @@ $(SSH_KEYS_DIR): | $(SSH_DIR)
 	$(MKDIR) $@
 
 $(SSH_CONFIG_LOCAL): | $(SSH_KEYS_DIR)
-	@[ -e "$@" ] || $(INSTALL_FILE) $(FILE_MODE) /dev/null "$@"
+	$(call create_local_file,$@)
 
 $(SSH_CONFIG): | $(SSH_DIR)
 	$(symlink) $(SSH_CONFIG_SOURCE) $@
