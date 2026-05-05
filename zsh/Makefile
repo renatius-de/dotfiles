@@ -30,6 +30,7 @@ EXTERNAL_PLUGINS := \
 
 DOTFILES := zshrc zshenv zlogout zprofile
 ZSH_LINK_TARGETS := $(addprefix $(HOME)/.,$(DOTFILES))
+ZSHRC_LOCAL_FILE := $(HOME)/.zshrc.local
 
 CLEAN_FILES := \
 	$(HOME)/.fzf.zsh \
@@ -56,6 +57,9 @@ $(ZSH_CACHE_DIR):
 
 $(ZSH_LINK_TARGETS): $(HOME)/.%: $(ROOT_DIR)/%
 	$(symlink) $< $@
+
+$(ZSHRC_LOCAL_FILE):
+	@[ -e "$@" ] || touch "$@"
 
 ohmyzsh:
 	@if [ ! -d "$(OH_MY_ZSH)" ]; then \
@@ -85,7 +89,7 @@ generate-omz-loader: clone-or-update-external
 	@$(RM_F) $(OMZ_PLUGIN_LOADER)
 	@$(foreach plugin,$(OMZ_PLUGINS), \
 		printf "source $$ZSH/plugins/%s/%s.plugin.zsh\n" "$(plugin)" "$(plugin)" >> $(OMZ_PLUGIN_LOADER);)
-	@$(foreach repo,$(EXTERNAL_PLUGINS), \
+	@$(foreach repo,$(EXTERNAL_PLUGINS), \ $(ZSHRC_LOCAL_FILE)
 		name=$$(basename $(repo)); \
 		printf "source $$ZSH_CUSTOM/plugins/%s/%s.plugin.zsh\n" "$$name" "$$name" >> $(OMZ_PLUGIN_LOADER);)
 
