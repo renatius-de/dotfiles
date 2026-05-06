@@ -81,7 +81,9 @@ endef
 
 define do_in_sub_directories
 	@for d in $(SUB_DIRECTORIES); do \
-		[ -f "$$d/Makefile" ] && $(MAKE) -C "$$d" $(1) || exit 1; \
+		if [ -f "$$d/Makefile" ]; then \
+			$(MAKE) -C "$$d" $(1) || { echo "Error in $$d/$(1)"; exit 1; }; \
+		fi; \
 	done
 endef
 

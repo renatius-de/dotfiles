@@ -28,9 +28,9 @@ define clone_or_update_repo
 	@name=$$(basename $(1)); \
 	dir=$(2)/$$name; \
 	if [ ! -d "$$dir" ]; then \
-		git clone --depth=1 "https://github.com/$(1).git" "$$dir"; \
+	  git clone --depth=1 "https://github.com/$(1).git" "$$dir"; \
 	else \
-		git -C "$$dir" pull --ff-only >/dev/null 2>&1 || true; \
+	  git -C "$$dir" pull --ff-only >/dev/null 2>&1 || true; \
 	fi
 endef
 

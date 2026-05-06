@@ -78,10 +78,10 @@ clone-or-update-external:
 	@$(foreach repo,$(EXTERNAL_PLUGINS), \
 		name=$$(basename $(repo)); \
 		dir=$(OMZ_CUSTOM)/$$name; \
-		if [ ! -d $$dir ]; then \
-			git clone --depth=1 https://github.com/$(repo).git $$dir >/dev/null 2>&1; \
+		if [ ! -d "$$dir" ]; then \
+		  git clone --depth=1 https://github.com/$(repo).git "$$dir" >/dev/null 2>&1; \
 		else \
-			git -C $$dir pull --ff-only >/dev/null 2>&1 || true; \
+		  git -C "$$dir" pull --ff-only >/dev/null 2>&1 || true; \
 		fi; \
 	)
 
@@ -89,7 +89,7 @@ generate-omz-loader: clone-or-update-external
 	@$(RM_F) $(OMZ_PLUGIN_LOADER)
 	@$(foreach plugin,$(OMZ_PLUGINS), \
 		printf "source $$ZSH/plugins/%s/%s.plugin.zsh\n" "$(plugin)" "$(plugin)" >> $(OMZ_PLUGIN_LOADER);)
-	@$(foreach repo,$(EXTERNAL_PLUGINS), \ $(ZSHRC_LOCAL_FILE)
+	@$(foreach repo,$(EXTERNAL_PLUGINS), \
 		name=$$(basename $(repo)); \
 		printf "source $$ZSH_CUSTOM/plugins/%s/%s.plugin.zsh\n" "$$name" "$$name" >> $(OMZ_PLUGIN_LOADER);)
 

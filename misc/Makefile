@@ -23,29 +23,33 @@ KEYTOOL_CA_CERTS_ARGS := -import -trustcacerts -alias "$(CERT_ALIAS)" -file "$(C
 
 define install_java_for_version
 	JDK_DIR="$(call JDK_HOME_OF,$(1))"; \
-	if [ ! -d "$$JDK_DIR" ]; then $(BREW) install --cask "$(call CASK_NAME_OF,$(1))"; fi; \
+	if [ ! -d "$$JDK_DIR" ]; then \
+	  $(BREW) install --cask "$(call CASK_NAME_OF,$(1))"; \
+	fi; \
 	if [ -d "$$JDK_DIR" ]; then \
-		$(JENV) add "$(call JDK_CONTENTS_HOME_OF,$(1))" || true; \
-		$(JENV) global "$(1)" || true; \
+	  $(JENV) add "$(call JDK_CONTENTS_HOME_OF,$(1))" || true; \
+	  $(JENV) global "$(1)" || true; \
 	fi
 endef
 
 define uninstall_java_for_version
 	JDK_DIR="$(call JDK_HOME_OF,$(1))"; \
-	if [ -d "$$JDK_DIR" ]; then $(BREW) uninstall --ignore-dependencies --force "$(call CASK_NAME_OF,$(1))"; fi
+	if [ -d "$$JDK_DIR" ]; then \
+	  $(BREW) uninstall --ignore-dependencies --force "$(call CASK_NAME_OF,$(1))"; \
+	fi
 endef
 
 define import_ca_certs_for_version
 	if [ -r "$(CERT_FILE)" ]; then \
-		KEYTOOL_BIN="$(call KEYTOOL_BIN_OF,$(1))"; \
-		if [ -x "$$KEYTOOL_BIN" ]; then \
-			$(SUDO) "$$KEYTOOL_BIN" $(KEYTOOL_CA_CERTS_ARGS) || printf "Warning: cert import failed for %s\n" "$$KEYTOOL_BIN"; \
-		fi; \
+	  KEYTOOL_BIN="$(call KEYTOOL_BIN_OF,$(1))"; \
+	  if [ -x "$$KEYTOOL_BIN" ]; then \
+	    $(SUDO) "$$KEYTOOL_BIN" $(KEYTOOL_CA_CERTS_ARGS) || printf "Warning: cert import failed for %s\n" "$$KEYTOOL_BIN"; \
+	  fi; \
 	fi
 endef
 
 define for_each_corretto_version
-	$(foreach v,$(CORRETTO_VERSIONS),$(call $(1),$(v)))
+	@for v in $(CORRETTO_VERSIONS); do $(call $(1),$$v); done
 endef
 
 .PHONY: ensure-prereqs import-ca-certs install-java uninstall-java install upgrade clean
