@@ -12,6 +12,7 @@ CERT_ALIAS := opta_data-gruppe-certificate
 JAVA_HOME_BASE := /Library/Java/JavaVirtualMachines
 CORRETTO_VERSIONS := 21 25
 CORRETTO_CASK_PREFIX := corretto@
+WORK_ENV ?= false
 
 CASK_NAME_OF = $(CORRETTO_CASK_PREFIX)$(1)
 JDK_HOME_OF = $(JAVA_HOME_BASE)/amazon-corretto-$(1).jdk
@@ -43,7 +44,11 @@ define import_ca_certs_for_version
 	if [ -r "$(CERT_FILE)" ]; then \
 	  KEYTOOL_BIN="$(call KEYTOOL_BIN_OF,$(1))"; \
 	  if [ -x "$$KEYTOOL_BIN" ]; then \
-	    $(SUDO) "$$KEYTOOL_BIN" $(KEYTOOL_CA_CERTS_ARGS) || printf "Warning: cert import failed for %s\n" "$$KEYTOOL_BIN"; \
+	    if ! $(SUDO) "$$KEYTOOL_BIN" -list -cacerts -storepass "$(STORE_PASS)" -alias "$(CERT_ALIAS)" >/dev/null 2>&1; then \
+	      $(SUDO) "$$KEYTOOL_BIN" $(KEYTOOL_CA_CERTS_ARGS) || printf "Warning: cert import failed for %s\n" "$$KEYTOOL_BIN"; \
+	    else \
+	      printf "Certificate %s already installed in %s\n" "$(CERT_ALIAS)" "$$KEYTOOL_BIN"; \
+	    fi; \
 	  fi; \
 	fi
 endef
@@ -59,10 +64,18 @@ ensure-prereqs:
 	$(call ensure_cmd,$(JENV))
 
 install-java: ensure-prereqs
+ifeq ($(WORK_ENV),true)
 	$(call for_each_corretto_version,install_java_for_version)
+else
+	@printf "Skipping Corretto installation because WORK_ENV=%s\n" "$(WORK_ENV)"
+endif
 
 import-ca-certs: install-java
+ifeq ($(WORK_ENV),true)
 	$(call for_each_corretto_version,import_ca_certs_for_version)
+else
+	@printf "Skipping CA cert import because WORK_ENV=%s\n" "$(WORK_ENV)"
+endif
 
 uninstall-java:
 	$(call for_each_corretto_version,uninstall_java_for_version)

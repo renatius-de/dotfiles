@@ -57,6 +57,10 @@ for f in "${ZSH_CFG_FILES[@]}"; do
   [[ -r "${ZSH_CFG_DIR}/${f}.zsh" ]] && source "${ZSH_CFG_DIR}/${f}.zsh"
 done
 
+if [[ -r "${ZDOTDIR:-$HOME}/.zshrc.local" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zshrc.local"
+fi
+
 watch=(notme root)
 apply_zsh_options
 apply_limits

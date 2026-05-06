@@ -35,7 +35,6 @@ BREW_FORMULAS := \
 BREW_CASKS := \
 	corretto \
 	docker-desktop \
-	jetbrains-toolbox \
 	#
 
 CLEAN_FILES := \
@@ -75,10 +74,6 @@ EXCLUDED_SUB_DIRECTORIES :=
 SUB_DIRECTORIES := $(filter-out $(EXCLUDED_SUB_DIRECTORIES),$(sort $(wildcard */)))
 HOME_DEV_DIR := $(HOME)/dev
 
-define brew_for_each
-	@printf '%s\n' $(1) | xargs -n 1 -P 4 $(BREW) $(2) || true
-endef
-
 define do_in_sub_directories
 	@for d in $(SUB_DIRECTORIES); do \
 		if [ -f "$$d/Makefile" ]; then \
@@ -101,7 +96,8 @@ endef
 	clean \
 	fix-permissions-of-home \
 	install \
-	upgrade
+	upgrade \
+	jenv-add-corretto
 
 brew-ensure:
 	@if [ -z "$(BREW)" ] || ! command -v "$(BREW)" >/dev/null 2>&1; then \
@@ -110,23 +106,34 @@ brew-ensure:
 	fi
 
 brew-update: | brew-ensure
-	@$(BREW) update
+	@$(BREW) update --quiet
 
 brew-install-packages: | brew-ensure
-	$(call brew_for_each,$(BREW_FORMULAS),install --formula)
-	$(call brew_for_each,$(BREW_CASKS),install --cask)
+	@$(BREW) install --quiet --formula $(BREW_FORMULAS)
+	@$(BREW) install --quiet --cask $(BREW_CASKS)
 
 brew-uninstall-packages: | brew-ensure
-	$(call brew_for_each,$(BREW_FORMULAS),uninstall --formula --ignore-dependencies --force)
-	$(call brew_for_each,$(BREW_CASKS),uninstall --cask --ignore-dependencies --force)
+	@$(BREW) uninstall --quiet --formula --ignore-dependencies --force $(BREW_FORMULAS)
+	@$(BREW) uninstall --quiet --cask --ignore-dependencies --force $(BREW_CASKS)
 
 brew-cleanup: | brew-ensure
-	@$(BREW) autoremove
-	@$(BREW) cleanup
+	@$(BREW) autoremove --quiet
+	@$(BREW) cleanup --quiet --prune=all 
 
 brew-post-install: | brew-ensure
-	-@$(BREW) doctor
+	-@$(BREW) doctor --quiet
 	@$(BREW) analytics off
+	-@$(MAKE) jenv-add-corretto
+
+jenv-add-corretto:
+	@if command -v jenv >/dev/null 2>&1; then \
+		for jd in /Library/Java/JavaVirtualMachines/amazon-corretto*.jdk/Contents/Home; do \
+			if [ -d "$$jd" ]; then \
+				jenv add "$$jd"; \
+			fi; \
+		done; \
+		jenv rehash; \
+	fi
 
 brew-install: | \
 	brew-update \
