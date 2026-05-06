@@ -23,6 +23,7 @@
 .Trashes
 .VolumeIcon.icns
 ^^*~
+gradle.properties
 Icon
 Network Trash Folder
 Temporary Items
