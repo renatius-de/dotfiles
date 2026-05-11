@@ -38,7 +38,6 @@ jobs:
           verbose: true
           output: results.sarif
           format: sarif
-          gh-code-scanning-compat: true
 
       - name: Upload SARIF to GitHub
         if: ${{ always() && hashFiles('results.sarif') != '' }}
