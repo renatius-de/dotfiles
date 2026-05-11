@@ -1,0 +1,8 @@
+---
+exclude-paths:
+  - 'git/GitIgnoreRepository/**'
+  - 'git/GitAttributesRepository/**'
+exclude-patterns:
+  - 'docs/**'
+  - '.git/**'
+  - 'node_modules/**'
