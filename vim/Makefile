@@ -3,12 +3,10 @@ include ../make/common.mk
 CACHE_DIR := $(HOME)/.cache
 SHARE_DIR := $(HOME)/.local/share
 NVIM_DIR := $(HOME)/.config/nvim
-NVIM_INIT := $(NVIM_DIR)/init.vim
+NVIM_INIT := $(NVIM_DIR)/init.lua
 NVIM_CACHE_DIR := $(CACHE_DIR)/nvim
-VIM_RC := $(HOME)/.vimrc
 
-NVIMRC_SRC := nvimrc
-VIMRC_SRC := vimrc
+NVIMRC_SRC := init.lua
 
 REQUIRED_DIRS := $(NVIM_DIR) $(NVIM_CACHE_DIR)
 
@@ -18,12 +16,9 @@ $(REQUIRED_DIRS):
 $(NVIM_INIT): | $(REQUIRED_DIRS)
 	$(symlink) $(ROOT_DIR)/$(NVIMRC_SRC) $@
 
-$(VIM_RC):
-	$(symlink) $(ROOT_DIR)/$(VIMRC_SRC) $@
-
 .PHONY: install upgrade clean
 
-install: | $(NVIM_INIT) $(VIM_RC)
+install: | $(NVIM_INIT)
 
 upgrade: install
 
@@ -33,7 +28,7 @@ CLEAN_FILES := \
 	$(HOME)/.vimoutlinerrc \
 	$(HOME)/.vimpagerrc \
 	$(HOME)/.vim \
-	$(VIM_RC) \
+	$(HOME)/.vimrc \
 	$(NVIM_INIT)
 
 CLEAN_DIRS := \
