@@ -4,7 +4,6 @@ ZSH_HOME := $(HOME)/.zsh
 ZSH_CACHE_DIR := $(HOME)/.cache/zsh
 OH_MY_ZSH := $(HOME)/.oh-my-zsh
 OMZ_CUSTOM := $(OH_MY_ZSH)/custom/plugins
-OMZ_PLUGIN_LOADER := omz-plugins.zsh
 
 OMZ_PLUGINS := \
 	aliases \
@@ -47,7 +46,7 @@ CLEAN_DIRECTORIES := \
 	$(OH_MY_ZSH) \
 	$(ZSH_CACHE_DIR)
 
-.PHONY: configuration install upgrade ohmyzsh ohmyzsh_update clone-or-update-external generate-omz-loader clean
+.PHONY: configuration install upgrade ohmyzsh ohmyzsh_update clone-or-update-external clean
 
 $(ZSH_HOME):
 	$(symlink) $(ROOT_DIR) $@
@@ -63,7 +62,7 @@ $(ZSHRC_LOCAL_FILE):
 
 ohmyzsh:
 	@if [ ! -d "$(OH_MY_ZSH)" ]; then \
-		sh -c "$$($(DOWNLOAD) https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended"; \
+		sh -c "$$($(DOWNLOAD) https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -- --unattended; \
 	fi
 	$(RM_F) $(HOME)/.zshrc
 
@@ -85,17 +84,9 @@ clone-or-update-external:
 		fi; \
 	)
 
-generate-omz-loader: clone-or-update-external
-	@$(RM_F) $(OMZ_PLUGIN_LOADER)
-	@$(foreach plugin,$(OMZ_PLUGINS), \
-		printf "source $$ZSH/plugins/%s/%s.plugin.zsh\n" "$(plugin)" "$(plugin)" >> $(OMZ_PLUGIN_LOADER);)
-	@$(foreach repo,$(EXTERNAL_PLUGINS), \
-		name=$$(basename $(repo)); \
-		printf "source $$ZSH_CUSTOM/plugins/%s/%s.plugin.zsh\n" "$$name" "$$name" >> $(OMZ_PLUGIN_LOADER);)
-
 configuration: | $(ZSH_HOME) $(ZSH_CACHE_DIR) $(ZSH_LINK_TARGETS)
 
-install: | ohmyzsh clone-or-update-external generate-omz-loader configuration
+install: | ohmyzsh clone-or-update-external configuration
 
 upgrade: | install ohmyzsh_update
 

@@ -1,7 +1,7 @@
 [[ $- != *i* ]] && return
 
 typeset -r ZSH_CFG_DIR="${ZDOTDIR:-$HOME/.zsh}"
-typeset -ra ZSH_CFG_FILES=(bundle omz-plugins alias export)
+typeset -ra ZSH_CFG_FILES=(bundle alias export)
 
 apply_zsh_options() {
   setopt \

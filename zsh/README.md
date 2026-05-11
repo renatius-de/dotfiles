@@ -11,7 +11,6 @@ Important files:
 - `bundle.zsh`
 - `export.zsh`
 - `Makefile`
-- `omz-plugins.zsh`
 - `zprofile`
 - `zshenv`
 - `zshrc`
