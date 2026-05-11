@@ -35,9 +35,14 @@ jobs:
         uses: codacy/codacy-analysis-cli-action@v4
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          verbose: true
           output: results.sarif
           format: sarif
+
+      - name: Merge SARIF runs
+        if: ${{ always() && hashFiles('results.sarif') != '' }}
+        run: |
+          jq '.runs |= [add]' results.sarif > results.merged.sarif
+          mv results.merged.sarif results.sarif
 
       - name: Upload SARIF to GitHub
         if: ${{ always() && hashFiles('results.sarif') != '' }}
