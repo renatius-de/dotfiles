@@ -3,6 +3,7 @@ include ../make/common.mk
 GIT_DIR_SYMLINK := $(HOME)/.git
 GIT_CONFIG_FILE := $(HOME)/.gitconfig
 GIT_CONFIG_LOCAL_FILE := $(HOME)/.gitconfig.local
+GIT_IGNORE_FILE := $(HOME)/.gitignore
 GITATTR_REPO_DIR := $(ROOT_DIR)/GitAttributesRepository
 GITIGNORE_REPO_DIR := $(ROOT_DIR)/GitIgnoreRepository
 REPO_DIRS := $(GITATTR_REPO_DIR) $(GITIGNORE_REPO_DIR)
@@ -33,14 +34,17 @@ $(GIT_CONFIG_FILE):
 $(GIT_CONFIG_LOCAL_FILE):
 	$(call create_local_file,$@)
 
+$(GIT_IGNORE_FILE):
+	$(symlink) $(ROOT_DIR)/ignore $@
+
 .PHONY: install upgrade plugin clean
 
 plugin: $(REPO_DIRS)
 
-install: $(GIT_DIR_SYMLINK) $(GIT_CONFIG_FILE) $(GIT_CONFIG_LOCAL_FILE) plugin
+install: $(GIT_DIR_SYMLINK) $(GIT_CONFIG_FILE) $(GIT_CONFIG_LOCAL_FILE) $(GIT_IGNORE_FILE) plugin
 
 upgrade: install
 
 clean:
-	$(RM_F) $(HOME)/.git_template $(HOME)/.gitignore $(HOME)/.tig_history $(GIT_CONFIG_FILE) $(GIT_DIR_SYMLINK)
+	$(RM_F) $(HOME)/.git_template $(GIT_IGNORE_FILE) $(HOME)/.tig_history $(GIT_CONFIG_FILE) $(GIT_DIR_SYMLINK)
 	$(RM_RF) $(REPO_DIRS)

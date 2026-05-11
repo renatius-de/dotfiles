@@ -1,39 +1,21 @@
 [alias]
-    ac = !"git cm --all"
-    ad = add --all --
     ba = branch -a --verbose
-    bd = branch --verbose --delete
     ca = commit -q --amend --branch --status --verbose
     cf = checkout --quiet --force
     cl = clone --progress --verbose --recurse-submodules
     cm = commit --branch --status --verbose
     cn = gc --auto --prune
-    cn = !"git reflog expire --all && git fsck --unreachable --full && git prune && git gc --aggressive --quiet && git repack -Adq && git prune-packed --quiet"
+    cna = !"git reflog expire --all && git fsck --unreachable --full && git prune && git gc --aggressive --quiet && git repack -Adq && git prune-packed --quiet"
     dt = difftool
     fe = fetch --progress
-    ma = merge --abort
-    me = merge --stat --summary
-    mm = !"git mf origin/$(git branch-name)"
     mt = mergetool
     pf = !"git ph --force origin $(git branch-name)"
     ph = push --progress --set-upstream
     pl = pull
-    pu = !"for i in $(git remote); do git ph ${i} $(git branch-name); done"
-    ra = rebase --abort
-    rc = rebase --continue
     re = reset
     rh = reset --hard
-    ri = rebase --verbose --stat --interactive --rebase-merge --autosquash
-    rp = rebase --skip
-    rs = reset --soft
     rv = remote --verbose
-    sa = stash push
-    sc = stash clear
-    sl = stash list
-    so = stash pop
     st = status
-
-    branch-name = !"git for-each-ref --format='%(refname:short)' $(git symbolic-ref HEAD)"
 
 [branch]
     autoSetupMerge = always
@@ -73,7 +55,7 @@
     autocrlf = input
     commitgraph = true
     eol = lf
-    excludesfile = ~/.git/ignore
+    excludesfile = ~/.gitignore
     fsmonitor = true
     pager = delta
     preloadindex = true
@@ -130,7 +112,7 @@
     ff = only
 
 [push]
-    default = matching
+    default = simple
     followTags = true
     recurseSubmodules = on-demand
 
