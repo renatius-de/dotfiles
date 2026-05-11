@@ -26,7 +26,6 @@ BREW_FORMULAS := \
 	neovim \
 	node \
 	pnpm \
-	pre-commit \
 	python \
 	stern \
 	yq \
@@ -34,7 +33,6 @@ BREW_FORMULAS := \
 
 BREW_CASKS := \
 	corretto \
-	docker-desktop \
 	#
 
 CLEAN_FILES := \
