@@ -55,4 +55,4 @@ _build_rprompt() {
   [[ ${#parts[@]} -gt 0 ]] && echo "(%{$reset_color%}${(j: | :)parts}%{$reset_color%})" || echo ""
 }
 
-export RPROMPT='$(_build_rprompt)'
+export RPROMPT=$(_build_rprompt)
