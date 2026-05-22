@@ -1,5 +1,4 @@
-alias which="whence -vas"
-alias where="whence -cas"
+alias which="whence -cas"
 
 alias cp="nocorrect cp"
 alias ln="nocorrect ln"
@@ -24,8 +23,9 @@ alias grep="grep --color=auto"
 
 if (( $+commands[docker] )); then
   alias dr="docker container run --interactive --rm --tty"
-  alias dspruea="docker system prune --all --force --volumes; docker builder prune --all --force"
-  alias dbpru="docker builder prune"
+  alias dcr="docker compose run --interactive --quiet-pull --rm"
+
+  alias dipru="docker image prune -a --filter 'until=$((24 * 30))h'"
 fi
 
 if (( $+commands[mvn] )); then
