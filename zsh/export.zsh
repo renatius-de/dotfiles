@@ -34,3 +34,6 @@ export TZ=Europe/Berlin
 
 # Maven configuration
 export MAVEN_ARGS="--strict-checksums --errors --fail-fast --show-version"
+
+# Java configuration
+export JDK_JAVA_OPTIONS="--enable-native-access=ALL-UNNAMED -XX:+UseZGC -XX:+GenerationalZGC -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8"
