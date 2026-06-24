@@ -2,13 +2,14 @@ include ../make/common.mk
 
 SPRING_BOOT_SOURCE := $(ROOT_DIR)/spring-boot
 SPRING_BOOT_CONFIG_LINK := $(HOME)/.config/spring-boot
+CONFIG_DIR := $(HOME)/.config
 
 .PHONY: install upgrade clean
 
-$(HOME)/.config:
+$(CONFIG_DIR):
 	$(MKDIR) $@
 
-$(SPRING_BOOT_CONFIG_LINK): | $(HOME)/.config
+$(SPRING_BOOT_CONFIG_LINK): | $(CONFIG_DIR)
 	$(symlink) $(SPRING_BOOT_SOURCE) $@
 
 install: $(SPRING_BOOT_CONFIG_LINK)
@@ -16,4 +17,4 @@ install: $(SPRING_BOOT_CONFIG_LINK)
 upgrade: install
 
 clean:
-	$(RM_F) $(SPRING_BOOT_CONFIG_LINK)
+	@$(RM_F) $(SPRING_BOOT_CONFIG_LINK)

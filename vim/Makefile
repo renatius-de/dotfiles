@@ -7,16 +7,15 @@ NVIM_INIT := $(NVIM_DIR)/init.lua
 NVIM_CACHE_DIR := $(CACHE_DIR)/nvim
 
 NVIMRC_SRC := init.lua
-
 REQUIRED_DIRS := $(NVIM_DIR) $(NVIM_CACHE_DIR)
+
+.PHONY: install upgrade clean
 
 $(REQUIRED_DIRS):
 	$(MKDIR) $@
 
 $(NVIM_INIT): | $(REQUIRED_DIRS)
 	$(symlink) $(ROOT_DIR)/$(NVIMRC_SRC) $@
-
-.PHONY: install upgrade clean
 
 install: | $(NVIM_INIT)
 
@@ -41,5 +40,5 @@ CLEAN_DIRS := \
 	$(NVIM_CACHE_DIR)
 
 clean:
-	$(RM_F) $(CLEAN_FILES)
-	$(RM_RF) $(CLEAN_DIRS)
+	@$(RM_F) $(CLEAN_FILES)
+	@$(RM_RF) $(CLEAN_DIRS)

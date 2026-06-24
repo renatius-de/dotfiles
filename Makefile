@@ -78,7 +78,7 @@ HOME_DEV_DIR := $(HOME)/dev
 define do_in_sub_directories
 	@for d in $(SUB_DIRECTORIES); do \
 		if [ -f "$$d/Makefile" ]; then \
-			$(MAKE) -C "$$d" $(1) || { echo "Error in $$d/$(1)"; exit 1; }; \
+			$(MAKE) -C "$$d" $(1) || { printf "Error: target '%s' failed in %s\n" "$(1)" "$$d" >&2; exit 1; }; \
 		fi; \
 	done
 endef
@@ -97,12 +97,13 @@ endef
 	clean \
 	fix-permissions-of-home \
 	install \
+	install-homebrew-extensions \
 	upgrade \
 	jenv-add-corretto
 
 brew-ensure:
 	@if [ -z "$(BREW)" ] || ! command -v "$(BREW)" >/dev/null 2>&1; then \
-		echo "Error: Homebrew not found. Please install it from https://brew.sh"; \
+		printf "Error: Homebrew not found. Please install it from https://brew.sh\n" >&2; \
 		exit 1; \
 	fi
 
@@ -116,13 +117,13 @@ brew-install-packages: | brew-ensure
 install-homebrew-extensions: | brew-ensure
 	@if [ "$(WORK_ENV)" = "true" ]; then \
 		if [ -n "$(WORK_BREW_PACKAGES)" ]; then \
-			printf 'Installing work environment Homebrew packages: %s\n' "$(WORK_BREW_PACKAGES)"; \
+			printf "Installing work environment Homebrew packages: %s\n" "$(WORK_BREW_PACKAGES)"; \
 			$(BREW) install --quiet --formula $(WORK_BREW_PACKAGES); \
 		else \
-			printf 'WORK_ENV=true but WORK_BREW_PACKAGES is empty; nothing to install.\n'; \
+			printf "WORK_ENV=true but WORK_BREW_PACKAGES is empty; nothing to install.\n"; \
 		fi; \
 	else \
-		printf 'WORK_ENV!=true; skipping work environment Homebrew extensions.\n'; \
+		printf "WORK_ENV!=true; skipping work environment Homebrew extensions.\n"; \
 	fi
 
 brew-uninstall-packages: | brew-ensure
@@ -131,7 +132,7 @@ brew-uninstall-packages: | brew-ensure
 
 brew-cleanup: | brew-ensure
 	@$(BREW) autoremove --quiet
-	@$(BREW) cleanup --quiet --prune=all 
+	@$(BREW) cleanup --quiet --prune=all
 
 brew-post-install: | brew-ensure
 	-@$(BREW) doctor --quiet
@@ -151,6 +152,7 @@ jenv-add-corretto:
 brew-install: | \
 	brew-update \
 	brew-install-packages \
+	install-homebrew-extensions \
 	brew-cleanup \
 	brew-post-install
 

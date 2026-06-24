@@ -26,4 +26,4 @@ install: $(SSH_CONFIG) $(SSH_CONFIG_LOCAL)
 upgrade: install
 
 clean:
-	$(RM_F) $(SSH_CONFIG)
+	@$(RM_F) $(SSH_CONFIG)

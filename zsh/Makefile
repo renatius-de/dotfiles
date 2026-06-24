@@ -5,21 +5,6 @@ ZSH_CACHE_DIR := $(HOME)/.cache/zsh
 OH_MY_ZSH := $(HOME)/.oh-my-zsh
 OMZ_CUSTOM := $(OH_MY_ZSH)/custom/plugins
 
-OMZ_PLUGINS := \
-	aliases \
-	common-aliases \
-	docker \
-	docker-compose \
-	git \
-	gradle \
-	history-substring-search \
-	jenv \
-	k9s \
-	kubectl \
-	mvn \
-	vi-mode \
-	zsh-navigation-tools
-
 EXTERNAL_PLUGINS := \
 	MichaelAquilina/zsh-you-should-use \
 	superbrothers/zsh-kubectl-prompt \
@@ -46,7 +31,13 @@ CLEAN_DIRECTORIES := \
 	$(OH_MY_ZSH) \
 	$(ZSH_CACHE_DIR)
 
-.PHONY: configuration install upgrade ohmyzsh ohmyzsh_update clone-or-update-external clean
+.PHONY: ensure-git ensure-curl configuration install upgrade ohmyzsh ohmyzsh_update clone-or-update-external clean
+
+ensure-git:
+	@$(call ensure_cmd,git)
+
+ensure-curl:
+	@$(call ensure_cmd,curl)
 
 $(ZSH_HOME):
 	$(symlink) $(ROOT_DIR) $@
@@ -60,19 +51,19 @@ $(ZSH_LINK_TARGETS): $(HOME)/.%: $(ROOT_DIR)/%
 $(ZSHRC_LOCAL_FILE):
 	$(call create_local_file,$@)
 
-ohmyzsh:
+ohmyzsh: ensure-git ensure-curl
 	@if [ ! -d "$(OH_MY_ZSH)" ]; then \
 		sh -c "$$($(DOWNLOAD) https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -- --unattended; \
 	fi
-	$(RM_F) $(HOME)/.zshrc
+	@$(RM_F) $(HOME)/.zshrc
 
-ohmyzsh_update:
+ohmyzsh_update: ensure-git
 	@if [ -d "$(OH_MY_ZSH)" ]; then \
 		sh $(OH_MY_ZSH)/tools/upgrade.sh; \
 	fi
 	@$(MAKE) clone-or-update-external
 
-clone-or-update-external:
+clone-or-update-external: ensure-git
 	@$(MKDIR) $(OMZ_CUSTOM)
 	@$(foreach repo,$(EXTERNAL_PLUGINS), \
 		name=$$(basename $(repo)); \
@@ -91,5 +82,5 @@ install: | ohmyzsh clone-or-update-external configuration
 upgrade: | install ohmyzsh_update
 
 clean:
-	$(RM_F) $(CLEAN_FILES)
-	$(RM_RF) $(CLEAN_DIRECTORIES)
+	@$(RM_F) $(CLEAN_FILES)
+	@$(RM_RF) $(CLEAN_DIRECTORIES)

@@ -2,9 +2,15 @@
 .SILENT:
 .ONESHELL:
 SHELL := /bin/bash
+MAKEFLAGS += --no-print-directory
 
 ROOT_DIR := $(abspath $(dir $(realpath $(word 1,$(MAKEFILE_LIST)))))
 
+OS := $(shell uname -s)
+ARCH := $(shell uname -m)
+CC ?= cc
+CFLAGS ?=
+LD ?= ld
 LINK := ln -snf
 MKDIR := install -d -m 0700
 INSTALL_FILE := install -m 0600
@@ -17,11 +23,11 @@ define ensure_cmd
 endef
 
 define ensure_dir
-	$(MKDIR) $(1)
+	@$(MKDIR) $(1)
 endef
 
 define symlink
-	$(LINK) $(1) $(2)
+	@$(LINK) $(1) $(2)
 endef
 
 define clone_or_update_repo

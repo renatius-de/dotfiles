@@ -60,8 +60,9 @@ endef
 .PHONY: ensure-prereqs import-ca-certs install-java uninstall-java install upgrade clean
 
 ensure-prereqs:
-	$(call ensure_cmd,$(BREW))
-	$(call ensure_cmd,$(JENV))
+	@$(call ensure_cmd,$(BREW))
+	@$(call ensure_cmd,$(JENV))
+	@$(call ensure_cmd,$(SUDO))
 
 install-java: ensure-prereqs
 ifeq ($(WORK_ENV),true)

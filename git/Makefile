@@ -19,6 +19,11 @@ define clone_or_update_git_repo
 	fi
 endef
 
+.PHONY: ensure-git install plugin upgrade clean
+
+ensure-git:
+	@$(call ensure_cmd,git)
+
 $(GIT_DIR_SYMLINK):
 	$(symlink) $(ROOT_DIR) $@
 
@@ -37,14 +42,12 @@ $(GIT_CONFIG_LOCAL_FILE):
 $(GIT_IGNORE_FILE):
 	$(symlink) $(ROOT_DIR)/ignore $@
 
-.PHONY: install upgrade plugin clean
-
-plugin: $(REPO_DIRS)
+plugin: ensure-git $(REPO_DIRS)
 
 install: $(GIT_DIR_SYMLINK) $(GIT_CONFIG_FILE) $(GIT_CONFIG_LOCAL_FILE) $(GIT_IGNORE_FILE) plugin
 
 upgrade: install
 
 clean:
-	$(RM_F) $(HOME)/.git_template $(GIT_IGNORE_FILE) $(HOME)/.tig_history $(GIT_CONFIG_FILE) $(GIT_DIR_SYMLINK)
-	$(RM_RF) $(REPO_DIRS)
+	@$(RM_F) $(HOME)/.git_template $(GIT_IGNORE_FILE) $(HOME)/.tig_history $(GIT_CONFIG_FILE) $(GIT_DIR_SYMLINK)
+	@$(RM_RF) $(REPO_DIRS)
