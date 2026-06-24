@@ -91,6 +91,7 @@ endef
 ##   It parses inline `##` comments from target definitions in the root Makefile
 ##   and prints a compact list of available root-level commands.
 help: ## Display Makefile help and available targets
+	@printf "➔ Starting target [help]...\n"
 	@printf "\nAvailable targets in %s:\n\n" "$(BASE_MAKEFILE)"
 	@grep -E '^[a-zA-Z0-9_.-]+:.*##' "$(BASE_MAKEFILE)" | \
 		while IFS= read -r line; do \
@@ -99,6 +100,7 @@ help: ## Display Makefile help and available targets
 			printf "  %-20s %s\n" "$$target" "$$desc"; \
 		done
 	@printf "\nRun 'make <target>' to execute a specific target.\n"
+	@printf "✔ Done target [help]\n"
 
 .PHONY: \
 	help \
@@ -188,21 +190,27 @@ brew-upgrade: | \
 ##   Install Homebrew packages, optional work environment extensions, and all submodule install targets.
 ##   Influenced by `WORK_ENV=true`. This does not perform a package upgrade unless the submodule install target does so.
 install: | brew-install fix-permissions-of-home ## Install dotfiles and Homebrew packages
-	$(call do_in_sub_directories,install)
+	@printf "➔ Starting target [install]...\n"
+	@$(call do_in_sub_directories,install)
+	@printf "✔ Done target [install]\n"
 
 ## upgrade
 ##   Upgrade Homebrew packages and execute `upgrade` in every subdirectory.
 ##   Existing configuration files stay intact; modules may refresh symlinks and other runtime artifacts.
 upgrade: | brew-upgrade ## Upgrade dotfiles and Homebrew packages
-	$(call do_in_sub_directories,upgrade)
+	@printf "➔ Starting target [upgrade]...\n"
+	@$(call do_in_sub_directories,upgrade)
+	@printf "✔ Done target [upgrade]\n"
 
 ## clean
 ##   Remove installed Homebrew packages, temporary files and configured directories.
 ##   Warning: this can delete caches, generated files and optional package installations.
 clean: | brew-uninstall-packages ## Cleanup generated files and remove installed Homebrew packages
+	@printf "➔ Starting target [clean]...\n"
 	@$(RM_F) $(CLEAN_FILES)
 	@$(RM_RF) $(CLEAN_DIRECTORIES)
 	@$(call do_in_sub_directories,clean)
+	@printf "✔ Done target [clean]\n"
 
 fix-permissions-of-home:
 	@if [ -d "$(HOME_DEV_DIR)" ]; then \
