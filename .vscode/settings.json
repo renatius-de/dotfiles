@@ -2,5 +2,8 @@
   "sonarlint.connectedMode.project": {
     "connectionId": "renatius-de",
     "projectKey": "renatius-de_dotfiles"
+  },
+  "chat.tools.terminal.autoApprove": {
+    "make": true
   }
 }
