@@ -8,13 +8,13 @@ BREW_FORMULAS := \
 	curl \
 	delta \
 	eza \
+	gh \
 	git \
 	gnupg \
 	go \
 	gradle \
 	helm \
 	jenv \
-	jwt-cli \
 	k9s \
 	kotlin \
 	kubectx \
