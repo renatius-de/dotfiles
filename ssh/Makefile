@@ -1,16 +1,21 @@
 include ../make/common.mk
 
 SSH_DIR := $(HOME)/.ssh
+SSH_CONTROL_DIR := $(SSH_DIR)/control
 SSH_CONFIG := $(SSH_DIR)/config
 SSH_CONFIG_LOCAL := $(SSH_DIR)/config.local
 SSH_KEYS_DIR := $(SSH_DIR)/keys
 SSH_CONFIG_SOURCE := $(ROOT_DIR)/config
 FILE_MODE := 0600
 
-.PHONY: install upgrade clean
+.PHONY: install upgrade clean init-ssh
 
 $(SSH_DIR):
 	$(MKDIR) $@
+
+$(SSH_CONTROL_DIR): | $(SSH_DIR)
+	@mkdir -p "$@"
+	@chmod 700 "$@"
 
 $(SSH_KEYS_DIR): | $(SSH_DIR)
 	$(MKDIR) $@
@@ -21,7 +26,9 @@ $(SSH_CONFIG_LOCAL): | $(SSH_KEYS_DIR)
 $(SSH_CONFIG): | $(SSH_DIR)
 	$(symlink) $(SSH_CONFIG_SOURCE) $@
 
-install: $(SSH_CONFIG) $(SSH_CONFIG_LOCAL)
+init-ssh: $(SSH_CONTROL_DIR)
+
+install: init-ssh $(SSH_CONFIG) $(SSH_CONFIG_LOCAL)
 
 upgrade: install
 
