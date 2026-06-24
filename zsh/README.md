@@ -15,9 +15,7 @@ This installs Oh My Zsh (if needed), clones external plugins, and creates symlin
 ## Important Files
 
 - `zshrc` — Symlinked to `~/.zshrc` (main Zsh configuration)
-- `zshenv` — Symlinked to `~/.zshenv` (environment variables)
 - `zprofile` — Symlinked to `~/.zprofile` (login shell setup)
-- `zlogout` — Symlinked to `~/.zlogout` (logout cleanup)
 - `alias.zsh` — Zsh aliases
 - `bundle.zsh` — Plugin bundle configuration
 - `export.zsh` — Environment variable exports

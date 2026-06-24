@@ -1,5 +1,0 @@
-if [[ $- == *i* ]]; then
-  autoload -Uz colors zsh/terminfo
-  [[ $terminfo[colors] -ge 8 ]] && colors
-  [[ -x /usr/bin/dircolors ]] && eval "$(dircolors -b)"
-fi

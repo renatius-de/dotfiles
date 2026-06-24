@@ -14,16 +14,20 @@ export LC_TIME=de_DE.UTF-8
 
 export LANG=en_US.UTF-8
 export LANGUAGE=en_GB:en_US:en
-
 unset LC_ALL
+
+# Path configuration
+export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+export PAGER='less'
+export LESS='-R'
 
 # Editor configuration
 if command -v nvim &>/dev/null; then
-  EDITOR=nvim
-  VISUAL="nvim -R"
+  EDITOR='nvim'
+  VISUAL='nvim -R'
 elif command -v vim &>/dev/null; then
-  EDITOR=vim
-  VISUAL="vim -R"
+  EDITOR='vim'
+  VISUAL='vim -R'
 fi
 export EDITOR="${EDITOR:-vi}"
 export VISUAL="${VISUAL:-$EDITOR}"
@@ -33,7 +37,7 @@ export MANWIDTH=120
 export TZ=Europe/Berlin
 
 # Maven configuration
-export MAVEN_ARGS="--strict-checksums --errors --fail-fast --show-version"
+export MAVEN_ARGS='--strict-checksums --errors --fail-fast --show-version'
 
 # Java configuration
-export JDK_JAVA_OPTIONS="--enable-native-access=ALL-UNNAMED -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8"
+export JDK_JAVA_OPTIONS='--enable-native-access=ALL-UNNAMED -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8'

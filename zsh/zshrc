@@ -1,66 +1,50 @@
 [[ $- != *i* ]] && return
 
+# --------------------------------------------------
+# Zsh configuration loader
+# --------------------------------------------------
+
 typeset -r ZSH_CFG_DIR="${ZDOTDIR:-$HOME/.zsh}"
 typeset -ra ZSH_CFG_FILES=(bundle alias export)
 
-apply_zsh_options() {
-  setopt \
-    auto_cd \
-    auto_pushd \
-    cdable_vars \
-    pushd_ignore_dups \
-    list_packed \
-    extended_glob \
-    mark_dirs \
-    append_history \
-    hist_expire_dups_first \
-    hist_find_no_dups \
-    hist_ignore_all_dups \
-    hist_ignore_dups \
-    hist_ignore_space \
-    hist_no_functions \
-    hist_no_store \
-    hist_reduce_blanks \
-    hist_save_by_copy \
-    hist_save_no_dups \
-    hist_verify \
-    correct \
-    short_loops \
-    auto_continue \
-    long_list_jobs \
-    monitor \
-    notify \
-    multios \
-    posix_builtins \
-    promptsubst
+# History settings
+HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
+HISTSIZE=10000
+SAVEHIST=10000
+setopt append_history inc_append_history share_history
+setopt hist_expire_dups_first hist_find_no_dups hist_ignore_all_dups
+setopt hist_ignore_space hist_reduce_blanks hist_verify
+setopt hist_no_functions hist_no_store
 
-  unsetopt \
-    list_beep \
-    caseglob \
-    multibyte \
-    nomatch \
-    hist_beep \
-    mail_warning \
-    check_jobs \
-    beep
+apply_zsh_options() {
+  setopt auto_cd auto_pushd cdable_vars pushd_ignore_dups list_packed \
+    extended_glob mark_dirs correct short_loops auto_continue \
+    long_list_jobs monitor notify multios posix_builtins promptsubst
+
+  unsetopt list_beep caseglob multibyte nomatch hist_beep \
+    mail_warning check_jobs beep
 }
 
-apply_limits() {
+configure_limits() {
   unlimit
   limit stack 8192
   limit core 0
   limit -s
-  umask 0022
+  umask 022
 }
 
-for f in "${ZSH_CFG_FILES[@]}"; do
-  [[ -r "${ZSH_CFG_DIR}/${f}.zsh" ]] && source "${ZSH_CFG_DIR}/${f}.zsh"
-done
+load_zsh_components() {
+  for f in "${ZSH_CFG_FILES[@]}"; do
+    [[ -r "${ZSH_CFG_DIR}/${f}.zsh" ]] && source "${ZSH_CFG_DIR}/${f}.zsh"
+  done
+}
 
-if [[ -r "${ZDOTDIR:-$HOME}/.zshrc.local" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zshrc.local"
-fi
+source_local_override() {
+  local local_rc="${ZDOTDIR:-$HOME}/.zshrc.local"
+  [[ -r "${local_rc}" ]] && source "${local_rc}"
+}
 
-watch=(notme root)
 apply_zsh_options
-apply_limits
+configure_limits
+load_zsh_components
+source_local_override

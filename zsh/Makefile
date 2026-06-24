@@ -12,7 +12,7 @@ EXTERNAL_PLUGINS := \
 	zsh-users/zsh-completions \
 	zsh-users/zsh-syntax-highlighting
 
-DOTFILES := zshrc zshenv zlogout zprofile
+DOTFILES := zshrc zprofile
 ZSH_LINK_TARGETS := $(addprefix $(HOME)/.,$(DOTFILES))
 ZSHRC_LOCAL_FILE := $(HOME)/.zshrc.local
 
@@ -75,7 +75,7 @@ clone-or-update-external: ensure-git
 		fi; \
 	)
 
-configuration: | $(ZSH_HOME) $(ZSH_CACHE_DIR) $(ZSH_LINK_TARGETS)
+configuration: | $(ZSH_HOME) $(ZSH_CACHE_DIR) $(ZSHRC_LOCAL_FILE) $(ZSH_LINK_TARGETS)
 
 install: | ohmyzsh clone-or-update-external configuration
 

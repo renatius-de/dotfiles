@@ -1,5 +1,5 @@
 export ZSH="$HOME/.oh-my-zsh"
-export ZSH_CUSTOM="$ZSH/custom"
+export ZSH_CUSTOM="${ZSH_CUSTOM:-$ZSH/custom}"
 export ZSH_CACHE_DIR="${ZSH_CACHE_DIR:-$HOME/.cache/zsh}"
 mkdir -p "$ZSH_CACHE_DIR/completions"
 
@@ -27,8 +27,11 @@ plugins=(
   export SHELL_SESSIONS_DISABLE=1
 }
 
-source "$ZSH/oh-my-zsh.sh"
+if [[ -f "$ZSH/oh-my-zsh.sh" ]]; then
+  source "$ZSH/oh-my-zsh.sh"
+fi
 
+# Load external plugins from $ZSH_CUSTOM/plugins when available
 for plugin in zsh-you-should-use zsh-kubectl-prompt zsh-autosuggestions zsh-completions zsh-syntax-highlighting; do
   plugin_file="$ZSH_CUSTOM/plugins/$plugin/$plugin.plugin.zsh"
   [[ -f "$plugin_file" ]] && source "$plugin_file"
@@ -38,6 +41,7 @@ done
 
 typeset -Ua path
 path=(
+  $HOME/.local/bin
   /opt/homebrew/bin /opt/homebrew/sbin
   /usr/local/bin /usr/local/sbin
   /usr/bin /usr/sbin
@@ -46,7 +50,12 @@ path=(
   "${path[@]}"
 )
 
-autoload -U colors; colors
+autoload -U colors
+colors
+
+if command -v dircolors >/dev/null 2>&1; then
+  eval "$(dircolors -b)"
+fi
 
 _build_rprompt() {
   local parts=()

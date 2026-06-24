@@ -1,3 +1,0 @@
-# Run cleanup commands on logout
-clear
-[[ -x /usr/bin/clear_console ]] && clear_console -q
