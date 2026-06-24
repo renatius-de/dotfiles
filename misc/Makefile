@@ -6,7 +6,7 @@ JENV := jenv
 KEYTOOL := keytool
 
 STORE_PASS ?= changeit
-CERT_FILE := $(HOME)/dev/optadata/optadata-gruppe-ODA-DC1-CA.cer
+CERT_FILE := $(HOME)/dev/opta\ data/optadata-gruppe-ODA-DC1-CA.cer
 CERT_ALIAS := opta_data-gruppe-certificate
 
 JAVA_HOME_BASE := /Library/Java/JavaVirtualMachines
