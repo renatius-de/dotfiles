@@ -15,7 +15,6 @@ This repository manages dotfiles and configuration modules using symlink-based i
 - `vim/` — Neovim configuration files
 - `zsh/` — Zsh configuration and plugin setup
 - `make/` — Shared Makefile utilities
-- `docker-compose.yml` — Local linting environment
 - `.github/workflows/` — CI/CD pipelines
 
 ## Prerequisites
@@ -83,12 +82,6 @@ Clean up all modules:
 
 ```bash
 make clean
-```
-
-Run the linter locally:
-
-```bash
-docker-compose up
 ```
 
 Dry-run any target to see what will be executed:

@@ -37,7 +37,6 @@ make -C zsh install      # Install Zsh configuration
 make -C vim install      # Install Neovim configuration
 make -C git install      # Install Git configuration
 make -n install          # Dry-run: preview without executing
-docker-compose up        # Run local linting
 ```
 
 ## Best Practices
