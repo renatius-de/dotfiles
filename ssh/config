@@ -1,14 +1,29 @@
+# Include local host-specific configuration
 Include config.local
 
+# Version control platforms
+Match host "github.com,gitlab.com,gitea.*,gitHub.*,github.*,gitlab.*,bitbucket.*"
+    User git
+    PasswordAuthentication no
+    PubkeyAuthentication yes
+    IdentityFile ~/.ssh/id_rsa
+    IdentityFile ~/.ssh/id_ed25519
+
+# Global defaults for all hosts
 Host *
+    AddKeysToAgent yes
     CheckHostIP yes
     Compression yes
+    ControlMaster auto
+    ControlPath ~/.ssh/control/%h:%p:%r
+    ControlPersist 600
     EnableSSHKeysign yes
     ExitOnForwardFailure yes
     HashKnownHosts yes
     IdentitiesOnly yes
     PubKeyAuthentication yes
-
-Match host "github.*,gitlab.*,bitbucket.*"
-    User git
-    PasswordAuthentication no
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
+    StrictHostKeyChecking accept-new
+    UpdateHostKeys yes
+    UserKnownHostsFile ~/.ssh/known_hosts
