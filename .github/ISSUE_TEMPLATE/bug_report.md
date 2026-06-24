@@ -1,38 +1,48 @@
 ---
 name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: ''
+about: Report a bug or issue with the dotfiles installation or configuration
+title: '[BUG] '
+labels: bug
 assignees: ''
-
 ---
 
-**Describe the bug**
+## Description
+
 A clear and concise description of what the bug is.
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+## Steps to Reproduce
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+1. Run command: `...`
+2. Expected behavior: `...`
+3. Actual behavior: `...`
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+## Environment
 
-**Desktop (please complete the following information):**
-- OS: [e.g. iOS]
-- Browser [e.g. chrome, safari]
-- Version [e.g. 22]
+- **OS**: macOS / Linux
+- **OS Version**: [e.g., macOS 13.1, Ubuntu 22.04]
+- **Shell**: Zsh / Bash / Other
+- **Make Version**: [output of `make --version`]
+- **Homebrew Version**: [output of `brew --version`]
 
-**Mobile phone (please complete the following information):**
-- Device: [e.g. iPhone6]
-- OS: [e.g. iOS8.1]
-- Browser [e.g. stock browser, safari]
-- Version [e.g. 22]
+## Relevant Configuration
 
-**Additional context**
-Add any other context about the problem here.
+- **Module Affected**: config / git / misc / ssh / vim / zsh / other
+- **Makefile Target**: [e.g., `make install`, `make -C zsh install`]
+- **Environment Variables**: [e.g., `WORK_ENV=true`]
+
+## Error Output
+
+Please provide any error messages or stack traces:
+
+```
+[paste error output here]
+```
+
+## Additional Context
+
+Add any other relevant information about the problem.
+
+## Possible Solution
+
+If you have a suggestion for fixing the bug, please describe it here.
+

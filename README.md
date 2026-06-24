@@ -1,43 +1,127 @@
-# Public dotfiles
+# Dotfiles
 
-Personal configuration files and install scripts for macOS/Linux.
+Personal configuration files and installation scripts for macOS and Linux.
 
-## What it contains
-- Additional config modules — `config/`
-- Git configuration — `git/`
-- Local lint environment — `docker-compose.yml`
-- SSH configuration — `ssh/`
-- Utility scripts and helpers — `misc/`
-- Vim/Neovim configuration — `vim/`
-- Zsh configuration and plugin bootstrap — `zsh/`
+## Overview
 
-## Install
-1. Clone the repository.
-2. From the repository root run:
-   - `make install` — install Homebrew packages and run each subdirectory `install` target.
-   - `make -C zsh install` — install only Zsh configuration.
-   - `make -C vim install` — install only Vim/Neovim configuration.
+This repository manages dotfiles and configuration modules using symlink-based installation and Makefile-driven orchestration. All configuration files are stored in this repository and symlinked into the home directory, allowing version control and centralized management.
+
+## Contents
+
+- `config/` — Additional configuration modules (Spring Boot, etc.)
+- `git/` — Git configuration and templates
+- `misc/` — Utility scripts and Java configuration
+- `ssh/` — SSH configuration and keys management
+- `vim/` — Neovim configuration files
+- `zsh/` — Zsh configuration and plugin setup
+- `make/` — Shared Makefile utilities
+- `docker-compose.yml` — Local linting environment
+- `.github/workflows/` — CI/CD pipelines
+
+## Prerequisites
+
+- macOS or Linux
+- Homebrew (for package management)
+- Make (for orchestration)
+- Git (for cloning and operations)
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/renatius-de/dotfiles.git
+cd dotfiles
+```
+
+Run the installation:
+
+```bash
+make install
+```
+
+This installs Homebrew packages and runs the `install` target for each module.
+
+### Install Individual Modules
+
+To install only specific modules:
+
+```bash
+make -C zsh install    # Zsh configuration
+make -C vim install    # Neovim configuration
+make -C git install    # Git configuration
+make -C ssh install    # SSH configuration
+make -C config install # Additional config modules
+make -C misc install   # Utility scripts and Java setup
+```
 
 ## Usage
-Configuration files are installed as symlinks into `$HOME`.
-Use local overrides like `~/.gitconfig.local` or `~/.ssh/config.local`.
 
-Run the local linter with:
-- `docker-compose up`
+Configuration files are installed as symlinks in the home directory. Edit files directly in this repository:
 
-## Related
-- `.github/workflows/security-scan.yml`
-- `AGENTS.md` — AI assistance guidance
-- `CODE_OF_CONDUCT.md`
-- `CONTRIBUTING.md`
-- `SECURITY.md`
-- `docs/MAKEFILE.md` — root Makefile overview
-- `config/README.md`
-- `git/README.md`
-- `misc/README.md`
-- `ssh/README.md`
-- `vim/README.md`
-- `zsh/README.md`
+```bash
+~/.gitconfig -> /path/to/dotfiles/git/config
+~/.config/nvim/init.lua -> /path/to/dotfiles/vim/init.lua
+~/.zshrc -> /path/to/dotfiles/zsh/zshrc
+```
+
+Use local overrides for personal settings:
+
+- `~/.gitconfig.local` — Git user settings
+- `~/.ssh/config.local` — SSH host-specific configuration
+- `~/.zshrc.local` — Zsh personal aliases and settings
+
+## Maintenance
+
+Upgrade all modules:
+
+```bash
+make upgrade
+```
+
+Clean up all modules:
+
+```bash
+make clean
+```
+
+Run the linter locally:
+
+```bash
+docker-compose up
+```
+
+Dry-run any target to see what will be executed:
+
+```bash
+make -n install
+```
+
+## Module Documentation
+
+For detailed information about individual modules, see:
+
+- [docs/MAKEFILE.md](docs/MAKEFILE.md) — Makefile overview and targets
+- [AGENTS.md](AGENTS.md) — AI agent guidance for repository maintenance
+- [config/README.md](config/README.md) — Configuration modules
+- [git/README.md](git/README.md) — Git configuration
+- [misc/README.md](misc/README.md) — Utility scripts
+- [ssh/README.md](ssh/README.md) — SSH configuration
+- [vim/README.md](vim/README.md) — Neovim configuration
+- [zsh/README.md](zsh/README.md) — Zsh configuration
+
+## Contributing
+
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## Code of Conduct
+
+This project is governed by the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md).
+
+## Security
+
+For security issues, see [SECURITY.md](SECURITY.md).
 
 ## License
-MIT License — `LICENSE`
+
+MIT License — see [LICENSE](LICENSE) for details.

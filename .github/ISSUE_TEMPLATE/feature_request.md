@@ -1,20 +1,52 @@
 ---
 name: Feature request
-about: Suggest an idea for this project
-title: ''
-labels: ''
+about: Suggest an enhancement or new feature for the dotfiles repository
+title: '[FEATURE] '
+labels: enhancement
 assignees: ''
-
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+## Description
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+A clear and concise description of what you would like to add or improve.
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+## Motivation
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+Explain why this feature would be useful. What problem does it solve?
+
+## Proposed Solution
+
+Describe how you would like this feature to work:
+
+## Alternative Solutions
+
+Describe any alternative approaches you have considered.
+
+## Related Module
+
+- [ ] config
+- [ ] git
+- [ ] misc
+- [ ] ssh
+- [ ] vim
+- [ ] zsh
+- [ ] Makefile / Build System
+- [ ] Documentation
+- [ ] Other
+
+## Implementation Notes
+
+Any additional context or technical considerations:
+
+## Example Usage
+
+If applicable, describe how you would use this feature:
+
+```bash
+# Example command or configuration
+```
+
+## Additional Context
+
+Add any other relevant information or links.
+
