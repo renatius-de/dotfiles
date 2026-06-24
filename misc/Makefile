@@ -66,20 +66,20 @@ ensure-prereqs:
 
 install-java: ensure-prereqs
 ifeq ($(WORK_ENV),true)
-	$(call for_each_corretto_version,install_java_for_version)
+	@$(call for_each_corretto_version,install_java_for_version)
 else
 	@printf "Skipping Corretto installation because WORK_ENV=%s\n" "$(WORK_ENV)"
 endif
 
 import-ca-certs: install-java
 ifeq ($(WORK_ENV),true)
-	$(call for_each_corretto_version,import_ca_certs_for_version)
+	@$(call for_each_corretto_version,import_ca_certs_for_version)
 else
 	@printf "Skipping CA cert import because WORK_ENV=%s\n" "$(WORK_ENV)"
 endif
 
 uninstall-java:
-	$(call for_each_corretto_version,uninstall_java_for_version)
+	@$(call for_each_corretto_version,uninstall_java_for_version)
 
 install: install-java import-ca-certs
 

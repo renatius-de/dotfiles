@@ -12,10 +12,10 @@ REQUIRED_DIRS := $(NVIM_DIR) $(NVIM_CACHE_DIR)
 .PHONY: install upgrade clean
 
 $(REQUIRED_DIRS):
-	$(MKDIR) $@
+	@$(call ensure_dir,$@)
 
 $(NVIM_INIT): | $(REQUIRED_DIRS)
-	$(symlink) $(ROOT_DIR)/$(NVIMRC_SRC) $@
+	@$(symlink) $(ROOT_DIR)/$(NVIMRC_SRC) $@
 
 install: | $(NVIM_INIT)
 

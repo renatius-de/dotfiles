@@ -79,7 +79,9 @@ HOME_DEV_DIR := $(HOME)/dev
 define do_in_sub_directories
 	@for d in $(SUB_DIRECTORIES); do \
 		if [ -f "$$d/Makefile" ]; then \
-			$(MAKE) -C "$$d" $(1) || $(call fail,$(1)); \
+			printf "➔ Entering directory: %s\n" "$$d"; \
+			$(MAKE) -C "$$d" $(1) || { printf "FAILED: Target [%s] in Makefile [%s/Makefile] failed\n" "$(1)" "$$d" >&2; exit 1; }; \
+			printf "✔ Done directory: %s\n" "$$d"; \
 		fi; \
 	done
 endef
@@ -155,13 +157,12 @@ brew-post-install: | brew-ensure
 	-@$(MAKE) jenv-add-corretto
 
 jenv-add-corretto:
-	@if command -v jenv >/dev/null 2>&1; then \
+	@set -o pipefail; if command -v jenv >/dev/null 2>&1; then \
 		for jd in /Library/Java/JavaVirtualMachines/amazon-corretto*.jdk/Contents/Home; do \
 			if [ -d "$$jd" ]; then \
 				jenv add "$$jd"; \
 			fi; \
 		done; \
-		jenv rehash; \
 	fi
 
 brew-install: | \
@@ -201,7 +202,7 @@ upgrade: | brew-upgrade ## Upgrade dotfiles and Homebrew packages
 clean: | brew-uninstall-packages ## Cleanup generated files and remove installed Homebrew packages
 	@$(RM_F) $(CLEAN_FILES)
 	@$(RM_RF) $(CLEAN_DIRECTORIES)
-	$(call do_in_sub_directories,clean)
+	@$(call do_in_sub_directories,clean)
 
 fix-permissions-of-home:
 	@if [ -d "$(HOME_DEV_DIR)" ]; then \

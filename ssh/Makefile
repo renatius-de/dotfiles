@@ -10,14 +10,14 @@ SSH_CONFIG_SOURCE := $(ROOT_DIR)/config
 .PHONY: install upgrade clean init-ssh
 
 $(SSH_DIR):
-	$(MKDIR) $@
+	@$(call ensure_dir,$@)
 
 $(SSH_CONTROL_DIR): | $(SSH_DIR)
-	$(MKDIR) "$@"
+	@$(call ensure_dir,$@)
 	@chmod 700 "$@"
 
 $(SSH_KEYS_DIR): | $(SSH_DIR)
-	$(MKDIR) $@
+	@$(call ensure_dir,$@)
 
 $(SSH_CONFIG_LOCAL): | $(SSH_KEYS_DIR)
 	$(call create_local_file,$@)

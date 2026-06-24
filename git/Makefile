@@ -13,9 +13,9 @@ GIT_IGNORE_URL := https://github.com/github/gitignore.git
 
 define clone_or_update_git_repo
 	@if [ -d "$(2)" ]; then \
-		git -C "$(2)" pull --ff-only >/dev/null 2>&1 || true; \
+		git -C "$(2)" pull --ff-only >/dev/null 2>&1 || { printf "FAILED: update %s in %s\n" "$(1)" "$(2)" >&2; exit 1; }; \
 	else \
-		git clone --quiet --depth=1 "$(1)" "$(2)"; \
+		git clone --quiet --depth=1 "$(1)" "$(2)" || { printf "FAILED: clone %s into %s\n" "$(1)" "$(2)" >&2; exit 1; }; \
 	fi
 endef
 
