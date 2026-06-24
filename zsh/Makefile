@@ -40,13 +40,13 @@ ensure-curl:
 	@$(call ensure_cmd,curl)
 
 $(ZSH_HOME):
-	$(symlink) $(ROOT_DIR) $@
+	@$(call symlink,$(ROOT_DIR),$@)
 
 $(ZSH_CACHE_DIR):
 	@$(call ensure_dir,$@)
 
 $(ZSH_LINK_TARGETS): $(HOME)/.%: $(ROOT_DIR)/zsh/%
-	@$(symlink) $< $@
+	@$(call symlink,$<,$@)
 
 $(ZSHRC_LOCAL_FILE):
 	@$(call create_local_file,$@)
