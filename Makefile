@@ -12,21 +12,24 @@ BREW_FORMULAS := \
 	git \
 	gnupg \
 	go \
+	kotlin \
+	lazygit \
+	make \
+	ncdu \
+	neovim \
+	python \
+	#
+
+WORK_BREW_PACKAGES := \
 	gradle \
 	helm \
 	jenv \
 	k9s \
-	kotlin \
 	kubectx \
 	kubernetes-cli \
-	lazygit \
-	make \
 	maven \
-	ncdu \
-	neovim \
 	node \
 	pnpm \
-	python \
 	stern \
 	yq \
 	#
@@ -109,6 +112,18 @@ brew-update: | brew-ensure
 brew-install-packages: | brew-ensure
 	@$(BREW) install --quiet --formula $(BREW_FORMULAS)
 	@$(BREW) install --quiet --cask $(BREW_CASKS)
+
+install-homebrew-extensions: | brew-ensure
+	@if [ "$(WORK_ENV)" = "true" ]; then \
+		if [ -n "$(WORK_BREW_PACKAGES)" ]; then \
+			printf 'Installing work environment Homebrew packages: %s\n' "$(WORK_BREW_PACKAGES)"; \
+			$(BREW) install --quiet --formula $(WORK_BREW_PACKAGES); \
+		else \
+			printf 'WORK_ENV=true but WORK_BREW_PACKAGES is empty; nothing to install.\n'; \
+		fi; \
+	else \
+		printf 'WORK_ENV!=true; skipping work environment Homebrew extensions.\n'; \
+	fi
 
 brew-uninstall-packages: | brew-ensure
 	@$(BREW) uninstall --quiet --formula --ignore-dependencies --force $(BREW_FORMULAS)
