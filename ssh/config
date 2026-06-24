@@ -2,12 +2,10 @@
 Include config.local
 
 # Version control platforms
-Match host "github.com,gitlab.com,gitea.*,gitHub.*,github.*,gitlab.*,bitbucket.*"
+Match host "gitea.*,gitHub.*,github.*,gitlab.*,bitbucket.*"
     User git
     PasswordAuthentication no
     PubkeyAuthentication yes
-    IdentityFile ~/.ssh/id_rsa
-    IdentityFile ~/.ssh/id_ed25519
 
 # Global defaults for all hosts
 Host *
