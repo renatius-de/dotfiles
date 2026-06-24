@@ -1,4 +1,5 @@
 include make/common.mk
+.DEFAULT_GOAL := help
 
 BREW := $(shell command -v brew 2>/dev/null || command -v /opt/homebrew/bin/brew 2>/dev/null || command -v /usr/local/bin/brew 2>/dev/null || echo)
 
@@ -78,12 +79,27 @@ HOME_DEV_DIR := $(HOME)/dev
 define do_in_sub_directories
 	@for d in $(SUB_DIRECTORIES); do \
 		if [ -f "$$d/Makefile" ]; then \
-			$(MAKE) -C "$$d" $(1) || { printf "Error: target '%s' failed in %s\n" "$(1)" "$$d" >&2; exit 1; }; \
+			$(MAKE) -C "$$d" $(1) || $(call fail,$(1)); \
 		fi; \
 	done
 endef
 
+## help
+##   Show this help summary for the root Makefile. This target is the default when running `make` without arguments.
+##   It parses inline `##` comments from target definitions in the root Makefile
+##   and prints a compact list of available root-level commands.
+help: ## Display Makefile help and available targets
+	@printf "\nAvailable targets in %s:\n\n" "$(BASE_MAKEFILE)"
+	@grep -E '^[a-zA-Z0-9_.-]+:.*##' "$(BASE_MAKEFILE)" | \
+		while IFS= read -r line; do \
+			target=$${line%%:*}; \
+			desc=$${line#*## }; \
+			printf "  %-20s %s\n" "$$target" "$$desc"; \
+		done
+	@printf "\nRun 'make <target>' to execute a specific target.\n"
+
 .PHONY: \
+	help \
 	brew-cleanup \
 	brew-ensure \
 	brew-install \
@@ -167,19 +183,28 @@ brew-upgrade: | \
 	brew-perform-upgrade \
 	brew-cleanup
 
-install: | brew-install fix-permissions-of-home
+## install
+##   Install Homebrew packages, optional work environment extensions, and all submodule install targets.
+##   Influenced by `WORK_ENV=true`. This does not perform a package upgrade unless the submodule install target does so.
+install: | brew-install fix-permissions-of-home ## Install dotfiles and Homebrew packages
 	$(call do_in_sub_directories,install)
+
+## upgrade
+##   Upgrade Homebrew packages and execute `upgrade` in every subdirectory.
+##   Existing configuration files stay intact; modules may refresh symlinks and other runtime artifacts.
+upgrade: | brew-upgrade ## Upgrade dotfiles and Homebrew packages
+	$(call do_in_sub_directories,upgrade)
+
+## clean
+##   Remove installed Homebrew packages, temporary files and configured directories.
+##   Warning: this can delete caches, generated files and optional package installations.
+clean: | brew-uninstall-packages ## Cleanup generated files and remove installed Homebrew packages
+	@$(RM_F) $(CLEAN_FILES)
+	@$(RM_RF) $(CLEAN_DIRECTORIES)
+	$(call do_in_sub_directories,clean)
 
 fix-permissions-of-home:
 	@if [ -d "$(HOME_DEV_DIR)" ]; then \
 		chmod -R u=rwX,go= "$(HOME_DEV_DIR)"; \
 	fi
 	@chmod u=rwX,go= "$(HOME)"
-
-upgrade: | brew-upgrade
-	$(call do_in_sub_directories,upgrade)
-
-clean: | brew-uninstall-packages
-	@$(RM_F) $(CLEAN_FILES)
-	@$(RM_RF) $(CLEAN_DIRECTORIES)
-	$(call do_in_sub_directories,clean)

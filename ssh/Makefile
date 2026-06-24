@@ -6,7 +6,6 @@ SSH_CONFIG := $(SSH_DIR)/config
 SSH_CONFIG_LOCAL := $(SSH_DIR)/config.local
 SSH_KEYS_DIR := $(SSH_DIR)/keys
 SSH_CONFIG_SOURCE := $(ROOT_DIR)/config
-FILE_MODE := 0600
 
 .PHONY: install upgrade clean init-ssh
 
@@ -14,7 +13,7 @@ $(SSH_DIR):
 	$(MKDIR) $@
 
 $(SSH_CONTROL_DIR): | $(SSH_DIR)
-	@mkdir -p "$@"
+	$(MKDIR) "$@"
 	@chmod 700 "$@"
 
 $(SSH_KEYS_DIR): | $(SSH_DIR)
