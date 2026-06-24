@@ -117,7 +117,6 @@ brew-install-packages: | brew-ensure
 install-homebrew-extensions: | brew-ensure
 	@if [ "$(WORK_ENV)" = "true" ]; then \
 		if [ -n "$(WORK_BREW_PACKAGES)" ]; then \
-			printf "Installing work environment Homebrew packages: %s\n" "$(WORK_BREW_PACKAGES)"; \
 			$(BREW) install --quiet --formula $(WORK_BREW_PACKAGES); \
 		else \
 			printf "WORK_ENV=true but WORK_BREW_PACKAGES is empty; nothing to install.\n"; \
