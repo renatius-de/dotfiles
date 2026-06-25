@@ -4,8 +4,9 @@ GIT_DIR_SYMLINK := $(HOME)/.git
 GIT_CONFIG_FILE := $(HOME)/.gitconfig
 GIT_CONFIG_LOCAL_FILE := $(HOME)/.gitconfig.local
 GIT_IGNORE_FILE := $(HOME)/.gitignore
-GITATTR_REPO_DIR := $(ROOT_DIR)/GitAttributesRepository
-GITIGNORE_REPO_DIR := $(ROOT_DIR)/GitIgnoreRepository
+GIT_PROJECTS_DIR := $(ROOT_DIR)/git
+GITATTR_REPO_DIR := $(GIT_PROJECTS_DIR)/GitAttributesRepository
+GITIGNORE_REPO_DIR := $(GIT_PROJECTS_DIR)/GitIgnoreRepository
 REPO_DIRS := $(GITATTR_REPO_DIR) $(GITIGNORE_REPO_DIR)
 
 GIT_ATTRIBUTES_URL := https://github.com/alexkaratarakis/gitattributes.git
