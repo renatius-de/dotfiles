@@ -14,9 +14,7 @@ plugins=(
   gradle
   history-substring-search
   jenv
-  k9s
-  kubectl
-  mvn
+  sudo
   vi-mode
   zsh-navigation-tools
 )
@@ -25,6 +23,15 @@ plugins=(
   plugins+=(brew eza)
   export HOMEBREW_NO_ENV_HINTS=1
   export SHELL_SESSIONS_DISABLE=1
+}
+
+[[ WORK_ENV == "true" ]] && {
+  plugins+=(
+    k9s
+    kubectl
+    mvn
+    node
+  )
 }
 
 if [[ -f "$ZSH/oh-my-zsh.sh" ]]; then
