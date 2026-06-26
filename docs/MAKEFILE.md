@@ -1,6 +1,7 @@
 # Makefile Overview
 
-The root `Makefile` orchestrates package management and delegates to module-specific Makefiles. All modules follow a consistent make target structure.
+The root `Makefile` orchestrates package management and delegates to module-specific
+Makefiles. All modules follow a consistent make target structure.
 
 ## Root Targets
 

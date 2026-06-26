@@ -7,7 +7,8 @@ This repository contains personal dotfiles and installation scripts for macOS an
 If you discover a security vulnerability, please report it responsibly:
 
 1. **Do not** open a public issue on GitHub.
-2. Use GitHub's [Security Advisory](https://github.com/renatius-de/dotfiles/security/advisories) feature to report privately.
+2. Use GitHub's [Security Advisory](https://github.com/renatius-de/dotfiles/security/advisories)
+   feature to report privately.
 3. Include a clear description of the vulnerability and steps to reproduce it.
 4. Allow time for a response before public disclosure.
 

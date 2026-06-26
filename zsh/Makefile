@@ -69,9 +69,11 @@ clone-or-update-external: ensure-git
 		name=$$(basename $(repo)); \
 		dir=$(OMZ_CUSTOM)/$$name; \
 		if [ ! -d "$$dir" ]; then \
-		  git clone --depth=1 https://github.com/$(repo).git "$$dir" >/dev/null 2>&1 || { printf "FAILED: clone %s into %s\n" "$(repo)" "$$dir" >&2; exit 1; }; \
+		  git clone --depth=1 https://github.com/$(repo).git "$$dir" >/dev/null 2>&1 \
+		    || { printf "FAILED: clone %s into %s\n" "$(repo)" "$$dir" >&2; exit 1; }; \
 		else \
-		  git -C "$$dir" pull --ff-only >/dev/null 2>&1 || { printf "FAILED: update %s in %s\n" "$(repo)" "$$dir" >&2; exit 1; }; \
+		  git -C "$$dir" pull --ff-only >/dev/null 2>&1 \
+		    || { printf "FAILED: update %s in %s\n" "$(repo)" "$$dir" >&2; exit 1; }; \
 		fi; \
 	)
 

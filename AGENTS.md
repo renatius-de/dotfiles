@@ -4,7 +4,8 @@ This document provides guidance for AI assistants maintaining and extending the 
 
 ## Purpose
 
-Personal dotfiles and installation scripts for macOS and Linux. The repository uses symlink-based configuration modules and Makefile-driven orchestration to manage system setup.
+Personal dotfiles and installation scripts for macOS and Linux. The repository uses symlink-based configuration
+modules and Makefile-driven orchestration to manage system setup.
 
 ## Key Facts
 

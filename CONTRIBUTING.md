@@ -14,6 +14,7 @@ Contributions are welcome! Please follow these guidelines to maintain the qualit
 
 - Keep dotfiles and install scripts minimal and deliberate.
 - Update the relevant subdirectory and its `Makefile` when adding or changing configuration behavior.
+- Follow the project `.editorconfig` file for file formatting, indentation, and line endings.
 - Ensure all markdown files follow the standard structure and use consistent formatting.
 - Write clear commit messages explaining the "why" behind changes.
 - Test your changes with `make install` or module-specific targets before submitting.

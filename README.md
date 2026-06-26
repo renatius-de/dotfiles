@@ -4,7 +4,9 @@ Personal configuration files and installation scripts for macOS and Linux.
 
 ## Overview
 
-This repository manages dotfiles and configuration modules using symlink-based installation and Makefile-driven orchestration. All configuration files are stored in this repository and symlinked into the home directory, allowing version control and centralized management.
+This repository manages dotfiles and configuration modules using symlink-based installation and
+Makefile-driven orchestration. All configuration files are stored in this repository and
+symlinked into the home directory, allowing version control and centralized management.
 
 ## Contents
 
@@ -23,6 +25,20 @@ This repository manages dotfiles and configuration modules using symlink-based i
 - Homebrew (for package management)
 - Make (for orchestration)
 - Git (for cloning and operations)
+
+## Editor configuration
+
+This repository includes a `.editorconfig` file at the project root to enforce consistent file formatting:
+
+- `utf-8` encoding for all files
+- `lf` line endings
+- trailing whitespace trimmed globally
+- final newline inserted
+- spaces for indentation in most files
+- tabs only in `Makefile`
+- Markdown files preserve trailing whitespace where needed
+
+Editors that support EditorConfig will automatically apply these rules.
 
 ## Installation
 

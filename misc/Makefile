@@ -1,7 +1,10 @@
 include ../make/common.mk
 
 SUDO := sudo
-BREW := $(shell command -v brew 2>/dev/null || command -v /opt/homebrew/bin/brew 2>/dev/null || command -v /usr/local/bin/brew 2>/dev/null || echo)
+BREW := $(shell command -v brew 2>/dev/null \
+  || command -v /opt/homebrew/bin/brew 2>/dev/null \
+  || command -v /usr/local/bin/brew 2>/dev/null \
+  || echo)
 JENV := jenv
 KEYTOOL := keytool
 
@@ -20,7 +23,8 @@ JDK_CONTENTS_HOME_OF = $(call JDK_HOME_OF,$(1))/Contents/Home
 JDK_BIN_OF = $(call JDK_CONTENTS_HOME_OF,$(1))/bin
 KEYTOOL_BIN_OF = $(call JDK_BIN_OF,$(1))/$(KEYTOOL)
 
-KEYTOOL_CA_CERTS_ARGS := -import -trustcacerts -alias "$(CERT_ALIAS)" -file "$(CERT_FILE)" -cacerts -storepass "$(STORE_PASS)" -noprompt
+KEYTOOL_CA_CERTS_ARGS := -import -trustcacerts -alias "$(CERT_ALIAS)" \
+  -file "$(CERT_FILE)" -cacerts -storepass "$(STORE_PASS)" -noprompt
 
 define install_java_for_version
 	JDK_DIR="$(call JDK_HOME_OF,$(1))"; \
@@ -44,8 +48,10 @@ define import_ca_certs_for_version
 	if [ -r "$(CERT_FILE)" ]; then \
 	  KEYTOOL_BIN="$(call KEYTOOL_BIN_OF,$(1))"; \
 	  if [ -x "$$KEYTOOL_BIN" ]; then \
-	    if ! $(SUDO) "$$KEYTOOL_BIN" -list -cacerts -storepass "$(STORE_PASS)" -alias "$(CERT_ALIAS)" >/dev/null 2>&1; then \
-	      $(SUDO) "$$KEYTOOL_BIN" $(KEYTOOL_CA_CERTS_ARGS) || printf "Warning: cert import failed for %s\n" "$$KEYTOOL_BIN"; \
+	    if ! $(SUDO) "$$KEYTOOL_BIN" -list -cacerts \
+	        -storepass "$(STORE_PASS)" -alias "$(CERT_ALIAS)" >/dev/null 2>&1; then \
+	      $(SUDO) "$$KEYTOOL_BIN" $(KEYTOOL_CA_CERTS_ARGS) \
+	        || printf "Warning: cert import failed for %s\n" "$$KEYTOOL_BIN"; \
 	    else \
 	      printf "Certificate %s already installed in %s\n" "$(CERT_ALIAS)" "$$KEYTOOL_BIN"; \
 	    fi; \

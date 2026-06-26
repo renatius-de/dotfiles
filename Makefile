@@ -1,7 +1,10 @@
 include make/common.mk
 .DEFAULT_GOAL := help
 
-BREW := $(shell command -v brew 2>/dev/null || command -v /opt/homebrew/bin/brew 2>/dev/null || command -v /usr/local/bin/brew 2>/dev/null || echo)
+BREW := $(shell command -v brew 2>/dev/null \
+  || command -v /opt/homebrew/bin/brew 2>/dev/null \
+  || command -v /usr/local/bin/brew 2>/dev/null \
+  || echo)
 
 BREW_FORMULAS := \
 	bat \
@@ -80,7 +83,8 @@ define do_in_sub_directories
 	@for d in $(SUB_DIRECTORIES); do \
 		if [ -f "$$d/Makefile" ]; then \
 			printf "➔ Entering directory: %s\n" "$$d"; \
-			$(MAKE) -C "$$d" $(1) || { printf "FAILED: Target [%s] in Makefile [%s/Makefile] failed\n" "$(1)" "$$d" >&2; exit 1; }; \
+			$(MAKE) -C "$$d" $(1) || { \
+				printf "FAILED: Target [%s] in Makefile [%s/Makefile] failed\n" "$(1)" "$$d" >&2; exit 1; }; \
 			printf "✔ Done directory: %s\n" "$$d"; \
 		fi; \
 	done
