@@ -49,3 +49,8 @@ if (( $+commands[mvn] )); then
   alias mvnpitdu='mvn -pl integration-test -P integration-test docker:start docker:volume-create'
   alias mvnpitdd='mvn -pl integration-test -P integration-test docker:stop docker:remove docker:volume-remove'
 fi
+
+# k9s helpers
+if (( $+commands[k9s] )); then
+  alias k9s='k9s --all-namespaces --crumbsless --logoless --splashless'
+fi
