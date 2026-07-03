@@ -16,6 +16,7 @@ BREW_FORMULAS := \
 	git \
 	gnupg \
 	go \
+	jenv \
 	kotlin \
 	lazygit \
 	make \
@@ -27,7 +28,6 @@ BREW_FORMULAS := \
 WORK_BREW_PACKAGES := \
 	gradle \
 	helm \
-	jenv \
 	k9s \
 	kubectx \
 	kubernetes-cli \
