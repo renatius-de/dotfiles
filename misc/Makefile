@@ -87,8 +87,6 @@ ensure-prereqs:
 install-java: ensure-prereqs
 ifeq ($(WORK_ENV),true)
 	@$(call for_each_corretto_version,install_java_for_version)
-else
-	@printf "Skipping Corretto installation because WORK_ENV=%s\n" "$(WORK_ENV)"
 endif
 
 update-nodejs:
@@ -99,8 +97,6 @@ install-nodejs: update-nodejs
 import-ca-certs: install-java
 ifeq ($(WORK_ENV),true)
 	@$(call for_each_corretto_version,import_ca_certs_for_version)
-else
-	@printf "Skipping CA cert import because WORK_ENV=%s\n" "$(WORK_ENV)"
 endif
 
 uninstall-java:
