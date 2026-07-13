@@ -69,9 +69,6 @@ define install_nodejs_with_nvm
 	  nvm install --lts --latest-npm --default --save; \
 	  nvm use --silent --lts --save; \
 	  nvm alias default lts/*; \
-	else \
-	  echo "NVM is not installed or not initialized at /opt/homebrew/opt/nvm/nvm.sh"; \
-	  exit 1; \
 	fi
 endef
 
