@@ -40,7 +40,7 @@ ensure-curl:
 	@$(call ensure_cmd,curl)
 
 $(ZSH_HOME):
-	@$(call symlink,$(ROOT_DIR),$@)
+	@$(call symlink,$(ROOT_DIR)/zsh,$@)
 
 $(ZSH_CACHE_DIR):
 	@$(call ensure_dir,$@)
