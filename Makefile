@@ -26,13 +26,14 @@ BREW_FORMULAS := \
 	#
 
 WORK_BREW_PACKAGES := \
+	azure-cli \
 	gradle \
 	helm \
 	k9s \
 	kubectx \
 	kubernetes-cli \
 	maven \
-	node \
+	nvm \
 	pnpm \
 	stern \
 	yq \

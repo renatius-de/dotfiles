@@ -63,7 +63,19 @@ define for_each_corretto_version
 	@for v in $(CORRETTO_VERSIONS); do $(call $(1),$$v); done
 endef
 
-.PHONY: ensure-prereqs import-ca-certs install-java uninstall-java install upgrade clean
+define install_nodejs_with_nvm
+	if [ -s "/opt/homebrew/opt/nvm/nvm.sh" ]; then \
+	  . "/opt/homebrew/opt/nvm/nvm.sh"; \
+	  nvm install --lts --latest-npm --default --save; \
+	  nvm use --silent --lts --save; \
+	  nvm alias default lts/*; \
+	else \
+	  echo "NVM is not installed or not initialized at /opt/homebrew/opt/nvm/nvm.sh"; \
+	  exit 1; \
+	fi
+endef
+
+.PHONY: ensure-prereqs import-ca-certs install-java install-nodejs uninstall-java install upgrade clean
 
 ensure-prereqs:
 	@$(call ensure_cmd,$(BREW))
@@ -77,6 +89,9 @@ else
 	@printf "Skipping Corretto installation because WORK_ENV=%s\n" "$(WORK_ENV)"
 endif
 
+install-nodejs:
+	@$(call install_nodejs_with_nvm)
+
 import-ca-certs: install-java
 ifeq ($(WORK_ENV),true)
 	@$(call for_each_corretto_version,import_ca_certs_for_version)
@@ -87,7 +102,7 @@ endif
 uninstall-java:
 	@$(call for_each_corretto_version,uninstall_java_for_version)
 
-install: install-java import-ca-certs
+install: install-java import-ca-certs install-nodejs
 
 upgrade: install
 
