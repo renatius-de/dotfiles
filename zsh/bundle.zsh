@@ -31,6 +31,7 @@ plugins=(
     kubectl
     mvn
     node
+    nvm
   )
 }
 
