@@ -167,7 +167,7 @@ jenv-add-corretto:
 	@set -o pipefail; if command -v jenv >/dev/null 2>&1; then \
 		for jd in /Library/Java/JavaVirtualMachines/amazon-corretto*.jdk/Contents/Home; do \
 			if [ -d "$$jd" ]; then \
-				jenv add "$$jd"; \
+				jenv add "$$jd" > /dev/null 2>&1 ; \
 			fi; \
 		done; \
 	fi

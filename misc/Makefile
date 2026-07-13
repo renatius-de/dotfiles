@@ -53,8 +53,6 @@ define import_ca_certs_for_version
 	        -storepass "$(STORE_PASS)" -alias "$(CERT_ALIAS)" >/dev/null 2>&1; then \
 	      $(SUDO) "$$KEYTOOL_BIN" $(KEYTOOL_CA_CERTS_ARGS) \
 	        || printf "Warning: cert import failed for %s\n" "$$KEYTOOL_BIN"; \
-	    else \
-	      printf "Certificate %s already installed in %s\n" "$(CERT_ALIAS)" "$$KEYTOOL_BIN"; \
 	    fi; \
 	  fi; \
 	fi
