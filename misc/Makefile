@@ -5,6 +5,7 @@ BREW := $(shell command -v brew 2>/dev/null \
   || command -v /opt/homebrew/bin/brew 2>/dev/null \
   || command -v /usr/local/bin/brew 2>/dev/null \
   || echo)
+BREW_NVM_PREFIX := $(shell if [ -n "$(BREW)" ]; then "$(BREW)" --prefix nvm 2>/dev/null; fi)
 JENV := jenv
 KEYTOOL := keytool
 
@@ -32,8 +33,8 @@ define install_java_for_version
 	  $(BREW) install --cask "$(call CASK_NAME_OF,$(1))"; \
 	fi; \
 	if [ -d "$$JDK_DIR" ]; then \
-	  $(JENV) add "$(call JDK_CONTENTS_HOME_OF,$(1))" || true; \
-	  $(JENV) global "$(1)" || true; \
+	  $(JENV) add "$(call JDK_CONTENTS_HOME_OF,$(1))" > /dev/null 2>&1 || true; \
+	  $(JENV) global "$(1)" > /dev/null 2>&1 || true; \
 	fi
 endef
 
@@ -63,16 +64,20 @@ define for_each_corretto_version
 	@for v in $(CORRETTO_VERSIONS); do $(call $(1),$$v); done
 endef
 
-define install_nodejs_with_nvm
-	if [ -s "/opt/homebrew/opt/nvm/nvm.sh" ]; then \
-	  . "/opt/homebrew/opt/nvm/nvm.sh"; \
-	  nvm install --lts --latest-npm --default --save; \
-	  nvm use --silent --lts --save; \
-	  nvm alias default lts/*; \
+define update_nodejs_with_nvm
+	@if [ -n "$(BREW_NVM_PREFIX)" ] && [ -s "$(BREW_NVM_PREFIX)/nvm.sh" ]; then \
+	  . "$(BREW_NVM_PREFIX)/nvm.sh" >/dev/null 2>&1; \
+	  prev_version="$$(nvm current 2>/dev/null || true)"; \
+	  nvm install --lts >/dev/null 2>&1; \
+	  nvm alias default 'lts/*' >/dev/null 2>&1; \
+	  nvm use --lts >/dev/null 2>&1; \
+	  if [ -n "$$prev_version" ] && [ "$$prev_version" != "$$(node -v)" ]; then \
+	    nvm uninstall "$$prev_version" >/dev/null 2>&1 || true; \
+	  fi; \
 	fi
 endef
 
-.PHONY: ensure-prereqs import-ca-certs install-java install-nodejs uninstall-java install upgrade clean
+.PHONY: ensure-prereqs import-ca-certs install-java install-nodejs update-nodejs uninstall-java install upgrade clean
 
 ensure-prereqs:
 	@$(call ensure_cmd,$(BREW))
@@ -86,8 +91,10 @@ else
 	@printf "Skipping Corretto installation because WORK_ENV=%s\n" "$(WORK_ENV)"
 endif
 
-install-nodejs:
-	@$(call install_nodejs_with_nvm)
+update-nodejs:
+	@$(call update_nodejs_with_nvm)
+
+install-nodejs: update-nodejs
 
 import-ca-certs: install-java
 ifeq ($(WORK_ENV),true)
