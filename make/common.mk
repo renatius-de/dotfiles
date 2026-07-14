@@ -50,7 +50,7 @@ define clone_or_update_repo
 	if [ ! -d "$$dir" ]; then \
 	  $(call run_cmd,git clone --depth=1 "https://github.com/$(1).git" "$$dir",clone_or_update_repo); \
 	else \
-	  git -C "$$dir" pull --ff-only >/dev/null 2>&1 \
+	  git -C "$$dir" pull --ff-only >/dev/null \
 	    || { printf "FAILED: update %s in %s\n" "$(1)" "$$dir" >&2; exit 1; }; \
 	fi
 endef

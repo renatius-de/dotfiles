@@ -33,8 +33,8 @@ define install_java_for_version
 	  $(BREW) install --cask "$(call CASK_NAME_OF,$(1))"; \
 	fi; \
 	if [ -d "$$JDK_DIR" ]; then \
-	  $(JENV) add "$(call JDK_CONTENTS_HOME_OF,$(1))" > /dev/null 2>&1 || true; \
-	  $(JENV) global "$(1)" > /dev/null 2>&1 || true; \
+	  $(JENV) add "$(call JDK_CONTENTS_HOME_OF,$(1))" > /dev/null || true; \
+	  $(JENV) global "$(1)" > /dev/null || true; \
 	fi
 endef
 
@@ -50,7 +50,7 @@ define import_ca_certs_for_version
 	  KEYTOOL_BIN="$(call KEYTOOL_BIN_OF,$(1))"; \
 	  if [ -x "$$KEYTOOL_BIN" ]; then \
 	    if ! $(SUDO) "$$KEYTOOL_BIN" -list -cacerts \
-	        -storepass "$(STORE_PASS)" -alias "$(CERT_ALIAS)" >/dev/null 2>&1; then \
+	        -storepass "$(STORE_PASS)" -alias "$(CERT_ALIAS)" >/dev/null; then \
 	      $(SUDO) "$$KEYTOOL_BIN" $(KEYTOOL_CA_CERTS_ARGS) \
 	        || printf "Warning: cert import failed for %s\n" "$$KEYTOOL_BIN"; \
 	    fi; \
@@ -64,13 +64,13 @@ endef
 
 define update_nodejs_with_nvm
 	@if [ -n "$(BREW_NVM_PREFIX)" ] && [ -s "$(BREW_NVM_PREFIX)/nvm.sh" ]; then \
-	  . "$(BREW_NVM_PREFIX)/nvm.sh" >/dev/null 2>&1; \
+	  . "$(BREW_NVM_PREFIX)/nvm.sh" >/dev/null; \
 	  prev_version="$$(nvm current 2>/dev/null || true)"; \
-	  nvm install --lts >/dev/null 2>&1; \
-	  nvm alias default 'lts/*' >/dev/null 2>&1; \
-	  nvm use --lts >/dev/null 2>&1; \
+	  nvm install --lts >/dev/null; \
+	  nvm alias default 'lts/*' >/dev/null; \
+	  nvm use --lts >/dev/null; \
 	  if [ -n "$$prev_version" ] && [ "$$prev_version" != "$$(node -v)" ]; then \
-	    nvm uninstall "$$prev_version" >/dev/null 2>&1 || true; \
+	    nvm uninstall "$$prev_version" >/dev/null || true; \
 	  fi; \
 	fi
 endef
