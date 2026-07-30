@@ -27,6 +27,9 @@ KEYTOOL_BIN_OF = $(call JDK_BIN_OF,$(1))/$(KEYTOOL)
 KEYTOOL_CA_CERTS_ARGS := -import -trustcacerts -alias "$(CERT_ALIAS)" \
   -file "$(CERT_FILE)" -cacerts -storepass "$(STORE_PASS)" -noprompt
 
+NVM_DIR := $(HOME)/.nvm
+NODE_LTS_VERSIONS := 24
+
 define install_java_for_version
 	JDK_DIR="$(call JDK_HOME_OF,$(1))"; \
 	if [ ! -d "$$JDK_DIR" ]; then \
@@ -71,20 +74,15 @@ define for_each_corretto_version
 endef
 
 define update_nodejs_with_nvm
-	@if [ -n "$(BREW_NVM_PREFIX)" ] && [ -s "$(BREW_NVM_PREFIX)/nvm.sh" ]; then \
-	  . "$(BREW_NVM_PREFIX)/nvm.sh" >/dev/null; \
-	  prev_version="$$(nvm current 2>/dev/null || true)"; \
-	  nvm install --lts >/dev/null; \
-	  nvm alias default 'lts/*' >/dev/null; \
-	  nvm use --lts >/dev/null; \
-	  if [ -n "$$prev_version" ] && [ "$$prev_version" != "$$(node -v)" ]; then \
-	    nvm uninstall "$$prev_version" >/dev/null || true; \
+	@for v in $(NODE_LTS_VERSIONS); do \
+		if [ -n "$(BREW_NVM_PREFIX)" ] && [ -s "$(BREW_NVM_PREFIX)/nvm.sh" ]; then \
+			. "$(BREW_NVM_PREFIX)/nvm.sh" >/dev/null; \
+			nvm install --lts --latest-npm --no-progress --default --save "$(v)" >/dev/null; \
+			nvm alias default "$(v)" >/dev/null; \
 		else \
-	    printf "Info: Node.js version unchanged, no uninstall needed\n"; \
-	  fi; \
-	else \
-	  printf "Warning: nvm not found or not installed via Homebrew, skipping Node.js update\n"; \
-	fi
+			printf "Warning: nvm not found or not installed via Homebrew, skipping Node.js update\n"; \
+		fi; \
+	done
 endef
 
 .PHONY: ensure-prereqs import-ca-certs install-java install-nodejs update-nodejs uninstall-java install upgrade clean
@@ -117,3 +115,4 @@ install: install-java import-ca-certs install-nodejs
 upgrade: install
 
 clean: uninstall-java
+	$(RM_RF) "$(NVM_DIR)"
