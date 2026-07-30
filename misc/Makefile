@@ -10,7 +10,7 @@ JENV := jenv
 KEYTOOL := keytool
 
 STORE_PASS ?= changeit
-CERT_FILE := $(HOME)/dev/opta\ data/optadata-gruppe-ODA-DC1-CA.cer
+CERT_FILE := $(HOME)/dev/optadata-gruppe-ODA-DC1-CA.cer
 CERT_ALIAS := opta_data-gruppe-certificate
 
 JAVA_HOME_BASE := /Library/Java/JavaVirtualMachines
@@ -31,10 +31,14 @@ define install_java_for_version
 	JDK_DIR="$(call JDK_HOME_OF,$(1))"; \
 	if [ ! -d "$$JDK_DIR" ]; then \
 	  $(BREW) install --cask "$(call CASK_NAME_OF,$(1))"; \
+	else \
+	  printf "Info: JDK directory '%s' already exists, skipping install\n" "$$JDK_DIR"; \
 	fi; \
 	if [ -d "$$JDK_DIR" ]; then \
 	  $(JENV) add "$(call JDK_CONTENTS_HOME_OF,$(1))" > /dev/null || true; \
 	  $(JENV) global "$(1)" > /dev/null || true; \
+	else \
+	  printf "Warning: JDK directory '%s' not found after install, skipping jenv add\n" "$$JDK_DIR"; \
 	fi
 endef
 
@@ -42,6 +46,8 @@ define uninstall_java_for_version
 	JDK_DIR="$(call JDK_HOME_OF,$(1))"; \
 	if [ -d "$$JDK_DIR" ]; then \
 	  $(BREW) uninstall --ignore-dependencies --force "$(call CASK_NAME_OF,$(1))"; \
+	else \
+	  printf "Warning: JDK directory '%s' not found, skipping uninstall\n" "$$JDK_DIR"; \
 	fi
 endef
 
@@ -53,8 +59,14 @@ define import_ca_certs_for_version
 	        -storepass "$(STORE_PASS)" -alias "$(CERT_ALIAS)" >/dev/null; then \
 	      $(SUDO) "$$KEYTOOL_BIN" $(KEYTOOL_CA_CERTS_ARGS) \
 	        || printf "Warning: cert import failed for %s\n" "$$KEYTOOL_BIN"; \
+			else \
+	      printf "Info: cert already imported for %s\n" "$$KEYTOOL_BIN"; \
 	    fi; \
+		else \
+	    printf "Warning: keytool binary '%s' not found or not executable\n" "$$KEYTOOL_BIN"; \
 	  fi; \
+	else \
+	  printf "Warning: cert file '%s' not found or not readable\n" "$(CERT_FILE)"; \
 	fi
 endef
 
@@ -71,7 +83,11 @@ define update_nodejs_with_nvm
 	  nvm use --lts >/dev/null; \
 	  if [ -n "$$prev_version" ] && [ "$$prev_version" != "$$(node -v)" ]; then \
 	    nvm uninstall "$$prev_version" >/dev/null || true; \
+		else \
+	    printf "Info: Node.js version unchanged, no uninstall needed\n"; \
 	  fi; \
+	else \
+	  printf "Warning: nvm not found or not installed via Homebrew, skipping Node.js update\n"; \
 	fi
 endef
 
