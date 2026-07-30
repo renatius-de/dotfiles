@@ -31,8 +31,6 @@ define install_java_for_version
 	JDK_DIR="$(call JDK_HOME_OF,$(1))"; \
 	if [ ! -d "$$JDK_DIR" ]; then \
 	  $(BREW) install --cask "$(call CASK_NAME_OF,$(1))"; \
-	else \
-	  printf "Info: JDK directory '%s' already exists, skipping install\n" "$$JDK_DIR"; \
 	fi; \
 	if [ -d "$$JDK_DIR" ]; then \
 	  $(JENV) add "$(call JDK_CONTENTS_HOME_OF,$(1))" > /dev/null || true; \
@@ -59,8 +57,6 @@ define import_ca_certs_for_version
 	        -storepass "$(STORE_PASS)" -alias "$(CERT_ALIAS)" >/dev/null; then \
 	      $(SUDO) "$$KEYTOOL_BIN" $(KEYTOOL_CA_CERTS_ARGS) \
 	        || printf "Warning: cert import failed for %s\n" "$$KEYTOOL_BIN"; \
-			else \
-	      printf "Info: cert already imported for %s\n" "$$KEYTOOL_BIN"; \
 	    fi; \
 		else \
 	    printf "Warning: keytool binary '%s' not found or not executable\n" "$$KEYTOOL_BIN"; \
