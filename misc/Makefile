@@ -1,10 +1,6 @@
 include ../make/common.mk
 
 SUDO := sudo
-BREW := $(shell command -v brew 2>/dev/null \
-  || command -v /opt/homebrew/bin/brew 2>/dev/null \
-  || command -v /usr/local/bin/brew 2>/dev/null \
-  || echo)
 BREW_NVM_PREFIX := $(shell if [ -n "$(BREW)" ]; then "$(BREW)" --prefix nvm 2>/dev/null; fi)
 JENV := jenv
 KEYTOOL := keytool
@@ -88,7 +84,7 @@ endef
 .PHONY: ensure-prereqs import-ca-certs install-java install-nodejs update-nodejs uninstall-java install upgrade clean
 
 ensure-prereqs:
-	@$(call ensure_cmd,$(BREW))
+	@$(call ensure_brew)
 	@$(call ensure_cmd,$(JENV))
 	@$(call ensure_cmd,$(SUDO))
 

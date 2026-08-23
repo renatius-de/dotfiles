@@ -9,17 +9,6 @@ GITATTR_REPO_DIR := $(GIT_PROJECTS_DIR)/GitAttributesRepository
 GITIGNORE_REPO_DIR := $(GIT_PROJECTS_DIR)/GitIgnoreRepository
 REPO_DIRS := $(GITATTR_REPO_DIR) $(GITIGNORE_REPO_DIR)
 
-GIT_ATTRIBUTES_URL := https://github.com/alexkaratarakis/gitattributes.git
-GIT_IGNORE_URL := https://github.com/github/gitignore.git
-
-define clone_or_update_git_repo
-	@if [ -d "$(2)" ]; then \
-		git -C "$(2)" pull --ff-only >/dev/null || { printf "FAILED: update %s in %s\n" "$(1)" "$(2)" >&2; exit 1; }; \
-	else \
-		git clone --quiet --depth=1 "$(1)" "$(2)" || { printf "FAILED: clone %s into %s\n" "$(1)" "$(2)" >&2; exit 1; }; \
-	fi
-endef
-
 .PHONY: ensure-git install plugin upgrade clean
 
 ensure-git:
@@ -29,10 +18,10 @@ $(GIT_DIR_SYMLINK):
 	$(symlink) $(ROOT_DIR) $@
 
 $(GITATTR_REPO_DIR):
-	$(call clone_or_update_git_repo,$(GIT_ATTRIBUTES_URL),$@)
+	$(call clone_or_update_repo,alexkaratarakis/gitattributes,$(GIT_PROJECTS_DIR),GitAttributesRepository)
 
 $(GITIGNORE_REPO_DIR):
-	$(call clone_or_update_git_repo,$(GIT_IGNORE_URL),$@)
+	$(call clone_or_update_repo,github/gitignore,$(GIT_PROJECTS_DIR),GitIgnoreRepository)
 
 $(GIT_CONFIG_FILE):
 	$(symlink) $(ROOT_DIR)/config $@

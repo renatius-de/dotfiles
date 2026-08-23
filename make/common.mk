@@ -9,6 +9,23 @@ MAKEFILE_ROOT_DIR := $(abspath $(dir $(MAKEFILE_BASE)))
 ROOT_DIR := $(abspath $(shell git -C "$(MAKEFILE_ROOT_DIR)" rev-parse --show-toplevel 2>/dev/null \
   || printf '%s' "$(MAKEFILE_ROOT_DIR)"))
 BASE_MAKEFILE := $(abspath $(ROOT_DIR)/Makefile)
+# Detect Homebrew executable (Apple Silicon / Intel / default PATH)
+BREW := $(shell command -v brew 2>/dev/null \
+	|| command -v /opt/homebrew/bin/brew 2>/dev/null \
+	|| command -v /usr/local/bin/brew 2>/dev/null \
+	|| echo)
+
+define ensure_brew
+	@if [ -z "$(BREW)" ] || ! command -v "$(BREW)" >/dev/null 2>&1; then \
+		printf "FAILED: Homebrew not found. Please install it from https://brew.sh\n" >&2; \
+		exit 1; \
+	fi
+endef
+
+## Ensure a Make variable is set; emits a make-level error if not.
+define ensure_var
+	$(if $(strip $(value $(1))),,$(error REQUIRED: variable '$(1)' is not set in Makefile [$(MAKEFILE_BASE)]))
+endef
 LINK := ln -snf
 MKDIR := install -d -m 0700
 INSTALL_FILE := install -m 0600
@@ -45,14 +62,16 @@ define symlink
 endef
 
 define clone_or_update_repo
-	@name=$$(basename $(1)); \
-	dir=$(2)/$$name; \
-	if [ ! -d "$$dir" ]; then \
-	  $(call run_cmd,git clone --depth=1 "https://github.com/$(1).git" "$$dir",clone_or_update_repo); \
-	else \
-	  git -C "$$dir" pull --ff-only >/dev/null \
-	    || { printf "FAILED: update %s in %s\n" "$(1)" "$$dir" >&2; exit 1; }; \
-	fi
+ 	@name=$$(basename $(1)); \
+ 	# If a third parameter is given, use it as destination directory name
+ 	if [ -n "$(3)" ]; then dest="$(3)"; else dest="$$name"; fi; \
+ 	dir=$(2)/$$dest; \
+ 	if [ ! -d "$$dir" ]; then \
+ 	  $(call run_cmd,git clone --depth=1 "https://github.com/$(1).git" "$$dir",clone_or_update_repo); \
+ 	else \
+ 	  git -C "$$dir" pull --ff-only >/dev/null \
+ 	    || { printf "FAILED: update %s in %s\n" "$(1)" "$$dir" >&2; exit 1; }; \
+ 	fi
 endef
 
 define create_local_file

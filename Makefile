@@ -1,10 +1,7 @@
 include make/common.mk
 .DEFAULT_GOAL := help
 
-BREW := $(shell command -v brew 2>/dev/null \
-  || command -v /opt/homebrew/bin/brew 2>/dev/null \
-  || command -v /usr/local/bin/brew 2>/dev/null \
-  || echo)
+## Homebrew detection is provided by make/common.mk (BREW, ensure_brew)
 
 BREW_FORMULAS := \
 	bat \
@@ -127,10 +124,7 @@ help: ## Display Makefile help and available targets
 	jenv-add-corretto
 
 brew-ensure:
-	@if [ -z "$(BREW)" ] || ! command -v "$(BREW)" >/dev/null 2>&1; then \
-		printf "Error: Homebrew not found. Please install it from https://brew.sh\n" >&2; \
-		exit 1; \
-	fi
+	@$(call ensure_brew)
 
 brew-update: | brew-ensure
 	@$(BREW) update --quiet
