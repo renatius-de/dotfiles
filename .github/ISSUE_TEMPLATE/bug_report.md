@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Report a bug or issue with the dotfiles installation or configuration
+about: Report a bug or issue in the dotfiles installation or configuration
 title: '[BUG] '
 labels: bug
 assignees: ''
@@ -8,7 +8,7 @@ assignees: ''
 
 ## Description
 
-A clear and concise description of what the bug is.
+A clear and concise summary of the issue.
 
 ## Steps to Reproduce
 
@@ -19,7 +19,7 @@ A clear and concise description of what the bug is.
 ## Environment
 
 - **OS**: macOS / Linux
-- **OS Version**: [e.g., macOS 13.1, Ubuntu 22.04]
+- **OS Version**: [for example: macOS 14.4 or Ubuntu 22.04]
 - **Shell**: Zsh / Bash / Other
 - **Make Version**: [output of `make --version`]
 - **Homebrew Version**: [output of `brew --version`]
@@ -27,22 +27,22 @@ A clear and concise description of what the bug is.
 ## Relevant Configuration
 
 - **Module Affected**: config / git / misc / ssh / vim / zsh / other
-- **Makefile Target**: [e.g., `make install`, `make -C zsh install`]
-- **Environment Variables**: [e.g., `WORK_ENV=true`]
+- **Target**: [for example: `make install` or `make -C zsh install`]
+- **Environment Variables**: [for example: `WORK_ENV=true`]
 
 ## Error Output
 
-Please provide any error messages or stack traces:
+Please include any relevant error messages, logs, or tracebacks:
 
-```
-[paste error output here]
+```text
+[paste output here]
 ```
 
 ## Additional Context
 
-Add any other relevant information about the problem.
+Add any other information that may help diagnose the issue.
 
 ## Possible Solution
 
-If you have a suggestion for fixing the bug, please describe it here.
+If you have a suggestion for the fix, describe it here.
 

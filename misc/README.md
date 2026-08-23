@@ -1,63 +1,64 @@
-# Utility Scripts and Configuration
+# Utility and Java Setup
 
-Utility scripts for environment setup, Java configuration, and system maintenance.
+This module handles environment support tasks such as Java installation, certificate import, and Node.js setup through the local toolchain.
 
 ## Installation
-
-Install all utility scripts and Java configuration:
 
 ```bash
 make -C misc install
 ```
 
-To enable work environment setup (Java, Maven, Gradle, Kubernetes tools), set:
+To enable the work environment setup that installs Java and related tooling:
 
 ```bash
 WORK_ENV=true make -C misc install
 ```
 
-## Important Targets
+## Key Targets
 
-- `install` — Installs Java runtimes and imports CA certificates
-- `upgrade` — Performs the same steps as `install`
-- `clean` — Removes installed Java runtimes
-- `ensure-prereqs` — Verifies required tools are available
-- `install-java` — Installs Java distributions (when `WORK_ENV=true`)
-- `import-ca-certs` — Imports certificates into Java keystores
-- `uninstall-java` — Removes Java distributions
+- `install` — installs Java tooling, imports CA certificates, and updates Node.js when relevant
+- `upgrade` — runs the same setup flow again
+- `clean` — removes installed Java tooling and uninstalls generated runtime state
+- `ensure-prereqs` — validates required tools are available
+- `install-java` — installs the configured Corretto versions
+- `import-ca-certs` — imports the configured CA certificate into Java keystores
+- `install-nodejs` — ensures Node.js is available through `nvm`
 
-## Important Files
+## Configuration Variables
 
-- `Makefile` — Installation and configuration targets
+The module supports a few environment variables:
 
-## Configuration
+- `WORK_ENV` — enables work-environment tools and Java installs
+- `STORE_PASS` — Java keystore password, default `changeit`
+- `CERT_FILE` — path to the organization CA certificate
+- `CORRETTO_VERSIONS` — versions to install when the work environment is enabled
 
-The `Makefile` supports several environment variables:
+## Java Workflow
 
-- `WORK_ENV` — Set to `true` to enable work environment packages (default: `false`)
-- `STORE_PASS` — Java keystore password (default: `changeit`)
-- `CERT_FILE` — Path to CA certificate file
-- `CORRETTO_VERSIONS` — Java versions to install (default: `21 25`)
+When `WORK_ENV=true`, the setup does the following:
 
-## Java Setup
-
-When `WORK_ENV=true` and a certificate file is configured:
-
-1. Installs Amazon Corretto JDKs (versions 21 and 25)
-2. Registers JDKs with `jenv` (Java environment manager)
-3. Imports organization CA certificates into Java keystores
-4. Sets a default Java version
+1. verifies Homebrew and required CLI tools
+2. installs the configured Amazon Corretto JDKs
+3. registers them with `jenv`
+4. imports the configured CA certificate into the Java trust store
+5. ensures the Node.js toolchain is available via `nvm`
 
 ## Prerequisites
 
-- Homebrew (for package management)
-- `jenv` (for Java version management when `WORK_ENV=true`)
-- `sudo` access (for certificate imports)
+- Homebrew
+- `jenv` for Java version management
+- `sudo` access for certificate import operations
 
-## Local Customization
+## Customization
 
-To use custom Java versions or certificates:
+Adjust the behavior by editing the `Makefile` values for:
 
-1. Update `CORRETTO_VERSIONS` in the `Makefile`
-2. Update `CERT_FILE` to point to your organization's CA certificate
-3. Run `WORK_ENV=true make -C misc install`
+- `CORRETTO_VERSIONS`
+- `CERT_FILE`
+- `WORK_ENV`
+
+Then rerun:
+
+```bash
+WORK_ENV=true make -C misc install
+```

@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an enhancement or new feature for the dotfiles repository
+about: Suggest an enhancement or new capability for the dotfiles repository
 title: '[FEATURE] '
 labels: enhancement
 assignees: ''
@@ -8,19 +8,19 @@ assignees: ''
 
 ## Description
 
-A clear and concise description of what you would like to add or improve.
+A clear and concise summary of the change you would like to see.
 
 ## Motivation
 
-Explain why this feature would be useful. What problem does it solve?
+Explain why this feature would be useful and what problem it solves.
 
 ## Proposed Solution
 
-Describe how you would like this feature to work:
+Describe how the feature should work.
 
 ## Alternative Solutions
 
-Describe any alternative approaches you have considered.
+Describe any alternate approaches you considered.
 
 ## Related Module
 
@@ -30,20 +30,20 @@ Describe any alternative approaches you have considered.
 - [ ] ssh
 - [ ] vim
 - [ ] zsh
-- [ ] Makefile / Build System
+- [ ] Makefile / build system
 - [ ] Documentation
 - [ ] Other
 
 ## Implementation Notes
 
-Any additional context or technical considerations:
+Add any technical considerations, constraints, or examples.
 
 ## Example Usage
 
-If applicable, describe how you would use this feature:
+If relevant, include a sample command or configuration:
 
 ```bash
-# Example command or configuration
+# Example
 ```
 
 ## Additional Context

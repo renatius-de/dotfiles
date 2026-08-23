@@ -1,38 +1,33 @@
 # Configuration Modules
 
-Additional system configuration that is symlinked into the home directory.
+This module provides additional configuration content that is linked into `$HOME` so it can be versioned and managed in the repository.
 
 ## Installation
-
-Install all configuration modules:
 
 ```bash
 make -C config install
 ```
 
-## Contents
+## Current Content
 
-This directory currently contains:
+This directory currently includes:
 
-- `spring-boot/` — Symlinked to `~/.config/spring-boot`
+- `spring-boot/` → `~/.config/spring-boot`
 
-## Important Files
+## Files
 
-- `Makefile` — Installation and cleanup targets
-- `spring-boot/` — Spring Boot configuration
+- `Makefile` — install and cleanup logic
+- `spring-boot/` — Spring Boot configuration files
 
-## Adding New Modules
+## Adding a New Module
 
-To add a new configuration module:
+To add another configuration module:
 
-1. Create a subdirectory in `config/`
-2. Add your configuration files
-3. Update the `Makefile` to create symlinks for the new module
-4. Test with `make -C config install`
+1. create the source directory under `config/`
+2. add the required configuration files
+3. update the `Makefile` to link the new directory into the target location
+4. validate with `make -C config install`
 
 ## Local Overrides
 
-For configuration-specific overrides, use local files:
-
-- Create a `.local` file in the destination directory
-- Edit the local file instead of the symlinked repository file
+For machine-specific adjustments, prefer a local file in the target location instead of editing the repository-managed file directly.

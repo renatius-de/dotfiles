@@ -1,58 +1,41 @@
 # Neovim Configuration
 
-Neovim (Nvim) configuration files written in Lua.
+This module manages the repository version of the Neovim configuration and links it into the expected `$HOME` location.
 
 ## Installation
-
-Install the Neovim configuration:
 
 ```bash
 make -C vim install
 ```
 
-This creates the necessary directories and symlinks the Neovim config file.
+This creates the required directories and links the repository `init.lua` file into `~/.config/nvim/init.lua`.
 
-## Important Files
+## Managed Files
 
-- `init.lua` — Symlinked to `~/.config/nvim/init.lua` (main Neovim configuration)
-- `Makefile` — Installation and cleanup targets
+- `init.lua` → `~/.config/nvim/init.lua`
+- `Makefile` → install and cleanup logic
 
-## Configuration Structure
+## Runtime Paths
 
-The installation creates and manages:
+The install flow manages:
 
-- `~/.config/nvim/` — Neovim configuration directory
-- `~/.config/nvim/init.lua` — Main Neovim configuration (symlinked from this repo)
-- `~/.cache/nvim/` — Cache directory for Neovim plugins and data
+- `~/.config/nvim/`
+- `~/.cache/nvim/`
 
 ## Customization
 
-To customize Neovim configuration:
+Edit the repository version of `init.lua` to change the Neovim setup. Because the file is symlinked, updates are used immediately.
 
-1. Edit `init.lua` in this repository
-2. Changes are reflected immediately in Neovim (via symlink)
-3. Use Neovim commands to reload configuration: `:luafile ~/.config/nvim/init.lua`
+## Cleanup
 
-## Clean Up
+```bash
+make -C vim clean
+```
 
-The `clean` target removes:
+This removes the generated Neovim config and cache state, along with legacy Vim-related artifacts that are no longer part of the active setup.
 
-- Vim-related files: `.vimrc`, `.vim/`, `.viminfo`, etc.
-- Neovim-related directories: `~/.config/nvim/`, `~/.cache/nvim/`, etc.
-- Plugin manager data: `dein.nvim`, `dein.vim`, etc.
+## Notes
 
-## Related Editors
-
-The `clean` target also removes legacy Vim and Vi configuration:
-
-- `.vim/` — Vim configuration directory
-- `.vimrc` — Vim configuration file
-- `.vimpagerrc` — Vimpager configuration
-- `.vimoutlinerrc` — VimOutliner configuration
-
-## Tips
-
-- Keep plugin management configuration in `init.lua` for consistency
-- Use symlinks instead of copying configuration files
-- Test configuration changes before committing
-- Run `make -n -C vim install` to preview changes
+- Keep the main configuration in the repository-managed `init.lua` file.
+- Use local shell or editor customizations only where needed.
+- Preview changes with `make -n -C vim install` before applying them.

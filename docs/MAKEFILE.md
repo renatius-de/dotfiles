@@ -1,40 +1,41 @@
 # Makefile Overview
 
-The root `Makefile` orchestrates package management and delegates to module-specific
-Makefiles. All modules follow a consistent make target structure.
+The root `Makefile` is the entry point for package installation and module orchestration. Each configuration module has its own `Makefile` and follows the same small set of standard targets.
 
 ## Root Targets
 
-- `make install` — Installs Homebrew packages and runs each module's `install` target
-- `make upgrade` — Upgrades Homebrew packages and runs each module's `upgrade` target
-- `make clean` — Removes Homebrew packages and cleans module artifacts
-- `make brew-install` — Installs Homebrew packages only
-- `make brew-upgrade` — Upgrades Homebrew packages only
-- `make brew-cleanup` — Removes unused packages and cached files
-- `make install-homebrew-extensions` — Installs work environment packages (when `WORK_ENV=true`)
+The main targets in the repository root:
 
-## Module Directories
+- `make install` — installs Homebrew packages and runs the `install` target in each module
+- `make upgrade` — upgrades installed packages and runs the module-level `upgrade` targets
+- `make clean` — removes generated artifacts and uninstallable package entries
+- `make brew-install` — installs the default Homebrew bundle only
+- `make brew-upgrade` — upgrades the default package set only
+- `make brew-cleanup` — removes unused packages and caches
+- `make install-homebrew-extensions` — installs additional work-environment packages when `WORK_ENV=true`
 
-Each module has its own `Makefile` and can be managed independently:
+## Module Layout
 
-- `config/` — Additional configuration modules
-- `git/` — Git configuration and templates
-- `misc/` — Utility scripts and Java configuration
-- `ssh/` — SSH configuration and keys
+Each module can be managed independently:
+
+- `config/` — additional configuration modules
+- `git/` — Git configuration and repository helpers
+- `misc/` — Java/tooling setup and utility tasks
+- `ssh/` — SSH client configuration
 - `vim/` — Neovim configuration
-- `zsh/` — Zsh configuration and plugins
+- `zsh/` — shell configuration and plugin setup
 
-## Module Targets
+## Standard Module Targets
 
-All modules support these standard targets:
+Most modules expose the same basic targets:
 
-- `install` — Creates symlinks and configures the module
-- `upgrade` — Updates module configuration and dependencies
-- `clean` — Removes module artifacts and symlinks
+- `install` — sets up symlinks and required directories
+- `upgrade` — re-runs the setup flow
+- `clean` — removes installed artifacts for that module
 
-## Installing Individual Modules
+## Running a Specific Module
 
-Run a specific module's target with:
+Use the module directory as the working directory:
 
 ```bash
 make -C <module> <target>
@@ -50,25 +51,35 @@ make -C git clean
 
 ## Dry Run
 
-Preview what a target will do without executing it:
+Preview actions without executing them:
 
 ```bash
 make -n install
 make -n -C zsh install
 ```
 
-## Symlink Logic
+## Symlink-Based Setup
 
-Most modules create symlinks for configuration files in the home directory. Edit files directly in the repository:
+The project primarily installs files by creating symlinks from the repository into `$HOME`.
 
-- Changes in the repository are reflected immediately via symlinks
-- Prefer editing repository files rather than symlinks in `$HOME`
-- Use local override files (e.g., `~/.gitconfig.local`) for personal settings
+This means:
+
+- the source of truth lives in the repository
+- changes are reflected immediately in the target environment
+- local override files remain the appropriate place for machine-specific settings
+
+Examples:
+
+- `~/.gitconfig.local`
+- `~/.ssh/config.local`
+- `~/.zshrc.local`
 
 ## Environment Variables
 
-- `WORK_ENV` — Set to `true` to enable work environment packages (Java, Kubernetes tools, etc.)
-- `STORE_PASS` — Password for Java keystore operations (default: `changeit`)
+A few Makefiles rely on environment variables:
+
+- `WORK_ENV` — set to `true` to install work-specific Homebrew packages and Java tooling
+- `STORE_PASS` — keystore password used by Java certificate import tasks
 
 Example:
 
@@ -78,8 +89,12 @@ WORK_ENV=true make install
 
 ## Shared Utilities
 
-All Makefiles include `make/common.mk`, which provides:
+All module Makefiles include `make/common.mk`, which centralizes shared logic such as:
 
-- Standard tool commands (`BREW`, `CURL`, `RM_F`, `RM_RF`)
-- Helper functions (`ensure_cmd`, `symlink`, `create_local_file`)
-- Shell configuration for consistent behavior
+- shell defaults and strict flags
+- `BREW` detection
+- `ensure_cmd` and `ensure_dir`
+- `symlink` and `create_local_file`
+- shared error output and validation helpers
+
+This keeps the module Makefiles smaller and consistent across the project.

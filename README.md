@@ -1,44 +1,43 @@
 # Dotfiles
 
-Personal configuration files and installation scripts for macOS and Linux.
+This repository contains a curated set of personal dotfiles and installation scripts for macOS and Linux. It uses a symlink-based layout and a Makefile-driven workflow to keep configuration centralized, versioned, and easy to apply across machines.
 
 ## Overview
 
-This repository manages dotfiles and configuration modules using symlink-based installation and
-Makefile-driven orchestration. All configuration files are stored in this repository and
-symlinked into the home directory, allowing version control and centralized management.
+The repository is organized into configuration modules, each with its own `Makefile` and a focused responsibility. The root `Makefile` installs Homebrew packages and delegates to module-specific install or upgrade targets.
 
-## Contents
+## Repository Layout
 
-- `config/` — Additional configuration modules (Spring Boot, etc.)
-- `git/` — Git configuration and templates
-- `misc/` — Utility scripts and Java configuration
-- `ssh/` — SSH configuration and keys management
-- `vim/` — Neovim configuration files
-- `zsh/` — Zsh configuration and plugin setup
-- `make/` — Shared Makefile utilities
-- `.github/workflows/` — CI/CD pipelines
+- `config/` — additional configuration modules such as Spring Boot settings
+- `git/` — Git configuration, templates, and shared repo metadata
+- `misc/` — Java/tooling setup, CA import logic, and utility tasks
+- `ssh/` — SSH client configuration and key directory setup
+- `vim/` — Neovim configuration
+- `zsh/` — Zsh configuration, aliases, exports, and plugin setup
+- `make/` — shared Makefile utilities and helper functions
+- `.github/` — issue templates and CI metadata
 
-## Prerequisites
+## Requirements
 
 - macOS or Linux
-- Homebrew (for package management)
-- Make (for orchestration)
-- Git (for cloning and operations)
+- Homebrew
+- `make`
+- `git`
 
-## Editor configuration
+## Editor Configuration
 
-This repository includes a `.editorconfig` file at the project root to enforce consistent file formatting:
+The repository includes a root-level `.editorconfig` file to keep formatting consistent across editors.
 
-- `utf-8` encoding for all files
-- `lf` line endings
-- trailing whitespace trimmed globally
-- final newline inserted
-- spaces for indentation in most files
-- tabs only in `Makefile`
-- Markdown files preserve trailing whitespace where needed
+Key rules:
 
-Editors that support EditorConfig will automatically apply these rules.
+- UTF-8 encoding
+- LF line endings
+- trailing whitespace trimmed
+- final newline enforced
+- spaces used for most file types
+- tabs reserved for `Makefile` content
+
+Editors with EditorConfig support will apply these rules automatically.
 
 ## Installation
 
@@ -49,30 +48,28 @@ git clone https://github.com/renatius-de/dotfiles.git
 cd dotfiles
 ```
 
-Run the installation:
+Install the full setup:
 
 ```bash
 make install
 ```
 
-This installs Homebrew packages and runs the `install` target for each module.
+This installs the Homebrew packages defined in the root `Makefile` and then invokes the `install` target for each module.
 
 ### Install Individual Modules
 
-To install only specific modules:
-
 ```bash
-make -C zsh install    # Zsh configuration
-make -C vim install    # Neovim configuration
-make -C git install    # Git configuration
-make -C ssh install    # SSH configuration
-make -C config install # Additional config modules
-make -C misc install   # Utility scripts and Java setup
+make -C zsh install
+make -C vim install
+make -C git install
+make -C ssh install
+make -C config install
+make -C misc install
 ```
 
 ## Usage
 
-Configuration files are installed as symlinks in the home directory. Edit files directly in this repository:
+Most files are installed into `$HOME` via symlinks. For example:
 
 ```bash
 ~/.gitconfig -> /path/to/dotfiles/git/config
@@ -80,11 +77,11 @@ Configuration files are installed as symlinks in the home directory. Edit files 
 ~/.zshrc -> /path/to/dotfiles/zsh/zshrc
 ```
 
-Use local overrides for personal settings:
+Use local override files for machine-specific settings:
 
-- `~/.gitconfig.local` — Git user settings
-- `~/.ssh/config.local` — SSH host-specific configuration
-- `~/.zshrc.local` — Zsh personal aliases and settings
+- `~/.gitconfig.local`
+- `~/.ssh/config.local`
+- `~/.zshrc.local`
 
 ## Maintenance
 
@@ -94,43 +91,43 @@ Upgrade all modules:
 make upgrade
 ```
 
-Clean up all modules:
+Clean generated artifacts and symlinks:
 
 ```bash
 make clean
 ```
 
-Dry-run any target to see what will be executed:
+Preview a target without executing it:
 
 ```bash
 make -n install
 ```
 
-## Module Documentation
+## Documentation
 
-For detailed information about individual modules, see:
+Detailed guidance for the project and individual modules:
 
-- [docs/MAKEFILE.md](docs/MAKEFILE.md) — Makefile overview and targets
-- [AGENTS.md](AGENTS.md) — AI agent guidance for repository maintenance
-- [config/README.md](config/README.md) — Configuration modules
-- [git/README.md](git/README.md) — Git configuration
-- [misc/README.md](misc/README.md) — Utility scripts
-- [ssh/README.md](ssh/README.md) — SSH configuration
-- [vim/README.md](vim/README.md) — Neovim configuration
-- [zsh/README.md](zsh/README.md) — Zsh configuration
+- [docs/MAKEFILE.md](docs/MAKEFILE.md) — root Makefile and common patterns
+- [AGENTS.md](AGENTS.md) — repository maintenance guidance for AI assistants
+- [config/README.md](config/README.md) — config module overview
+- [git/README.md](git/README.md) — Git setup and repository handling
+- [misc/README.md](misc/README.md) — Java and utility tooling setup
+- [ssh/README.md](ssh/README.md) — SSH configuration and security notes
+- [vim/README.md](vim/README.md) — Neovim setup
+- [zsh/README.md](zsh/README.md) — Zsh setup and plugin management
 
 ## Contributing
 
-Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution workflow and standards.
 
 ## Code of Conduct
 
-This project is governed by the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md).
+This project follows the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## Security
 
-For security issues, see [SECURITY.md](SECURITY.md).
+For security issues, follow the guidance in [SECURITY.md](SECURITY.md).
 
 ## License
 
-MIT License — see [LICENSE](LICENSE) for details.
+This project is distributed under the MIT license. See [LICENSE](LICENSE) for details.

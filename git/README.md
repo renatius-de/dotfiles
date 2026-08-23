@@ -1,48 +1,45 @@
 # Git Configuration
 
-Git configuration files and templates for consistent version control across projects.
+This module manages the global Git configuration used across the system. It installs a shared Git config, keeps a local override file available, and maintains bundled gitignore and gitattributes metadata.
 
 ## Installation
-
-Install the Git configuration:
 
 ```bash
 make -C git install
 ```
 
-This creates symlinks to Git configuration files in the home directory.
+This creates the required symlinks and ensures the bundled helper repositories are present.
 
-## Important Files
+## Managed Files
 
-- `config` — Symlinked to `~/.gitconfig` (main Git configuration)
-- `delta.gitconfig` — Delta diff tool configuration
-- `ignore` — Symlinked to `~/.gitignore` (global ignore rules)
-- `Makefile` — Installation and cleanup targets
+- `config` → `~/.gitconfig`
+- `delta.gitconfig` → editor/diff configuration for Git
+- `ignore` → `~/.gitignore`
+- `Makefile` → install and cleanup logic
 
-## Repositories
+## Included Repositories
 
-The `Makefile` automatically manages:
+The `Makefile` automatically maintains:
 
-- `GitAttributesRepository/` — Language-specific Git attributes (auto-cloned)
-- `GitIgnoreRepository/` — Community gitignore templates (auto-cloned)
+- `git/GitAttributesRepository/` — language-specific `.gitattributes` definitions
+- `git/GitIgnoreRepository/` — community-maintained `.gitignore` templates
 
-These are updated whenever the `install` or `upgrade` target runs.
+These repositories are updated when the `install` or `upgrade` target is run.
 
 ## Local Overrides
 
-Use `~/.gitconfig.local` for user-specific Git settings:
+Use `~/.gitconfig.local` for personal Git settings:
 
-```bash
+```ini
 [user]
     name = Your Name
     email = your.email@example.com
 ```
 
-The main `config` file includes this local file automatically.
+The main Git config is designed to include this local file when present.
 
-## Features
+## Notes
 
-- Consistent Git configuration across all machines
-- Language-specific file attributes for proper diff handling
-- Global gitignore rules for common files and directories
-- Delta integration for improved diff visualization
+- This keeps Git behavior consistent across machines.
+- The bundled attribute and ignore repositories reduce the need to maintain those files manually.
+- Global ignore rules help avoid committing editor, OS, and build artifacts.
