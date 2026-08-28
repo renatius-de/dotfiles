@@ -1,6 +1,6 @@
-# Zsh Configuration
+# Zsh configuration
 
-This module manages the shell configuration for Zsh, including the main startup files, plugin setup, and local overrides.
+This module manages the local Zsh setup, including the main startup files, plugin bootstrap, aliases, exports, and local override handling.
 
 ## Installation
 
@@ -8,18 +8,18 @@ This module manages the shell configuration for Zsh, including the main startup 
 make -C zsh install
 ```
 
-The target installs Oh My Zsh when needed, clones configured plugins, and creates the required symlinks for the user shell configuration.
+The target installs Oh My Zsh when needed, clones the configured external plugins, and creates the required symlinks for the user shell configuration.
 
-## Managed Files
+## Managed files
 
 - `zshrc` → `~/.zshrc`
 - `zprofile` → `~/.zprofile`
 - `alias.zsh` → shared aliases
 - `bundle.zsh` → plugin setup
-- `export.zsh` → environment exports
+- `export.zsh` → exported environment variables
 - `Makefile` → install and cleanup logic
 
-## External Plugins
+## External plugins
 
 The module automatically maintains the following plugins:
 
@@ -29,7 +29,7 @@ The module automatically maintains the following plugins:
 - `superbrothers/zsh-kubectl-prompt`
 - `MichaelAquilina/zsh-you-should-use`
 
-## Local Overrides
+## Local overrides
 
 Use `~/.zshrc.local` for machine-specific settings:
 
@@ -44,9 +44,9 @@ custom_tool() {
 
 The main `zshrc` file loads this override file when it exists.
 
-## Cache and History
+## Cache and history
 
-The installation creates or manages:
+The install flow manages:
 
 - `~/.cache/zsh/`
 - `~/.zsh_history`
@@ -62,6 +62,6 @@ This removes generated cache files, plugin directories, and symlinks created by 
 
 ## Notes
 
-- Edit the repository copies of the Zsh files rather than the installed symlink target.
+- Edit the repository copies of the Zsh files instead of the installed symlink target.
 - Reload the shell with `exec zsh` after making configuration changes.
-- Use `make -n -C zsh install` to preview changes before running them.
+- Preview changes with `make -n -C zsh install` before running the full install.

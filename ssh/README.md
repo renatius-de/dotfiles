@@ -1,6 +1,6 @@
-# SSH Configuration
+# SSH configuration
 
-This module provides the global SSH client configuration used by the system. It sets safe defaults, enables connection multiplexing, and leaves room for private machine-specific overrides.
+This module installs the repository-managed SSH client configuration and leaves room for private override values specific to each machine.
 
 ## Installation
 
@@ -15,26 +15,26 @@ The install target creates:
 - a symlinked `~/.ssh/config`
 - a local override file at `~/.ssh/config.local`
 
-## Managed Files
+## Managed files
 
 - `config` → `~/.ssh/config`
 - `config.local` → `~/.ssh/config.local`
-- `Makefile` → install and cleanup rules
+- `Makefile` → install and cleanup logic
 
-## Included Defaults
+## Included defaults
 
-The shipped SSH config applies safe client settings such as:
+The shipped SSH config includes safe defaults such as:
 
 - strict host key checking
-- multiplexed connections via `ControlMaster`
+- connection multiplexing via `ControlMaster`
 - keepalive settings
 - agent integration for key-based authentication
 
-This keeps the default behavior secure and practical for regular developer workflows.
+This keeps the default behavior secure and practical for regular developer work.
 
-## Local Overrides
+## Local overrides
 
-Add machine-specific settings in `~/.ssh/config.local`:
+Add host-specific rules in `~/.ssh/config.local`:
 
 ```bash
 Host dev-server
@@ -50,21 +50,21 @@ Host prod-server
     ProxyJump bastion
 ```
 
-The main config is designed to include this file when present.
+The main config includes this file when it exists.
 
-## Key Management
+## Key management
 
-Keep keys in a dedicated directory such as:
+Store private keys in a dedicated directory such as:
 
 ```bash
 ~/.ssh/keys/
 ```
 
-This helps keep private keys organized and separate from the main shared configuration.
+This keeps secrets separate from the shared configuration.
 
-## Verification and Cleanup
+## Verification and cleanup
 
-Check SSH config behavior:
+Check the effective SSH configuration:
 
 ```bash
 ssh -G github.com
@@ -80,6 +80,6 @@ make -C ssh clean
 ## Notes
 
 - Keep private keys out of version control.
-- Prefer `IdentityFile` entries per host instead of broad default credentials.
-- Use `ProxyJump` for bastion-style workflows when appropriate.
+- Prefer `IdentityFile` entries per host instead of broad credential defaults.
+- Use `ProxyJump` for bastion-based workflows when appropriate.
 

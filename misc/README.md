@@ -1,47 +1,49 @@
-# Utility and Java Setup
+# Utility and Java setup
 
-This module handles environment support tasks such as Java installation, certificate import, and Node.js setup through the local toolchain.
+This module manages local environment setup tasks such as Java installation, CA trust import, and Node.js bootstrapping when needed for the current machine.
 
 ## Installation
+
+Run the default setup:
 
 ```bash
 make -C misc install
 ```
 
-To enable the work environment setup that installs Java and related tooling:
+Enable the work-oriented Java and certificate workflow:
 
 ```bash
 WORK_ENV=true make -C misc install
 ```
 
-## Key Targets
+## Key targets
 
-- `install` — installs Java tooling, imports CA certificates, and updates Node.js when relevant
-- `upgrade` — runs the same setup flow again
-- `clean` — removes installed Java tooling and uninstalls generated runtime state
-- `ensure-prereqs` — validates required tools are available
-- `install-java` — installs the configured Corretto versions
-- `import-ca-certs` — imports the configured CA certificate into Java keystores
-- `install-nodejs` — ensures Node.js is available through `nvm`
+- `install` — runs prerequisite checks, Java installation, certificate import, and Node.js setup
+- `upgrade` — reruns the install flow
+- `clean` — uninstalls Java toolchains and removes the local `~/.nvm` setup
+- `ensure-prereqs` — validates required tooling is available
+- `install-java` — installs the configured Amazon Corretto JDK versions when `WORK_ENV=true`
+- `import-ca-certs` — imports the configured certificate into Java trust stores
+- `install-nodejs` — ensures a Node.js LTS version is available via `nvm`
 
-## Configuration Variables
+## Configuration variables
 
-The module supports a few environment variables:
+The module accepts the following variables:
 
-- `WORK_ENV` — enables work-environment tools and Java installs
-- `STORE_PASS` — Java keystore password, default `changeit`
-- `CERT_FILE` — path to the organization CA certificate
-- `CORRETTO_VERSIONS` — versions to install when the work environment is enabled
+- `WORK_ENV` — enables the Java and work environment package flow; default is `false`
+- `STORE_PASS` — Java trust store password; default `changeit`
+- `CERT_FILE` — path to the CA certificate to import
+- `CORRETTO_VERSIONS` — JDK versions to install when work mode is enabled
 
-## Java Workflow
+## Work flow
 
 When `WORK_ENV=true`, the setup does the following:
 
-1. verifies Homebrew and required CLI tools
+1. verifies Homebrew and required commands are present
 2. installs the configured Amazon Corretto JDKs
 3. registers them with `jenv`
 4. imports the configured CA certificate into the Java trust store
-5. ensures the Node.js toolchain is available via `nvm`
+5. ensures Node.js via `nvm` is installed for the selected LTS version
 
 ## Prerequisites
 
@@ -51,7 +53,7 @@ When `WORK_ENV=true`, the setup does the following:
 
 ## Customization
 
-Adjust the behavior by editing the `Makefile` values for:
+Adjust the behavior by editing the values in the `Makefile` for:
 
 - `CORRETTO_VERSIONS`
 - `CERT_FILE`

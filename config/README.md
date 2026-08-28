@@ -1,6 +1,6 @@
-# Configuration Modules
+# Configuration module
 
-This module provides additional configuration content that is linked into `$HOME` so it can be versioned and managed in the repository.
+This module links repository-managed configuration into the user's home directory so it can be versioned and reinstalled consistently.
 
 ## Installation
 
@@ -8,26 +8,26 @@ This module provides additional configuration content that is linked into `$HOME
 make -C config install
 ```
 
-## Current Content
+## Managed content
 
-This directory currently includes:
+The current module installs the Spring Boot configuration directory into the user config location:
 
 - `spring-boot/` → `~/.config/spring-boot`
 
 ## Files
 
 - `Makefile` — install and cleanup logic
-- `spring-boot/` — Spring Boot configuration files
+- `spring-boot/` — Spring Boot configuration content
 
-## Adding a New Module
+## Adding another module
 
-To add another configuration module:
+When adding a new configuration bundle:
 
 1. create the source directory under `config/`
-2. add the required configuration files
-3. update the `Makefile` to link the new directory into the target location
-4. validate with `make -C config install`
+2. add the required files
+3. update the `Makefile` to link the directory to its target path
+4. verify with `make -C config install`
 
-## Local Overrides
+## Local overrides
 
-For machine-specific adjustments, prefer a local file in the target location instead of editing the repository-managed file directly.
+For machine-specific changes, prefer a local override inside the target directory instead of editing the repository-managed file directly.
