@@ -10,7 +10,7 @@ CERT_FILE := $(HOME)/dev/optadata-gruppe-ODA-DC1-CA.cer
 CERT_ALIAS := opta_data-gruppe-certificate
 
 JAVA_HOME_BASE := /Library/Java/JavaVirtualMachines
-CORRETTO_VERSIONS := 21 25
+CORRETTO_VERSIONS := 25
 CORRETTO_CASK_PREFIX := corretto@
 WORK_ENV ?= false
 
@@ -73,7 +73,7 @@ define update_nodejs_with_nvm
 	@for v in $(NODE_LTS_VERSIONS); do \
 		if [ -n "$(BREW_NVM_PREFIX)" ] && [ -s "$(BREW_NVM_PREFIX)/nvm.sh" ]; then \
 			. "$(BREW_NVM_PREFIX)/nvm.sh" >/dev/null; \
-			nvm install --lts --latest-npm --no-progress --default --save "$(v)" >/dev/null; \
+			nvm install --lts --latest-npm --no-progress --default "$(v)" >/dev/null; \
 			nvm alias default "$(v)" >/dev/null; \
 		else \
 			printf "Warning: nvm not found or not installed via Homebrew, skipping Node.js update\n"; \
