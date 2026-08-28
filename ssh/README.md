@@ -82,4 +82,3 @@ make -C ssh clean
 - Keep private keys out of version control.
 - Prefer `IdentityFile` entries per host instead of broad credential defaults.
 - Use `ProxyJump` for bastion-based workflows when appropriate.
-
