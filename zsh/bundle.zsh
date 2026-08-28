@@ -45,7 +45,12 @@ for plugin in zsh-you-should-use zsh-kubectl-prompt zsh-autosuggestions zsh-comp
   [[ -f "$plugin_file" ]] && source "$plugin_file"
 done
 
-(( $+commands[jenv] )) && jenv enable-plugin export >/dev/null 2>&1
+# Initialize jenv if available (safe guard: only when command exists).
+if command -v jenv >/dev/null 2>&1; then
+  eval "$(jenv init -)"
+  # enable export plugin if available
+  jenv enable-plugin export >/dev/null 2>&1
+fi
 
 typeset -Ua path
 path=(
