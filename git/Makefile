@@ -15,7 +15,7 @@ ensure-git:
 	@$(call ensure_cmd,git)
 
 $(GIT_DIR_SYMLINK):
-	$(symlink) $(ROOT_DIR) $@
+	$(call symlink,$(ROOT_DIR),$@)
 
 $(GITATTR_REPO_DIR):
 	$(call clone_or_update_repo,alexkaratarakis/gitattributes,$(GIT_PROJECTS_DIR),GitAttributesRepository)
@@ -24,13 +24,13 @@ $(GITIGNORE_REPO_DIR):
 	$(call clone_or_update_repo,github/gitignore,$(GIT_PROJECTS_DIR),GitIgnoreRepository)
 
 $(GIT_CONFIG_FILE):
-	$(symlink) $(ROOT_DIR)/config $@
+	$(call symlink,$(ROOT_DIR)/config,$@)
 
 $(GIT_CONFIG_LOCAL_FILE):
 	$(call create_local_file,$@)
 
 $(GIT_IGNORE_FILE):
-	$(symlink) $(ROOT_DIR)/ignore $@
+	$(call symlink,$(ROOT_DIR)/ignore,$@)
 
 plugin: ensure-git $(REPO_DIRS)
 

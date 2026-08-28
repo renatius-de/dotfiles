@@ -81,7 +81,7 @@ define update_nodejs_with_nvm
 	done
 endef
 
-.PHONY: ensure-prereqs import-ca-certs install-java install-nodejs update-nodejs uninstall-java install upgrade clean
+.PHONY: ensure-prereqs import-ca-certs install-java install-nodejs update-nodejs uninstall-java upgrade clean
 
 ensure-prereqs:
 	@$(call ensure_brew)

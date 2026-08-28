@@ -15,7 +15,7 @@ $(REQUIRED_DIRS):
 	@$(call ensure_dir,$@)
 
 $(NVIM_INIT): | $(REQUIRED_DIRS)
-	@$(symlink) $(ROOT_DIR)/$(NVIMRC_SRC) $@
+	@$(call symlink,$(ROOT_DIR)/$(NVIMRC_SRC),$@)
 
 install: | $(NVIM_INIT)
 

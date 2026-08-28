@@ -23,7 +23,7 @@ $(SSH_CONFIG_LOCAL): | $(SSH_KEYS_DIR)
 	$(call create_local_file,$@)
 
 $(SSH_CONFIG): | $(SSH_DIR)
-	$(symlink) $(SSH_CONFIG_SOURCE) $@
+	$(call symlink,$(SSH_CONFIG_SOURCE),$@)
 
 init-ssh: $(SSH_CONTROL_DIR)
 

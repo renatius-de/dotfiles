@@ -10,7 +10,7 @@ $(CONFIG_DIR):
 	@$(call ensure_dir,$@)
 
 $(SPRING_BOOT_CONFIG_LINK): | $(CONFIG_DIR)
-	@$(symlink) $(SPRING_BOOT_SOURCE) $@
+	@$(call symlink,$(SPRING_BOOT_SOURCE),$@)
 
 install: $(SPRING_BOOT_CONFIG_LINK)
 
