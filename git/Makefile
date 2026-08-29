@@ -32,8 +32,8 @@ $(GITIGNORE_REPO_DIR):
 	@printf "✅ Repository ready: [%s]\n" "GitIgnoreRepository"
 
 $(GIT_CONFIG_FILE):
-	@printf "==> Linking Git config from [%s] to [%s]\n" "$(ROOT_DIR)/config" "$@"
-	@$(LINK) "$(ROOT_DIR)/config" "$@" || { printf "ERROR: target [install] failed while linking %s to %s\n" "$(ROOT_DIR)/config" "$@" >&2; exit 1; }
+	@printf "==> Linking Git config from [%s] to [%s]\n" "$(GIT_PROJECTS_DIR)/config" "$@"
+	@$(LINK) "$(GIT_PROJECTS_DIR)/config" "$@" || { printf "ERROR: target [install] failed while linking %s to %s\n" "$(GIT_PROJECTS_DIR)/config" "$@" >&2; exit 1; }
 	@printf "✅ Linked Git config to [%s]\n" "$@"
 
 $(GIT_CONFIG_LOCAL_FILE):

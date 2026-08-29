@@ -13,6 +13,10 @@
     "/^bash -lc 'if \\[ -z \"/opt/homebrew/bin/brew\" \\] \\|\\| \\[ ! -x \"/opt/homebrew/bin/brew\" \\]; then printf \"ERROR: target \\[brew-ensure\\] failed because Homebrew is not installed\\. Please install it from https://brew\\.sh\\\\n\" >&2; exit 1; fi; echo status:\\$\\?; ls -ld /opt/homebrew/bin/brew; test -x /opt/homebrew/bin/brew; echo exec_status:\\$\\?'$/": {
       "approve": true,
       "matchCommandLine": true
-    }
+    },
+    "printf": true,
+    "git -C /opt/homebrew": true,
+    "git rev-parse": true,
+    "git -C git": true
   }
 }
