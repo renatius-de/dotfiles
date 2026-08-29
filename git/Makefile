@@ -12,32 +12,54 @@ REPO_DIRS := $(GITATTR_REPO_DIR) $(GITIGNORE_REPO_DIR)
 .PHONY: ensure-git install plugin upgrade clean
 
 ensure-git:
-	@$(call ensure_cmd,git)
+	@printf "==> Starting target [ensure-git]...\n"
+	@$(call ensure_cmd,git,ensure-git) || { $(call fail_target,ensure-git); }
+	@printf "✅ Finished target [ensure-git]\n"
 
 $(GIT_DIR_SYMLINK):
-	$(call symlink,$(ROOT_DIR),$@)
+	@printf "==> Linking Git directory from [%s] to [%s]\n" "$(ROOT_DIR)" "$@"
+	@$(LINK) "$(ROOT_DIR)" "$@" || { printf "ERROR: target [install] failed while linking %s to %s\n" "$(ROOT_DIR)" "$@" >&2; exit 1; }
+	@printf "✅ Linked Git directory to [%s]\n" "$@"
 
 $(GITATTR_REPO_DIR):
-	$(call clone_or_update_repo,alexkaratarakis/gitattributes,$(GIT_PROJECTS_DIR),GitAttributesRepository)
+	@printf "==> Ensuring repository [%s]\n" "GitAttributesRepository"
+	@$(call clone_or_update_repo,alexkaratarakis/gitattributes,$(GIT_PROJECTS_DIR),GitAttributesRepository) || { $(call fail_target,plugin); }
+	@printf "✅ Repository ready: [%s]\n" "GitAttributesRepository"
 
 $(GITIGNORE_REPO_DIR):
-	$(call clone_or_update_repo,github/gitignore,$(GIT_PROJECTS_DIR),GitIgnoreRepository)
+	@printf "==> Ensuring repository [%s]\n" "GitIgnoreRepository"
+	@$(call clone_or_update_repo,github/gitignore,$(GIT_PROJECTS_DIR),GitIgnoreRepository) || { $(call fail_target,plugin); }
+	@printf "✅ Repository ready: [%s]\n" "GitIgnoreRepository"
 
 $(GIT_CONFIG_FILE):
-	$(call symlink,$(ROOT_DIR)/config,$@)
+	@printf "==> Linking Git config from [%s] to [%s]\n" "$(ROOT_DIR)/config" "$@"
+	@$(LINK) "$(ROOT_DIR)/config" "$@" || { printf "ERROR: target [install] failed while linking %s to %s\n" "$(ROOT_DIR)/config" "$@" >&2; exit 1; }
+	@printf "✅ Linked Git config to [%s]\n" "$@"
 
 $(GIT_CONFIG_LOCAL_FILE):
-	$(call create_local_file,$@)
+	@printf "==> Creating local Git config file [%s]\n" "$@"
+	@$(call create_local_file,$@) || { $(call fail_target,install); }
+	@printf "✅ Local Git config ready: [%s]\n" "$@"
 
 $(GIT_IGNORE_FILE):
-	$(call symlink,$(ROOT_DIR)/ignore,$@)
+	@printf "==> Linking Git ignore file from [%s] to [%s]\n" "$(ROOT_DIR)/ignore" "$@"
+	@$(LINK) "$(ROOT_DIR)/ignore" "$@" || { printf "ERROR: target [install] failed while linking %s to %s\n" "$(ROOT_DIR)/ignore" "$@" >&2; exit 1; }
+	@printf "✅ Linked Git ignore file to [%s]\n" "$@"
 
 plugin: ensure-git $(REPO_DIRS)
+	@printf "==> Starting target [plugin]...\n"
+	@printf "✅ Finished target [plugin]\n"
 
 install: $(GIT_DIR_SYMLINK) $(GIT_CONFIG_FILE) $(GIT_CONFIG_LOCAL_FILE) $(GIT_IGNORE_FILE) plugin
+	@printf "==> Starting target [install]...\n"
+	@printf "✅ Finished target [install]\n"
 
 upgrade: install
+	@printf "==> Starting target [upgrade]...\n"
+	@printf "✅ Finished target [upgrade]\n"
 
 clean:
-	@$(RM_F) $(HOME)/.git_template $(GIT_IGNORE_FILE) $(HOME)/.tig_history $(GIT_CONFIG_FILE) $(GIT_DIR_SYMLINK)
-	@$(RM_RF) $(REPO_DIRS)
+	@printf "==> Starting target [clean]...\n"
+	@$(RM_F) $(HOME)/.git_template $(GIT_IGNORE_FILE) $(HOME)/.tig_history $(GIT_CONFIG_FILE) $(GIT_DIR_SYMLINK) || { $(call fail_target,clean); }
+	@$(RM_RF) $(REPO_DIRS) || { $(call fail_target,clean); }
+	@printf "✅ Finished target [clean]\n"

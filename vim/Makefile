@@ -12,14 +12,21 @@ REQUIRED_DIRS := $(NVIM_DIR) $(NVIM_CACHE_DIR)
 .PHONY: install upgrade clean
 
 $(REQUIRED_DIRS):
-	@$(call ensure_dir,$@)
+	@printf "==> Ensuring directory [%s]\n" "$@"
+	@$(call ensure_dir,$@) || { $(call fail_target,install); }
 
 $(NVIM_INIT): | $(REQUIRED_DIRS)
-	@$(call symlink,$(ROOT_DIR)/$(NVIMRC_SRC),$@)
+	@printf "==> Linking Neovim config from [%s] to [%s]\n" "$(ROOT_DIR)/$(NVIMRC_SRC)" "$@"
+	@$(LINK) "$(ROOT_DIR)/$(NVIMRC_SRC)" "$@" || { printf "ERROR: target [install] failed while linking %s to %s\n" "$(ROOT_DIR)/$(NVIMRC_SRC)" "$@" >&2; exit 1; }
+	@printf "✅ Linked Neovim config to [%s]\n" "$@"
 
 install: | $(NVIM_INIT)
+	@printf "==> Starting target [install]...\n"
+	@printf "✅ Finished target [install]\n"
 
 upgrade: install
+	@printf "==> Starting target [upgrade]...\n"
+	@printf "✅ Finished target [upgrade]\n"
 
 CLEAN_FILES := \
 	$(HOME)/.ctags \
@@ -40,5 +47,7 @@ CLEAN_DIRS := \
 	$(NVIM_CACHE_DIR)
 
 clean:
-	@$(RM_F) $(CLEAN_FILES)
-	@$(RM_RF) $(CLEAN_DIRS)
+	@printf "==> Starting target [clean]...\n"
+	@$(RM_F) $(CLEAN_FILES) || { $(call fail_target,clean); }
+	@$(RM_RF) $(CLEAN_DIRS) || { $(call fail_target,clean); }
+	@printf "✅ Finished target [clean]\n"
