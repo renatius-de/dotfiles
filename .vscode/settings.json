@@ -6,17 +6,15 @@
   "chat.tools.terminal.autoApprove": {
     "make": true,
     "command": true,
-    "/^bash -lc 'if \\[ -z \"/opt/homebrew/bin/brew\" \\] \\|\\| ! command -v \"/opt/homebrew/bin/brew\" >/dev/null 2>&1; then echo FAIL; else echo OK; fi; echo status:\\$\\?'$/": {
-      "approve": true,
-      "matchCommandLine": true
-    },
-    "/^bash -lc 'if \\[ -z \"/opt/homebrew/bin/brew\" \\] \\|\\| \\[ ! -x \"/opt/homebrew/bin/brew\" \\]; then printf \"ERROR: target \\[brew-ensure\\] failed because Homebrew is not installed\\. Please install it from https://brew\\.sh\\\\n\" >&2; exit 1; fi; echo status:\\$\\?; ls -ld /opt/homebrew/bin/brew; test -x /opt/homebrew/bin/brew; echo exec_status:\\$\\?'$/": {
-      "approve": true,
-      "matchCommandLine": true
-    },
     "printf": true,
     "git -C /opt/homebrew": true,
     "git rev-parse": true,
     "git -C git": true
+  },
+  "chat.instructionsFilesLocations": {
+    ".github/instructions": true,
+    ".claude/rules": true,
+    "~/.copilot/instructions": true,
+    "~/.claude/rules": true
   }
 }
