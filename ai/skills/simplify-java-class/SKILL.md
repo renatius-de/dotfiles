@@ -1,109 +1,197 @@
 ---
 name: simplify-java-class
-description: "Refactors complex Java classes by reducing cyclomatic complexity, simplifying nested control flow, extracting responsibilities, modernizing idioms, and preserving the existing public contract and runtime behavior."
+description: "Refactor complex Java classes to reduce cyclomatic complexity, simplify nested control flow, and modernize legacy code using Java 25 idioms while preserving the public contract and behavior."
 ---
 
 # Simplify Java Class
 
-Use this skill when a Java class has high cyclomatic complexity, deeply nested loops or conditionals, duplicated logic, long methods, or violations of the Single Responsibility Principle (SRP). The goal is to reduce complexity while keeping the existing behavior, public API, and business rules intact.
+Use this skill when a Java class has high cyclomatic complexity, deep nesting, duplicated logic, long methods, or a responsibility boundary that is difficult to reason about. The goal is to modernize and simplify the code while preserving the original business behavior, public API, and runtime semantics.
 
 ## Objective
 
-- Identify code that is difficult to reason about due to branching, duplication, or excessive responsibility.
-- Simplify the class structure without changing its external behavior.
+- Reduce cyclomatic complexity and deep nesting.
 - Improve readability, maintainability, and testability.
-- Preserve the public contract, method signatures, and runtime semantics.
-- Keep code aligned with modern Java practices where they meaningfully improve clarity.
+- Use modern Java 25 idioms where they clearly improve clarity and reduce boilerplate.
+- Keep the public contract intact unless the user explicitly approves a breaking change.
+- Preserve business rules, validation behavior, exception handling, and runtime semantics.
+
+## Mandatory operating rules
+
+1. Analyze the target class before modifying it.
+   - Measure or identify high complexity signals: many branches, repeated condition checks, deep nested `if`/`else` blocks, large methods, and repeated validation logic.
+   - Look for SRP violations, hidden state transitions, redundant conversions, and coupling that can be extracted into cleaner units.
+   - Confirm whether the task is a pure refactor or a functional change.
+
+2. Ask concise clarifying questions before code changes when it is needed.
+   - Ask if the business rules are ambiguous or undocumented.
+   - Ask if framework constraints, transaction boundaries, external API contracts, or expected exceptions are unclear.
+   - Ask if test coverage is missing or whether a behavior-preserving refactor is required.
+   - Do not guess when domain intent, expected behavior, or edge-case handling is uncertain.
+   - If all business rules and expected behaviors are documented and understood, proceed directly with the refactor.
+
+3. Prefer the simplest correct refactoring.
+   - Reduce nested logic with guard clauses and early returns.
+   - Extract repeated logic into private methods or helper classes only when it improves clarity.
+   - Keep one responsibility per method and make names describe the purpose precisely.
+   - Do not introduce broad abstractions for a limited or local problem.
+
+4. Preserve behavior and public API contract.
+   - Preserve public method signatures, return types, and parameter contracts as defined in the API documentation.
+   - Preserve validation, exception behavior, null handling, serialization compatibility, and cross-method side effects.
+   - Do not change runtime semantics to make the code look cleaner.
+
+5. Modernize with Java 25 only when it adds clarity.
+   - Use enhanced pattern matching, record patterns, or deconstruction where they reduce branching and improve readability.
+   - Prefer `switch` expressions and pattern-based dispatch over long `if`/`else` chains when the code becomes easier to understand.
+   - Replace repetitive DTOs with records when they are data carriers with no business logic.
+   - Use unnamed variables and unnamed patterns where they improve clarity and remove boilerplate.
+   - Use sequenced collections and sequence-aware APIs when they simplify ordering logic.
+   - Consider virtual threads for blocking I/O-heavy or high-concurrency tasks when the design matches the runtime model.
+   - Use preview or incubating Java 25 features only if the project explicitly permits them and they are appropriate for the codebase.
 
 ## Required workflow
 
-1. Analyze the class for complexity signals.
-   - High cyclomatic complexity.
-   - Deeply nested `if`/`else` blocks.
-   - Long methods with multiple responsibilities.
-   - Complex loops with repeated checks and early exits.
-   - Duplicate validation or transformation logic.
-   - SRP violations where one class is doing multiple unrelated jobs.
-   - Excessive field bloat or unnecessary coupling.
+### Step 1: Analyze the class
 
-2. Apply refactoring strategies with minimal behavioral change.
-   - Replace complex `if-else` or `switch` chains with polymorphism, pattern matching, or lookup tables where appropriate.
-   - Extract long methods into smaller, single-purpose helper methods.
-   - Simplify boolean expressions and reduce branching using guard clauses and early returns.
-   - Replace imperative code with clearer Java constructs such as Streams API, lambda expressions, `Optional`, or switch expressions when they improve readability without altering behavior.
-   - Reduce class coupling by separating validation, transformation, and decision logic into focused methods or internal helpers.
-   - Remove duplicated logic by consolidating shared logic into private methods with clear names.
+Review the class for:
 
-3. Preserve behavior and contracts.
-   - Keep public method signatures unchanged.
-   - Preserve method return types, parameter types, and all observable behavior.
-   - Do not alter business rules, validation requirements, exception semantics, or state transitions.
-   - Do not add side effects or hidden behavior changes.
-   - If a simplification would change logic, stop and explain the risk instead of making a speculative refactor.
+- Deep nesting and large conditional trees.
+- Repeat logic in validation, parsing, branching, and mapping.
+- Long methods that mix responsibilities.
+- Complex loops that can be simplified.
+- Overuse of mutable intermediate states.
+- DTOs or data carriers that can become records.
+- Concurrency patterns that could benefit from virtual threads or structured concurrency.
 
-4. Maintain or update documentation.
-   - Keep or update Javadoc and comments so they match the simplified implementation.
-   - Remove stale comments or comments that no longer reflect the code.
-   - Document the intent clearly when a brief comment adds meaningful context.
+Produce a brief complexity summary before editing.
 
-5. Produce the final response in this strict order.
-   1. A brief summary of the complexity issues identified.
-   2. The fully refactored Java class in a fenced code block.
-   3. A concise bulleted summary of the reductions that were made.
+### Step 2: Clarify ambiguity before changes
+
+If any of the following are unclear, request a concise clarification before changing the code:
+
+- business intent behind a rule or decision,
+- edge-case behavior,
+- expected validation outcome,
+- required exception semantics,
+- framework constraints,
+- persistence or transaction boundaries,
+- or test expectations.
+
+If the requirements are clear, skip this step and proceed.
+
+### Step 3: Propose a refactoring strategy
+
+Choose the most appropriate simplification pattern based on the actual code.
+
+Use one or more of the following:
+
+- Replace nested conditionals with pattern matching or `switch` expressions.
+- Use a record for data-only models that are currently defined as regular classes or mutable DTOs.
+- Extract validation and transformation rules into small private methods with descriptive names.
+- Collapse multiple boolean checks into a clearer decision pipeline with guard clauses.
+- Replace imperative iteration with stream-based or sequence-based logic when readability improves.
+- Convert repeated state checks into a small decision object or enum-based dispatch when it reduces complexity.
+- Separate parsing logic from business rules when the class handles both.
+- Use virtual threads for a concurrency-heavy task only when the threading model truly matches the workload and the application framework supports it.
+
+### Step 4: Produce the updated code
+
+Return the modernized Java class in a fenced code block.
+
+The class should:
+
+- keep the same public API unless the user explicitly requests a change,
+- reduce complexity without changing behavior,
+- use Java 25 features where they meaningfully simplify the code,
+- remain easy to read and maintain,
+- and include only the necessary refactor, not speculative redesign.
+
+### Step 5: Add test recommendations
+
+Provide a concise list of tests to validate the refactor.
+
+Recommended tests include:
+
+- happy path behavior,
+- edge-case validation,
+- null/empty input handling,
+- exception behavior,
+- boundary conditions,
+- concurrency safety when virtual threads or shared state are involved,
+- parser or mapping correctness.
+
+## Java 25-specific guidance
+
+Apply these Java 25 patterns where appropriate:
+
+- Enhanced pattern matching in `instanceof` and `switch`.
+- Record patterns for compact deconstruction of complex values.
+- Unnamed variables and unnamed patterns to reduce local clutter in short-lived scopes.
+- Pattern matching with `switch` expressions for state-based decisions.
+- Sequenced collections and sequence-aware iteration for ordered-state logic.
+- Flexible constructor bodies and modern constructor patterns where they reduce ceremony.
+- Virtual threads for blocking I/O or task-oriented concurrency.
+- Structured concurrency and modern executor patterns when they reduce complexity in parallel workflows.
+- Preview features only when the project is configured for Java 25 preview support and the code remains stable.
 
 ## Refactoring rules
 
-- Prefer guard clauses and early returns over deep nesting.
-- Prefer small, well-named helper methods over large monolithic methods.
-- Prefer readable linear flow over clever but dense control logic.
-- Use polymorphism or lookup tables where they simplify decision logic and reduce branching.
-- Use Streams, lambdas, `Optional`, and modern Java patterns only when they clearly improve clarity and preserve semantics.
-- Keep state and responsibilities focused; avoid new field bloat or unnecessary abstraction.
-- Preserve the existing API contract exactly.
-- Do not over-engineer. Only refactor when the simplification improves maintainability and reduces complexity.
+- Prefer readability over cleverness.
+- Prefer early returns and guard clauses over deeply nested branching.
+- Prefer small, single-purpose methods over giant imperative blocks.
+- Prefer modern Java patterns when they reduce boilerplate and do not obscure intent.
+- Preserve observable behavior exactly unless explicitly requested otherwise.
+- Eliminate duplication only when the extracted logic stays easy to understand.
+- Do not over-abstract local logic into a framework-like architecture.
 
 ## Anti-patterns to avoid
 
-- Do not change public behavior to make the code look cleaner.
-- Do not remove or weaken validation logic.
-- Do not alter exception behavior or ignore edge cases that the original method handled.
-- Do not add abstractions or helper classes unless they meaningfully reduce complexity.
-- Do not use modern Java features in a way that obscures the intent or makes the code harder to follow.
-- Do not refactor without preserving the class contract and runtime semantics.
+- Do not refactor without understanding the original behavior.
+- Do not change business rules to simplify the code.
+- Do not hide failures by swallowing exceptions.
+- Do not replace a clear algorithm with a more obscure one.
+- Do not overuse Java 25 features where classic Java would be clearer.
+- Do not add concurrency or virtual-thread usage without understanding the task and thread model.
+- Do not use preview features casually when project constraints or compatibility requirements forbid them.
 
 ## Output format
 
-The final answer must follow this exact structure:
+The final response must follow this order:
 
 1. Complexity summary
-   - Include the main complexity drivers found in the class, such as nested branching, duplicated logic, long methods, or SRP violations.
+   - Briefly explain the complexity issues found in the class.
 
-2. Refactored Java code
-   - Provide the complete refactored Java class in a fenced code block.
-   - Maintain the original class name, method names, API shape, and overall behavior unless a non-functional internal extraction is required.
+2. Refactoring strategy
+   - Summarize the approach, including Java 25 idioms used, if applicable.
 
-3. Complexity reductions summary
-   - Add a concise bulleted list of the actual improvements made.
-   - Examples: "Reduced cyclomatic complexity by flattening nested conditionals", "Extracted repeated logic into helper methods", "Modernized iteration with Streams", "Preserved public API and business behavior".
+3. Refactored Java code
+   - Provide the full modernized Java class in a fenced code block.
+
+4. Test recommendations
+   - Provide a concise list of relevant unit tests.
+
+5. Complexity reduction summary
+   - Add a short bulleted summary of what improved.
 
 ## Success criteria
 
-The refactor is successful only if:
+The refactor is successful when:
 
-- the class is easier to read and maintain,
-- nested conditionals and long methods are reduced,
-- branching logic is simplified without changing business behavior,
-- repeated logic is extracted into clear helper methods,
-- modern Java idioms are used where they improve readability,
-- and the existing public contract remains intact.
+- the class is easier to read and understand,
+- the branching is significantly simpler,
+- the public behavior is preserved,
+- boilerplate is reduced using Java 25 idioms where appropriate,
+- responsibilities are clearer,
+- and the code is easier to test and maintain.
 
 ## Example triggers
 
-Use this skill for Java classes such as:
+Use this skill for:
 
-- request validators,
+- validation classes,
 - workflow processors,
-- parser or mapper classes,
-- domain service logic,
+- request/response mappers,
+- parser or normalization logic,
 - rule engines,
-- or any class with dense conditional logic and repeated business checks.
+- service methods with many conditions,
+- or any Java class with excessive branching and low maintainability.
