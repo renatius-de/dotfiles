@@ -30,9 +30,10 @@ $(SSH_CONFIG_LOCAL): | $(SSH_KEYS_DIR)
 	@printf "✅ Ready: [%s]\n" "$@"
 
 $(SSH_CONFIG): | $(SSH_DIR)
-	@printf "==> Linking SSH config from [%s] to [%s]\n" "$(SSH_CONFIG_SOURCE)" "$@"
-	@$(LINK) "$(SSH_CONFIG_SOURCE)" "$@" || { printf "ERROR: target [install] failed while linking %s to %s\n" "$(SSH_CONFIG_SOURCE)" "$@" >&2; exit 1; }
-	@printf "✅ Linked SSH config to [%s]\n" "$@"
+	@printf "==> Installing SSH config from [%s] to [%s]\n" "$(SSH_CONFIG_SOURCE)" "$@"
+	@$(call ensure_dir,$(dir $@)) || { $(call fail_target,install); }
+	@$(COPY_FILE) "$(SSH_CONFIG_SOURCE)" "$@" || { printf "ERROR: target [install] failed while copying %s to %s\n" "$(SSH_CONFIG_SOURCE)" "$@" >&2; exit 1; }
+	@printf "✅ Installed SSH config to [%s]\n" "$@"
 
 init-ssh: $(SSH_CONTROL_DIR)
 	@printf "==> Starting target [init-ssh]...\n"
@@ -48,5 +49,6 @@ upgrade: install
 
 clean:
 	@printf "==> Starting target [clean]...\n"
-	@$(RM_F) $(SSH_CONFIG) || { $(call fail_target,clean); }
+	@$(RM_F) "$(SSH_CONFIG)" "$(SSH_CONFIG_LOCAL)" || { $(call fail_target,clean); }
+	@$(RM_RF) "$(SSH_CONTROL_DIR)" "$(SSH_KEYS_DIR)" || { $(call fail_target,clean); }
 	@printf "✅ Finished target [clean]\n"

@@ -217,7 +217,7 @@ install: | brew-install fix-permissions-of-home ## Install dotfiles and Homebrew
 
 ## upgrade
 ##   Upgrade Homebrew packages and execute `upgrade` in every subdirectory.
-##   Existing configuration files stay intact; modules may refresh symlinks and other runtime artifacts.
+##   Existing configuration files stay intact; modules may refresh installed runtime artifacts.
 upgrade: | brew-upgrade ## Upgrade dotfiles and Homebrew packages
 	@printf "==> Starting target [upgrade]...\n"
 	@$(call do_in_sub_directories,upgrade) || { $(call fail_target,upgrade); }

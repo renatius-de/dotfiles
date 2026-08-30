@@ -1,6 +1,5 @@
 include ../make/common.mk
 
-GIT_DIR_SYMLINK := $(HOME)/.git
 GIT_CONFIG_FILE := $(HOME)/.gitconfig
 GIT_CONFIG_LOCAL_FILE := $(HOME)/.gitconfig.local
 GIT_IGNORE_FILE := $(HOME)/.gitignore
@@ -16,11 +15,6 @@ ensure-git:
 	@$(call ensure_cmd,git,ensure-git) || { $(call fail_target,ensure-git); }
 	@printf "✅ Finished target [ensure-git]\n"
 
-$(GIT_DIR_SYMLINK):
-	@printf "==> Linking Git directory from [%s] to [%s]\n" "$(ROOT_DIR)" "$@"
-	@$(LINK) "$(ROOT_DIR)" "$@" || { printf "ERROR: target [install] failed while linking %s to %s\n" "$(ROOT_DIR)" "$@" >&2; exit 1; }
-	@printf "✅ Linked Git directory to [%s]\n" "$@"
-
 $(GITATTR_REPO_DIR):
 	@printf "==> Ensuring repository [%s]\n" "GitAttributesRepository"
 	@$(call clone_or_update_repo,alexkaratarakis/gitattributes,$(GIT_PROJECTS_DIR),GitAttributesRepository) || { $(call fail_target,plugin); }
@@ -32,9 +26,10 @@ $(GITIGNORE_REPO_DIR):
 	@printf "✅ Repository ready: [%s]\n" "GitIgnoreRepository"
 
 $(GIT_CONFIG_FILE):
-	@printf "==> Linking Git config from [%s] to [%s]\n" "$(GIT_PROJECTS_DIR)/config" "$@"
-	@$(LINK) "$(GIT_PROJECTS_DIR)/config" "$@" || { printf "ERROR: target [install] failed while linking %s to %s\n" "$(GIT_PROJECTS_DIR)/config" "$@" >&2; exit 1; }
-	@printf "✅ Linked Git config to [%s]\n" "$@"
+	@printf "==> Installing Git config from [%s] to [%s]\n" "$(GIT_PROJECTS_DIR)/config" "$@"
+	@$(call ensure_dir,$(dir $@)) || { $(call fail_target,install); }
+	@$(COPY_FILE) "$(GIT_PROJECTS_DIR)/config" "$@" || { printf "ERROR: target [install] failed while copying %s to %s\n" "$(GIT_PROJECTS_DIR)/config" "$@" >&2; exit 1; }
+	@printf "✅ Installed Git config to [%s]\n" "$@"
 
 $(GIT_CONFIG_LOCAL_FILE):
 	@printf "==> Creating local Git config file [%s]\n" "$@"
@@ -42,15 +37,16 @@ $(GIT_CONFIG_LOCAL_FILE):
 	@printf "✅ Local Git config ready: [%s]\n" "$@"
 
 $(GIT_IGNORE_FILE):
-	@printf "==> Linking Git ignore file from [%s] to [%s]\n" "$(ROOT_DIR)/ignore" "$@"
-	@$(LINK) "$(ROOT_DIR)/ignore" "$@" || { printf "ERROR: target [install] failed while linking %s to %s\n" "$(ROOT_DIR)/ignore" "$@" >&2; exit 1; }
-	@printf "✅ Linked Git ignore file to [%s]\n" "$@"
+	@printf "==> Installing Git ignore file from [%s] to [%s]\n" "$(ROOT_DIR)/ignore" "$@"
+	@$(call ensure_dir,$(dir $@)) || { $(call fail_target,install); }
+	@$(COPY_FILE) "$(ROOT_DIR)/ignore" "$@" || { printf "ERROR: target [install] failed while copying %s to %s\n" "$(ROOT_DIR)/ignore" "$@" >&2; exit 1; }
+	@printf "✅ Installed Git ignore file to [%s]\n" "$@"
 
 plugin: ensure-git $(REPO_DIRS)
 	@printf "==> Starting target [plugin]...\n"
 	@printf "✅ Finished target [plugin]\n"
 
-install: $(GIT_DIR_SYMLINK) $(GIT_CONFIG_FILE) $(GIT_CONFIG_LOCAL_FILE) $(GIT_IGNORE_FILE) plugin
+install: $(GIT_CONFIG_FILE) $(GIT_CONFIG_LOCAL_FILE) $(GIT_IGNORE_FILE) plugin
 	@printf "==> Starting target [install]...\n"
 	@printf "✅ Finished target [install]\n"
 
@@ -60,6 +56,6 @@ upgrade: install
 
 clean:
 	@printf "==> Starting target [clean]...\n"
-	@$(RM_F) $(HOME)/.git_template $(GIT_IGNORE_FILE) $(HOME)/.tig_history $(GIT_CONFIG_FILE) $(GIT_DIR_SYMLINK) || { $(call fail_target,clean); }
+	@$(RM_F) $(HOME)/.git_template $(GIT_IGNORE_FILE) $(HOME)/.tig_history $(GIT_CONFIG_FILE) $(GIT_CONFIG_LOCAL_FILE) || { $(call fail_target,clean); }
 	@$(RM_RF) $(REPO_DIRS) || { $(call fail_target,clean); }
 	@printf "✅ Finished target [clean]\n"

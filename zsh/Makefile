@@ -13,7 +13,7 @@ EXTERNAL_PLUGINS := \
 	zsh-users/zsh-syntax-highlighting
 
 DOTFILES := zshrc zprofile
-ZSH_LINK_TARGETS := $(addprefix $(HOME)/.,$(DOTFILES))
+ZSH_COPY_TARGETS := $(addprefix $(HOME)/.,$(DOTFILES))
 ZSHRC_LOCAL_FILE := $(HOME)/.zshrc.local
 
 CLEAN_FILES := \
@@ -23,7 +23,7 @@ CLEAN_FILES := \
 	$(HOME)/.zshrc.zwc \
 	$(HOME)/.zshrc.pre-oh-my-zsh \
 	$(ZSH_HOME) \
-	$(ZSH_LINK_TARGETS)
+	$(ZSH_COPY_TARGETS)
 
 CLEAN_DIRECTORIES := \
 	$(HOME)/.antigen \
@@ -44,19 +44,21 @@ ensure-curl:
 	@printf "✅ Finished target [ensure-curl]\n"
 
 $(ZSH_HOME):
-	@printf "==> Linking Zsh directory from [%s] to [%s]\n" "$(ROOT_DIR)/zsh" "$@"
-	@$(LINK) "$(ROOT_DIR)/zsh" "$@" || { printf "ERROR: target [configuration] failed while linking %s to %s\n" "$(ROOT_DIR)/zsh" "$@" >&2; exit 1; }
-	@printf "✅ Linked Zsh directory to [%s]\n" "$@"
+	@printf "==> Installing Zsh directory from [%s] to [%s]\n" "$(ROOT_DIR)/zsh" "$@"
+	@$(RM_RF) "$@" || { $(call fail_target,configuration); }
+	@$(COPY_TREE) "$(ROOT_DIR)/zsh" "$@" || { printf "ERROR: target [configuration] failed while copying %s to %s\n" "$(ROOT_DIR)/zsh" "$@" >&2; exit 1; }
+	@printf "✅ Installed Zsh directory to [%s]\n" "$@"
 
 $(ZSH_CACHE_DIR):
 	@printf "==> Ensuring directory [%s]\n" "$@"
 	@$(call ensure_dir,$@) || { $(call fail_target,configuration); }
 	@printf "✅ Ready: [%s]\n" "$@"
 
-$(ZSH_LINK_TARGETS): $(HOME)/.%: $(ROOT_DIR)/zsh/%
-	@printf "==> Linking Zsh dotfile from [%s] to [%s]\n" "$<" "$@"
-	@$(LINK) "$<" "$@" || { printf "ERROR: target [configuration] failed while linking %s to %s\n" "$<" "$@" >&2; exit 1; }
-	@printf "✅ Linked Zsh dotfile to [%s]\n" "$@"
+$(ZSH_COPY_TARGETS): $(HOME)/.%: $(ROOT_DIR)/zsh/%
+	@printf "==> Installing Zsh dotfile from [%s] to [%s]\n" "$<" "$@"
+	@$(call ensure_dir,$(dir $@)) || { $(call fail_target,configuration); }
+	@$(COPY_FILE) "$<" "$@" || { printf "ERROR: target [configuration] failed while copying %s to %s\n" "$<" "$@" >&2; exit 1; }
+	@printf "✅ Installed Zsh dotfile to [%s]\n" "$@"
 
 $(ZSHRC_LOCAL_FILE):
 	@printf "==> Creating local Zsh config [%s]\n" "$@"
@@ -95,7 +97,7 @@ clone-or-update-external: ensure-git
 	)
 	@printf "✅ Finished target [clone-or-update-external]\n"
 
-configuration: | $(ZSH_HOME) $(ZSH_CACHE_DIR) $(ZSHRC_LOCAL_FILE) $(ZSH_LINK_TARGETS)
+configuration: | $(ZSH_HOME) $(ZSH_CACHE_DIR) $(ZSHRC_LOCAL_FILE) $(ZSH_COPY_TARGETS)
 	@printf "==> Starting target [configuration]...\n"
 	@printf "✅ Finished target [configuration]\n"
 

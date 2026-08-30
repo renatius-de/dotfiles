@@ -27,9 +27,10 @@ define ensure_var
 	$(if $(strip $(value $(1))),,$(error REQUIRED: variable '$(1)' is not set in Makefile [$(MAKEFILE_BASE)]))
 endef
 
-LINK := ln -snf
 MKDIR := install -d -m 0700
 INSTALL_FILE := install -m 0600
+COPY_FILE := cp -f
+COPY_TREE := cp -R -f
 RM_F := rm -f
 RM_RF := rm -rf
 DOWNLOAD := curl --fail --location --silent --show-error \
@@ -58,10 +59,6 @@ endef
 
 define ensure_dir
 	$(call run_cmd,$(MKDIR) $(1),ensure_dir)
-endef
-
-define symlink
-	$(call run_cmd,$(LINK) $(1) $(2),symlink)
 endef
 
 define clone_or_update_repo
