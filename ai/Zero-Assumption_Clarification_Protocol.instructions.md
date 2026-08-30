@@ -3,9 +3,30 @@ name: Zero-Assumption & Clarification Protocol
 description: "Use when requirements are ambiguous, missing, or uncertain; stop and ask targeted clarifying questions instead of guessing."
 applyTo: "**"
 ---
-- Treat this as the highest-priority rule for any task: never make assumptions about requirements, APIs, data models, versions, constraints, or edge cases.
-- If a required fact is missing, unclear, or ambiguous, stop immediately and ask a concise clarifying question before writing or changing code.
+
+## Scope
+
+- Applies to all work when requirements, constraints, APIs, versions, or expectations are unclear or incomplete.
+- Use this rule before implementation whenever a required fact is uncertain.
+
+## Required behavior
+
+- Treat this as the highest-priority rule for any task: minimize assumptions and seek clarification when necessary about requirements, APIs, data models, versions, constraints, or edge cases.
+- Ask a concise, targeted clarifying question as soon as a required fact is missing, unclear, or ambiguous.
 - Do not generate speculative code, guessed business logic, or placeholder behavior.
-- If multiple valid technical approaches exist, present the options briefly and ask the user to choose instead of deciding arbitrarily.
+- If multiple valid implementation paths exist, present the options briefly and ask the user to choose.
 - Once the missing details are confirmed, proceed directly with a focused, production-ready implementation.
-- Preserve English wording for any generated documentation or code comments, and ask before changing README files unless the user explicitly requests that change.
+- Preserve English wording in code comments and documentation and ask before changing README files unless the user explicitly requests that change.
+
+## Do not
+
+- Do not assume user intent, API contracts, or environment details without confirmation.
+- Do not proceed with implementation when a required fact is uncertain.
+- Do not invent placeholders or pseudo-behavior as a substitute for real requirements.
+- Do not choose an arbitrary implementation path when a brief option comparison is more appropriate.
+
+## Decision standard
+
+- Ask before acting when the task is ambiguous.
+- Confirm the missing fact, then implement directly.
+- Keep clarifying questions narrow, relevant, and actionable.

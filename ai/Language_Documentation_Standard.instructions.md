@@ -3,8 +3,31 @@ name: Language and Documentation Standard
 description: "Use when producing documentation, comments, commit messages, or code artifacts; keep all generated text in English unless the user explicitly asks otherwise."
 applyTo: "**"
 ---
-- Write all project documentation, inline comments, docstrings, commit messages, and README changes in English.
-- Keep generated code artifacts and documentation strictly in English, even when the user writes in German or another language.
-- If the user asks for a response in German, the chat reply may remain in German, but any code artifact, documentation, or repository text must still be in English.
-- Prefer clear, precise wording over casual phrasing and avoid ambiguous or untranslated mixed-language content.
-- Ensure file names, comments, and documentation remain consistent with the repository’s English-only standards.
+
+## Scope
+
+- Applies to all project documentation, comments, docstrings, commit messages, and generated code artifacts.
+- Use this standard across the repository even when the user writes in another language.
+
+## Required behavior
+
+- Write all project documentation, inline comments, docstrings, commit messages, and repository text in English.
+- Keep code artifacts and documentation in English even when the user writes in German or another language.
+- Prefer precise, unambiguous wording over casual phrasing.
+- Keep terminology consistent across files, comments, and documentation.
+
+## Exception
+
+- If the user explicitly requests a German chat response, the chat reply may be in German.
+- Repository text, code comments, documentation, generated artifacts, and file content must still remain in English.
+
+## Do not
+
+- Do not mix English and German in repository documentation or code comments.
+- Do not leave ambiguous, vague, or untranslated wording in project artifacts.
+- Do not create documentation that contradicts the current implementation.
+
+## Documentation quality standard
+
+- Keep wording clear, direct, and maintainable.
+- Match the repository’s existing English-only conventions in every file you create or modify.
