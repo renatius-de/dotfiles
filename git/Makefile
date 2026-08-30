@@ -37,9 +37,9 @@ $(GIT_CONFIG_LOCAL_FILE):
 	@printf "✅ Local Git config ready: [%s]\n" "$@"
 
 $(GIT_IGNORE_FILE):
-	@printf "==> Installing Git ignore file from [%s] to [%s]\n" "$(ROOT_DIR)/ignore" "$@"
+	@printf "==> Installing Git ignore file from [%s] to [%s]\n" "$(GIT_PROJECTS_DIR)/ignore" "$@"
 	@$(call ensure_dir,$(dir $@)) || { $(call fail_target,install); }
-	@$(COPY_FILE) "$(ROOT_DIR)/ignore" "$@" || { printf "ERROR: target [install] failed while copying %s to %s\n" "$(ROOT_DIR)/ignore" "$@" >&2; exit 1; }
+	@$(COPY_FILE) "$(GIT_PROJECTS_DIR)/ignore" "$@" || { printf "ERROR: target [install] failed while copying %s to %s\n" "$(GIT_PROJECTS_DIR)/ignore" "$@" >&2; exit 1; }
 	@printf "✅ Installed Git ignore file to [%s]\n" "$@"
 
 plugin: ensure-git $(REPO_DIRS)
@@ -56,6 +56,6 @@ upgrade: install
 
 clean:
 	@printf "==> Starting target [clean]...\n"
-	@$(RM_F) $(HOME)/.git_template $(GIT_IGNORE_FILE) $(HOME)/.tig_history $(GIT_CONFIG_FILE) $(GIT_CONFIG_LOCAL_FILE) || { $(call fail_target,clean); }
+	@$(RM_F) $(HOME)/.git_template $(GIT_IGNORE_FILE) $(HOME)/.tig_history $(GIT_CONFIG_FILE) || { $(call fail_target,clean); }
 	@$(RM_RF) $(REPO_DIRS) || { $(call fail_target,clean); }
 	@printf "✅ Finished target [clean]\n"

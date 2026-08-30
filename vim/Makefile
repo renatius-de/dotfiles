@@ -6,7 +6,7 @@ NVIM_DIR := $(HOME)/.config/nvim
 NVIM_INIT := $(NVIM_DIR)/init.lua
 NVIM_CACHE_DIR := $(CACHE_DIR)/nvim
 
-NVIMRC_SRC := init.lua
+NVIMRC_SRC := $(CURDIR)/init.lua
 REQUIRED_DIRS := $(NVIM_DIR) $(NVIM_CACHE_DIR)
 
 .PHONY: install upgrade clean
@@ -16,9 +16,9 @@ $(REQUIRED_DIRS):
 	@$(call ensure_dir,$@) || { $(call fail_target,install); }
 
 $(NVIM_INIT): | $(REQUIRED_DIRS)
-	@printf "==> Installing Neovim config from [%s] to [%s]\n" "$(ROOT_DIR)/$(NVIMRC_SRC)" "$@"
+	@printf "==> Installing Neovim config from [%s] to [%s]\n" "$(NVIMRC_SRC)" "$@"
 	@$(call ensure_dir,$(dir $@)) || { $(call fail_target,install); }
-	@$(COPY_FILE) "$(ROOT_DIR)/$(NVIMRC_SRC)" "$@" || { printf "ERROR: target [install] failed while copying %s to %s\n" "$(ROOT_DIR)/$(NVIMRC_SRC)" "$@" >&2; exit 1; }
+	@$(COPY_FILE) "$(NVIMRC_SRC)" "$@" || { printf "ERROR: target [install] failed while copying %s to %s\n" "$(NVIMRC_SRC)" "$@" >&2; exit 1; }
 	@printf "✅ Installed Neovim config to [%s]\n" "$@"
 
 install: | $(NVIM_INIT)
