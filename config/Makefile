@@ -1,6 +1,6 @@
 include ../make/common.mk
 
-SPRING_BOOT_SOURCE := $(ROOT_DIR)/spring-boot
+SPRING_BOOT_SOURCE := $(abspath $(dir $(MAKEFILE_BASE)))/spring-boot
 SPRING_BOOT_CONFIG_TARGET := $(HOME)/.config/spring-boot
 CONFIG_DIR := $(HOME)/.config
 
