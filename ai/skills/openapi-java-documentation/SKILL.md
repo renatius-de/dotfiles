@@ -1,6 +1,6 @@
 ---
-name: openapi-java
-description: "Create and maintain high-quality OpenAPI 3 documentation for Java controllers, DTOs, and application APIs using Swagger v3 annotations and framework-compatible tooling."
+name: openapi-java-documentation
+description: "Create and maintain high-quality OpenAPI 3 documentation for Java controllers, DTOs, and application APIs using framework-compatible tooling."
 ---
 
 # Document Java APIs with OpenAPI 3

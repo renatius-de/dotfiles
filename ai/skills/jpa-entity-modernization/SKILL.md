@@ -1,6 +1,6 @@
 ---
-name: jpa-entity-refactoring
-description: "Analyze and refactor a selected JPA/Hibernate entity against its actual database table, modernize it with safe Lombok annotations, preserve compatibility, and verify compilation and startup."
+name: jpa-entity-modernization
+description: "Analyze and refactor a JPA/Hibernate entity against its actual database table, modernize it with safe Lombok annotations, preserve compatibility, and verify compilation and startup."
 ---
 
 # JPA Entity Refactoring

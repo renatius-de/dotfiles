@@ -1,6 +1,6 @@
 ---
-name: simplify-java-class
-description: "Refactor complex Java classes to reduce cyclomatic complexity, simplify nested control flow, and modernize legacy code using Java 25 idioms while preserving the public contract and behavior."
+name: java-class-simplification
+description: "Refactor complex Java classes to reduce cyclomatic complexity, simplify nested control flow, and modernize legacy code with Java 25 idioms."
 ---
 
 # Simplify Java Class

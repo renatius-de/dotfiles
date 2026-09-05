@@ -1,6 +1,6 @@
 ---
-name: java-convert-to-record
-description: "Safely convert an existing Java data-oriented class to a Java record while preserving validation, behavior, API expectations, and relevant builder or wither capabilities."
+name: java-record-conversion
+description: "Safely convert a Java data-oriented class to a record while preserving validation, behavior, API expectations, and relevant builder or wither capabilities."
 ---
 
 # Convert Java Class to Record

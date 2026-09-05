@@ -1,6 +1,6 @@
 ---
-name: makefile-optimizer
-description: "Use when analyzing or optimizing existing GNU Make Makefiles, consolidating repeated targets into an existing common.mk, or reducing a Makefile to the core clean, install, and upgrade targets without breaking its workflow."
+name: makefile-optimization
+description: "Analyze and optimize GNU Makefiles, consolidate repeated targets into an existing common.mk, and keep the clean/install/upgrade workflow compatible."
 ---
 
 # Optimize GNU Makefiles

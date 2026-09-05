@@ -1,6 +1,6 @@
 ---
-name: openapi-optimize-and-diff
-description: "Refactor and modernize OpenAPI 3.1 specifications by removing redundancy, extracting reusable components, simplifying polymorphic models, and improving maintainability, then validate changes with OASDiff without changing the contract unless explicitly approved."
+name: openapi-spec-refactoring
+description: "Refactor and modernize OpenAPI 3.1 specifications by removing redundancy, extracting reusable components, simplifying polymorphic models, and validating changes with OASDiff."
 ---
 
 # Simplify OpenAPI 3.1 Specifications and Compare Changes

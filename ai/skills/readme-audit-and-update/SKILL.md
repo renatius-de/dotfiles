@@ -1,6 +1,6 @@
 ---
-name: readme-updater
-description: "Use when analyzing an entire project and bringing every existing README.md up to date with the current technical and functional implementation while preserving existing wording unless a necessary correction is required."
+name: readme-audit-and-update
+description: "Audit a project and update each README.md so it matches the current technical and functional implementation without rewriting correct wording."
 ---
 
 # Update Project READMEs
