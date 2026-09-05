@@ -12,7 +12,6 @@ The install target creates the required symlinks and ensures the bundled helper 
 
 ## Managed items
 
-- `~/.git` — points to the repository root for repository-level Git metadata
 - `~/.gitconfig` — global Git configuration
 - `~/.gitconfig.local` — user-local override file
 - `~/.gitignore` — shared ignore rules for the current machine

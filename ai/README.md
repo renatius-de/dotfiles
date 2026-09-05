@@ -4,7 +4,7 @@ This module installs the repository-managed instruction and skill files into the
 
 ## Purpose
 
-The `ai/Makefile` copies the repository's bundled instruction and skill content into:
+The `ai/Makefile` links the repository's bundled instruction and skill content into:
 
 - `~/.copilot/instructions`
 - `~/.copilot/skills`
@@ -56,4 +56,4 @@ make -C ai clean
 ## Notes
 
 - The module is built on the shared helpers in `make/common.mk`.
-- The install flow is intentionally idempotent and replaces the managed directories with the repository version.
+- The install flow is intentionally idempotent and replaces the managed directories with symlinks to the repository version.
