@@ -1,9 +1,9 @@
 ---
-name: simplify-openapi-spec
-description: "Refactor and modernize OpenAPI 3.1 specifications by removing redundancy, extracting reusable components, simplifying polymorphic models, and improving maintainability without changing the contract unless explicitly approved."
+name: openapi-simplify-and-diff
+description: "Refactor and modernize OpenAPI 3.1 specifications by removing redundancy, extracting reusable components, simplifying polymorphic models, and improving maintainability, then validate changes with OASDiff without changing the contract unless explicitly approved."
 ---
 
-# Simplify OpenAPI 3.1 Specifications
+# Simplify OpenAPI 3.1 Specifications and Compare Changes
 
 Use this skill to reduce complexity in an OpenAPI document while preserving the API contract, improving readability, and aligning the specification with modern OpenAPI 3.1 best practices.
 
@@ -159,6 +159,36 @@ The refactored specification should be:
 - easier to extend without copy-paste duplication
 - explicit about contracts and error handling
 - safe for tooling and code generation
+
+## Mandatory OASDiff validation
+
+After every change to an OpenAPI specification, such as `openapi.yaml`, start OASDiff via Docker. Compare the changed local file with the same path from the repository's `main` or `master` branch. Use `main` when both branches exist; otherwise use `master`. Resolve the specification path from the branch being compared before running the commands.
+
+Run the following Docker commands strictly in this order:
+
+1. Validate the changed local specification:
+
+	```bash
+	docker run --rm -t -v $(pwd):/specs tufin/oasdiff validate /specs/path/to/openapi.yaml
+	```
+
+2. Generate the changelog against the base branch:
+
+	```bash
+	docker run --rm -t -v $(pwd):/specs tufin/oasdiff changelog <(git show main:path/to/openapi.yaml) /specs/path/to/openapi.yaml
+	```
+
+3. Check for breaking changes against the same base branch:
+
+	```bash
+	docker run --rm -t -v $(pwd):/specs tufin/oasdiff breaking <(git show main:path/to/openapi.yaml) /specs/path/to/openapi.yaml
+	```
+
+Replace `main` with `master` in steps 2 and 3 when `main` is not available, and replace `path/to/openapi.yaml` with the actual repository-relative path. Run the commands from the repository root so `$(pwd)` mounts the expected files. The local path must be available below `/specs` inside the container.
+
+If `validate` reports errors, analyze their cause, correct the OpenAPI specification automatically, and rerun the complete sequence from step 1. Do not proceed to `changelog` or `breaking` while validation errors remain.
+
+If `changelog` or `breaking` fails or reports changes, do not stop the process. Continue the required workflow and issue a clear warning to the developer. Include the command failure, reported changes, and affected operations or schemas when available. Treat reported breaking changes as compatibility warnings requiring explicit developer review; never hide or silently reinterpret them.
 
 ## Example refactoring patterns
 
