@@ -9,6 +9,7 @@ applyTo: "**/*.instructions.md,**/SKILL.md"
 - Applies to all repository files matching `**/*.instructions.md` and `**/SKILL.md`.
 - Use this rule whenever instruction files, skill files, or their names are being reviewed, refactored, or synchronized anywhere in the workspace.
 - Keep repository AI assets consistent, discoverable, and easy to maintain across all locations.
+- This rule governs AI asset hygiene only: naming, metadata, structure, and final verification. It does not redefine Java quality rules, API specification rules, or documentation approval policy.
 
 ## Required behavior
 

@@ -7,7 +7,8 @@ applyTo: "**"
 ## Scope
 
 - Applies to all code, scripts, configuration, and automation files in this project.
-- Use this rule for any implementation, refactor, or bug fix.
+- Use this rule for any implementation, refactor, or bug fix that changes runtime behavior or maintainability.
+- This rule is limited to code structure and maintainability; it does not define OpenAPI contracts, README approval, or documentation language policy.
 
 ## Required behavior
 

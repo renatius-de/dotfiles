@@ -7,7 +7,8 @@ applyTo: "**"
 ## Scope
 
 - Applies to all work when requirements, constraints, APIs, versions, or expectations are unclear or incomplete.
-- Use this rule before implementation whenever a required fact is uncertain.
+- This is a cross-cutting decision rule: it applies before implementation, before API design, and before documentation changes whenever a required fact is uncertain.
+- It does not replace domain-specific rules such as Java quality, OpenAPI authoring, or documentation governance.
 
 ## Required behavior
 

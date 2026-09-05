@@ -8,6 +8,7 @@ applyTo: "**/README.md,**/*.md"
 
 - Applies to README files, documentation files, and any user-facing project guidance.
 - Use this rule when project behavior, setup steps, configuration, or expectations change.
+- This rule focuses on change control and approval for documentation. It does not define code quality, Java standards, or OpenAPI contract rules.
 
 ## Required behavior
 

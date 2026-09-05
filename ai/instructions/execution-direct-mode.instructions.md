@@ -8,6 +8,7 @@ applyTo: "**"
 
 - Applies to all tasks, files, and repositories in this project when requirements are clear and approved.
 - Use this mode for implementation work that does not require additional clarification.
+- This rule governs execution flow only; it does not redefine code quality, API contracts, or documentation approval policy.
 
 ## Required behavior
 

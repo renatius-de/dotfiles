@@ -8,6 +8,7 @@ applyTo: "**"
 
 - Applies to all project documentation, comments, docstrings, commit messages, and generated code artifacts.
 - Use this standard across the repository even when the user writes in another language.
+- This rule covers writing quality and language consistency only. It does not define approval flow, README policy, or API contract design.
 
 ## Required behavior
 

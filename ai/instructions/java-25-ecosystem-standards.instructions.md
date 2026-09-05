@@ -13,6 +13,7 @@ applyTo: "**/*.java,**/pom.xml,**/build.gradle,**/build.gradle.kts,**/applicatio
 - Prefer the simplest design that is correct, observable, secure, and easy to maintain.
 - Verify the project's actual Java, framework, JUnit, Mockito, and Testcontainers versions before using version-specific APIs.
 - Resolve conflicts in this order: explicit user requirements, repository conventions, these standards, then general style preferences.
+- This rule covers Java implementation and testing only. It does not define OpenAPI authoring, README approval, or documentation language rules.
 
 ## Architecture & coding standards
 

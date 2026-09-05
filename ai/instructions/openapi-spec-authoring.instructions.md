@@ -1,7 +1,7 @@
 ---
 name: openapi-spec-authoring
 description: "OpenAPI authoring, validation, and design rules for YAML and JSON specifications."
-applyTo: "**/*.openapi.yaml,**/*.openapi.json,**/openapi.yaml,**/swagger.yaml,api/**,docs/spec/**"
+applyTo: "**/*.openapi.yaml,**/*.openapi.json,**/openapi.yaml,**/swagger.yaml,api/**,docs/spec/**,openapi/**"
 ---
 
 # OpenAPI Authoring Rules
@@ -11,6 +11,7 @@ applyTo: "**/*.openapi.yaml,**/*.openapi.json,**/openapi.yaml,**/swagger.yaml,ap
 - Apply these rules to all OpenAPI files matching `*.openapi.yaml`, `*.openapi.json`, `openapi.yaml`, `swagger.yaml`, and all files under `api/` and `docs/spec/`.
 - Treat all OpenAPI documents as authoritative API contracts and validate them against the OpenAPI 3.0 or 3.1 specification before finalizing changes.
 - When editing existing API specs, preserve compatibility unless the change is explicitly approved as a breaking change.
+- This rule covers API contract design and validation only. It does not define Java implementation quality, documentation governance, or README approval procedures.
 
 ## General format and validity rules
 
