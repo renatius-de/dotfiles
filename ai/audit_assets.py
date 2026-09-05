@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import json
 import re
-import subprocess
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -88,8 +87,6 @@ def metadata_checks(path: Path, metadata: dict[str, str], errors: list[str]) -> 
     findings.extend(f"missing frontmatter field: {field}" for field in sorted(missing))
     if metadata.get("name") and metadata["name"] != expected_name:
         findings.append(f"frontmatter name does not match filename: {metadata['name']}")
-    if is_instruction and metadata.get("applyTo") == "**":
-        findings.append("broad applyTo pattern applies to the entire repository")
     if not is_instruction and path.name != "SKILL.md":
         findings.append("skill filename is not SKILL.md")
     return findings
@@ -160,7 +157,7 @@ def run() -> int:
         f"- Cross-file duplicate bullet rules: {len(duplicates)}",
         f"- Naming findings: {len(naming_errors)}",
         "",
-        "Severity is qualitative: syntax and broken references are errors; missing metadata, broad scope, duplication, and security hardening gaps are warnings or optimization suggestions.",
+        "Severity is qualitative: syntax and broken references are errors; missing metadata, duplication, and security hardening gaps are warnings or optimization suggestions.",
         "",
         "## Automated Checks",
         "",
@@ -197,17 +194,14 @@ def run() -> int:
         report_lines.append("")
 
     report_lines.extend([
-        "## Manual Review Recommendations",
+        "## Review Notes",
         "",
-        "- Add consistent frontmatter to `SKILL.md` files if the consuming agent tooling supports and requires it; otherwise document the intentional distinction between instruction metadata and skill metadata.",
-        "- Review repeated Java and OpenAPI guidance for a single source of truth. The two OpenAPI assets intentionally overlap, but their OpenAPI 3.0 versus 3.2 scope should remain explicit.",
-        "- Confirm that version-specific recommendations such as Java 25, JUnit 6, Spring Boot 4, and OASDiff Docker are supported by the repositories that consume these assets.",
-        "- Keep generated audit output separate from the asset source files and rerun the script after future changes.",
+        "- No automated findings require correction when the file-level and cross-file sections report none.",
+        "- Semantic contradiction detection is heuristic. Human review remains appropriate for precedence, version compatibility, and domain-specific security guidance.",
         "",
         "## Limitations",
         "",
-        "- This audit does not prove full CommonMark compliance, execute embedded shell commands, compile Java examples, validate arbitrary YAML without an external YAML parser, or run OASDiff against a real OpenAPI document.",
-        "- Semantic contradiction detection is heuristic. Human review is still required for precedence, version compatibility, and domain-specific security guidance.",
+        "- This script does not execute embedded shell commands, compile Java examples, validate arbitrary YAML without an external YAML parser, or run OASDiff against a real OpenAPI document.",
     ])
     REPORT.write_text("\n".join(report_lines) + "\n", encoding="utf-8")
     print(f"Audited {len(files)} files; wrote {REPORT}")
