@@ -8,7 +8,8 @@ GITATTR_REPO_DIR := $(GIT_PROJECTS_DIR)/GitAttributesRepository
 GITIGNORE_REPO_DIR := $(GIT_PROJECTS_DIR)/GitIgnoreRepository
 REPO_DIRS := $(GITATTR_REPO_DIR) $(GITIGNORE_REPO_DIR)
 
-.PHONY: ensure-git install plugin upgrade clean
+.PHONY: ensure-git install plugin upgrade clean \
+	$(GIT_CONFIG_FILE) $(GIT_CONFIG_LOCAL_FILE) $(GIT_IGNORE_FILE)
 
 ensure-git:
 	@printf "==> Starting target [ensure-git]...\n"
@@ -26,7 +27,7 @@ $(GITIGNORE_REPO_DIR):
 	@printf "✅ Repository ready: [%s]\n" "GitIgnoreRepository"
 
 $(GIT_CONFIG_FILE):
-	$(call install_file_to_target,install,$@,$(GIT_PROJECTS_DIR)/config)
+	$(call link_file_to_target,install,$@,$(GIT_PROJECTS_DIR)/config)
 
 $(GIT_CONFIG_LOCAL_FILE):
 	@printf "==> Creating local Git config file [%s]\n" "$@"
@@ -34,7 +35,7 @@ $(GIT_CONFIG_LOCAL_FILE):
 	@printf "✅ Local Git config ready: [%s]\n" "$@"
 
 $(GIT_IGNORE_FILE):
-	$(call install_file_to_target,install,$@,$(GIT_PROJECTS_DIR)/ignore)
+	$(call link_file_to_target,install,$@,$(GIT_PROJECTS_DIR)/ignore)
 
 plugin: ensure-git $(REPO_DIRS)
 	@printf "==> Starting target [plugin]...\n"

@@ -9,14 +9,13 @@ NVIM_CACHE_DIR := $(CACHE_DIR)/nvim
 NVIMRC_SRC := $(CURDIR)/init.lua
 REQUIRED_DIRS := $(NVIM_DIR) $(NVIM_CACHE_DIR)
 
-.PHONY: install upgrade clean
+.PHONY: install upgrade clean $(NVIM_INIT)
 
 $(REQUIRED_DIRS):
-	@printf "==> Ensuring directory [%s]\n" "$@"
-	@$(call ensure_dir,$@) || { $(call fail_target,install); }
+	$(call ensure_directory,$@,install)
 
 $(NVIM_INIT): | $(REQUIRED_DIRS)
-	$(call install_file_to_target,install,$@,$(NVIMRC_SRC))
+	$(call link_file_to_target,install,$@,$(NVIMRC_SRC))
 
 install: | $(NVIM_INIT)
 	@printf "==> Starting target [install]...\n"

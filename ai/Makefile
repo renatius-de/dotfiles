@@ -11,49 +11,33 @@ AGENTS_SKILLS_DIR := $(AGENTS_DIR)/skills
 AI_INSTRUCTIONS_DIR := $(ROOT_DIR)/ai/instructions
 AI_SKILLS_DIR := $(ROOT_DIR)/ai/skills
 
-.PHONY: install install-rules install-skills clean upgrade
+.PHONY: install install-rules install-skills clean upgrade \
+	$(COPILOT_INSTRUCTIONS_DIR) $(COPILOT_SKILLS_DIR) \
+	$(CLAUDE_RULES_DIR) $(CLAUDE_SKILLS_DIR) $(AGENTS_SKILLS_DIR)
 
 $(COPILOT_DIR):
-	@printf "==> Ensuring directory [%s]\n" "$@"
-	@$(call ensure_dir,$@) || { $(call fail_target,install-rules); }
+	$(call ensure_directory,$@,install-rules)
 
 $(COPILOT_INSTRUCTIONS_DIR): | $(COPILOT_DIR)
-	@printf "==> Installing AI instructions into [%s]\n" "$@"
-	@$(RM_RF) "$@" || { $(call fail_target,install-rules); }
-	@$(call ensure_dir,$@) || { $(call fail_target,install-rules); }
-	@$(COPY_TREE) "$(AI_INSTRUCTIONS_DIR)/." "$@/" || { $(call fail_target,install-rules); }
+	$(call link_tree_to_target,install-rules,$@,$(AI_INSTRUCTIONS_DIR))
 
 $(COPILOT_SKILLS_DIR): | $(COPILOT_DIR)
-	@printf "==> Installing AI skills into [%s]\n" "$@"
-	@$(RM_RF) "$@" || { $(call fail_target,install-skills); }
-	@$(call ensure_dir,$@) || { $(call fail_target,install-skills); }
-	@$(COPY_TREE) "$(AI_SKILLS_DIR)/." "$@/" || { $(call fail_target,install-skills); }
+	$(call link_tree_to_target,install-skills,$@,$(AI_SKILLS_DIR))
 
 $(CLAUDE_DIR):
-	@printf "==> Ensuring directory [%s]\n" "$@"
-	@$(call ensure_dir,$@) || { $(call fail_target,install-rules); }
+	$(call ensure_directory,$@,install-rules)
 
 $(CLAUDE_RULES_DIR): | $(CLAUDE_DIR)
-	@printf "==> Installing Claude rules into [%s]\n" "$@"
-	@$(RM_RF) "$@" || { $(call fail_target,install-rules); }
-	@$(call ensure_dir,$@) || { $(call fail_target,install-rules); }
-	@$(COPY_TREE) "$(AI_INSTRUCTIONS_DIR)/." "$@/" || { $(call fail_target,install-rules); }
+	$(call link_tree_to_target,install-rules,$@,$(AI_INSTRUCTIONS_DIR))
 
 $(CLAUDE_SKILLS_DIR): | $(CLAUDE_DIR)
-	@printf "==> Installing Claude skills into [%s]\n" "$@"
-	@$(RM_RF) "$@" || { $(call fail_target,install-skills); }
-	@$(call ensure_dir,$@) || { $(call fail_target,install-skills); }
-	@$(COPY_TREE) "$(AI_SKILLS_DIR)/." "$@/" || { $(call fail_target,install-skills); }
+	$(call link_tree_to_target,install-skills,$@,$(AI_SKILLS_DIR))
 
 $(AGENTS_DIR):
-	@printf "==> Ensuring directory [%s]\n" "$@"
-	@$(call ensure_dir,$@) || { $(call fail_target,install-skills); }
+	$(call ensure_directory,$@,install-skills)
 
 $(AGENTS_SKILLS_DIR): | $(AGENTS_DIR)
-	@printf "==> Installing agents skills into [%s]\n" "$@"
-	@$(RM_RF) "$@" || { $(call fail_target,install-skills); }
-	@$(call ensure_dir,$@) || { $(call fail_target,install-skills); }
-	@$(COPY_TREE) "$(AI_SKILLS_DIR)/." "$@/" || { $(call fail_target,install-skills); }
+	$(call link_tree_to_target,install-skills,$@,$(AI_SKILLS_DIR))
 
 install-rules: | $(COPILOT_INSTRUCTIONS_DIR) $(CLAUDE_RULES_DIR)
 	@printf "==> Starting target [install-rules]...\n"

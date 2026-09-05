@@ -27,10 +27,7 @@ define ensure_var
 	$(if $(strip $(value $(1))),,$(error REQUIRED: variable '$(1)' is not set in Makefile [$(MAKEFILE_BASE)]))
 endef
 
-MKDIR := install -d -m 0700
-INSTALL_FILE := install -m 0600
-COPY_FILE := cp -f
-COPY_TREE := cp -R -f
+MKDIR := mkdir -p
 RM_F := rm -f
 RM_RF := rm -rf
 DOWNLOAD := curl --fail --location --silent --show-error \
@@ -61,6 +58,11 @@ define ensure_dir
 	$(call run_cmd,$(MKDIR) $(1),ensure_dir)
 endef
 
+define ensure_directory
+	@printf "==> Ensuring directory [%s]\n" "$(1)"
+	@$(call ensure_dir,$(1)) || { $(call fail_target,$(2)); }
+endef
+
 define clone_or_update_repo
 	name=$$(basename $(1)); \
 	if [ -n "$(3)" ]; then dest="$(3)"; else dest="$$name"; fi; \
@@ -74,22 +76,23 @@ define clone_or_update_repo
 endef
 
 define create_local_file
-	$(call run_cmd,[ -e "$(1)" ] || $(INSTALL_FILE) /dev/null "$(1)",create_local_file)
+	$(call run_cmd,[ -e "$(1)" ] || touch "$(1)",create_local_file)
 endef
 
-define install_file_to_target
-	@printf "==> Installing %s to [%s]\n" "$(3)" "$(2)"
+define link_file_to_target
+	@printf "==> Linking %s to [%s]\n" "$(3)" "$(2)"
 	@$(call ensure_dir,$(dir $(2))) || { $(call fail_target,$(1)); }
-	@$(COPY_FILE) "$(3)" "$(2)" || { printf "ERROR: target [%s] failed while copying %s to %s\n" "$(1)" "$(3)" "$(2)" >&2; exit 1; }
-	@printf "✅ Installed %s to [%s]\n" "$(3)" "$(2)"
+	@$(RM_RF) "$(2)" || { $(call fail_target,$(1)); }
+	@ln -s "$(3)" "$(2)" || { printf "ERROR: target [%s] failed while linking %s to %s\n" "$(1)" "$(3)" "$(2)" >&2; exit 1; }
+	@printf "✅ Linked %s to [%s]\n" "$(3)" "$(2)"
 endef
 
-define install_tree_to_target
-	@printf "==> Installing %s into [%s]\n" "$(3)" "$(2)"
+define link_tree_to_target
+	@printf "==> Linking %s to [%s]\n" "$(3)" "$(2)"
 	@$(RM_RF) "$(2)" || { $(call fail_target,$(1)); }
 	@$(call ensure_dir,$(dir $(2))) || { $(call fail_target,$(1)); }
-	@$(COPY_TREE) "$(3)" "$(2)" || { printf "ERROR: target [%s] failed while copying %s to %s\n" "$(1)" "$(3)" "$(2)" >&2; exit 1; }
-	@printf "✅ Installed %s into [%s]\n" "$(3)" "$(2)"
+	@ln -s "$(3)" "$(2)" || { printf "ERROR: target [%s] failed while linking %s to %s\n" "$(1)" "$(3)" "$(2)" >&2; exit 1; }
+	@printf "✅ Linked %s to [%s]\n" "$(3)" "$(2)"
 endef
 
 define do_in_sub_directories

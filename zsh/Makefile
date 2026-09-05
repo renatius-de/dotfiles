@@ -31,7 +31,8 @@ CLEAN_DIRECTORIES := \
 	$(OH_MY_ZSH) \
 	$(ZSH_CACHE_DIR)
 
-.PHONY: ensure-git ensure-curl configuration install upgrade ohmyzsh ohmyzsh_update clone-or-update-external clean
+.PHONY: ensure-git ensure-curl configuration install upgrade ohmyzsh ohmyzsh_update clone-or-update-external clean \
+	$(ZSH_HOME) $(ZSH_COPY_TARGETS) $(ZSHRC_LOCAL_FILE)
 
 ensure-git:
 	@printf "==> Starting target [ensure-git]...\n"
@@ -44,21 +45,14 @@ ensure-curl:
 	@printf "✅ Finished target [ensure-curl]\n"
 
 $(ZSH_HOME):
-	@printf "==> Installing Zsh directory from [%s] to [%s]\n" "$(ROOT_DIR)/zsh" "$@"
-	@$(RM_RF) "$@" || { $(call fail_target,configuration); }
-	@$(COPY_TREE) "$(ROOT_DIR)/zsh" "$@" || { printf "ERROR: target [configuration] failed while copying %s to %s\n" "$(ROOT_DIR)/zsh" "$@" >&2; exit 1; }
-	@printf "✅ Installed Zsh directory to [%s]\n" "$@"
+	$(call link_tree_to_target,configuration,$@,$(ROOT_DIR)/zsh)
 
 $(ZSH_CACHE_DIR):
-	@printf "==> Ensuring directory [%s]\n" "$@"
-	@$(call ensure_dir,$@) || { $(call fail_target,configuration); }
+	$(call ensure_directory,$@,configuration)
 	@printf "✅ Ready: [%s]\n" "$@"
 
 $(ZSH_COPY_TARGETS): $(HOME)/.%: $(ROOT_DIR)/zsh/%
-	@printf "==> Installing Zsh dotfile from [%s] to [%s]\n" "$<" "$@"
-	@$(call ensure_dir,$(dir $@)) || { $(call fail_target,configuration); }
-	@$(COPY_FILE) "$<" "$@" || { printf "ERROR: target [configuration] failed while copying %s to %s\n" "$<" "$@" >&2; exit 1; }
-	@printf "✅ Installed Zsh dotfile to [%s]\n" "$@"
+	$(call link_file_to_target,configuration,$@,$<)
 
 $(ZSHRC_LOCAL_FILE):
 	@printf "==> Creating local Zsh config [%s]\n" "$@"

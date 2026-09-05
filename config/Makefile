@@ -4,14 +4,13 @@ SPRING_BOOT_SOURCE := $(abspath $(dir $(MAKEFILE_BASE)))/spring-boot
 SPRING_BOOT_CONFIG_TARGET := $(HOME)/.config/spring-boot
 CONFIG_DIR := $(HOME)/.config
 
-.PHONY: install upgrade clean
+.PHONY: install upgrade clean $(SPRING_BOOT_CONFIG_TARGET)
 
 $(CONFIG_DIR):
-	@printf "==> Ensuring directory [%s]\n" "$@"
-	@$(call ensure_dir,$@) || { $(call fail_target,install); }
+	$(call ensure_directory,$@,install)
 
 $(SPRING_BOOT_CONFIG_TARGET): | $(CONFIG_DIR)
-	$(call install_tree_to_target,install,$@,$(SPRING_BOOT_SOURCE))
+	$(call link_tree_to_target,install,$@,$(SPRING_BOOT_SOURCE))
 
 install: $(SPRING_BOOT_CONFIG_TARGET)
 	@printf "==> Starting target [install]...\n"
