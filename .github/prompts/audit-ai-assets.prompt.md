@@ -8,7 +8,7 @@ Act as an AI-asset maintainer for this repository.
 ## Context anchors
 
 - Inspect all relevant files under `ai/instructions/`, `ai/skills/`, `ai/prompt/`, and `.github/` before editing.
-- Treat `ai/audit_assets.py` as the executable audit for instruction and skill assets; verify prompt frontmatter and structure separately because the script does not currently include `ai/prompt/`.
+- Treat `ai/audit_assets.py` as the executable audit for instructions, skills, and prompts under both `ai/` and `.github/`.
 - Apply `ai/instructions/ai-asset-maintenance.instructions.md`, `ai/instructions/documentation-language-standard.instructions.md`, and the repository's naming and metadata conventions.
 - Preserve each asset's unique purpose and avoid duplicating guidance already owned by another instruction or skill.
 
@@ -16,7 +16,7 @@ Act as an AI-asset maintainer for this repository.
 
 Check scope, trigger conditions, frontmatter, naming, structure, overlap, contradictory rules, broken links, unsafe examples, and validation instructions. Distinguish verified defects from style preferences. Keep all repository artifacts in English and ASCII unless a clear contract requires otherwise.
 
-When changing an instruction or skill:
+When changing an instruction, skill, or prompt:
 
 1. Read every relevant asset before editing.
 2. Make the smallest precise change.
