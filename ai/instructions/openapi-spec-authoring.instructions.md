@@ -9,13 +9,13 @@ applyTo: "**/*.openapi.yaml,**/*.openapi.json,**/openapi.yaml,**/swagger.yaml,ap
 ## Scope
 
 - Apply these rules to all OpenAPI files matching `*.openapi.yaml`, `*.openapi.json`, `openapi.yaml`, `swagger.yaml`, and all files under `api/` and `docs/spec/`.
-- Treat all OpenAPI documents as authoritative API contracts and validate them against the OpenAPI 3.0 or 3.1 specification before finalizing changes.
+- Treat all OpenAPI documents as authoritative API contracts and validate them against the OpenAPI 3.0, 3.1 or 3.2 specification before finalizing changes.
 - When editing existing API specs, preserve compatibility unless the change is explicitly approved as a breaking change.
 - This rule covers API contract design and validation only. It does not define Java implementation quality, documentation governance, or README approval procedures.
 
 ## General format and validity rules
 
-- Use valid OpenAPI 3.0 or 3.1 syntax at all times; do not invent vendor extensions or non-standard fields unless they are explicitly required by the project.
+- Use valid OpenAPI 3.0, 3.1 or 3.2 syntax at all times; do not invent vendor extensions or non-standard fields unless they are explicitly required by the project.
 - Prefer YAML over JSON for human-readable API specifications, except when the project explicitly requires JSON.
 - Use consistent indentation with exactly 2 spaces for YAML; do not mix tabs or irregular indentation.
 - Keep object keys, values, and nesting structurally valid; do not leave trailing commas, malformed arrays, or invalid property declarations.
@@ -42,7 +42,7 @@ applyTo: "**/*.openapi.yaml,**/*.openapi.json,**/openapi.yaml,**/swagger.yaml,ap
 
 ## Spring Boot 4 and vendor extensions
 
-- OpenAPI 3.0 and 3.1 do not define a universal Spring Boot 4 extension set. Treat every `x-` field as vendor metadata for a named consumer such as springdoc-openapi, a code generator, or an internal platform.
+- OpenAPI 3.0, 3.1 and 3.2 do not define a universal Spring Boot 4 extension set. Treat every `x-` field as vendor metadata for a named consumer such as springdoc-openapi, a code generator, or an internal platform.
 - Before adding or retaining an extension, identify the consuming tool and version, preserve its expected value type and location, and verify that the extension is supported by the project.
 - Keep standard OpenAPI fields authoritative when an equivalent exists. Vendor extensions must not replace `tags`, `content`, `security`, `responses`, parameters, or JSON Schema validation keywords.
 - Place operation-specific extensions on the operation object, resource-wide metadata on the path item or root document, and enum metadata on the schema that declares the enum. Do not propagate extensions to unrelated operations.
