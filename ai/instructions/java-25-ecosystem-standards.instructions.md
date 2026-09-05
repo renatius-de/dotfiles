@@ -1,5 +1,5 @@
 ---
-name: Java 25+ and Ecosystem Standards
+name: java-25-ecosystem-standards
 description: "Use when writing, reviewing, refactoring, testing, or configuring Java 25+ applications, Spring Boot, Quarkus, Maven, Gradle, Mockito, Testcontainers, and JUnit 6+."
 applyTo: "**/*.java,**/pom.xml,**/build.gradle,**/build.gradle.kts,**/application*.yml,**/application*.yaml,**/*.kt"
 ---

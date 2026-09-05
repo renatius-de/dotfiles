@@ -1,6 +1,6 @@
 ---
-name: Zero-Assumption & Clarification Protocol
-description: "Use when requirements are ambiguous, missing, or uncertain; stop and ask targeted clarifying questions instead of guessing."
+name: clarification-protocol
+description: "Use when requirements are ambiguous, missing, or uncertain; pause and ask a targeted clarifying question instead of guessing."
 applyTo: "**"
 ---
 

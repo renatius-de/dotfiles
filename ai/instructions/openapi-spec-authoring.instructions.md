@@ -1,4 +1,5 @@
 ---
+name: openapi-spec-authoring
 description: "OpenAPI authoring, validation, and design rules for YAML and JSON specifications."
 applyTo: "**/*.openapi.yaml,**/*.openapi.json,**/openapi.yaml,**/swagger.yaml,api/**,docs/spec/**"
 ---

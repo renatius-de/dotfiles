@@ -1,6 +1,6 @@
 ---
-name: General Code Quality and Complexity Reduction
-description: "Use for implementation work across languages; simplify logic, prefer early exits, and keep code readable and maintainable."
+name: code-quality-complexity
+description: "Use for implementation work across languages; reduce complexity, prefer early exits, and keep logic readable and maintainable."
 applyTo: "**"
 ---
 

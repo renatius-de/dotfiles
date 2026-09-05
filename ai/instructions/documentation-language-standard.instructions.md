@@ -1,6 +1,6 @@
 ---
-name: Language and Documentation Standard
-description: "Use when producing documentation, comments, commit messages, or code artifacts; keep all generated text in English unless the user explicitly asks otherwise."
+name: documentation-language-standard
+description: "Use when producing documentation, comments, commit messages, or generated code artifacts; keep text in English unless the user explicitly asks otherwise."
 applyTo: "**"
 ---
 

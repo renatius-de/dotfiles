@@ -1,5 +1,5 @@
 ---
-name: README and Documentation Governance
+name: documentation-governance
 description: "Use when evaluating whether documentation or README files should be updated; require explicit approval before modifying or creating README files."
 applyTo: "**/README.md,**/*.md"
 ---

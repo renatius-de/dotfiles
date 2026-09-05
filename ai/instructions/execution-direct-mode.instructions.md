@@ -1,6 +1,6 @@
 ---
-name: Direct Execution Mode
-description: "Use when requirements are clear and approved; proceed immediately with the required implementation without unnecessary delay or chatter."
+name: execution-direct-mode
+description: "Use when requirements are clear and approved; proceed directly with the required implementation without unnecessary delay or chatter."
 applyTo: "**"
 ---
 
