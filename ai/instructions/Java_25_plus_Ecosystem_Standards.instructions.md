@@ -41,9 +41,15 @@ applyTo: "**/*.java,**/pom.xml,**/build.gradle,**/build.gradle.kts,**/applicatio
 - Account for AOT and GraalVM Native Image compatibility: prefer static configuration and register required reflection, proxy, or resource hints explicitly.
 - Deny by default for protected endpoints. Do not disable TLS verification, CSRF protection, token validation, or authorization to simplify tests or local development.
 
-## Testing Standards (Mockito & Testcontainers)
+## Testing Standards (AssertJ, Mockito & Testcontainers)
 
-- Use JUnit 6+ and AssertJ when supported by the build. Keep tests deterministic, isolated, and focused on observable behavior.
+- Use AssertJ as the mandatory assertion library for Java tests. Do not use classic JUnit assertions such as `assertEquals`, `assertTrue`, `assertFalse`, `assertNull`, `assertNotNull`, or `assertThrows`.
+- Prefer fluent AssertJ chaining that reads as one behavioral statement, for example `assertThat(result).isNotNull().extracting(Result::items).asList().containsExactly(expectedItem)`.
+- Use type-specific assertions instead of asserting implementation details: write `assertThat(items).isEmpty()` rather than `assertThat(items.size()).isEqualTo(0)`, and use `isTrue()`, `isFalse()`, `isNull()`, `isNotNull()`, `containsExactly(...)`, or `hasSize(...)` where they express the subject directly.
+- Use descriptive assertion context with `as(...)` or `describedAs(...)` before the terminal assertion when the failure message benefits from domain meaning.
+- Use `assertThatThrownBy(...)` for expected exceptions and chain type, message, cause, and field assertions. Use `assertThatCode(...)` when verifying that an operation completes without an exception or when the thrown type is not the primary subject.
+- Use `assertSoftly(...)` for multiple independent attributes of one result so all relevant failures are reported together; use regular fluent assertions when one failure makes subsequent checks meaningless.
+- Use JUnit 6+ for lifecycle, parameterization, and test execution features, but keep value and behavior assertions in AssertJ. Keep tests deterministic, isolated, and focused on observable behavior.
 - Initialize Mockito unit tests with `@ExtendWith(MockitoExtension.class)` and configure `@MockitoSettings(strictness = Strictness.STRICT_STUBS)`; remove unused stubs.
 - Mock only slow, nondeterministic, external, or independently owned collaborators. Use real records, value objects, collections, and pure domain logic.
 - Use `when(...).thenReturn(...)` for stable stubs, `thenThrow(...)` for failure paths, and `verify(...)` only for meaningful external side effects.
