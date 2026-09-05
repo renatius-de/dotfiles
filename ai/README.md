@@ -40,6 +40,16 @@ make -C ai clean
 - `clean` — removes the installed AI configuration directories
 - `upgrade` — reruns the install flow
 
+## Audit
+
+Run the automated audit for all instruction and skill files:
+
+```bash
+python3 ai/audit_assets.py
+```
+
+The audit checks frontmatter, Markdown structure, fenced code blocks, relative links, naming, duplicate rules, and selected security guidance. It writes the results to `ai/audit_report.md`. The checks are heuristic and do not replace manual review of semantic consistency or version compatibility.
+
 ## Variables
 
 - `COPILOT_DIR` — target directory, default `~/.copilot`
