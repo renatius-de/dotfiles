@@ -18,12 +18,12 @@ $(NVIM_INIT): | $(REQUIRED_DIRS)
 	$(call link_file_to_target,install,$@,$(NVIMRC_SRC))
 
 install: | $(NVIM_INIT)
-	@printf "==> Starting target [install]...\n"
-	@printf "✅ Finished target [install]\n"
+	$(call target_start,install)
+	$(call target_end,install)
 
 upgrade: install
-	@printf "==> Starting target [upgrade]...\n"
-	@printf "✅ Finished target [upgrade]\n"
+	$(call target_start,upgrade)
+	$(call target_end,upgrade)
 
 CLEAN_FILES := \
 	$(HOME)/.ctags \
@@ -44,7 +44,7 @@ CLEAN_DIRS := \
 	$(NVIM_CACHE_DIR)
 
 clean:
-	@printf "==> Starting target [clean]...\n"
+	$(call target_start,clean)
 	@$(RM_F) $(CLEAN_FILES) || { $(call fail_target,clean); }
 	@$(RM_RF) $(CLEAN_DIRS) || { $(call fail_target,clean); }
-	@printf "✅ Finished target [clean]\n"
+	$(call target_end,clean)

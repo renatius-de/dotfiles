@@ -88,49 +88,49 @@ endef
 .PHONY: ensure-prereqs import-ca-certs install-java install-nodejs update-nodejs uninstall-java upgrade clean
 
 ensure-prereqs:
-	@printf "==> Starting target [ensure-prereqs]...\n"
+	$(call target_start,ensure-prereqs)
 	@$(call ensure_brew) || { $(call fail_target,ensure-prereqs); }
 	@$(call ensure_cmd,$(JENV),ensure-prereqs) || { $(call fail_target,ensure-prereqs); }
 	@$(call ensure_cmd,$(SUDO),ensure-prereqs) || { $(call fail_target,ensure-prereqs); }
-	@printf "✅ Finished target [ensure-prereqs]\n"
+	$(call target_end,ensure-prereqs)
 
 install-java: ensure-prereqs
-	@printf "==> Starting target [install-java]...\n"
+	$(call target_start,install-java)
 ifeq ($(WORK_ENV),true)
 	@$(call for_each_corretto_version,install_java_for_version)
 endif
-	@printf "✅ Finished target [install-java]\n"
+	$(call target_end,install-java)
 
 update-nodejs:
-	@printf "==> Starting target [update-nodejs]...\n"
+	$(call target_start,update-nodejs)
 	@$(call update_nodejs_with_nvm)
-	@printf "✅ Finished target [update-nodejs]\n"
+	$(call target_end,update-nodejs)
 
 install-nodejs: update-nodejs
-	@printf "==> Starting target [install-nodejs]...\n"
-	@printf "✅ Finished target [install-nodejs]\n"
+	$(call target_start,install-nodejs)
+	$(call target_end,install-nodejs)
 
 import-ca-certs: install-java
-	@printf "==> Starting target [import-ca-certs]...\n"
+	$(call target_start,import-ca-certs)
 ifeq ($(WORK_ENV),true)
 	@$(call for_each_corretto_version,import_ca_certs_for_version)
 endif
-	@printf "✅ Finished target [import-ca-certs]\n"
+	$(call target_end,import-ca-certs)
 
 uninstall-java:
-	@printf "==> Starting target [uninstall-java]...\n"
+	$(call target_start,uninstall-java)
 	@$(call for_each_corretto_version,uninstall_java_for_version)
-	@printf "✅ Finished target [uninstall-java]\n"
+	$(call target_end,uninstall-java)
 
 install: install-java import-ca-certs install-nodejs
-	@printf "==> Starting target [install]...\n"
-	@printf "✅ Finished target [install]\n"
+	$(call target_start,install)
+	$(call target_end,install)
 
 upgrade: install
-	@printf "==> Starting target [upgrade]...\n"
-	@printf "✅ Finished target [upgrade]\n"
+	$(call target_start,upgrade)
+	$(call target_end,upgrade)
 
 clean: uninstall-java
-	@printf "==> Starting target [clean]...\n"
+	$(call target_start,clean)
 	@$(RM_RF) "$(NVM_DIR)" || { $(call fail_target,clean); }
-	@printf "✅ Finished target [clean]\n"
+	$(call target_end,clean)

@@ -30,19 +30,19 @@ $(SSH_CONFIG): | $(SSH_DIR)
 	$(call link_file_to_target,install,$@,$(SSH_CONFIG_SOURCE))
 
 init-ssh: $(SSH_CONTROL_DIR)
-	@printf "==> Starting target [init-ssh]...\n"
-	@printf "✅ Finished target [init-ssh]\n"
+	$(call target_start,init-ssh)
+	$(call target_end,init-ssh)
 
 install: init-ssh $(SSH_CONFIG) $(SSH_CONFIG_LOCAL)
-	@printf "==> Starting target [install]...\n"
-	@printf "✅ Finished target [install]\n"
+	$(call target_start,install)
+	$(call target_end,install)
 
 upgrade: install
-	@printf "==> Starting target [upgrade]...\n"
-	@printf "✅ Finished target [upgrade]\n"
+	$(call target_start,upgrade)
+	$(call target_end,upgrade)
 
 clean:
-	@printf "==> Starting target [clean]...\n"
+	$(call target_start,clean)
 	@$(RM_F) "$(SSH_CONFIG)" "$(SSH_CONFIG_LOCAL)" || { $(call fail_target,clean); }
 	@$(RM_RF) "$(SSH_CONTROL_DIR)" "$(SSH_KEYS_DIR)" || { $(call fail_target,clean); }
-	@printf "✅ Finished target [clean]\n"
+	$(call target_end,clean)

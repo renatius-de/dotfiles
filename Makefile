@@ -82,7 +82,7 @@ HOME_DEV_DIR := $(HOME)/dev
 ##   It parses inline `##` comments from target definitions in the root Makefile
 ##   and prints a compact list of available root-level commands.
 help: ## Display Makefile help and available targets
-	@printf "==> Starting target [help]...\n"
+	$(call target_start,help)
 	@printf "\nAvailable targets in %s:\n\n" "$(BASE_MAKEFILE)"
 	@grep -E '^[a-zA-Z0-9_.-]+:.*##' "$(BASE_MAKEFILE)" | \
 		while IFS= read -r line; do \
@@ -91,7 +91,7 @@ help: ## Display Makefile help and available targets
 			printf "  %-20s %s\n" "$$target" "$$desc"; \
 		done
 	@printf "\nRun 'make <target>' to execute a specific target.\n"
-	@printf "✅ Finished target [help]\n"
+	$(call target_end,help)
 
 .PHONY: \
 	help \
@@ -113,23 +113,23 @@ help: ## Display Makefile help and available targets
 	jenv-add-corretto
 
 brew-ensure:
-	@printf "==> Starting target [brew-ensure]...\n"
+	$(call target_start,brew-ensure)
 	@$(call ensure_brew) || { $(call fail_target,brew-ensure); }
-	@printf "✅ Finished target [brew-ensure]\n"
+	$(call target_end,brew-ensure)
 
 brew-update: | brew-ensure
-	@printf "==> Starting target [brew-update]...\n"
+	$(call target_start,brew-update)
 	@$(BREW) update --quiet || { $(call fail_target,brew-update); }
-	@printf "✅ Finished target [brew-update]\n"
+	$(call target_end,brew-update)
 
 brew-install-packages: | brew-ensure
-	@printf "==> Starting target [brew-install-packages]...\n"
+	$(call target_start,brew-install-packages)
 	@$(BREW) install --quiet --formula $(BREW_FORMULAS) || { $(call fail_target,brew-install-packages); }
 	@$(BREW) install --quiet --cask $(BREW_CASKS) || { $(call fail_target,brew-install-packages); }
-	@printf "✅ Finished target [brew-install-packages]\n"
+	$(call target_end,brew-install-packages)
 
 install-homebrew-extensions: | brew-ensure
-	@printf "==> Starting target [install-homebrew-extensions]...\n"
+	$(call target_start,install-homebrew-extensions)
 	@if [ "$(WORK_ENV)" = "true" ]; then \
 		if [ -n "$(WORK_BREW_PACKAGES)" ]; then \
 			$(BREW) install --quiet --formula $(WORK_BREW_PACKAGES) || { printf "ERROR: target [install-homebrew-extensions] failed while installing work Homebrew packages\n" >&2; exit 1; }; \
@@ -139,29 +139,29 @@ install-homebrew-extensions: | brew-ensure
 	else \
 		printf "INFO: WORK_ENV!=true; skipping work environment Homebrew extensions.\n"; \
 	fi
-	@printf "✅ Finished target [install-homebrew-extensions]\n"
+	$(call target_end,install-homebrew-extensions)
 
 brew-uninstall-packages: | brew-ensure
-	@printf "==> Starting target [brew-uninstall-packages]...\n"
+	$(call target_start,brew-uninstall-packages)
 	@$(BREW) uninstall --quiet --formula --ignore-dependencies --force $(BREW_FORMULAS) || { $(call fail_target,brew-uninstall-packages); }
 	@$(BREW) uninstall --quiet --cask --ignore-dependencies --force $(BREW_CASKS) || { $(call fail_target,brew-uninstall-packages); }
-	@printf "✅ Finished target [brew-uninstall-packages]\n"
+	$(call target_end,brew-uninstall-packages)
 
 brew-cleanup: | brew-ensure
-	@printf "==> Starting target [brew-cleanup]...\n"
+	$(call target_start,brew-cleanup)
 	@$(BREW) autoremove --quiet || { $(call fail_target,brew-cleanup); }
 	@$(BREW) cleanup --quiet --prune=all || { $(call fail_target,brew-cleanup); }
-	@printf "✅ Finished target [brew-cleanup]\n"
+	$(call target_end,brew-cleanup)
 
 brew-post-install: | brew-ensure
-	@printf "==> Starting target [brew-post-install]...\n"
+	$(call target_start,brew-post-install)
 	-@$(BREW) doctor --quiet || { printf "ERROR: target [brew-post-install] failed while running brew doctor\n" >&2; }
 	@$(BREW) analytics off || { $(call fail_target,brew-post-install); }
 	-@$(MAKE) jenv-add-corretto || { printf "ERROR: target [brew-post-install] failed while running jenv-add-corretto\n" >&2; }
-	@printf "✅ Finished target [brew-post-install]\n"
+	$(call target_end,brew-post-install)
 
 jenv-add-corretto:
-	@printf "==> Starting target [jenv-add-corretto]...\n"
+	$(call target_start,jenv-add-corretto)
 	@set -o pipefail; if command -v jenv >/dev/null 2>&1; then \
 		for jd in /Library/Java/JavaVirtualMachines/amazon-corretto*.jdk/Contents/Home; do \
 			if [ -d "$$jd" ]; then \
@@ -169,7 +169,7 @@ jenv-add-corretto:
 			fi; \
 		done; \
 	fi
-	@printf "✅ Finished target [jenv-add-corretto]\n"
+	$(call target_end,jenv-add-corretto)
 
 brew-install: | \
 	brew-update \
@@ -179,14 +179,14 @@ brew-install: | \
 	brew-post-install
 
 brew-outdated: | brew-ensure
-	@printf "==> Starting target [brew-outdated]...\n"
+	$(call target_start,brew-outdated)
 	@$(BREW) outdated || { $(call fail_target,brew-outdated); }
-	@printf "✅ Finished target [brew-outdated]\n"
+	$(call target_end,brew-outdated)
 
 brew-perform-upgrade: | brew-ensure
-	@printf "==> Starting target [brew-perform-upgrade]...\n"
+	$(call target_start,brew-perform-upgrade)
 	@$(BREW) upgrade || { $(call fail_target,brew-perform-upgrade); }
-	@printf "✅ Finished target [brew-perform-upgrade]\n"
+	$(call target_end,brew-perform-upgrade)
 
 brew-upgrade: | \
 	brew-update \
@@ -198,26 +198,27 @@ brew-upgrade: | \
 ##   Install Homebrew packages, optional work environment extensions, and all submodule install targets.
 ##   Influenced by `WORK_ENV=true`. This does not perform a package upgrade unless the submodule install target does so.
 install: | brew-install fix-permissions-of-home ## Install dotfiles and Homebrew packages
-	@printf "==> Starting target [install]...\n"
+	$(call target_start,install)
 	@$(call do_in_sub_directories,install) || { $(call fail_target,install); }
-	@printf "✅ Finished target [install]\n"
+	$(call target_end,install)
 
 ## upgrade
 ##   Upgrade Homebrew packages and execute `upgrade` in every subdirectory.
 ##   Existing configuration files stay intact; modules may refresh installed runtime artifacts.
 upgrade: | brew-upgrade ## Upgrade dotfiles and Homebrew packages
-	@printf "==> Starting target [upgrade]...\n"
+	$(call target_start,upgrade)
 	@$(call do_in_sub_directories,upgrade) || { $(call fail_target,upgrade); }
-	@printf "✅ Finished target [upgrade]\n"
+	$(call target_end,upgrade)
 
 ## clean
 ##   Remove installed Homebrew packages, temporary files and configured directories.
 ##   Warning: this can delete caches, generated files and optional package installations.
 clean: | brew-uninstall-packages ## Cleanup generated files and remove installed Homebrew packages
-	@printf "==> Starting target [clean]...\n"
+	$(call target_start,clean)
 	@$(RM_F) $(CLEAN_FILES) || { $(call fail_target,clean); }
 	@$(RM_RF) $(CLEAN_DIRECTORIES) || { $(call fail_target,clean); }
 	@$(call do_in_sub_directories,clean) || { $(call fail_target,clean); }
+	$(call target_end,clean)
 	@printf "✅ Finished target [clean]\n"
 
 fix-permissions-of-home:

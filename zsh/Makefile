@@ -35,14 +35,14 @@ CLEAN_DIRECTORIES := \
 	$(ZSH_HOME) $(ZSH_COPY_TARGETS) $(ZSHRC_LOCAL_FILE)
 
 ensure-git:
-	@printf "==> Starting target [ensure-git]...\n"
+	$(call target_start,ensure-git)
 	@$(call ensure_cmd,git,ensure-git) || { $(call fail_target,ensure-git); }
-	@printf "✅ Finished target [ensure-git]\n"
+	$(call target_end,ensure-git)
 
 ensure-curl:
-	@printf "==> Starting target [ensure-curl]...\n"
+	$(call target_start,ensure-curl)
 	@$(call ensure_cmd,curl,ensure-curl) || { $(call fail_target,ensure-curl); }
-	@printf "✅ Finished target [ensure-curl]\n"
+	$(call target_end,ensure-curl)
 
 $(ZSH_HOME):
 	$(call link_tree_to_target,configuration,$@,$(ROOT_DIR)/zsh)
@@ -60,23 +60,23 @@ $(ZSHRC_LOCAL_FILE):
 	@printf "✅ Ready: [%s]\n" "$@"
 
 ohmyzsh: ensure-git ensure-curl
-	@printf "==> Starting target [ohmyzsh]...\n"
+	$(call target_start,ohmyzsh)
 	@set -o pipefail; if [ ! -d "$(OH_MY_ZSH)" ]; then \
 		sh -c "$$($(DOWNLOAD) https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -- --unattended || { printf "ERROR: target [ohmyzsh] failed while installing Oh My Zsh\n" >&2; exit 1; }; \
 	fi
 	@$(RM_F) $(HOME)/.zshrc || { $(call fail_target,ohmyzsh); }
-	@printf "✅ Finished target [ohmyzsh]\n"
+	$(call target_end,ohmyzsh)
 
 ohmyzsh_update: ensure-git
-	@printf "==> Starting target [ohmyzsh_update]...\n"
+	$(call target_start,ohmyzsh_update)
 	@set -o pipefail; if [ -d "$(OH_MY_ZSH)" ]; then \
 		sh $(OH_MY_ZSH)/tools/upgrade.sh > /dev/null || { printf "ERROR: target [ohmyzsh_update] failed while upgrading Oh My Zsh\n" >&2; exit 1; }; \
 	fi
 	@$(MAKE) clone-or-update-external || { $(call fail_target,ohmyzsh_update); }
-	@printf "✅ Finished target [ohmyzsh_update]\n"
+	$(call target_end,ohmyzsh_update)
 
 clone-or-update-external: ensure-git
-	@printf "==> Starting target [clone-or-update-external]...\n"
+	$(call target_start,clone-or-update-external)
 	@$(MKDIR) $(OMZ_CUSTOM) || { $(call fail_target,clone-or-update-external); }
 	@$(foreach repo,$(EXTERNAL_PLUGINS), \
 		name=$$(basename $(repo)); \
@@ -89,22 +89,22 @@ clone-or-update-external: ensure-git
 		    || { printf "ERROR: target [clone-or-update-external] failed while updating %s in %s\n" "$(repo)" "$$dir" >&2; exit 1; }; \
 		fi; \
 	)
-	@printf "✅ Finished target [clone-or-update-external]\n"
+	$(call target_end,clone-or-update-external)
 
 configuration: | $(ZSH_HOME) $(ZSH_CACHE_DIR) $(ZSHRC_LOCAL_FILE) $(ZSH_COPY_TARGETS)
-	@printf "==> Starting target [configuration]...\n"
-	@printf "✅ Finished target [configuration]\n"
+	$(call target_start,configuration)
+	$(call target_end,configuration)
 
 install: | ohmyzsh clone-or-update-external configuration
-	@printf "==> Starting target [install]...\n"
-	@printf "✅ Finished target [install]\n"
+	$(call target_start,install)
+	$(call target_end,install)
 
 upgrade: | install ohmyzsh_update
-	@printf "==> Starting target [upgrade]...\n"
-	@printf "✅ Finished target [upgrade]\n"
+	$(call target_start,upgrade)
+	$(call target_end,upgrade)
 
 clean:
-	@printf "==> Starting target [clean]...\n"
+	$(call target_start,clean)
 	@$(RM_F) $(CLEAN_FILES) || { $(call fail_target,clean); }
 	@$(RM_RF) $(CLEAN_DIRECTORIES) || { $(call fail_target,clean); }
-	@printf "✅ Finished target [clean]\n"
+	$(call target_end,clean)

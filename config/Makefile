@@ -13,14 +13,14 @@ $(SPRING_BOOT_CONFIG_TARGET): | $(CONFIG_DIR)
 	$(call link_tree_to_target,install,$@,$(SPRING_BOOT_SOURCE))
 
 install: $(SPRING_BOOT_CONFIG_TARGET)
-	@printf "==> Starting target [install]...\n"
-	@printf "✅ Finished target [install]\n"
+	$(call target_start,install)
+	$(call target_end,install)
 
 upgrade: install
-	@printf "==> Starting target [upgrade]...\n"
-	@printf "✅ Finished target [upgrade]\n"
+	$(call target_start,upgrade)
+	$(call target_end,upgrade)
 
 clean:
-	@printf "==> Starting target [clean]...\n"
+	$(call target_start,clean)
 	@$(RM_RF) "$(SPRING_BOOT_CONFIG_TARGET)" || { $(call fail_target,clean); }
-	@printf "✅ Finished target [clean]\n"
+	$(call target_end,clean)

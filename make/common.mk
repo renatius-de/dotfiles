@@ -38,6 +38,14 @@ define fail_target
 	exit 1
 endef
 
+define target_start
+	@printf "==> Starting target [%s]...\n" "$(1)"
+endef
+
+define target_end
+	@printf "✅ Finished target [%s]\n" "$(1)"
+endef
+
 define run_cmd
 	set -o pipefail; $(1) || { \
 		printf "ERROR: target [%s] failed in Makefile [%s] while running command: %s\n" \

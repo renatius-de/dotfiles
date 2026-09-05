@@ -40,22 +40,22 @@ $(AGENTS_SKILLS_DIR): | $(AGENTS_DIR)
 	$(call link_tree_to_target,install-skills,$@,$(AI_SKILLS_DIR))
 
 install-rules: | $(COPILOT_INSTRUCTIONS_DIR) $(CLAUDE_RULES_DIR)
-	@printf "==> Starting target [install-rules]...\n"
-	@printf "✅ Finished target [install-rules]\n"
+	$(call target_start,install-rules)
+	$(call target_end,install-rules)
 
 install-skills: | $(COPILOT_SKILLS_DIR) $(CLAUDE_SKILLS_DIR) $(AGENTS_SKILLS_DIR)
-	@printf "==> Starting target [install-skills]...\n"
-	@printf "✅ Finished target [install-skills]\n"
+	$(call target_start,install-skills)
+	$(call target_end,install-skills)
 
 install: install-rules install-skills
-	@printf "==> Starting target [install]...\n"
-	@printf "✅ Finished target [install]\n"
+	$(call target_start,install)
+	$(call target_end,install)
 
 clean:
-	@printf "==> Starting target [clean]...\n"
+	$(call target_start,clean)
 	@$(RM_RF) "$(COPILOT_INSTRUCTIONS_DIR)" "$(COPILOT_SKILLS_DIR)" "$(CLAUDE_RULES_DIR)" "$(CLAUDE_SKILLS_DIR)" "$(AGENTS_SKILLS_DIR)" || { $(call fail_target,clean); }
-	@printf "✅ Finished target [clean]\n"
+	$(call target_end,clean)
 
 upgrade: | install
-	@printf "==> Starting target [upgrade]...\n"
-	@printf "✅ Finished target [upgrade]\n"
+	$(call target_start,upgrade)
+	$(call target_end,upgrade)
