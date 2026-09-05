@@ -16,6 +16,9 @@ ASSET_PATTERNS = (
     "instructions/*.instructions.md",
     "skills/**/SKILL.md",
     "prompt/*.prompt.md",
+    "../.github/prompts/*.prompt.md",
+    "../.github/instructions/*.instructions.md",
+    "../.github/skills/**/SKILL.md",
 )
 FRONTMATTER_FIELDS = {"name", "description", "applyTo"}
 RISK_PATTERNS = {
@@ -26,7 +29,7 @@ RISK_PATTERNS = {
 
 
 def asset_files() -> list[Path]:
-    files = {path for pattern in ASSET_PATTERNS for path in ROOT.glob(pattern)}
+    files = {path.resolve() for pattern in ASSET_PATTERNS for path in ROOT.glob(pattern)}
     return sorted(files)
 
 
