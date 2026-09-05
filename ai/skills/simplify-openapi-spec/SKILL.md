@@ -60,6 +60,38 @@ Refactor the specification using these rules:
 - Prefer consistent casing conventions across the entire document, for example camelCase for property names and kebab-case for path segments.
 - Avoid custom vendor extensions unless required by the existing contract.
 
+### 3.1 Apply Spring Boot 4 extension conventions carefully
+
+Spring Boot 4 and OpenAPI 3.1 do not define a universal set of `x-` extensions. Treat every vendor extension as metadata for a named consumer such as springdoc-openapi, a code generator, or an internal platform. Before adding or retaining an extension:
+
+- identify the tool and version that consumes it
+- preserve the consumer's expected value type and location
+- keep the standard OpenAPI field authoritative when an equivalent exists
+- do not invent an extension merely to replace `tags`, `content`, `security`, `responses`, or JSON Schema validation keywords
+- keep unknown extensions when they are part of the existing contract, but do not propagate them to unrelated operations
+
+Use the following extensions only when the consuming Spring Boot 4 integration explicitly supports them. Unless a consumer contract says otherwise, place operation-specific extensions on the operation object, resource-wide metadata on the path item or root document, and enum metadata on the schema that declares the enum.
+
+| Extension | Placement and value | Apply when |
+| --- | --- | --- |
+| `x-tags` | Root document, path item, or operation as an array of tag strings; keep the standard `tags` field synchronized when both are present. | A downstream grouping or code-generation tool requires additional tag metadata. Do not use it as a substitute for standard `tags`. |
+| `x-content-type` | Operation, request body, or response as the consumer-defined media-type string or list; keep the standard `content` map authoritative. | A Spring integration needs an explicit generated content type that cannot be inferred reliably. Validate the value against the media types in `content`. |
+| `x-spring-paginated` | Operation as a boolean, normally on collection `GET` operations. | The Spring integration must generate or recognize pagination parameters and pagination metadata. Do not add it to item, command, or non-paginated operations. |
+| `x-version-param` | Operation as the exact API-version parameter name or the consumer-defined parameter descriptor; the corresponding parameter must also be declared in `parameters`. | Versioning is selected through a request parameter. Keep the parameter location, type, requiredness, and allowed values consistent with the standard parameter declaration. |
+| `x-spring-api-version` | Root document, path item, or operation as the consumer-defined API version value; prefer the narrowest scope that is correct. | A Spring API-versioning integration needs an explicit version mapping. Do not use it to silently change an existing version contract. |
+| `x-enum-description` | Enum schema as a map keyed by the exact enum value, or the exact consumer-defined description format. | Generated clients or documentation need descriptions for individual enum values. Every key must exist in the schema's `enum` array. |
+
+For pagination, versioning, and content negotiation, also model the real HTTP contract with standard OpenAPI fields: declare query or header parameters, media types under `content`, response links or pagination schemas where applicable, and explicit status codes. Vendor metadata must never be the only representation of behavior visible to clients.
+
+For Spring security, auditing, errors, and validation, prefer standard OpenAPI and JSON Schema constructs before adding more vendor extensions:
+
+- use `components/securitySchemes`, operation-level `security`, and explicit scopes or roles for authentication and authorization
+- use reusable `components/responses` and error schemas for problem details, stable error codes, and documented status codes
+- use `required`, `propertyNames`, `pattern`, `format`, `minLength`, `maximum`, `unevaluatedProperties`, and related JSON Schema keywords for validation
+- represent audit fields and audit endpoints with explicit schemas, descriptions, read-only properties, and documented operations
+
+Only add a project-specific extension such as `x-audit-event`, `x-error-code`, or `x-validation` when its schema, owner, supported locations, and consuming tool are documented by the project. Never present such extensions as Spring Boot 4 standards.
+
 ### 4. Simplify structure without hiding meaning
 
 When refactoring, prefer these transformations:
@@ -85,6 +117,8 @@ Before finalizing the refactor:
 - avoid changing operation purpose, resource hierarchy, or request semantics unless approved
 - ensure all examples remain valid with the final schema
 - preserve or improve operation descriptions and summaries
+- verify every retained `x-` extension against its consumer contract, including location and value type
+- ensure extension metadata does not contradict standard OpenAPI fields or change generated client behavior unexpectedly
 
 ## Decision rules
 
