@@ -10,14 +10,22 @@ indent_size = 2
 tab_width = 2
 max_line_length = 120
 
-[*.md]
+[*.{md,markdown}]
 trim_trailing_whitespace = false
 max_line_length = 120
 
 [*.{txt,gitignore,gitattributes}]
 trim_trailing_whitespace = false
 
-[*.{yml,yaml,json,js,ts,jsx,tsx,css,scss,html,md,py,sh,zsh,env,xml,ini,conf,properties,lua}]
+[*.{json,jsonc,js,ts,jsx,tsx,css,scss,html,py,xml,ini,conf,properties}]
+indent_style = space
+indent_size = 2
+
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
+
+[*.{sh,bash,zsh}]
 indent_style = space
 indent_size = 2
 
