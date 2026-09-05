@@ -1,45 +1,59 @@
-# Copilot instructions module
+# AI instructions and skills module
 
-This module installs the repository-managed Copilot instruction file into the expected user-level location so editors and tooling can pick it up automatically.
+This module installs the repository-managed instruction and skill files into the user-level directories used by GitHub Copilot, Claude, and local agent tooling.
 
 ## Purpose
 
-The `copilot/Makefile` creates the `~/.copilot/instructions` directory and links `global-copilot-instructions.md` into it.
+The `ai/Makefile` copies the repository's bundled instruction and skill content into:
+
+- `~/.copilot/instructions`
+- `~/.copilot/skills`
+- `~/.claude/rules`
+- `~/.claude/skills`
+- `~/.agents/skills`
 
 ## Installation
 
-Install the symlink:
+Install the bundled rules and skills:
 
 ```bash
-make -C copilot install
+make -C ai install
 ```
 
-Create only the link target:
+Refresh the installed content:
 
 ```bash
-make -C copilot link
+make -C ai upgrade
 ```
 
-Remove the installed symlink:
+Remove the installed AI configuration:
 
 ```bash
-make -C copilot clean
+make -C ai clean
 ```
 
 ## Targets
 
-- `install` — creates the directories and links the instructions file
-- `link` — creates the single symlink target
-- `clean` — removes the installed local instruction file
+- `install` — installs all instruction and skill directories
+- `install-rules` — installs the rule/instruction content for Copilot and Claude
+- `install-skills` — installs the skill content for Copilot, Claude, and agent tooling
+- `clean` — removes the installed AI configuration directories
+- `upgrade` — reruns the install flow
 
 ## Variables
 
 - `COPILOT_DIR` — target directory, default `~/.copilot`
 - `COPILOT_INSTRUCTIONS_DIR` — `$(COPILOT_DIR)/instructions`
-- `COPILOT_INSTRUCTIONS_FILE` — final destination for the symlink
-- `SOURCE_INSTRUCTIONS_FILE` — repository source file
+- `COPILOT_SKILLS_DIR` — `$(COPILOT_DIR)/skills`
+- `CLAUDE_DIR` — target directory, default `~/.claude`
+- `CLAUDE_RULES_DIR` — `$(CLAUDE_DIR)/rules`
+- `CLAUDE_SKILLS_DIR` — `$(CLAUDE_DIR)/skills`
+- `AGENTS_DIR` — target directory, default `~/.agents`
+- `AGENTS_SKILLS_DIR` — `$(AGENTS_DIR)/skills`
+- `AI_INSTRUCTIONS_DIR` — repository source for instructions
+- `AI_SKILLS_DIR` — repository source for skills
 
 ## Notes
 
 - The module is built on the shared helpers in `make/common.mk`.
-- The link step is idempotent and safe to run repeatedly.
+- The install flow is intentionally idempotent and replaces the managed directories with the repository version.

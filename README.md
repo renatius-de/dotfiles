@@ -8,8 +8,8 @@ The root `Makefile` is the entry point for installation and maintenance. It inst
 
 ## Repository layout
 
+- `ai/` — repository-managed Copilot, Claude, and agent instructions and skills
 - `config/` — additional machine configuration, currently including Spring Boot config
-- `copilot/` — global Copilot instructions deployment
 - `git/` — global Git configuration, bundled ignore/attributes repositories, and local override support
 - `misc/` — Java, CA trust, and Node.js-related setup tasks
 - `ssh/` — SSH client configuration and local override files
@@ -84,12 +84,12 @@ This enables additional packages such as `azure-cli`, `helm`, `kubectl`, `nvm`, 
 ## Install individual modules
 
 ```bash
+make -C ai install
 make -C zsh install
 make -C vim install
 make -C git install
 make -C ssh install
 make -C config install
-make -C copilot install
 make -C misc install
 ```
 
@@ -127,8 +127,8 @@ make clean
 
 - [docs/MAKEFILE.md](docs/MAKEFILE.md) — Makefile conventions and helpers
 - [AGENTS.md](AGENTS.md) — repository maintenance guidance for AI assistants
+- [ai/README.md](ai/README.md) — repo-managed Copilot, Claude, and agent instruction files
 - [config/README.md](config/README.md) — config module documentation
-- [copilot/README.md](copilot/README.md) — global Copilot instructions deployment
 - [git/README.md](git/README.md) — Git configuration and bundled metadata
 - [misc/README.md](misc/README.md) — Java and environment setup details
 - [ssh/README.md](ssh/README.md) — SSH setup and override guidance
