@@ -77,19 +77,6 @@ EXCLUDED_SUB_DIRECTORIES :=
 SUB_DIRECTORIES := $(filter-out $(EXCLUDED_SUB_DIRECTORIES),$(sort $(wildcard */)))
 HOME_DEV_DIR := $(HOME)/dev
 
-define do_in_sub_directories
-	@for d in $(SUB_DIRECTORIES); do \
-		if [ -f "$$d/Makefile" ]; then \
-			printf "==> Starting directory target [%s] in %s\n" "$(1)" "$$d"; \
-			$(MAKE) -C "$$d" $(1) || { \
-				printf "ERROR: target [%s] failed in Makefile [%s/Makefile]\n" "$(1)" "$$d" >&2; \
-				exit 1; \
-			}; \
-			printf "✅ Finished directory target [%s] in %s\n" "$(1)" "$$d"; \
-		fi; \
-	done
-endef
-
 ## help
 ##   Show this help summary for the root Makefile. This target is the default when running `make` without arguments.
 ##   It parses inline `##` comments from target definitions in the root Makefile

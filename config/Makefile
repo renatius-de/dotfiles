@@ -11,10 +11,7 @@ $(CONFIG_DIR):
 	@$(call ensure_dir,$@) || { $(call fail_target,install); }
 
 $(SPRING_BOOT_CONFIG_TARGET): | $(CONFIG_DIR)
-	@printf "==> Installing Spring Boot config into [%s]\n" "$@"
-	@$(RM_RF) "$@" || { $(call fail_target,install); }
-	@$(COPY_TREE) "$(SPRING_BOOT_SOURCE)" "$@" || { printf "ERROR: target [install] failed while copying %s to %s\n" "$(SPRING_BOOT_SOURCE)" "$@" >&2; exit 1; }
-	@printf "✅ Installed Spring Boot config into [%s]\n" "$@"
+	$(call install_tree_to_target,install,$@,$(SPRING_BOOT_SOURCE))
 
 install: $(SPRING_BOOT_CONFIG_TARGET)
 	@printf "==> Starting target [install]...\n"

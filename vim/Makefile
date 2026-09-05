@@ -16,10 +16,7 @@ $(REQUIRED_DIRS):
 	@$(call ensure_dir,$@) || { $(call fail_target,install); }
 
 $(NVIM_INIT): | $(REQUIRED_DIRS)
-	@printf "==> Installing Neovim config from [%s] to [%s]\n" "$(NVIMRC_SRC)" "$@"
-	@$(call ensure_dir,$(dir $@)) || { $(call fail_target,install); }
-	@$(COPY_FILE) "$(NVIMRC_SRC)" "$@" || { printf "ERROR: target [install] failed while copying %s to %s\n" "$(NVIMRC_SRC)" "$@" >&2; exit 1; }
-	@printf "✅ Installed Neovim config to [%s]\n" "$@"
+	$(call install_file_to_target,install,$@,$(NVIMRC_SRC))
 
 install: | $(NVIM_INIT)
 	@printf "==> Starting target [install]...\n"

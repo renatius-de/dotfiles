@@ -77,6 +77,34 @@ define create_local_file
 	$(call run_cmd,[ -e "$(1)" ] || $(INSTALL_FILE) /dev/null "$(1)",create_local_file)
 endef
 
+define install_file_to_target
+	@printf "==> Installing %s to [%s]\n" "$(3)" "$(2)"
+	@$(call ensure_dir,$(dir $(2))) || { $(call fail_target,$(1)); }
+	@$(COPY_FILE) "$(3)" "$(2)" || { printf "ERROR: target [%s] failed while copying %s to %s\n" "$(1)" "$(3)" "$(2)" >&2; exit 1; }
+	@printf "✅ Installed %s to [%s]\n" "$(3)" "$(2)"
+endef
+
+define install_tree_to_target
+	@printf "==> Installing %s into [%s]\n" "$(3)" "$(2)"
+	@$(RM_RF) "$(2)" || { $(call fail_target,$(1)); }
+	@$(call ensure_dir,$(dir $(2))) || { $(call fail_target,$(1)); }
+	@$(COPY_TREE) "$(3)" "$(2)" || { printf "ERROR: target [%s] failed while copying %s to %s\n" "$(1)" "$(3)" "$(2)" >&2; exit 1; }
+	@printf "✅ Installed %s into [%s]\n" "$(3)" "$(2)"
+endef
+
+define do_in_sub_directories
+	@for d in $(SUB_DIRECTORIES); do \
+		if [ -f "$$d/Makefile" ]; then \
+			printf "==> Starting directory target [%s] in %s\n" "$(1)" "$$d"; \
+			$(MAKE) -C "$$d" $(1) || { \
+				printf "ERROR: target [%s] failed in Makefile [%s/Makefile]\n" "$(1)" "$$d" >&2; \
+				exit 1; \
+			}; \
+			printf "✅ Finished directory target [%s] in %s\n" "$(1)" "$$d"; \
+		fi; \
+	done
+endef
+
 ifeq ($(MAKEFILE_ROOT_DIR),$(ROOT_DIR))
   # Root Makefile defines the canonical help target.
 else

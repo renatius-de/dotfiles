@@ -26,10 +26,7 @@ $(GITIGNORE_REPO_DIR):
 	@printf "✅ Repository ready: [%s]\n" "GitIgnoreRepository"
 
 $(GIT_CONFIG_FILE):
-	@printf "==> Installing Git config from [%s] to [%s]\n" "$(GIT_PROJECTS_DIR)/config" "$@"
-	@$(call ensure_dir,$(dir $@)) || { $(call fail_target,install); }
-	@$(COPY_FILE) "$(GIT_PROJECTS_DIR)/config" "$@" || { printf "ERROR: target [install] failed while copying %s to %s\n" "$(GIT_PROJECTS_DIR)/config" "$@" >&2; exit 1; }
-	@printf "✅ Installed Git config to [%s]\n" "$@"
+	$(call install_file_to_target,install,$@,$(GIT_PROJECTS_DIR)/config)
 
 $(GIT_CONFIG_LOCAL_FILE):
 	@printf "==> Creating local Git config file [%s]\n" "$@"
@@ -37,10 +34,7 @@ $(GIT_CONFIG_LOCAL_FILE):
 	@printf "✅ Local Git config ready: [%s]\n" "$@"
 
 $(GIT_IGNORE_FILE):
-	@printf "==> Installing Git ignore file from [%s] to [%s]\n" "$(GIT_PROJECTS_DIR)/ignore" "$@"
-	@$(call ensure_dir,$(dir $@)) || { $(call fail_target,install); }
-	@$(COPY_FILE) "$(GIT_PROJECTS_DIR)/ignore" "$@" || { printf "ERROR: target [install] failed while copying %s to %s\n" "$(GIT_PROJECTS_DIR)/ignore" "$@" >&2; exit 1; }
-	@printf "✅ Installed Git ignore file to [%s]\n" "$@"
+	$(call install_file_to_target,install,$@,$(GIT_PROJECTS_DIR)/ignore)
 
 plugin: ensure-git $(REPO_DIRS)
 	@printf "==> Starting target [plugin]...\n"

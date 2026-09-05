@@ -30,10 +30,7 @@ $(SSH_CONFIG_LOCAL): | $(SSH_KEYS_DIR)
 	@printf "✅ Ready: [%s]\n" "$@"
 
 $(SSH_CONFIG): | $(SSH_DIR)
-	@printf "==> Installing SSH config from [%s] to [%s]\n" "$(SSH_CONFIG_SOURCE)" "$@"
-	@$(call ensure_dir,$(dir $@)) || { $(call fail_target,install); }
-	@$(COPY_FILE) "$(SSH_CONFIG_SOURCE)" "$@" || { printf "ERROR: target [install] failed while copying %s to %s\n" "$(SSH_CONFIG_SOURCE)" "$@" >&2; exit 1; }
-	@printf "✅ Installed SSH config to [%s]\n" "$@"
+	$(call install_file_to_target,install,$@,$(SSH_CONFIG_SOURCE))
 
 init-ssh: $(SSH_CONTROL_DIR)
 	@printf "==> Starting target [init-ssh]...\n"
