@@ -12,6 +12,7 @@ The install target creates:
 
 - `~/.ssh/` with secure permissions
 - `~/.ssh/control/` for multiplexed SSH sessions
+- `~/.ssh/keys/` for private keys
 - a symlinked `~/.ssh/config`
 - a local override file at `~/.ssh/config.local`
 
@@ -25,7 +26,7 @@ The install target creates:
 
 The shipped SSH config includes safe defaults such as:
 
-- strict host key checking
+- accepting new host keys while rejecting changed host keys
 - connection multiplexing via `ControlMaster`
 - keepalive settings
 - agent integration for key-based authentication

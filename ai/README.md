@@ -42,13 +42,13 @@ make -C ai clean
 
 ## Audit
 
-Run the automated audit for all instruction and skill files:
+Run the automated audit for all repository-managed AI asset files:
 
 ```bash
 python3 ai/audit_assets.py
 ```
 
-The audit checks frontmatter, Markdown structure, fenced code blocks, relative links, naming, duplicate rules, and selected security guidance. It writes the results to `ai/audit_report.md`. The checks are heuristic and do not replace manual review of semantic consistency or version compatibility.
+The audit checks instruction, skill, and prompt files for frontmatter, Markdown structure, fenced code blocks, relative links, naming, duplicate rules, and selected security guidance. It writes the results to `ai/audit_report.md`. The checks are heuristic and do not replace manual review of semantic consistency or version compatibility.
 
 ## Variables
 
