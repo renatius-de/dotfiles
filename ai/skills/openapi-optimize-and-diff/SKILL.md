@@ -80,6 +80,32 @@ Use the following extensions only when the consuming Spring Boot 4 integration e
 | `x-version-param` | Operation as the exact API-version parameter name or the consumer-defined parameter descriptor; the corresponding parameter must also be declared in `parameters`. | Versioning is selected through a request parameter. Keep the parameter location, type, requiredness, and allowed values consistent with the standard parameter declaration. |
 | `x-spring-api-version` | Root document, path item, or operation as the consumer-defined API version value; prefer the narrowest scope that is correct. | A Spring API-versioning integration needs an explicit version mapping. Do not use it to silently change an existing version contract. |
 | `x-enum-description` | Enum schema as a map keyed by the exact enum value, or the exact consumer-defined description format. | Generated clients or documentation need descriptions for individual enum values. Every key must exist in the schema's `enum` array. |
+| `x-enum-varnames` | Enum schema as an array of strings, one entry per enum value in the same order as `enum`. | Generated clients or documentation need expressive member names for each enum value. The array length and order must exactly match the `enum` array. |
+
+`x-enum-varnames` is not a map. It is an ordered array whose items correspond one-to-one with the `enum` values by index. The array must therefore have the same length and the same sequencing as `enum`; otherwise the generated constant or member names will not match the actual enum values.
+
+Example:
+
+```yaml
+components:
+  schemas:
+    Status:
+      type: string
+      enum:
+        - ACTIVE
+        - ARCHIVED
+        - DELETED
+      x-enum-varnames:
+        - ACTIVE
+        - ARCHIVED
+        - DELETED
+      x-enum-description:
+        ACTIVE: "The record is currently active."
+        ARCHIVED: "The record is archived and no longer editable."
+        DELETED: "The record has been deleted."
+```
+
+This pattern preserves both meanings: `x-enum-varnames` supplies code-friendly member names in array order, while `x-enum-description` provides human-readable text keyed by enum value.
 
 For pagination, versioning, and content negotiation, also model the real HTTP contract with standard OpenAPI fields: declare query or header parameters, media types under `content`, response links or pagination schemas where applicable, and explicit status codes. Vendor metadata must never be the only representation of behavior visible to clients.
 
@@ -90,7 +116,7 @@ For Spring security, auditing, errors, and validation, prefer standard OpenAPI a
 - use `required`, `propertyNames`, `pattern`, `format`, `minLength`, `maximum`, `unevaluatedProperties`, and related JSON Schema keywords for validation
 - represent audit fields and audit endpoints with explicit schemas, descriptions, read-only properties, and documented operations
 
-Only add a project-specific extension such as `x-audit-event`, `x-error-code`, or `x-validation` when its schema, owner, supported locations, and consuming tool are documented by the project. Never present such extensions as Spring Boot 4 standards.
+Only add a project-specific extension such as `x-audit-event`, `x-error-code`, `x-validation`, or `x-enum-varnames` when its schema, owner, supported locations, and consuming tool are documented by the project. Never present such extensions as Spring Boot 4 standards.
 
 ### 4. Simplify structure without hiding meaning
 

@@ -55,11 +55,54 @@ Use the following extensions only when the consuming Spring Boot 4 integration e
 | `x-version-param` | Operation as the exact API-version parameter name or the consumer-defined parameter descriptor. Declare the corresponding parameter in `parameters` as well. | Version selection uses a request parameter. Keep its location, type, requiredness, and allowed values consistent with the standard parameter. |
 | `x-spring-api-version` | Root document, path item, or operation as the consumer-defined API-version value; use the narrowest correct scope. | A Spring API-versioning integration requires explicit version mapping. Do not use it to silently change an existing version contract. |
 | `x-enum-description` | Enum schema as a map keyed by exact enum values, or the exact format required by the consumer. | Generated clients or documentation need descriptions for individual enum values. Every key must exist in the schema's `enum` array. |
+| `x-enum-varnames` | Enum schema as an array of strings, one entry per enum value in the same order as `enum`. | Generated clients or documentation need expressive member names for each enum value. The array length and order must exactly match the `enum` array. |
+
+- `x-enum-varnames` must be an array, not a map. Each item corresponds to the enum value at the same index in `enum`, so the array length, order, and item count must match exactly. A mismatch such as a missing entry, reordered values, or a different number of items is invalid and must be corrected.
+- `x-enum-description` remains a map keyed by the exact enum values. This is different from `x-enum-varnames`: descriptions are by value, while varnames are positional and ordered. Both extensions can be present together when a consumer needs both human-readable labels and code-friendly member names.
+- Example of a valid enum metadata combination:
+
+```yaml
+components:
+  schemas:
+    Status:
+      type: string
+      enum:
+        - ACTIVE
+        - ARCHIVED
+        - DELETED
+      x-enum-varnames:
+        - ACTIVE
+        - ARCHIVED
+        - DELETED
+      x-enum-description:
+        ACTIVE: "The record is currently active."
+        ARCHIVED: "The record is archived and no longer editable."
+        DELETED: "The record has been deleted."
+```
+
+```json
+{
+  "components": {
+    "schemas": {
+      "Status": {
+        "type": "string",
+        "enum": ["ACTIVE", "ARCHIVED", "DELETED"],
+        "x-enum-varnames": ["ACTIVE", "ARCHIVED", "DELETED"],
+        "x-enum-description": {
+          "ACTIVE": "The record is currently active.",
+          "ARCHIVED": "The record is archived and no longer editable.",
+          "DELETED": "The record has been deleted."
+        }
+      }
+    }
+  }
+}
+```
 
 - For pagination, versioning, and content negotiation, model the actual HTTP contract with standard fields: declare query or header parameters, media types under `content`, pagination schemas or response links where applicable, and explicit status codes. Vendor metadata must never be the only client-visible representation of behavior.
 - For security, use `components/securitySchemes`, operation-level `security`, and explicit scopes or roles. For auditing, use explicit audit schemas, read-only audit fields, and documented audit operations.
 - For errors, use reusable `components/responses` and error schemas with stable error codes and documented status codes. For validation, prefer `required`, `pattern`, `format`, `minLength`, `maximum`, `unevaluatedProperties`, and other applicable JSON Schema keywords.
-- Add project-specific extensions such as `x-audit-event`, `x-error-code`, or `x-validation` only when their schema, owner, supported locations, and consuming tool are documented by the project. Never present them as Spring Boot 4 standards.
+- Add project-specific extensions such as `x-audit-event`, `x-error-code`, `x-validation`, or `x-enum-varnames` only when their schema, owner, supported locations, and consuming tool are documented by the project. Never present them as Spring Boot 4 standards.
 
 ## Documentation and quality
 
