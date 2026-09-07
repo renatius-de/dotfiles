@@ -109,11 +109,17 @@ def security_checks(text: str) -> list[str]:
     findings = []
     for label, pattern in RISK_PATTERNS.items():
         match = pattern.search(text)
-        if match:
-            context = text[max(0, match.start() - 40):match.start()].lower()
-            if re.search(r"(?:do not|don't|never|avoid|without)\s*$", context):
-                continue
-            findings.append(label)
+        if not match:
+            continue
+        sentence_start = max(
+            text.rfind("\n", 0, match.start()),
+            text.rfind(".", 0, match.start()),
+            text.rfind(":", 0, match.start()),
+        ) + 1
+        context = text[sentence_start:match.start()].lower()
+        if re.search(r"\b(?:do not|don't|never|avoid|without)\b", context):
+            continue
+        findings.append(label)
     if re.search(r"(?i)security|oauth|csrf|tls|secret|credential|token", text) and not re.search(
         r"(?i)do not|never|avoid|validate|protect|least privilege|without exposing", text
     ):
