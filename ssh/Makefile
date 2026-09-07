@@ -43,6 +43,6 @@ upgrade: install
 
 clean:
 	$(call target_start,clean)
-	@$(RM_F) "$(SSH_CONFIG)" "$(SSH_CONFIG_LOCAL)" || { $(call fail_target,clean); }
+	@$(RM_F) "$(SSH_CONFIG)" || { $(call fail_target,clean); }
 	@$(RM_RF) "$(SSH_CONTROL_DIR)" "$(SSH_KEYS_DIR)" || { $(call fail_target,clean); }
 	$(call target_end,clean)
