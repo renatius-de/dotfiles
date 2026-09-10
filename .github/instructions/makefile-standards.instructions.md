@@ -23,6 +23,8 @@ applyTo: "**/Makefile,**/*.mk"
 - Prefer reusable helper patterns and shared conventions over duplicated logic.
 - Keep recipes idempotent and safe to rerun when appropriate.
 - Preserve the repository's installation model: symlink-based setup, explicit directory creation, and root/submodule install flows must continue to work without breaking established patterns.
+- Link managed files and directories to their intended targets with `ln -sf`. Do not replace symlink creation with copying or direct duplication of repository content.
+- Before creating any symlink, verify that its parent target directory exists and create it automatically with `mkdir -p` when necessary. Prefer the established directory helpers from `make/common.mk` so directory creation occurs before linking.
 - Make every `install` target ensure that required local files and directories exist before dependent steps run. Use idempotent operations such as `mkdir -p` and `touch`, or the established helpers from `make/common.mk`, and preserve existing local content.
 - Treat these local paths as mandatory installation prerequisites when applicable: `~/.gitconfig.local`, `~/.zshrc.local`, `~/.ssh/config.local`, and `~/.ssh/keys/`.
 - Keep target comments aligned with actual behavior and use short, discoverable help text.
@@ -42,6 +44,7 @@ applyTo: "**/Makefile,**/*.mk"
 - Run the narrowest relevant Makefile check after editing.
 - Use `make -n` to inspect the affected flow when a dry run can validate the change safely.
 - Inspect the expanded `install` commands to confirm that required local files and directories are created before use and that existing local content is not overwritten.
+- Inspect the expanded symlink commands to confirm that `ln -sf` is used and that every parent target directory is created with `mkdir -p` before linking.
 - Inspect the expanded `clean` commands to confirm that no protected path or content under `~/.ssh/keys/` can be deleted.
 - Confirm that modified targets remain compatible with the root and module-level install flows.
 - After creating or editing this instruction file, read `.github/instructions/makefile-standards.instructions.md` back from disk and explicitly verify that the protected paths, install prerequisites, cleanup prohibition, and validation requirements are all present and correct.
