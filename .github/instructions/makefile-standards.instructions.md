@@ -23,6 +23,8 @@ applyTo: "**/Makefile,**/*.mk"
 - Prefer reusable helper patterns and shared conventions over duplicated logic.
 - Keep recipes idempotent and safe to rerun when appropriate.
 - Preserve the repository's installation model: symlink-based setup, explicit directory creation, and root/submodule install flows must continue to work without breaking established patterns.
+- Make every `install` target ensure that required local files and directories exist before dependent steps run. Use idempotent operations such as `mkdir -p` and `touch`, or the established helpers from `make/common.mk`, and preserve existing local content.
+- Treat these local paths as mandatory installation prerequisites when applicable: `~/.gitconfig.local`, `~/.zshrc.local`, `~/.ssh/config.local`, and `~/.ssh/keys/`.
 - Keep target comments aligned with actual behavior and use short, discoverable help text.
 
 ## Do not
@@ -30,13 +32,19 @@ applyTo: "**/Makefile,**/*.mk"
 - Do not add unrelated complexity, non-standard formatting, or shell shortcuts that diverge from the project style.
 - Do not introduce stray phony targets unless the repository already requires them and the naming is consistent with established project conventions.
 - Do not break the existing install, clean, or upgrade flow.
+- Never allow a `clean` target to delete, replace, unlink, or recursively remove local configuration files or directories.
+- Keep `~/.gitconfig.local`, `~/.zshrc.local`, `~/.ssh/config.local`, and `~/.ssh/keys/` absolutely protected. All contents under `~/.ssh/keys/` are protected as well.
+- Before changing cleanup logic, inspect every `rm`, `unlink`, wildcard, symlink replacement, and recursive deletion path. A clean dry run must not target any protected path.
 - Do not leave silent failures or unclear error reporting.
 
 ## Verification
 
 - Run the narrowest relevant Makefile check after editing.
 - Use `make -n` to inspect the affected flow when a dry run can validate the change safely.
+- Inspect the expanded `install` commands to confirm that required local files and directories are created before use and that existing local content is not overwritten.
+- Inspect the expanded `clean` commands to confirm that no protected path or content under `~/.ssh/keys/` can be deleted.
 - Confirm that modified targets remain compatible with the root and module-level install flows.
+- After creating or editing this instruction file, read `.github/instructions/makefile-standards.instructions.md` back from disk and explicitly verify that the protected paths, install prerequisites, cleanup prohibition, and validation requirements are all present and correct.
 
 ## Maintenance standard
 
