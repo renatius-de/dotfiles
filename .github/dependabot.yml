@@ -11,12 +11,22 @@ updates:
     open-pull-requests-limit: 5
     rebase-strategy: auto
     groups:
-      all-actions:
+      github-actions-minor-patch:
         patterns:
           - "*"
+        update-types:
+          - minor
+          - patch
+      github-actions-major:
+        patterns:
+          - "*"
+        update-types:
+          - major
     labels:
       - dependencies
       - github-actions
     commit-message:
       prefix: deps
       include: scope
+    pull-request-branch-name:
+      separator: "-"
