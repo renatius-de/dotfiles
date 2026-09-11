@@ -29,7 +29,7 @@ jobs:
       - name: Install CI tools
         run: |
           apt-get update
-          apt-get install --no-install-recommends --yes git make python3 zsh
+          apt-get install --no-install-recommends --yes ca-certificates git make python3 zsh
           rm -rf /var/lib/apt/lists/*
 
       - name: Checkout repository
