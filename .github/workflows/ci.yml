@@ -21,9 +21,17 @@ concurrency:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    container:
+      image: node:24-bookworm-slim
     timeout-minutes: 15
 
     steps:
+      - name: Install CI tools
+        run: |
+          apt-get update
+          apt-get install --no-install-recommends --yes git make python3 zsh
+          rm -rf /var/lib/apt/lists/*
+
       - name: Checkout repository
         uses: actions/checkout@v7
 

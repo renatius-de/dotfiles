@@ -13,6 +13,8 @@ permissions:
 jobs:
   dependency-review:
     runs-on: ubuntu-latest
+    container:
+      image: node:24-bookworm-slim
 
     steps:
       - name: Review dependency changes
