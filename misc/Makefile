@@ -89,21 +89,35 @@ endef
 
 ensure-prereqs:
 	$(call target_start,ensure-prereqs)
-	@$(call ensure_brew) || { $(call fail_target,ensure-prereqs); }
+ifeq ($(BREW_AVAILABLE),true)
 	@$(call ensure_cmd,$(JENV),ensure-prereqs) || { $(call fail_target,ensure-prereqs); }
 	@$(call ensure_cmd,$(SUDO),ensure-prereqs) || { $(call fail_target,ensure-prereqs); }
+else
+	@printf "INFO: target [ensure-prereqs] skipped because Homebrew is not installed.\n"
+	@printf "BREW_SKIP: target [ensure-prereqs] was skipped because Homebrew is not installed.\n" >> "$(MAKE_STATUS_FILE)"
+endif
 	$(call target_end,ensure-prereqs)
 
 install-java: ensure-prereqs
 	$(call target_start,install-java)
+ifeq ($(BREW_AVAILABLE),true)
 ifeq ($(WORK_ENV),true)
 	@$(call for_each_corretto_version,install_java_for_version)
+endif
+else
+	@printf "INFO: target [install-java] skipped because Homebrew is not installed.\n"
+	@printf "BREW_SKIP: target [install-java] was skipped because Homebrew is not installed.\n" >> "$(MAKE_STATUS_FILE)"
 endif
 	$(call target_end,install-java)
 
 update-nodejs:
 	$(call target_start,update-nodejs)
+ifeq ($(BREW_AVAILABLE),true)
 	@$(call update_nodejs_with_nvm)
+else
+	@printf "INFO: target [update-nodejs] skipped because Homebrew is not installed.\n"
+	@printf "BREW_SKIP: target [update-nodejs] was skipped because Homebrew is not installed.\n" >> "$(MAKE_STATUS_FILE)"
+endif
 	$(call target_end,update-nodejs)
 
 install-nodejs: update-nodejs
@@ -112,14 +126,24 @@ install-nodejs: update-nodejs
 
 import-ca-certs: install-java
 	$(call target_start,import-ca-certs)
+ifeq ($(BREW_AVAILABLE),true)
 ifeq ($(WORK_ENV),true)
 	@$(call for_each_corretto_version,import_ca_certs_for_version)
+endif
+else
+	@printf "INFO: target [import-ca-certs] skipped because Homebrew is not installed.\n"
+	@printf "BREW_SKIP: target [import-ca-certs] was skipped because Homebrew is not installed.\n" >> "$(MAKE_STATUS_FILE)"
 endif
 	$(call target_end,import-ca-certs)
 
 uninstall-java:
 	$(call target_start,uninstall-java)
+ifeq ($(BREW_AVAILABLE),true)
 	@$(call for_each_corretto_version,uninstall_java_for_version)
+else
+	@printf "INFO: target [uninstall-java] skipped because Homebrew is not installed.\n"
+	@printf "BREW_SKIP: target [uninstall-java] was skipped because Homebrew is not installed.\n" >> "$(MAKE_STATUS_FILE)"
+endif
 	$(call target_end,uninstall-java)
 
 install: install-java import-ca-certs install-nodejs

@@ -14,12 +14,17 @@ BREW := $(shell command -v brew 2>/dev/null \
 	|| command -v /opt/homebrew/bin/brew 2>/dev/null \
 	|| command -v /usr/local/bin/brew 2>/dev/null \
 	|| echo)
+BREW_AVAILABLE := $(if $(strip $(BREW)),true,false)
+MAKE_STATUS_FILE := $(if $(strip $(MAKE_STATUS_FILE)),$(MAKE_STATUS_FILE),$(shell mktemp -t dotfiles-make-status.XXXXXX))
+export MAKE_STATUS_FILE
 
 define ensure_brew
-	test -n "$(BREW)" && test -x "$(BREW)" || { \
-		printf "ERROR: target [brew-ensure] failed because Homebrew is not installed. Please install it from https://brew.sh\n" >&2; \
-		exit 1; \
-	}
+	if [ "$(BREW_AVAILABLE)" = "true" ]; then \
+		printf "INFO: Homebrew detected at %s\n" "$(BREW)"; \
+	else \
+		printf "INFO: Homebrew is not installed; Homebrew-dependent steps will be skipped.\n"; \
+		printf "BREW_SKIP: Homebrew-dependent steps were skipped because Homebrew is not installed.\n" >> "$(MAKE_STATUS_FILE)"; \
+	fi
 endef
 
 ## Ensure a Make variable is set; emits a make-level error if not.
@@ -34,8 +39,24 @@ DOWNLOAD := curl --fail --location --silent --show-error \
   --retry 3 --retry-delay 2 --retry-all-errors --max-time 20
 
 define fail_target
-	printf "ERROR: target [%s] failed in Makefile [%s]\n" "$(1)" "$(MAKEFILE_BASE)" >&2; \
+	printf "ERROR: target [%s] failed in Makefile [%s]\n" "$(1)" "$(MAKEFILE_BASE)" | tee -a "$(MAKE_STATUS_FILE)" >&2; \
+	printf "ERROR SUMMARY: one or more Make targets failed; see the error above.\n" >&2; \
 	exit 1
+endef
+
+define make_summary
+	if [ -s "$(MAKE_STATUS_FILE)" ]; then \
+		if grep -q '^ERROR' "$(MAKE_STATUS_FILE)"; then \
+			printf "SUMMARY: Make execution completed with errors and skipped steps.\n"; \
+		else \
+			printf "SUMMARY: Make execution completed without errors; Homebrew-dependent steps were skipped.\n"; \
+		fi; \
+		printf "SUMMARY DETAILS:\n"; \
+		cat "$(MAKE_STATUS_FILE)"; \
+	else \
+		printf "SUMMARY: Make execution completed successfully with no skipped steps or errors.\n"; \
+	fi; \
+	rm -f "$(MAKE_STATUS_FILE)"
 endef
 
 define target_start
