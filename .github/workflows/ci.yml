@@ -44,12 +44,12 @@ jobs:
       - name: Audit AI assets
         run: |
           python3 ai/audit_assets.py
-          repo_name="${GITHUB_REPOSITORY#*/}"
-          if [ -d "${GITHUB_WORKSPACE}/.git" ]; then
-            repo_dir="$GITHUB_WORKSPACE"
-          elif [ -n "${RUNNER_WORKSPACE:-}" ] && [ -d "${RUNNER_WORKSPACE}/${repo_name}/.git" ]; then
-            repo_dir="${RUNNER_WORKSPACE}/${repo_name}"
-          else
+          repo_dir="$(python3 - <<'PY'
+from pathlib import Path
+print(Path("ai/audit_assets.py").resolve().parents[1])
+PY
+)"
+          if [ ! -d "${repo_dir}/.git" ]; then
             printf "ERROR: could not locate checked-out git repository directory\n" >&2
             exit 1
           fi
