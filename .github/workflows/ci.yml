@@ -44,7 +44,7 @@ jobs:
       - name: Audit AI assets
         run: |
           python3 ai/audit_assets.py
-          script_dir="$(dirname "$(readlink -f ai/audit_assets.py)")"
+          script_dir="$(cd "$(dirname ai/audit_assets.py)" && pwd -P)"
           repo_dir="$(git -C "$script_dir" rev-parse --show-toplevel)"
           if ! git -C "$repo_dir" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
             printf "ERROR: could not locate checked-out git repository directory\n" >&2
