@@ -44,11 +44,8 @@ jobs:
       - name: Audit AI assets
         run: |
           python3 ai/audit_assets.py
-          script_dir="$(cd "$(dirname ai/audit_assets.py)" && pwd -P)"
-          if ! repo_dir="$(git -C "$script_dir" rev-parse --show-toplevel)"; then
-            printf "ERROR: could not resolve checked-out git repository directory\n" >&2
-            exit 1
-          fi
+          repo_dir="$(cd "$(dirname ai/audit_assets.py)/.." && pwd -P)"
+          git config --global --add safe.directory "$repo_dir"
           git -C "$repo_dir" diff --exit-code -- ai/audit_report.md
 
       - name: Validate Python syntax
