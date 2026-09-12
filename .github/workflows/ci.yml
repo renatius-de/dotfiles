@@ -46,7 +46,9 @@ jobs:
           python3 ai/audit_assets.py
           repo_dir="$(python3 - <<'PY'
           from pathlib import Path
-          print(Path("ai/audit_assets.py").resolve().parents[1])
+          import subprocess
+          script_dir = Path("ai/audit_assets.py").resolve().parent
+          print(subprocess.check_output(["git", "-C", str(script_dir), "rev-parse", "--show-toplevel"], text=True).strip())
           PY
           )"
           if ! git -C "$repo_dir" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
