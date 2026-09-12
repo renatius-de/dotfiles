@@ -49,10 +49,6 @@ jobs:
             printf "ERROR: could not resolve checked-out git repository directory\n" >&2
             exit 1
           fi
-          if [ "$(git -C "$repo_dir" rev-parse --is-inside-work-tree 2>/dev/null)" != "true" ]; then
-            printf "ERROR: could not locate checked-out git repository directory\n" >&2
-            exit 1
-          fi
           git -C "$repo_dir" diff --exit-code -- ai/audit_report.md
 
       - name: Validate Python syntax
