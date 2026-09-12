@@ -43,8 +43,8 @@ jobs:
 
       - name: Audit AI assets
         run: |
-          python3 ai/audit_assets.py
-          git diff --exit-code -- ai/audit_report.md
+          python3 "$GITHUB_WORKSPACE/ai/audit_assets.py"
+          git -C "$GITHUB_WORKSPACE" diff --exit-code -- ai/audit_report.md
 
       - name: Validate Python syntax
         run: python3 -m py_compile ai/audit_assets.py
