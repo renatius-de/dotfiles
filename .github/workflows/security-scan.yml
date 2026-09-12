@@ -1,0 +1,52 @@
+---
+name: Security Scan
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+  schedule:
+    - cron: '47 3 * * 3'
+  workflow_dispatch:
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    concurrency:
+      group: security-scan-${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+    permissions:
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+
+      - name: Run Codacy analysis
+        if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.fork == false }}
+        uses: codacy/codacy-analysis-cli-action@v4
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          output: results.sarif
+          format: sarif
+
+      - name: Merge SARIF runs
+        if: ${{ always() && hashFiles('results.sarif') != '' }}
+        run: |
+          jq '.runs |= [add]' results.sarif > results.merged.sarif
+          mv results.merged.sarif results.sarif
+
+      - name: Upload SARIF to GitHub
+        if: ${{ always() && hashFiles('results.sarif') != '' }}
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: results.sarif
+          category: codacy
