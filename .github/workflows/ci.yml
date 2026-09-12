@@ -52,6 +52,10 @@ jobs:
           else
             repo_dir="/__w/${repo_name}/${repo_name}"
           fi
+          if [ ! -d "${repo_dir}/.git" ]; then
+            printf "ERROR: could not locate checked-out git repository directory\n" >&2
+            exit 1
+          fi
           git -C "$repo_dir" diff --exit-code -- ai/audit_report.md
 
       - name: Validate Python syntax
