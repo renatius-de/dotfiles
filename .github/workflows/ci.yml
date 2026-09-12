@@ -43,9 +43,9 @@ jobs:
 
       - name: Audit AI assets
         run: |
-          python3 ai/audit_assets.py
           repo_dir="$(cd "$(dirname ai/audit_assets.py)/.." && pwd -P)"
           git config --global --add safe.directory "$repo_dir"
+          python3 ai/audit_assets.py
           git -C "$repo_dir" diff --exit-code -- ai/audit_report.md
 
       - name: Validate Python syntax
