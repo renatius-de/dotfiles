@@ -17,6 +17,15 @@ jobs:
       image: node:24-bookworm-slim
 
     steps:
+      - name: Install checkout tools
+        run: |
+          apt-get update
+          apt-get install --no-install-recommends --yes ca-certificates git
+          rm -rf /var/lib/apt/lists/*
+
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
       - name: Review dependency changes
         uses: actions/dependency-review-action@v5
         with:
