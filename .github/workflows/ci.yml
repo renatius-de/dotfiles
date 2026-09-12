@@ -45,7 +45,14 @@ jobs:
         run: |
           python3 ai/audit_assets.py
           repo_name="${GITHUB_REPOSITORY#*/}"
-          git -C "${RUNNER_WORKSPACE:-/__w/$repo_name}/$repo_name" diff --exit-code -- ai/audit_report.md
+          if [ -d "${GITHUB_WORKSPACE}/.git" ]; then
+            repo_dir="$GITHUB_WORKSPACE"
+          elif [ -d "${RUNNER_WORKSPACE}/${repo_name}/.git" ]; then
+            repo_dir="${RUNNER_WORKSPACE}/${repo_name}"
+          else
+            repo_dir="/__w/${repo_name}/${repo_name}"
+          fi
+          git -C "$repo_dir" diff --exit-code -- ai/audit_report.md
 
       - name: Validate Python syntax
         run: python3 -m py_compile ai/audit_assets.py
