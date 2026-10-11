@@ -188,33 +188,52 @@ The refactored specification should be:
 
 ## Mandatory OASDiff validation
 
-After every change to an OpenAPI specification, such as `openapi.yaml`, start OASDiff via Docker. Compare the changed local file with the same path from the repository's `main` or `master` branch. Use `main` when both branches exist; otherwise use `master`. Resolve the specification path from the branch being compared before running the commands.
+After every change to an OpenAPI specification, validate it and compare it with the same file on the repository's default branch using OASDiff via Docker. Identify the default branch from repository metadata; do not assume a branch name. If the default-branch reference or comparison file is unavailable, report that comparison as blocked rather than substituting an arbitrary branch or file.
 
-Run the following Docker commands strictly in this order:
+Run the following checks in this order. Replace `<repository-relative-spec-path>` with the actual path of the changed specification. Create a temporary base file outside the repository and remove it when the checks finish:
 
-1. Validate the changed local specification:
+1. Resolve the default-branch reference and extract the corresponding specification:
 
-	```bash
-	docker run --rm -t -v $(pwd):/specs tufin/oasdiff validate /specs/path/to/openapi.yaml
-	```
+   ```bash
+   if ! default_ref="$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD)"; then
+     printf '%s\n' "Cannot determine the repository default branch; comparison is blocked." >&2
+     exit 1
+   fi
+   base_spec="$(mktemp)" || exit 1
+   trap 'rm -f "$base_spec"' EXIT
+   if ! git show "${default_ref}:<repository-relative-spec-path>" > "$base_spec"; then
+     printf '%s\n' "Cannot read the specification from the default branch; comparison is blocked." >&2
+     exit 1
+   fi
+   ```
 
-2. Generate the changelog against the base branch:
+2. Validate the changed local specification:
 
-	```bash
-	docker run --rm -t -v $(pwd):/specs tufin/oasdiff changelog <(git show main:path/to/openapi.yaml) /specs/path/to/openapi.yaml
-	```
+   ```bash
+   docker run --rm \
+     -v "<absolute-path-to-changed-spec>:/specs/candidate.yaml:ro" \
+     tufin/oasdiff validate /specs/candidate.yaml
+   ```
 
-3. Check for breaking changes against the same base branch:
+3. Generate the changelog against the default-branch version:
 
-	```bash
-	docker run --rm -t -v $(pwd):/specs tufin/oasdiff breaking <(git show main:path/to/openapi.yaml) /specs/path/to/openapi.yaml
-	```
+   ```bash
+   docker run --rm \
+     -v "$base_spec:/specs/base.yaml:ro" \
+     -v "<absolute-path-to-changed-spec>:/specs/candidate.yaml:ro" \
+     tufin/oasdiff changelog /specs/base.yaml /specs/candidate.yaml
+   ```
 
-Replace `main` with `master` in steps 2 and 3 when `main` is not available, and replace `path/to/openapi.yaml` with the actual repository-relative path. Run the commands from the repository root so `$(pwd)` mounts the expected files. The local path must be available below `/specs` inside the container.
+4. Check for breaking changes against the same base version:
 
-If `validate` reports errors, analyze their cause, correct the OpenAPI specification automatically, and rerun the complete sequence from step 1. Do not proceed to `changelog` or `breaking` while validation errors remain.
+   ```bash
+   docker run --rm \
+     -v "$base_spec:/specs/base.yaml:ro" \
+     -v "<absolute-path-to-changed-spec>:/specs/candidate.yaml:ro" \
+     tufin/oasdiff breaking /specs/base.yaml /specs/candidate.yaml
+   ```
 
-If `changelog` or `breaking` fails or reports changes, do not stop the process. Continue the required workflow and issue a clear warning to the developer. Include the command failure, reported changes, and affected operations or schemas when available. Treat reported breaking changes as compatibility warnings requiring explicit developer review; never hide or silently reinterpret them.
+Use actual absolute file paths for the Docker bind mounts. If validation fails, diagnose and correct only issues supported by the specification and project contract, then rerun all checks. Do not treat a successful validation as proof of backward compatibility. Report changelog and breaking-check failures or findings, including affected operations or schemas when available; do not hide or silently reinterpret them. Treat breaking changes as requiring explicit review and approval before adoption.
 
 ## Example refactoring patterns
 
