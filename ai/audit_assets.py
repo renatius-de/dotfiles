@@ -13,7 +13,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 REPORT = ROOT / "audit_report.md"
 ASSET_PATTERNS = (
-    "instructions/**/*.instructions.md",
+    "instructions/*.instructions.md",
     "skills/**/SKILL.md",
     "prompt/*.prompt.md",
     "../.github/prompts/*.prompt.md",

@@ -4,7 +4,7 @@ description: "Use when changing this repository's dotfiles, installation flow, o
 applyTo: "**/*"
 ---
 
-# Dotfiles Workflow
+# Dotfiles Repository Workflow
 
 ## Scope
 
