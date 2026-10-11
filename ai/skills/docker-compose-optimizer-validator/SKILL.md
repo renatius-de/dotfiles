@@ -78,7 +78,6 @@ If startup fails, diagnose the relevant configuration or runtime issue, make onl
 - Do not automatically pull unpinned images or start containers without user approval.
 - Treat destructive operations such as volume removal, container recreation with data impact, or pruning as requiring separate explicit approval.
 - Preserve compatibility unless the user approves a breaking change and clearly describe the impact.
-- Use English for generated comments, explanations embedded in files, and validation output.
 
 ## Expected output
 

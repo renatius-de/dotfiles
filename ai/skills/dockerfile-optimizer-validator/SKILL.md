@@ -75,7 +75,6 @@ If Docker is unavailable, report that validation could not be executed and provi
 - Do not run `docker build` or `docker run` without explicit user approval.
 - Do not use `--privileged`, mount sensitive host paths, disable TLS verification, or broaden container permissions to make validation pass.
 - Preserve compatibility unless the user approves a breaking change, and describe the impact of changes to exposed ports, startup commands, runtime users, or image families.
-- Use English for generated comments, explanations embedded in files, and validation output.
 
 ## Expected output
 

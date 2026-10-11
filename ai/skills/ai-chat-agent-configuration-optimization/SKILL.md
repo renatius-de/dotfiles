@@ -11,6 +11,8 @@ Use this skill to analyze, refine, and validate configurations for AI chats and 
 
 The goal is to improve task performance, reliability, observability, maintainability, and cost without weakening security or inventing unsupported model behavior. Treat the target platform, model, tool API, and deployment constraints as the source of truth.
 
+When the target consists only of instruction, skill, or prompt documents, optimize the documented behavior and structure. Do not invent runtime parameters, model limits, tool capabilities, or evaluation results that are not present. Treat runtime-only checks as not applicable or unavailable, and ask for clarification only when an unknown would materially change the document's intended behavior.
+
 ## Required workflow
 
 ### 1. Establish the configuration contract
