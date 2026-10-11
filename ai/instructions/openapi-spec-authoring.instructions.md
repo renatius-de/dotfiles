@@ -121,7 +121,7 @@ components:
 - When creating or editing endpoints, include all required fields, explicit status codes, and realistic data examples; do not leave incomplete or partially described operations.
 - Use reusable components first; only inline definitions when they are truly local and not repeated elsewhere.
 - Keep all naming, casing, and status code usage consistent across the entire specification.
-- Do not introduce breaking changes to existing APIs without an explicit note in a code comment or a clear approval marker in the change context.
+- Do not introduce breaking API changes without explicit approval. Describe approved contract changes and their client impact in the change summary; do not use source comments as an approval mechanism.
 - Never remove or silently change existing endpoint contracts, required fields, or response semantics without calling out the risk and the reason.
 - Do not invent unsupported authentication schemes, custom response formats, or undocumented business rules.
 - Keep generated OpenAPI documents maintainable, compact, and readable; prefer clarity over cleverness.
