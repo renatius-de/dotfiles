@@ -7,7 +7,7 @@ on:
 permissions:
   contents: read
   pull-requests: read
-  copilot-requests: write
+  copilot-requests: none
 
 engine: copilot
 
@@ -20,6 +20,8 @@ safe-outputs:
 # Monthly AI Configuration Optimization
 
 Once a month, review the repository-managed AI instructions and skills under `ai/` using the `ai-chat-agent-configuration-optimization` skill at `ai/skills/ai-chat-agent-configuration-optimization/SKILL.md`.
+
+Configure a valid `COPILOT_GITHUB_TOKEN` repository Actions secret for the Copilot engine before enabling this workflow. The repository is user-owned, so the organization-billed `copilot-requests: write` authentication path is not assumed.
 
 ## Review scope
 
