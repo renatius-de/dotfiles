@@ -30,7 +30,7 @@ define install_java_for_version
 	JDK_DIR="$(call JDK_HOME_OF,$(1))"; \
 	printf "ⓘ Installing JDK %s\n" "$(1)"; \
 	if [ ! -d "$$JDK_DIR" ]; then \
-	  $(BREW) install --cask "$(call CASK_NAME_OF,$(1))" || { printf "ERROR: target [install-java] failed while installing JDK %s\n" "$(1)" >&2; exit 1; }; \
+	  $(BREW) install --cask "$(call CASK_NAME_OF,$(1))" || { printf "❌: target [install-java] failed while installing JDK %s\n" "$(1)" >&2; exit 1; }; \
 	fi; \
 	if [ -d "$$JDK_DIR" ]; then \
 	  $(JENV) add "$(call JDK_CONTENTS_HOME_OF,$(1))" > /dev/null || true; \
@@ -44,7 +44,7 @@ define uninstall_java_for_version
 	JDK_DIR="$(call JDK_HOME_OF,$(1))"; \
 	printf "ⓘ Removing JDK %s\n" "$(1)"; \
 	if [ -d "$$JDK_DIR" ]; then \
-	  $(BREW) uninstall --ignore-dependencies --force "$(call CASK_NAME_OF,$(1))" || { printf "ERROR: target [uninstall-java] failed while removing JDK %s\n" "$(1)" >&2; exit 1; }; \
+	  $(BREW) uninstall --ignore-dependencies --force "$(call CASK_NAME_OF,$(1))" || { printf "❌: target [uninstall-java] failed while removing JDK %s\n" "$(1)" >&2; exit 1; }; \
 	else \
 	  printf "WARNING: JDK directory '%s' not found, skipping uninstall\n" "$$JDK_DIR"; \
 	fi
@@ -58,7 +58,7 @@ define import_ca_certs_for_version
 	    if ! $(SUDO) "$$KEYTOOL_BIN" -list -cacerts \
 	        -storepass "$(STORE_PASS)" -alias "$(CERT_ALIAS)" >/dev/null; then \
 	      $(SUDO) "$$KEYTOOL_BIN" $(KEYTOOL_CA_CERTS_ARGS) \
-	        || { printf "ERROR: target [import-ca-certs] failed while importing certificates for %s\n" "$$KEYTOOL_BIN" >&2; exit 1; }; \
+	        || { printf "❌: target [import-ca-certs] failed while importing certificates for %s\n" "$$KEYTOOL_BIN" >&2; exit 1; }; \
 	    fi; \
 		else \
 	    printf "WARNING: keytool binary '%s' not found or not executable\n" "$$KEYTOOL_BIN"; \
@@ -77,8 +77,8 @@ define update_nodejs_with_nvm
 		printf "ⓘ Updating Node.js LTS version %s\n" "$$v"; \
 		if [ -n "$(BREW_NVM_PREFIX)" ] && [ -s "$(BREW_NVM_PREFIX)/nvm.sh" ]; then \
 			. "$(BREW_NVM_PREFIX)/nvm.sh" >/dev/null; \
-			nvm install --lts --latest-npm --no-progress --default "$$v" >/dev/null || { printf "ERROR: target [install-nodejs] failed while installing Node.js %s\n" "$$v" >&2; exit 1; }; \
-			nvm alias default "$$v" >/dev/null || { printf "ERROR: target [install-nodejs] failed while setting default Node.js %s\n" "$$v" >&2; exit 1; }; \
+			nvm install --lts --latest-npm --no-progress --default "$$v" >/dev/null || { printf "❌: target [install-nodejs] failed while installing Node.js %s\n" "$$v" >&2; exit 1; }; \
+			nvm alias default "$$v" >/dev/null || { printf "❌: target [install-nodejs] failed while setting default Node.js %s\n" "$$v" >&2; exit 1; }; \
 		else \
 			printf "WARNING: nvm not found or not installed via Homebrew, skipping Node.js update\n"; \
 		fi; \
