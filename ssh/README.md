@@ -10,8 +10,8 @@ make -C ssh install
 
 The install target creates:
 
-- `~/.ssh/` with secure permissions
-- `~/.ssh/control/` for multiplexed SSH sessions
+- `~/.ssh/` with permissions set to `700`
+- `~/.ssh/control/` for multiplexed SSH sessions, with permissions set to `700`
 - `~/.ssh/keys/` for private keys
 - a symlinked `~/.ssh/config`
 - a local override file at `~/.ssh/config.local`
