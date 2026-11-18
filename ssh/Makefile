@@ -22,7 +22,7 @@ $(SSH_KEYS_DIR): | $(SSH_DIR)
 	@printf "✅ Ready: [%s]\n" "$@"
 
 $(SSH_CONFIG_LOCAL): | $(SSH_KEYS_DIR)
-	@printf "==> Creating SSH local config [%s]\n" "$@"
+	@printf "ⓘ Creating SSH local config [%s]\n" "$@"
 	@$(call create_local_file,$@) || { $(call fail_target,install); }
 	@printf "✅ Ready: [%s]\n" "$@"
 

@@ -28,7 +28,7 @@ NODE_LTS_VERSIONS := 24
 
 define install_java_for_version
 	JDK_DIR="$(call JDK_HOME_OF,$(1))"; \
-	printf "==> Installing JDK %s\n" "$(1)"; \
+	printf "ⓘ Installing JDK %s\n" "$(1)"; \
 	if [ ! -d "$$JDK_DIR" ]; then \
 	  $(BREW) install --cask "$(call CASK_NAME_OF,$(1))" || { printf "ERROR: target [install-java] failed while installing JDK %s\n" "$(1)" >&2; exit 1; }; \
 	fi; \
@@ -42,7 +42,7 @@ endef
 
 define uninstall_java_for_version
 	JDK_DIR="$(call JDK_HOME_OF,$(1))"; \
-	printf "==> Removing JDK %s\n" "$(1)"; \
+	printf "ⓘ Removing JDK %s\n" "$(1)"; \
 	if [ -d "$$JDK_DIR" ]; then \
 	  $(BREW) uninstall --ignore-dependencies --force "$(call CASK_NAME_OF,$(1))" || { printf "ERROR: target [uninstall-java] failed while removing JDK %s\n" "$(1)" >&2; exit 1; }; \
 	else \
@@ -53,7 +53,7 @@ endef
 define import_ca_certs_for_version
 	if [ -r "$(CERT_FILE)" ]; then \
 	  KEYTOOL_BIN="$(call KEYTOOL_BIN_OF,$(1))"; \
-	  printf "==> Importing CA certificates for JDK %s\n" "$(1)"; \
+	  printf "ⓘ Importing CA certificates for JDK %s\n" "$(1)"; \
 	  if [ -x "$$KEYTOOL_BIN" ]; then \
 	    if ! $(SUDO) "$$KEYTOOL_BIN" -list -cacerts \
 	        -storepass "$(STORE_PASS)" -alias "$(CERT_ALIAS)" >/dev/null; then \
@@ -74,7 +74,7 @@ endef
 
 define update_nodejs_with_nvm
 	@for v in $(NODE_LTS_VERSIONS); do \
-		printf "==> Updating Node.js LTS version %s\n" "$$v"; \
+		printf "ⓘ Updating Node.js LTS version %s\n" "$$v"; \
 		if [ -n "$(BREW_NVM_PREFIX)" ] && [ -s "$(BREW_NVM_PREFIX)/nvm.sh" ]; then \
 			. "$(BREW_NVM_PREFIX)/nvm.sh" >/dev/null; \
 			nvm install --lts --latest-npm --no-progress --default "$$v" >/dev/null || { printf "ERROR: target [install-nodejs] failed while installing Node.js %s\n" "$$v" >&2; exit 1; }; \
