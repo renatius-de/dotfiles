@@ -145,7 +145,7 @@ install-homebrew-extensions: | brew-ensure
 		printf "BREW_SKIP: target [install-homebrew-extensions] was skipped because Homebrew is not installed.\n" >> "$(MAKE_STATUS_FILE)"; \
 	elif [ "$(WORK_ENV)" = "true" ]; then \
 		if [ -n "$(WORK_BREW_PACKAGES)" ]; then \
-			$(BREW) install --quiet --formula $(WORK_BREW_PACKAGES) || { printf "ERROR: target [install-homebrew-extensions] failed while installing work Homebrew packages\n" >&2; exit 1; }; \
+			$(BREW) install --quiet --formula $(WORK_BREW_PACKAGES) || { printf "❌: target [install-homebrew-extensions] failed while installing work Homebrew packages\n" >&2; exit 1; }; \
 		else \
 			printf "INFO: WORK_ENV=true but WORK_BREW_PACKAGES is empty; nothing to install.\n"; \
 		fi; \
@@ -182,9 +182,9 @@ brew-post-install: | brew-ensure
 		printf "INFO: target [brew-post-install] skipped because Homebrew is not installed.\n"; \
 		printf "BREW_SKIP: target [brew-post-install] was skipped because Homebrew is not installed.\n" >> "$(MAKE_STATUS_FILE)"; \
 	else \
-		$(BREW) doctor --quiet || printf "ERROR: target [brew-post-install] failed while running brew doctor\n" >&2; \
+		$(BREW) doctor --quiet || printf "❌: target [brew-post-install] failed while running brew doctor\n" >&2; \
 		$(BREW) analytics off || { $(call fail_target,brew-post-install); }; \
-		$(MAKE) jenv-add-corretto || printf "ERROR: target [brew-post-install] failed while running jenv-add-corretto\n" >&2; \
+		$(MAKE) jenv-add-corretto || printf "❌: target [brew-post-install] failed while running jenv-add-corretto\n" >&2; \
 	fi
 	$(call target_end,brew-post-install)
 
@@ -193,7 +193,7 @@ jenv-add-corretto:
 	@set -o pipefail; if command -v jenv >/dev/null 2>&1; then \
 		for jd in /Library/Java/JavaVirtualMachines/amazon-corretto*.jdk/Contents/Home; do \
 			if [ -d "$$jd" ]; then \
-				jenv add "$$jd" > /dev/null || { printf "ERROR: target [jenv-add-corretto] failed while registering %s\n" "$$jd" >&2; exit 1; }; \
+				jenv add "$$jd" > /dev/null || { printf "❌: target [jenv-add-corretto] failed while registering %s\n" "$$jd" >&2; exit 1; }; \
 			fi; \
 		done; \
 	fi
@@ -267,7 +267,7 @@ clean: | brew-uninstall-packages ## Cleanup generated files and remove installed
 fix-permissions-of-home:
 	@printf "ⓘ Starting target [fix-permissions-of-home]...\n"
 	@if [ -d "$(HOME_DEV_DIR)" ]; then \
-		chmod -R u=rwX,go= "$(HOME_DEV_DIR)" || { printf "ERROR: target [fix-permissions-of-home] failed while fixing permissions on %s\n" "$(HOME_DEV_DIR)" >&2; exit 1; }; \
+		chmod -R u=rwX,go= "$(HOME_DEV_DIR)" || { printf "❌: target [fix-permissions-of-home] failed while fixing permissions on %s\n" "$(HOME_DEV_DIR)" >&2; exit 1; }; \
 	fi
-	@chmod u=rwX,go= "$(HOME)" || { printf "ERROR: target [fix-permissions-of-home] failed while fixing permissions on %s\n" "$(HOME)" >&2; exit 1; }
+	@chmod u=rwX,go= "$(HOME)" || { printf "❌: target [fix-permissions-of-home] failed while fixing permissions on %s\n" "$(HOME)" >&2; exit 1; }
 	@printf "✅ Finished target [fix-permissions-of-home]\n"

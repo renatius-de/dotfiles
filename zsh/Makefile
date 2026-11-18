@@ -62,7 +62,7 @@ $(ZSHRC_LOCAL_FILE):
 ohmyzsh: ensure-git ensure-curl
 	$(call target_start,ohmyzsh)
 	@set -o pipefail; if [ ! -d "$(OH_MY_ZSH)" ]; then \
-		sh -c "$$($(DOWNLOAD) https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -- --unattended || { printf "ERROR: target [ohmyzsh] failed while installing Oh My Zsh\n" >&2; exit 1; }; \
+		sh -c "$$($(DOWNLOAD) https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -- --unattended || { printf "❌: target [ohmyzsh] failed while installing Oh My Zsh\n" >&2; exit 1; }; \
 	fi
 	@$(RM_F) $(HOME)/.zshrc || { $(call fail_target,ohmyzsh); }
 	$(call target_end,ohmyzsh)
@@ -70,7 +70,7 @@ ohmyzsh: ensure-git ensure-curl
 ohmyzsh_update: ensure-git
 	$(call target_start,ohmyzsh_update)
 	@set -o pipefail; if [ -d "$(OH_MY_ZSH)" ]; then \
-		sh $(OH_MY_ZSH)/tools/upgrade.sh > /dev/null || { printf "ERROR: target [ohmyzsh_update] failed while upgrading Oh My Zsh\n" >&2; exit 1; }; \
+		sh $(OH_MY_ZSH)/tools/upgrade.sh > /dev/null || { printf "❌: target [ohmyzsh_update] failed while upgrading Oh My Zsh\n" >&2; exit 1; }; \
 	fi
 	@$(MAKE) clone-or-update-external || { $(call fail_target,ohmyzsh_update); }
 	$(call target_end,ohmyzsh_update)
@@ -83,10 +83,10 @@ clone-or-update-external: ensure-git
 		dir=$(OMZ_CUSTOM)/$$name; \
 		if [ ! -d "$$dir" ]; then \
 		  git clone --depth=1 https://github.com/$(repo).git "$$dir" >/dev/null \
-		    || { printf "ERROR: target [clone-or-update-external] failed while cloning %s into %s\n" "$(repo)" "$$dir" >&2; exit 1; }; \
+		    || { printf "❌: target [clone-or-update-external] failed while cloning %s into %s\n" "$(repo)" "$$dir" >&2; exit 1; }; \
 		else \
 		  git -C "$$dir" pull --ff-only >/dev/null \
-		    || { printf "ERROR: target [clone-or-update-external] failed while updating %s in %s\n" "$(repo)" "$$dir" >&2; exit 1; }; \
+		    || { printf "❌: target [clone-or-update-external] failed while updating %s in %s\n" "$(repo)" "$$dir" >&2; exit 1; }; \
 		fi; \
 	)
 	$(call target_end,clone-or-update-external)

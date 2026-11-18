@@ -39,14 +39,14 @@ DOWNLOAD := curl --fail --location --silent --show-error \
   --retry 3 --retry-delay 2 --retry-all-errors --max-time 20
 
 define fail_target
-	printf "ERROR: target [%s] failed in Makefile [%s]\n" "$(1)" "$(MAKEFILE_BASE)" | tee -a "$(MAKE_STATUS_FILE)" >&2; \
-	printf "ERROR SUMMARY: one or more Make targets failed; see the error above.\n" >&2; \
+	printf "❌: target [%s] failed in Makefile [%s]\n" "$(1)" "$(MAKEFILE_BASE)" | tee -a "$(MAKE_STATUS_FILE)" >&2; \
+	printf "❌ SUMMARY: one or more Make targets failed; see the error above.\n" >&2; \
 	exit 1
 endef
 
 define make_summary
 	if [ -s "$(MAKE_STATUS_FILE)" ]; then \
-		if grep -q '^ERROR' "$(MAKE_STATUS_FILE)"; then \
+		if grep -q '^❌' "$(MAKE_STATUS_FILE)"; then \
 			printf "SUMMARY: Make execution completed with errors and skipped steps.\n"; \
 		else \
 			printf "SUMMARY: Make execution completed without errors; Homebrew-dependent steps were skipped.\n"; \
@@ -69,7 +69,7 @@ endef
 
 define run_cmd
 	set -o pipefail; $(1) || { \
-		printf "ERROR: target [%s] failed in Makefile [%s] while running command: %s\n" \
+		printf "❌: target [%s] failed in Makefile [%s] while running command: %s\n" \
 			"$(2)" "$(MAKEFILE_BASE)" "$(1)" >&2; \
 		exit 1; \
 	}
@@ -77,7 +77,7 @@ endef
 
 define ensure_cmd
 	command -v $(1) >/dev/null 2>&1 || { \
-		printf "ERROR: target [%s] failed because command '%s' is not available in Makefile [%s]\n" \
+		printf "❌: target [%s] failed because command '%s' is not available in Makefile [%s]\n" \
 			"$(2)" "$(1)" "$(MAKEFILE_BASE)" >&2; \
 		exit 1; \
 	}
@@ -100,7 +100,7 @@ define clone_or_update_repo
 		$(call run_cmd,git clone --depth=1 "https://github.com/$(1).git" "$$dir",clone_or_update_repo); \
 	else \
 		git -C "$$dir" pull --ff-only --depth=1 >/dev/null \
-			|| { printf "ERROR: target [clone_or_update_repo] failed while updating %s in %s\n" "$(1)" "$$dir" >&2; exit 1; }; \
+			|| { printf "❌: target [clone_or_update_repo] failed while updating %s in %s\n" "$(1)" "$$dir" >&2; exit 1; }; \
 	fi
 endef
 
@@ -112,7 +112,7 @@ define link_file_to_target
 	@printf "ⓘ Linking %s to [%s]\n" "$(3)" "$(2)"
 	@$(call ensure_dir,$(dir $(2))) || { $(call fail_target,$(1)); }
 	@$(RM_RF) "$(2)" || { $(call fail_target,$(1)); }
-	@ln -s "$(3)" "$(2)" || { printf "ERROR: target [%s] failed while linking %s to %s\n" "$(1)" "$(3)" "$(2)" >&2; exit 1; }
+	@ln -s "$(3)" "$(2)" || { printf "❌: target [%s] failed while linking %s to %s\n" "$(1)" "$(3)" "$(2)" >&2; exit 1; }
 	@printf "✅ Linked %s to [%s]\n" "$(3)" "$(2)"
 endef
 
@@ -120,7 +120,7 @@ define link_tree_to_target
 	@printf "ⓘ Linking %s to [%s]\n" "$(3)" "$(2)"
 	@$(RM_RF) "$(2)" || { $(call fail_target,$(1)); }
 	@$(call ensure_dir,$(dir $(2))) || { $(call fail_target,$(1)); }
-	@ln -s "$(3)" "$(2)" || { printf "ERROR: target [%s] failed while linking %s to %s\n" "$(1)" "$(3)" "$(2)" >&2; exit 1; }
+	@ln -s "$(3)" "$(2)" || { printf "❌: target [%s] failed while linking %s to %s\n" "$(1)" "$(3)" "$(2)" >&2; exit 1; }
 	@printf "✅ Linked %s to [%s]\n" "$(3)" "$(2)"
 endef
 
@@ -129,7 +129,7 @@ define do_in_sub_directories
 		if [ -f "$$d/Makefile" ]; then \
 			printf "ⓘ Starting directory target [%s] in %s\n" "$(1)" "$$d"; \
 			$(MAKE) -C "$$d" $(1) || { \
-				printf "ERROR: target [%s] failed in Makefile [%s/Makefile]\n" "$(1)" "$$d" >&2; \
+				printf "❌: target [%s] failed in Makefile [%s/Makefile]\n" "$(1)" "$$d" >&2; \
 				exit 1; \
 			}; \
 			printf "✅ Finished directory target [%s] in %s\n" "$(1)" "$$d"; \

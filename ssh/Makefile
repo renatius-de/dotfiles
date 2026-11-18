@@ -14,7 +14,7 @@ $(SSH_DIR):
 
 $(SSH_CONTROL_DIR): | $(SSH_DIR)
 	$(call ensure_directory,$@,install)
-	@chmod 700 "$@" || { printf "ERROR: target [install] failed while securing permissions on %s\n" "$@" >&2; exit 1; }
+	@chmod 700 "$@" || { printf "❌: target [install] failed while securing permissions on %s\n" "$@" >&2; exit 1; }
 	@printf "✅ Ready: [%s]\n" "$@"
 
 $(SSH_KEYS_DIR): | $(SSH_DIR)
