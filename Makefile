@@ -265,7 +265,7 @@ clean: | brew-uninstall-packages ## Cleanup generated files and remove installed
 	$(call make_summary)
 
 fix-permissions-of-home:
-	@printf "==> Starting target [fix-permissions-of-home]...\n"
+	@printf "ⓘ Starting target [fix-permissions-of-home]...\n"
 	@if [ -d "$(HOME_DEV_DIR)" ]; then \
 		chmod -R u=rwX,go= "$(HOME_DEV_DIR)" || { printf "ERROR: target [fix-permissions-of-home] failed while fixing permissions on %s\n" "$(HOME_DEV_DIR)" >&2; exit 1; }; \
 	fi

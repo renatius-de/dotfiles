@@ -55,7 +55,7 @@ $(ZSH_COPY_TARGETS): $(HOME)/.%: $(ROOT_DIR)/zsh/%
 	$(call link_file_to_target,configuration,$@,$<)
 
 $(ZSHRC_LOCAL_FILE):
-	@printf "==> Creating local Zsh config [%s]\n" "$@"
+	@printf "ⓘ Creating local Zsh config [%s]\n" "$@"
 	@$(call create_local_file,$@) || { $(call fail_target,configuration); }
 	@printf "✅ Ready: [%s]\n" "$@"
 

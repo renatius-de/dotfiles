@@ -60,7 +60,7 @@ define make_summary
 endef
 
 define target_start
-	@printf "==> Starting target [%s]...\n" "$(1)"
+	@printf "ⓘ Starting target [%s]...\n" "$(1)"
 endef
 
 define target_end
@@ -88,7 +88,7 @@ define ensure_dir
 endef
 
 define ensure_directory
-	@printf "==> Ensuring directory [%s]\n" "$(1)"
+	@printf "ⓘ Ensuring directory [%s]\n" "$(1)"
 	@$(call ensure_dir,$(1)) || { $(call fail_target,$(2)); }
 endef
 
@@ -109,7 +109,7 @@ define create_local_file
 endef
 
 define link_file_to_target
-	@printf "==> Linking %s to [%s]\n" "$(3)" "$(2)"
+	@printf "ⓘ Linking %s to [%s]\n" "$(3)" "$(2)"
 	@$(call ensure_dir,$(dir $(2))) || { $(call fail_target,$(1)); }
 	@$(RM_RF) "$(2)" || { $(call fail_target,$(1)); }
 	@ln -s "$(3)" "$(2)" || { printf "ERROR: target [%s] failed while linking %s to %s\n" "$(1)" "$(3)" "$(2)" >&2; exit 1; }
@@ -117,7 +117,7 @@ define link_file_to_target
 endef
 
 define link_tree_to_target
-	@printf "==> Linking %s to [%s]\n" "$(3)" "$(2)"
+	@printf "ⓘ Linking %s to [%s]\n" "$(3)" "$(2)"
 	@$(RM_RF) "$(2)" || { $(call fail_target,$(1)); }
 	@$(call ensure_dir,$(dir $(2))) || { $(call fail_target,$(1)); }
 	@ln -s "$(3)" "$(2)" || { printf "ERROR: target [%s] failed while linking %s to %s\n" "$(1)" "$(3)" "$(2)" >&2; exit 1; }
@@ -127,7 +127,7 @@ endef
 define do_in_sub_directories
 	@for d in $(SUB_DIRECTORIES); do \
 		if [ -f "$$d/Makefile" ]; then \
-			printf "==> Starting directory target [%s] in %s\n" "$(1)" "$$d"; \
+			printf "ⓘ Starting directory target [%s] in %s\n" "$(1)" "$$d"; \
 			$(MAKE) -C "$$d" $(1) || { \
 				printf "ERROR: target [%s] failed in Makefile [%s/Makefile]\n" "$(1)" "$$d" >&2; \
 				exit 1; \
@@ -143,7 +143,7 @@ else
   .PHONY: help
 
   help:
-	@printf "==> Starting target [help]...\n"
+	@printf "ⓘ Starting target [help]...\n"
 	@cd "$(ROOT_DIR)" && $(MAKE) help
 	@printf "✅ Finished target [help]\n"
 endif

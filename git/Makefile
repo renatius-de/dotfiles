@@ -17,12 +17,12 @@ ensure-git:
 	$(call target_end,ensure-git)
 
 $(GITATTR_REPO_DIR):
-	@printf "==> Ensuring repository [%s]\n" "GitAttributesRepository"
+	@printf "ⓘ Ensuring repository [%s]\n" "GitAttributesRepository"
 	@$(call clone_or_update_repo,alexkaratarakis/gitattributes,$(GIT_PROJECTS_DIR),GitAttributesRepository) || { $(call fail_target,plugin); }
 	@printf "✅ Repository ready: [%s]\n" "GitAttributesRepository"
 
 $(GITIGNORE_REPO_DIR):
-	@printf "==> Ensuring repository [%s]\n" "GitIgnoreRepository"
+	@printf "ⓘ Ensuring repository [%s]\n" "GitIgnoreRepository"
 	@$(call clone_or_update_repo,github/gitignore,$(GIT_PROJECTS_DIR),GitIgnoreRepository) || { $(call fail_target,plugin); }
 	@printf "✅ Repository ready: [%s]\n" "GitIgnoreRepository"
 
@@ -30,7 +30,7 @@ $(GIT_CONFIG_FILE):
 	$(call link_file_to_target,install,$@,$(GIT_PROJECTS_DIR)/config)
 
 $(GIT_CONFIG_LOCAL_FILE):
-	@printf "==> Creating local Git config file [%s]\n" "$@"
+	@printf "ⓘ Creating local Git config file [%s]\n" "$@"
 	@$(call create_local_file,$@) || { $(call fail_target,install); }
 	@printf "✅ Local Git config ready: [%s]\n" "$@"
 
