@@ -13,6 +13,7 @@
     pf = !"git ph --force origin $(git branch-name)"
     ph = push --progress --set-upstream
     pl = pull
+    pla = pull --ff-only --autostash --rebase --all --prune --no-tags
     re = reset
     rh = reset --hard
     rv = remote --verbose
