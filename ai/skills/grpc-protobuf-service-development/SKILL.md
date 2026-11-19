@@ -5,12 +5,12 @@ description: "Design, implement, and validate Spring gRPC services and Protobuf 
 
 # Develop Spring gRPC and Protobuf Services
 
-Use this skill when changing Protobuf definitions, generated gRPC APIs, Spring gRPC service implementations, or gRPC error handling in this repository.
+Use when changing Protobuf definitions, generated gRPC APIs, Spring gRPC implementations, or error handling.
 
 ## Scope
 
-- Treat files under `grpc/src/main/proto/` as the source of truth for the gRPC contract. Do not edit generated Java sources.
-- Preserve the existing Spring gRPC server, shared data module, and service conventions.
+- `grpc/src/main/proto/` is the gRPC contract source; never edit generated Java.
+- Preserve Spring gRPC server, shared data module, and service conventions.
 - Keep REST and gRPC behavior aligned for shared domain operations when their contracts describe the same behavior. Do not change the REST API unless it is required and in scope.
 - Preserve the repository's REST/gRPC benchmark comparability when changing search, filtering, or pagination behavior.
 - Do not introduce streaming RPCs, authentication changes, or new public operations without an explicit requirement.
@@ -21,7 +21,7 @@ Use this skill when changing Protobuf definitions, generated gRPC APIs, Spring g
 
 Before editing:
 
-- Read the relevant `.proto` service and message definitions, gRPC implementation, mapper, shared data service or repository, exception support, application configuration, and tests.
+- Read relevant `.proto` definitions, service implementation, mapper, shared data service/repository, exception support, configuration, and tests.
 - Check the `grpc` module's Protobuf and gRPC Gradle plugin configuration and use the repository's configured versions.
 - Trace request validation, domain behavior, persistence, response mapping, status mapping, metadata, and client-visible semantics.
 - Check corresponding REST operations and load-test scripts when the change affects shared behavior or REST/gRPC comparison.
@@ -29,12 +29,12 @@ Before editing:
 
 ### 2. Evolve Protobuf contracts safely
 
-- Preserve existing package names, service names, RPC names, field numbers, and field types unless an approved contract change requires otherwise.
+- Preserve package/service/RPC names, field numbers, and types unless a contract change is approved.
 - Never reuse a removed field number or name. Mark retired field numbers and names as `reserved`.
 - Never renumber fields or change a field to an incompatible wire type as incidental cleanup.
 - Preserve enum numeric values. Reserve removed enum numbers and names; do not repurpose the unspecified/default value.
 - Use `optional` when clients must distinguish an omitted scalar from its default value. Document and test presence semantics.
-- Review generated JSON names and default-value behavior when changing scalar or enum fields.
+- For scalar/enum changes, review generated JSON names and default values.
 - Update dependent clients, tests, and copied API definitions only when those files are part of the repository contract.
 - Treat changing update semantics, validation behavior, status codes, or pagination defaults as an API behavior change, even if the Protobuf wire shape remains compatible.
 

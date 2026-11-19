@@ -8,16 +8,12 @@ applyTo: "**/*"
 
 ## Scope
 
-- Apply this rule to every completed task or execution, regardless of the files or systems involved.
-- This rule governs the final response summary and does not replace task-specific reporting requirements.
+Applies to every completed task, in addition to its task-specific reporting requirements.
 
 ## Required behavior
 
-- End every completed task response with a clearly labeled `Summary` section.
-- Write the entire summary strictly in English, even when the rest of the response uses another language.
-- Briefly describe every file added, modified, or deleted and the change made to it.
-- Keep the summary concise, clear, and focused on material changes such as features, removed code, or structural updates.
-- If no files changed, state that explicitly.
+- End every completed response with a clearly labeled `Summary` in English, regardless of the response language.
+- Concisely describe each added, modified, or deleted file and its material change. If none changed, say so.
 
 ## Required format
 
@@ -30,10 +26,8 @@ When no files changed, use `## Summary` followed by `No files changed.`
 
 ## Do not
 
-- Do not omit the summary after completing a task or execution.
-- Do not include unsupported claims, unrelated details, or lengthy implementation narratives in the summary.
-- Do not write any part of the summary in a language other than English.
+- Do not omit the summary, add unsupported/unrelated claims or lengthy narratives, or use a language other than English in it.
 
 ## Completion criteria
 
-- The final response ends with a concise, accurate English summary of every file change, or explicitly states that no files changed.
+The response must end with an accurate, concise English summary of every changed file, or explicitly state that no files changed.

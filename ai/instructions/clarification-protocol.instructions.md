@@ -6,28 +6,19 @@ applyTo: "**"
 
 ## Scope
 
-- Applies to all work when requirements, constraints, APIs, versions, or expectations are unclear or incomplete.
-- This is a cross-cutting decision rule: it applies before implementation, before API design, and before documentation changes whenever a required fact is uncertain.
-- It does not replace domain-specific rules such as Java quality, OpenAPI authoring, or documentation governance.
+Applies before implementation, API design, and documentation whenever requirements, constraints, APIs, versions, expectations, or another required fact are unclear. Domain-specific rules remain in force.
 
 ## Required behavior
 
-- Treat this as the highest-priority rule for any task: minimize assumptions and seek clarification when necessary about requirements, APIs, data models, versions, constraints, or edge cases.
-- Ask a concise, targeted clarifying question as soon as a required fact is missing, unclear, or ambiguous.
-- Do not generate speculative code, guessed business logic, or placeholder behavior.
-- If multiple valid implementation paths exist, present the options briefly and ask the user to choose.
-- Once the missing details are confirmed, proceed directly with a focused, production-ready implementation.
-- Preserve English wording in code comments and documentation and ask before changing README files unless the user explicitly requests that change.
+- Prioritize minimizing assumptions; ask a concise, targeted question as soon as a requirement, API, data model, version, constraint, expectation, or edge case is missing or unclear.
+- Do not invent code, business logic, or placeholder behavior. If multiple approaches are valid, briefly present them and ask the user to choose.
+- After clarification, implement directly and narrowly. Keep comments and documentation in English; ask before changing READMEs unless explicitly requested.
 
 ## Do not
 
-- Do not assume user intent, API contracts, or environment details without confirmation.
-- Do not proceed with implementation when a required fact is uncertain.
-- Do not invent placeholders or pseudo-behavior as a substitute for real requirements.
-- Do not choose an arbitrary implementation path when a brief option comparison is more appropriate.
+- Never assume intent, API contracts, or environment details; do not implement while a required fact is uncertain.
+- Do not substitute placeholders or pseudo-behavior for requirements, or choose arbitrarily when valid approaches warrant a brief comparison.
 
 ## Decision standard
 
-- Ask before acting when the task is ambiguous.
-- Confirm the missing fact, then implement directly.
-- Keep clarifying questions narrow, relevant, and actionable.
+Ask first when ambiguous; confirm the missing fact, then act. Keep questions narrow and actionable.

@@ -63,7 +63,7 @@ Review the class for:
 - DTOs or data carriers that can become records.
 - Concurrency patterns that could benefit from virtual threads or structured concurrency.
 
-Produce a brief complexity summary before editing.
+Record the complexity findings for the final summary.
 
 ### Step 2: Clarify ambiguity before changes
 
@@ -94,9 +94,7 @@ Use one or more of the following:
 - Separate parsing logic from business rules when the class handles both.
 - Use virtual threads for a concurrency-heavy task only when the threading model truly matches the workload and the application framework supports it.
 
-### Step 4: Produce the updated code
-
-Return the modernized Java class in a fenced code block.
+### Step 4: Implement the refactoring
 
 The class should:
 
@@ -106,9 +104,7 @@ The class should:
 - remain easy to read and maintain,
 - and include only the necessary refactor, not speculative redesign.
 
-### Step 5: Add test recommendations
-
-Provide a concise list of tests to validate the refactor.
+### Step 5: Validate the refactor
 
 Recommended tests include:
 
@@ -160,18 +156,14 @@ The final response must follow this order:
 
 1. Complexity summary
    - Briefly explain the complexity issues found in the class.
-
 2. Refactoring strategy
    - Summarize the approach, including Java 25 idioms used, if applicable.
-
-3. Refactored Java code
-   - Provide the full modernized Java class in a fenced code block.
-
-4. Test recommendations
-   - Provide a concise list of relevant unit tests.
-
+3. Implementation summary
+   - Concisely describe the files changed and the refactoring. Provide the full class only when requested.
+4. Validation and test recommendations
+   - Report checks performed and recommend relevant additional tests.
 5. Complexity reduction summary
-   - Add a short bulleted summary of what improved.
+   - Briefly list what improved.
 
 ## Success criteria
 

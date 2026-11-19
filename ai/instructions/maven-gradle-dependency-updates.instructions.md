@@ -6,14 +6,14 @@ applyTo: "**/pom.xml,**/build.gradle,**/build.gradle.kts,**/gradle/libs.versions
 
 # Maven and Gradle Dependency Updates
 
-Use this instruction for dependency maintenance in Maven POMs, Gradle build files, and Gradle version catalogs. Pair detailed task execution with the `direct-dependency-update` skill when a dependency update is requested.
+For dependency maintenance in Maven POMs, Gradle build files, and version catalogs. Use the `direct-dependency-update` skill for requested updates.
 
 ## Scope and direct-dependency boundary
 
-- Inspect and update only dependencies explicitly declared by the project in the affected Maven or Gradle configuration.
+- Inspect/update only dependencies explicitly declared in affected Maven/Gradle configuration.
 - Do not add a transitive dependency to a build file merely because a scanner reports a vulnerability.
 - Do not change a transitive dependency through Maven dependency-management overrides, Gradle constraints, forced versions, resolution strategies, or exclusion workarounds unless the user explicitly promotes that library to a direct dependency.
-- A dependency managed by a BOM, platform, parent POM, or version catalog is direct only when the project explicitly declares it in the relevant dependency configuration.
+- BOM/platform/parent/catalog management does not make a dependency direct; the project must declare it in the relevant configuration.
 - If a transitive vulnerability cannot be resolved through a compatible direct-dependency update, preserve its classification, report the dependency path, and escalate the remediation decision.
 - Preserve existing scopes, configurations, exclusions, repositories, platforms, catalogs, lockfiles, and dependency-verification settings unless the approved update requires a documented migration.
 
@@ -21,7 +21,7 @@ Use this instruction for dependency maintenance in Maven POMs, Gradle build file
 
 ### 1. Establish the build contract
 
-Before editing, read the owning build files and relevant wrappers, settings, parent POMs, BOM imports, dependency-management files, version catalogs, repository instructions, and CI tasks. Determine:
+Before editing, read owning build files, wrappers, settings, parent POMs, BOMs, dependency management, catalogs, repository instructions, and CI tasks. Determine:
 
 - the build system, module, supported Java version, and wrapper version
 - where each direct dependency and its version are declared
@@ -32,9 +32,9 @@ Ask one focused clarification question if ownership, version source, supported r
 
 ### 2. Inventory direct dependencies
 
-For Maven, inspect declared entries under the relevant `<dependencies>` sections and distinguish them from entries shown only by `mvn dependency:tree` or `mvn help:effective-pom`.
+For Maven, inspect entries under relevant `<dependencies>` and distinguish project declarations from entries shown only by `mvn dependency:tree` or `mvn help:effective-pom`.
 
-For Gradle, inspect direct declarations such as `implementation`, `api`, `compileOnly`, `runtimeOnly`, test configurations, and project-specific configurations. Use `./gradlew dependencies` and `./gradlew dependencyInsight` only to understand resolution; resolved transitive entries are not edit targets.
+For Gradle, inspect direct `implementation`, `api`, `compileOnly`, `runtimeOnly`, test, and project-specific declarations. Use `./gradlew dependencies`/`dependencyInsight` only to understand resolution; transitive entries are not edit targets.
 
 Record the declaration file, configuration or scope, coordinates, current version source, resolved version, and direct/transitive classification for each candidate. Stop and report candidates that cannot be classified confidently.
 
@@ -52,7 +52,7 @@ Record the baseline scanner, command, coverage, CVE or advisory, severity, affec
 
 ### 4. Identify and assess update candidates
 
-Use established update tooling rather than guessing:
+Use established update tooling, not guesses:
 
 - Maven: use the configured `org.codehaus.mojo:versions-maven-plugin`, commonly `mvn versions:display-dependency-updates`
 - Gradle: use the configured `com.github.ben-manes.versions` Gradle Versions Plugin, commonly `./gradlew dependencyUpdates`
@@ -62,7 +62,7 @@ Treat reports as candidate lists. Check official release notes, changelogs, migr
 
 ### 5. Apply updates conservatively
 
-Change only the existing declaration or version source for the approved direct dependency. Keep coordinates, scopes, configurations, exclusions, aliases, platforms, ordering, and repository settings unchanged unless a documented migration requires otherwise.
+Change only the approved direct declaration or its existing version source. Preserve coordinates, scopes/configurations, exclusions, aliases, platforms, ordering, and repositories unless a documented migration requires otherwise.
 
 Update one dependency or one tightly coupled, documented set at a time. A direct promotion of a previously transitive dependency requires explicit approval, a normal direct declaration, and a documented reason. Never use a forced version, resolution strategy, dependency constraint, or dependency-management override as a substitute for that approval.
 
@@ -81,7 +81,7 @@ Do not combine unrelated major updates merely to reduce the number of edits.
 
 ### 7. Verify build behavior and scan again
 
-After each update, run the narrowest relevant wrapper-based compile or test task, focused tests for affected integration points, and a dependency graph inspection. Confirm that only the intended direct declaration changed and that lockfiles or dependency-verification metadata remain consistent.
+After each update, run the narrowest wrapper compile/test, affected integration tests, and dependency-graph inspection. Confirm only the intended direct declaration changed and lockfiles/verification metadata remain consistent.
 
 Run the same vulnerability scanner used for the baseline after every update, even when compilation and tests pass. Compare the results and confirm that the targeted CVE is resolved or reduced, no new critical or high-severity vulnerability was introduced, and the affected module was covered.
 

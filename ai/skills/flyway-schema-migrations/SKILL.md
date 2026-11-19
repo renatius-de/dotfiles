@@ -5,14 +5,14 @@ description: "Author and review PostgreSQL Flyway migrations with safe schema ev
 
 # Manage PostgreSQL Flyway Migrations
 
-Use this skill when adding or reviewing Flyway SQL migrations, changing persistent data structures, or coordinating database schema changes with JPA entities and application code.
+Use when adding/reviewing Flyway SQL migrations, changing persistent data structures, or coordinating schema changes with JPA/application code.
 
 ## Scope
 
-- Follow the `data` module's Flyway configuration and migration location, currently `data/src/main/resources/db/migration/`.
+- Use the `data` module's Flyway setup and migration location: `data/src/main/resources/db/migration/`.
 - Treat committed versioned migrations as deployment history. Add a new migration for an already released or applied change; do not silently rewrite history.
 - Keep PostgreSQL as the database contract and check the project's configured database and Flyway versions before using version-specific SQL or features.
-- Keep schema changes aligned with JPA entities, repositories, mappings, and application behavior.
+- Align schema changes with JPA entities, repositories, mappings, and behavior.
 - Do not run migrations against a shared or production database without explicit approval.
 
 ## Required workflow
@@ -21,7 +21,7 @@ Use this skill when adding or reviewing Flyway SQL migrations, changing persiste
 
 Before editing:
 
-- Read the affected entity mappings, repositories, existing migration history, database configuration, tests, and deployment workflow.
+- Read affected mappings, repositories, migration history, database configuration, tests, and deployment workflow.
 - Locate the highest existing migration version and follow the repository's `V<number>__description.sql` naming convention.
 - Confirm supported PostgreSQL versions and whether the change must work with existing rows or rolling application deployments.
 - Determine whether the change affects nullability, defaults, keys, indexes, constraints, data retention, or application compatibility.
@@ -31,7 +31,7 @@ Before editing:
 
 - Add a new, monotonically increasing versioned migration; coordinate version assignment when concurrent changes may use the same next version.
 - Keep each migration focused, deterministic, and explicit about the tables and data it changes.
-- Preserve existing data unless deletion or transformation is a stated requirement. Explain data-loss, lock, availability, and rollback implications before changes with those effects.
+- Preserve data unless deletion/transformation is required. Explain data-loss, lock, availability, and rollback implications before such changes.
 - Prefer expand-and-contract steps for changes that must coexist with old and new application versions: add compatible schema first, migrate or backfill data, switch application use, then remove obsolete schema in a separately approved follow-up.
 - Make backfills bounded and safe for the actual data volume. Consider lock duration, transaction behavior, index creation impact, and retry or interruption behavior.
 - Use database constraints to enforce required invariants when compatible with existing data and application behavior.
@@ -40,7 +40,7 @@ Before editing:
 
 ### 3. Keep application mappings consistent
 
-- Compare changed tables and columns with entity annotations, relationships, converters, and repository queries.
+- Compare changed tables/columns with entity annotations, relationships, converters, and repository queries.
 - Check SQL and Java types, nullability, lengths, precision, defaults, generated identifiers, indexes, uniqueness, and foreign keys.
 - Update application code and migration together when a schema change requires it; do not rely on Hibernate auto-DDL to create production schema changes.
 - Keep existing naming conventions, such as snake_case database columns and the current PostgreSQL UUID strategy, unless a documented migration requires a change.
@@ -78,7 +78,7 @@ Before finalizing:
 
 ## Safety and decision rules
 
-- Treat applied versioned migrations as immutable; create a forward migration to correct a released change.
+- Treat applied versioned migrations as immutable; correct released changes with a forward migration.
 - Require explicit approval for data deletion, irreversible transformations, destructive schema changes, or migrations on live environments.
 - Do not invent database versions, production data shapes, table sizes, downtime windows, or rollback guarantees.
 - Prefer a tested forward repair over editing migration history or manually changing a live schema.

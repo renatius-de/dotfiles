@@ -6,27 +6,17 @@ applyTo: "**/README.md,**/*.md"
 
 ## Scope
 
-- Applies to README files, documentation files, and any user-facing project guidance.
-- Use this rule when project behavior, setup steps, configuration, or expectations change.
-- This rule focuses on change control and approval for documentation. It does not define code quality, Java standards, or OpenAPI contract rules.
+Applies to README files, documentation, and user-facing guidance when behavior, setup, configuration, or expectations change. Governs documentation approval, not code quality, Java, or OpenAPI contracts.
 
 ## Required behavior
 
-- Review whether documentation needs updates whenever behavior, setup steps, configuration, or project expectations change.
-- Keep documentation aligned with the repository’s current implementation.
-- Make non-README documentation updates only when they are directly relevant and accurate.
-- Treat README changes as a deliberate, approval-gated action, not a default side effect of code edits.
-- Propose the documentation change briefly before editing a README file if the change is needed.
+- Whenever behavior, setup, configuration, or expectations change, assess documentation updates and keep docs aligned with implementation.
+- Update non-README documentation only when directly relevant and accurate. README edits require explicit approval: briefly propose a necessary change before editing.
 
 ## Do not
 
-- Do not create or modify README files without explicit user confirmation.
-- Do not update documentation with speculative or unverified claims.
-- Do not leave docs inconsistent with the actual repository behavior.
-- Do not broaden documentation scope beyond the feature or change being discussed.
+- Never create or edit a README without explicit confirmation; avoid speculative claims, stale behavior, and scope beyond the change.
 
 ## Documentation standard
 
-- Keep documentation concise, relevant, and maintainable.
-- Prefer small, accurate updates over broad documentation rewrites.
-- Follow the English-only repository standard in all documentation artifacts.
+Keep documentation concise, relevant, maintainable, accurate, and English-only; prefer focused edits over broad rewrites.

@@ -8,39 +8,28 @@ applyTo: "**/*.java,**/pom.xml,**/build.gradle,**/build.gradle.kts,**/applicatio
 
 ## Scope and priorities
 
-- Apply these rules to Java source, tests, build files, and Spring Boot or Quarkus configuration.
-- Preserve the existing public contract, repository conventions, and supported runtime unless the task explicitly changes them.
-- Prefer the simplest design that is correct, observable, secure, and easy to maintain.
-- Verify the project's actual Java, framework, JUnit, Mockito, and Testcontainers versions before using version-specific APIs.
-- Resolve conflicts in this order: explicit user requirements, repository conventions, these standards, then general style preferences.
-- This rule covers Java implementation and testing only. It does not define OpenAPI authoring, README approval, or documentation language rules.
+Apply to Java source/tests, build files, and Spring Boot/Quarkus configuration. Preserve public contracts, repository conventions, and supported runtime unless explicitly changed; prefer the simplest correct, observable, secure, maintainable design. Verify actual Java/framework/JUnit/Mockito/Testcontainers versions before using version-specific APIs. Resolve conflicts by priority: user requirements, repository conventions, these standards, general style. This rule covers Java implementation/testing, not OpenAPI, README approval, or documentation language.
 
 ## Architecture & coding standards
 
-- Use records consistently for immutable DTOs and value objects. Use a class only when identity, mutability, inheritance, or framework requirements require it.
-- Use pattern matching for `instanceof` and `switch`, as well as switch expressions, when this removes casts, flag fields, or nested conditions.
-- Use sealed interfaces or classes for closed domain hierarchies and ensure switch expressions cover every permitted variant.
-- Use virtual threads by default for I/O-bound workloads and blocking tasks. Define timeouts, cancellation, and failure semantics; do not use them as a substitute for CPU scaling and avoid pinning through long `synchronized` blocks or native calls.
-- Use structured concurrency when dependent tasks must be started, completed, or cancelled as a unit and the project version supports it.
-- Keep methods small, use guard clauses, and separate validation, orchestration, persistence, and presentation.
-- Use constructor injection exclusively and stateless components by default. Make state, lifecycle, and thread-safety requirements explicit when state is necessary.
-- Prefer standard Java and framework facilities. Use Lombok or MapStruct only when established by repository convention or when they clearly reduce repetitive code.
-- Do not introduce speculative abstractions, global mutable state, unnecessary reflection, or blocking calls into reactive flows.
+- Use records for immutable DTOs/value objects unless identity, mutability, inheritance, or framework needs require classes. Use `instanceof`/`switch` pattern matching and switch expressions to remove casts, flags, or nesting; use sealed types for closed hierarchies and exhaustively handle variants.
+- Default to virtual threads for I/O-bound/blocking work; define timeout, cancellation, and failure behavior; never use them for CPU scaling or pin them with long `synchronized`/native calls. Use structured concurrency for dependent task groups when supported.
+- Keep methods small, use guards, and separate validation, orchestration, persistence, and presentation. Use constructor injection and stateless components by default; make necessary state/lifecycle/thread-safety explicit.
+- Prefer standard facilities; use Lombok/MapStruct only when established or clearly reducing repetition. Avoid speculative abstractions, global mutable state, needless reflection, and blocking in reactive flows.
 
 ## Spring Boot 4+ patterns
 
-- Use current Spring Boot 4+ or Quarkus conventions supported by the repository; do not upgrade frameworks as part of an unrelated change.
-- Use constructor injection exclusively. Avoid field-level `@Autowired` and setter injection.
-- Define configuration with `@ConfigurationProperties` and validated immutable records instead of mutable beans or scattered `@Value` fields.
-- Keep web, application, domain, and infrastructure boundaries visible. Use ports or interfaces at real external boundaries, not for every class.
-- Use Spring Data repositories for persistence and Flyway or Liquibase for versioned database migrations. Do not change schemas implicitly through automatic DDL generation in production.
-- Disable Open-Session-in-View and load required data within explicit transaction boundaries. Avoid lazy loading in the REST response path.
+- Follow repository-supported Spring Boot 4+/Quarkus conventions; do not upgrade frameworks as unrelated work.
+- Use constructor injection only, never field `@Autowired` or setter injection. Define validated immutable-record configuration with `@ConfigurationProperties`, not mutable beans or scattered `@Value`.
+- Keep web, application, domain, and infrastructure boundaries visible; use ports/interfaces at actual external boundaries, not everywhere.
+- Use Spring Data repositories and versioned Flyway/Liquibase migrations; never rely on automatic production DDL generation.
+- Disable Open-Session-in-View; load needed data within explicit transactions and avoid lazy loading in REST response paths.
 - Use declarative HTTP clients through `@HttpExchange` for external REST communication. Define timeouts, error mapping, idempotency, and retry policies explicitly.
-- Handle REST errors centrally with `@RestControllerAdvice` and `ProblemDetail` following RFC 7807. Do not leak internal stack traces, credentials, or sensitive payloads.
+- Handle REST errors centrally with `@RestControllerAdvice` and RFC 7807 `ProblemDetail`; never leak stack traces, credentials, or sensitive payloads.
 - Validate OAuth2/OIDC tokens with issuer, signature, audience, expiry, and clock-skew checks. Map roles and claims explicitly and authorize according to least privilege.
 - Instrument relevant business and infrastructure boundaries with Micrometer Observability. Use consistent metric names, tracing context, and structured logs without secrets or personal data.
 - Account for AOT and GraalVM Native Image compatibility: prefer static configuration and register required reflection, proxy, or resource hints explicitly.
-- Deny by default for protected endpoints. Do not disable TLS verification, CSRF protection, token validation, or authorization to simplify tests or local development.
+- Deny protected endpoints by default. Never disable TLS verification, CSRF, token validation, or authorization for tests or local development.
 
 ## Testing standards: AssertJ, Mockito, JUnit 6+, and Testcontainers
 

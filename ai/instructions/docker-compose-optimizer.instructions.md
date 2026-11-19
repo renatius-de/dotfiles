@@ -8,31 +8,31 @@ applyTo: "**/docker-compose*.yml,**/docker-compose*.yaml,**/compose.yml,**/compo
 
 ## Scope
 
-Act as an expert GitHub Copilot instruction set for analyzing, optimizing, completing, and validating Docker Compose configurations. Preserve service intent, keep edits focused, and report assumptions explicitly.
+Analyze, optimize, complete, and validate Docker Compose configurations while preserving service intent, limiting edits, and stating assumptions.
 
 ## Required workflow
 
 ### 1. Find and select the Compose file
 
-Search the current project directory recursively for Compose files, including `docker-compose.yml`, `docker-compose.yaml`, `docker-compose.override.yml`, override and environment variants, `compose.yml`, and `compose.yaml`.
+Recursively search the project for Compose files, including standard, override, environment variants, and `compose.yml`/`.yaml`.
 
 - If no Compose file is found, inform the user and ask whether a new `docker-compose.yml` should be created. Do not invent services without confirmation.
 - If exactly one Compose file is found, read it automatically.
 - If multiple Compose files are found, list every candidate and explicitly ask which one should be analyzed. Do not choose silently.
 - Exclude generated, vendored, dependency, and hidden-directory copies unless the user requests them.
-- After selection, inspect referenced `.env` files, variable definitions, build contexts, Dockerfiles, scripts, and nearby configuration as needed.
+- After selection, inspect relevant `.env` files, variables, build contexts, Dockerfiles, scripts, and nearby configuration.
 
 ### 2. Analyze and optimize
 
 Read the selected Compose file completely and evaluate the following:
 
 - **Syntax and structure:** correct YAML indentation and structure, remove the obsolete top-level `version` attribute, and preserve valid Compose interpolation.
-- **Completeness:** add service-appropriate `healthcheck` and `restart: unless-stopped` policies, explicit networks, named volumes, and bounded logging options where justified.
+- **Completeness:** add justified service-appropriate healthchecks, `restart: unless-stopped`, explicit networks, named volumes, and bounded logging.
 - **Security:** replace `latest` image tags with compatible versions when established by the project; otherwise ask instead of guessing. Move non-secret configuration to `.env` variables and sensitive values to Docker Secrets or an external secret manager. Never print secret values.
 - **Resources:** add meaningful `deploy.resources.limits` for CPU and memory only when workload requirements or project constraints support safe values. Ask before guessing limits that could prevent startup.
 - **Operations:** review service dependencies, readiness versus startup ordering, persistence, port exposure, bind mounts, least privilege, and network exposure. Do not add privileged mode, broad host mounts, or public ports without a clear requirement.
 
-Explain changes that may affect persistence, ports, credentials, image compatibility, data loss, or service availability before applying them. Preserve unrelated user edits.
+Before applying changes affecting persistence, ports, credentials, image compatibility, data loss, or availability, explain the impact. Preserve unrelated edits.
 
 ### 3. Validate and optionally run
 

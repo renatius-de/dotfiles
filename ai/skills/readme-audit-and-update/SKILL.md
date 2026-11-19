@@ -5,11 +5,11 @@ description: "Audit a project and update each README.md so it matches the curren
 
 # Update Project READMEs
 
-Use this skill to review every existing `README.md` in a project and update only statements that are technically or functionally outdated, incorrect, or necessary to keep the documentation aligned with the implementation.
+Review every project `README.md`; update only technically or functionally outdated or incorrect claims, or content needed to align documentation with implementation.
 
 ## Goal
 
-Produce accurate, maintainable README documentation without rewriting text for style alone. Preserve the author's existing structure, terminology, tone, and examples whenever they remain correct.
+Keep README content accurate and maintainable without stylistic rewrites. Preserve correct structure, terminology, tone, and examples.
 
 The update must:
 
@@ -39,7 +39,7 @@ Inspect the implementation and configuration that each README describes. Dependi
 - symlink, installation, upgrade, cleanup, and local override behavior
 - references between modules and documented commands
 
-Use the actual project as the source of truth. Run focused inspection commands or safe dry runs when they can confirm a documented command or target. Use version history only when current files do not explain whether a statement is intentionally retained.
+Use the project as source of truth. Run focused inspections or safe dry runs to verify commands/targets; consult history only when current files do not explain retained wording.
 
 ### 3. Compare claims with behavior
 
@@ -63,7 +63,7 @@ Classify each finding as one of:
 
 ### 4. Apply a strict change threshold
 
-Change README content only when the change is necessary to keep it factually correct or operationally usable. Examples include:
+Change README text only when needed for factual correctness or operational use, such as:
 
 - a command no longer exists or no longer produces the described result
 - a path, target, file, module, runtime, dependency, or environment variable changed

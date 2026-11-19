@@ -5,11 +5,11 @@ description: "Safely analyze and maintain the repository's symlink-based install
 
 # Maintain Dotfiles Installation Workflows
 
-Use this skill when changing or reviewing the repository's root or module Makefiles, shared Make helpers, or other automation that installs, upgrades, or removes dotfiles and related tooling.
+Use when changing/reviewing root or module Makefiles, shared helpers, or automation that installs, upgrades, or removes dotfiles/tooling.
 
 ## Scope
 
-Preserve the repository's modular Makefile workflow and symlink-based configuration model. Keep changes focused on the affected target flow, and treat operations against the user's home directory, installed packages, external repositories, and local configuration as potentially destructive or externally visible.
+Preserve the modular Makefile workflow and symlink model. Limit changes to affected targets; treat home-directory, package, external-repository, and local-configuration operations as potentially destructive or externally visible.
 
 Follow the repository's Makefile standards in `.github/instructions/makefile-standards.instructions.md`. This skill provides a workflow for lifecycle changes; it does not replace those standards.
 
@@ -19,18 +19,18 @@ Follow the repository's Makefile standards in `.github/instructions/makefile-sta
 
 Before editing:
 
-- Read the root `Makefile`, `make/common.mk`, and each affected module Makefile.
-- Trace prerequisite and recursive target relationships for `install`, `upgrade`, and `clean`; do not assume that a target only affects its own module.
+- Read root `Makefile`, `make/common.mk`, and affected module Makefiles.
+- Trace `install`, `upgrade`, and `clean` prerequisites/recursion; a target may affect other modules.
 - Inspect shared helper definitions before changing or bypassing them.
 - Identify platform assumptions, required commands, environment variables, package-manager calls, network access, and privileged operations.
-- Check repository status and preserve unrelated user changes.
+- Check repository status; preserve unrelated changes.
 - Read relevant Makefile standards and documentation when they define the affected workflow.
 
 If a target's ownership, side effects, platform support, or compatibility requirements cannot be determined, ask a focused question before changing behavior.
 
 ### 2. Classify paths and side effects
 
-For every affected path, determine whether it is:
+Classify each affected path as:
 
 - a tracked repository source
 - an intended symlink destination
@@ -62,7 +62,7 @@ Before changing cleanup or link-replacement behavior, inspect every `rm`, `unlin
 
 ### 4. Validate without changing the user's machine
 
-Start with static inspection and the narrowest applicable checks:
+Start with static inspection and the narrowest checks:
 
 1. Use `make -n` for the affected root or module target to inspect expanded commands and paths.
 2. Review the dry-run output for prerequisite ordering, local-file preservation, symlink destinations, package or network operations, and every cleanup target.

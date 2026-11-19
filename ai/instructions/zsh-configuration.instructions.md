@@ -8,19 +8,17 @@ applyTo: "zsh/*.zsh,zsh/zshrc,zsh/zprofile"
 
 ## Scope
 
-- Apply these rules to the repository-managed files in `zsh/` that configure interactive Zsh sessions.
-- Preserve the existing split between `zshrc`, `zprofile`, component files, and the user-owned `~/.zshrc.local` override.
-- This instruction covers Zsh configuration behavior only. Follow the repository Makefile standards separately when changing installation targets.
+Apply to repository-managed `zsh/` interactive configuration. Preserve the `zshrc`, `zprofile`, component, and user-owned `~/.zshrc.local` split. For installation targets, also follow repository Makefile standards.
 
 ## Required behavior
 
-- Confirm whether a change runs in login, interactive, or non-interactive shells. Preserve the early interactive-shell guard in `zshrc` and keep login setup in `zprofile`.
-- Preserve the configured component load order (`bundle`, `alias`, `export`) and load the local override after repository-managed settings unless the user requests a behavior change.
+- Identify login/interactive/non-interactive effects; preserve `zshrc`'s early interactive guard and keep login setup in `zprofile`.
+- Preserve `bundle`, `alias`, `export` order and load the local override after managed settings unless behavior change is requested.
 - Use Zsh syntax and semantics; do not assume Bash syntax or options are interchangeable.
 - Quote expansions when they represent paths or arguments. Preserve intentional Zsh array, glob, and parameter-expansion behavior.
 - Guard optional commands, plugins, and platform-specific settings so a missing tool or unsupported operating system does not break shell startup.
 - Keep secrets and machine-specific values out of tracked files. Use the existing local override for host-specific settings.
-- Avoid expensive work, network access, and interactive prompts during shell startup unless the current behavior or task requires them.
+- Avoid expensive work, network access, and startup prompts unless existing behavior or the task requires them.
 
 ## Do not
 

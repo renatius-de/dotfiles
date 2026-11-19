@@ -7,13 +7,13 @@ description: "Analyze, optimize, complete, and validate Docker Compose configura
 
 ## Scope
 
-Use this skill to inspect Docker Compose configurations, apply justified improvements, validate the resulting configuration, and optionally verify that the services start correctly.
+Inspect Compose configurations, apply justified improvements, validate them, and optionally verify service startup.
 
 ## Required workflow
 
 ### 1. Find and select the Compose file
 
-Search the current project directory recursively for Compose files, including names such as:
+Recursively search the project for Compose files, including:
 
 - `docker-compose.yml`
 - `docker-compose.yaml`
@@ -24,7 +24,7 @@ Search the current project directory recursively for Compose files, including na
 - `compose.yml`
 - `compose.yaml`
 
-Exclude generated, vendored, dependency, and hidden-directory copies unless the user explicitly requests them. Also check for Compose files referenced by project scripts or documentation when filename discovery alone is insufficient.
+Exclude generated, vendored, dependency, and hidden-directory copies unless requested. Also check script/documentation references when filename search is insufficient.
 
 Apply these selection rules:
 
@@ -32,11 +32,11 @@ Apply these selection rules:
 - If exactly one file is found, read it automatically.
 - If multiple files are found, list every candidate and explicitly ask which file should be analyzed. Do not choose one silently.
 
-Before editing, inspect the selected file together with relevant `.env` files, referenced variable definitions, build contexts, Dockerfiles, and nearby project configuration when needed to understand the Compose contract.
+Before editing, inspect the selected file and relevant `.env` files, variable definitions, build contexts, Dockerfiles, and nearby configuration needed to understand its contract.
 
 ### 2. Analyze and optimize
 
-Preserve the existing service intent and ask targeted questions when a change depends on unknown application requirements, image compatibility, resource sizing, persistence, or networking.
+Preserve service intent. Ask targeted questions when application requirements, image compatibility, resource sizing, persistence, or networking are unknown.
 
 Check and improve the selected configuration as appropriate:
 
@@ -46,7 +46,7 @@ Check and improve the selected configuration as appropriate:
 - **Resources and performance:** add meaningful `deploy.resources.limits` for CPU and memory only when the workload or project constraints justify a safe value. Ask before guessing limits that could prevent a service from operating correctly.
 - **Operational behavior:** review service dependencies, readiness versus startup ordering, port exposure, bind mounts, data persistence, least-privilege settings, and network exposure. Do not add privileged mode, broad host mounts, or public ports without a clear requirement.
 
-Explain proposed changes before applying changes that could alter persistence, externally visible ports, credentials, data loss risk, image compatibility, or service availability. Keep edits minimal and do not refactor unrelated project files.
+Before changing persistence, exposed ports, credentials, data-loss risk, image compatibility, or availability, explain the impact. Keep edits minimal; do not refactor unrelated files.
 
 ### 3. Validate and optionally run
 
