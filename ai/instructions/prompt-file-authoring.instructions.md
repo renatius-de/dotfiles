@@ -1,4 +1,5 @@
 ---
+name: prompt-file-authoring
 description: 'Guidelines for creating high-quality prompt files for GitHub Copilot'
 applyTo: '**/*.prompt.md'
 ---
@@ -21,7 +22,7 @@ Every prompt file should include YAML frontmatter with the following fields:
 | Field | Required | Description |
 |-------|----------|-------------|
 | `description` | Recommended | A short description of the prompt (single sentence, actionable outcome) |
-| `name` | Optional | The name shown after typing `/` in chat. Defaults to filename if not specified |
+| `name` | Required by this repository | The prompt name and `/` command name; must match the kebab-case filename without `.prompt.md` |
 | `agent` | Recommended | The agent to use: `ask`, `edit`, `agent`, or a custom agent name. Defaults to current agent |
 | `model` | Optional | The language model to use. Defaults to the currently selected model |
 | `tools` | Optional | List of tool/tool set names available for this prompt |

@@ -1,12 +1,12 @@
 ---
 name: ai-asset-maintenance
-description: "Use when updating repository AI instructions and skills; enforce naming consistency, metadata quality, structural clarity, and final verification across all .instructions.md and SKILL.md files."
-applyTo: "**/*.instructions.md,**/SKILL.md"
+description: "Use when updating repository AI instructions, skills, and prompts; enforce naming consistency, metadata quality, structural clarity, and final verification across all AI assets."
+applyTo: "**/*.instructions.md,**/*.prompt.md,**/SKILL.md"
 ---
 
 ## Scope
 
-Applies whenever repository `**/*.instructions.md` or `**/SKILL.md` files or names are reviewed, refactored, or synchronized. Maintain consistent, discoverable assets. Covers AI-asset hygiene, not Java quality, API specifications, or documentation approval.
+Applies whenever repository `**/*.instructions.md`, `**/*.prompt.md`, or `**/SKILL.md` files or names are reviewed, refactored, or synchronized. Maintain consistent, discoverable assets. Covers AI-asset hygiene, not Java quality, API specifications, or documentation approval.
 
 ## Required behavior
 
@@ -14,7 +14,7 @@ Applies whenever repository `**/*.instructions.md` or `**/SKILL.md` files or nam
 
 Before editing, read every relevant file in scope and identify:
 
-- completeness, coverage, clarity, maintainability, redundancy, overlap, naming, metadata, and structural consistency
+- completeness, coverage, clarity, maintainability, redundancy, overlap, naming, metadata, and structural consistency across instructions, skills, and prompts
 
 Do not assume a file is correct just because it exists. Check actual content, purpose, and consistency.
 
@@ -26,7 +26,7 @@ Adjust content only to improve correctness or maintainability: remove duplicatio
 
 Apply one consistent naming scheme across all AI asset files.
 
-Use `domain-focus.instructions.md` for instructions and `domain-focus/SKILL.md` for skills.
+Use `domain-focus.instructions.md` for instructions, `domain-focus.prompt.md` for prompts, and `domain-focus/SKILL.md` for skills.
 
 Examples:
 
@@ -42,9 +42,10 @@ Use kebab-case, consistent verbs, and domain-first naming. Avoid legacy title ca
 
 ### 4. Normalize metadata
 
-For every instruction or skill file:
+For every instruction, skill, or prompt file:
 
-- Start YAML frontmatter with `---`; include `name`; keep `description` concise/action-oriented and `applyTo` meaningful where relevant; align metadata with filename and purpose.
+- Start YAML frontmatter with `---`; include `name`; keep `description` concise/action-oriented and `applyTo` meaningful for instructions; align metadata with filename and purpose.
+- Use `*.prompt.md` for prompt files and `*.instructions.md` for instruction files. Do not introduce or preserve `.prompts.md` filename variants.
 
 Do not leave orphaned or mismatched names, descriptions, or scopes.
 

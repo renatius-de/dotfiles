@@ -18,6 +18,7 @@ The goal is to improve task performance, reliability, observability, maintainabi
 When optimizing instruction, skill, or prompt files:
 
 - Read every `*.instructions.md` recursively under `.github/instructions/` and `ai/instructions/`, every `SKILL.md` recursively under `.github/skills/` and `ai/skills/`, and every `*.prompt.md` recursively under `.github/prompts/` and `ai/prompts/` before editing. Preserve every rule, trigger, scope, exception, condition, and behavior; shorten wording or remove only demonstrably redundant phrasing.
+- Treat prompt filenames and frontmatter separately from instruction and skill conventions: prompt files end in `*.prompt.md`, require `name` and `description` in this repository, and must not use the legacy `.prompts.md` variant.
 - Keep required metadata and valid Markdown. Prefer concise, direct language and compact structure; do not trade away clarity or constraints for token count.
 - Identify directives that require redundant tool calls or bulky/extraneous outputs. Before executing, removing, or changing one, explain its impact and ask the user to confirm. Do not silently skip, weaken, remove, or rewrite it; if confirmation is declined, preserve it and continue only with independent work.
 - Reread changed files and validate their structure and meaning. Report token or word-count comparisons only when measured with the same method.
