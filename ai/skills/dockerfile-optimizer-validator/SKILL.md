@@ -7,7 +7,7 @@ description: "Analyze, optimize, complete, and validate Dockerfiles with explici
 
 ## Scope
 
-Use this skill to inspect Dockerfiles, apply justified improvements, complete missing operational metadata, validate the resulting image, and report unresolved assumptions or risks.
+Inspect Dockerfiles, make justified improvements, add supported operational metadata, validate the image, and report unresolved assumptions/risks.
 
 ## Required workflow
 
@@ -21,7 +21,7 @@ Search the current project directory recursively for Dockerfiles, including name
 - `Dockerfile.test`
 - Files matching `Dockerfile.*`
 
-Exclude generated, vendored, dependency, and hidden-directory copies unless the user explicitly requests them. Also check build scripts, Compose files, and documentation when filename discovery alone is insufficient.
+Exclude generated, vendored, dependency, and hidden copies unless requested. Check scripts, Compose files, and docs if filename discovery is insufficient.
 
 Apply these selection rules:
 
@@ -29,11 +29,11 @@ Apply these selection rules:
 - If exactly one Dockerfile is found, read it automatically.
 - If multiple Dockerfiles are found, list every candidate and explicitly ask which file should be analyzed and optimized. Do not choose one silently.
 
-Before editing, inspect the selected Dockerfile together with relevant build context files, `.dockerignore`, Compose files, package manifests, lockfiles, and application configuration when needed to understand the build and runtime contract.
+Before editing, inspect the selected Dockerfile and relevant context files, `.dockerignore`, Compose files, manifests, lockfiles, and application configuration needed to understand build/runtime contracts.
 
 ### 2. Analyze and optimize
 
-Preserve the application's build and runtime intent. Ask targeted questions when a change depends on unknown runtime ports, health endpoints, startup commands, base-image compatibility, architecture, or required system packages.
+Preserve build/runtime intent. Ask when ports, health endpoints, startup commands, base-image compatibility, architecture, or system packages are unknown.
 
 Check and improve the selected Dockerfile as appropriate:
 
@@ -45,7 +45,7 @@ Check and improve the selected Dockerfile as appropriate:
 - **Operational metadata:** add `WORKDIR`, `EXPOSE`, and `HEALTHCHECK` when they are absent and their values can be derived safely from the application contract. Ask before guessing ports, health paths, or commands.
 - **Runtime behavior:** preserve or improve `ENTRYPOINT` and `CMD`, prefer exec-form instructions, and ensure signal handling and graceful shutdown are not undermined.
 
-Keep changes minimal, explain compatibility-sensitive changes before applying them, and do not refactor unrelated files.
+Keep changes minimal; explain compatibility-sensitive changes before applying them and avoid unrelated refactors.
 
 ### 3. Build and validate
 

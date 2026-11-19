@@ -8,17 +8,15 @@ applyTo: "vim/**/*.lua"
 
 ## Scope
 
-- Apply these rules to Lua configuration under `vim/`, including the current `vim/init.lua`.
-- Preserve the existing module contract: `vim/init.lua` is linked into `~/.config/nvim/init.lua`, with Neovim state and cache kept in their established locations.
-- This instruction covers editor configuration only. Follow the repository Makefile standards separately when changing installation targets.
+Apply to Lua under `vim/`, including `vim/init.lua`. Preserve the module contract linking it to `~/.config/nvim/init.lua` and keeping Neovim state/cache in established locations. For installation targets, also follow repository Makefile standards.
 
 ## Required behavior
 
-- Check the installed or project-required Neovim version before using version-specific APIs. Do not silently raise the minimum supported version.
+- Check the installed/project-required Neovim version before using version-specific APIs; never silently raise the minimum.
 - Prefer Neovim's documented Lua APIs and the existing `vim.opt` style for editor options. Keep configuration declarative and grouped by purpose.
 - Preserve existing user-visible defaults unless the requested change calls for different behavior.
 - Guard optional executables, external tools, and platform-dependent paths before using them.
-- Keep configuration startup deterministic and avoid network access, interactive prompts, or expensive work during startup.
+- Keep startup deterministic; avoid network access, prompts, and expensive work.
 - Do not introduce a plugin manager or new plugin dependencies unless the project adopts and installs them explicitly.
 - Keep temporary, undo, and cache data under Neovim's established state/cache paths; do not store generated data in the tracked configuration directory.
 

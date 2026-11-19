@@ -8,20 +8,17 @@ applyTo: "**/*.openapi.yaml,**/*.openapi.json,**/openapi.yaml,**/swagger.yaml,ap
 
 ## Scope
 
-- Apply these rules to all OpenAPI files matching `*.openapi.yaml`, `*.openapi.json`, `openapi.yaml`, `swagger.yaml`, and all files under `api/` and `docs/spec/`.
-- Treat all OpenAPI documents as authoritative API contracts and validate them against the OpenAPI 3.0, 3.1 or 3.2 specification before finalizing changes.
-- When editing existing API specs, preserve compatibility unless the change is explicitly approved as a breaking change.
-- This rule covers API contract design and validation only. It does not define Java implementation quality, documentation governance, or README approval procedures.
+Apply to `*.openapi.yaml`, `*.openapi.json`, `openapi.yaml`, `swagger.yaml`, and files under `api/` or `docs/spec/`. Treat specs as authoritative API contracts and validate against OpenAPI 3.0/3.1/3.2. Preserve compatibility unless a breaking change is approved. Covers contract design/validation, not Java quality, documentation governance, or README approval.
 
 ## General format and validity rules
 
-- Use valid OpenAPI 3.0, 3.1 or 3.2 syntax at all times; do not invent vendor extensions or non-standard fields unless they are explicitly required by the project.
+- Use valid OpenAPI 3.0/3.1/3.2 syntax; do not invent extensions or non-standard fields unless the project requires them.
 - Prefer YAML over JSON for human-readable API specifications, except when the project explicitly requires JSON.
 - Use consistent indentation with exactly 2 spaces for YAML; do not mix tabs or irregular indentation.
 - Keep object keys, values, and nesting structurally valid; do not leave trailing commas, malformed arrays, or invalid property declarations.
 - Use valid data types for all schemas, including `string`, `integer`, `number`, `boolean`, `array`, and `object` only when they match the actual API contract.
 - Keep `openapi`, `info`, `paths`, `components`, and other top-level sections in their required structure and order where practical.
-- Ensure all referenced `$ref` targets resolve to valid components and do not create circular or broken references.
+- Ensure every `$ref` resolves to a valid component without circular or broken references.
 
 ## API design best practices
 
@@ -59,8 +56,7 @@ Use the following extensions only when the consuming Spring Boot 4 integration e
 | `x-enum-description` | Enum schema as a map keyed by exact enum values, or the exact format required by the consumer. | Generated clients or documentation need descriptions for individual enum values. Every key must exist in the schema's `enum` array. |
 | `x-enum-varnames` | Enum schema as an array of strings, one entry per enum value in the same order as `enum`. | Generated clients or documentation need expressive member names for each enum value. The array length and order must exactly match the `enum` array. |
 
-- `x-enum-varnames` must be an array, not a map. Each item corresponds to the enum value at the same index in `enum`, so the array length, order, and item count must match exactly. A mismatch such as a missing entry, reordered values, or a different number of items is invalid and must be corrected.
-- `x-enum-description` remains a map keyed by the exact enum values. This is different from `x-enum-varnames`: descriptions are by value, while varnames are positional and ordered. Both extensions can be present together when a consumer needs both human-readable labels and code-friendly member names.
+- `x-enum-varnames` is an ordered array (not a map), with exactly one item per `enum` value in matching order. `x-enum-description` is a map keyed by exact enum values; both may coexist when needed.
 - Example of a valid enum metadata combination:
 
 ```yaml
@@ -117,8 +113,7 @@ components:
 
 ## Instructions for Copilot generation behavior
 
-- When creating new endpoints, always generate complete request bodies, response payloads, and error handling for relevant `4xx` and `5xx` cases.
-- When creating or editing endpoints, include all required fields, explicit status codes, and realistic data examples; do not leave incomplete or partially described operations.
+- New endpoints need complete request bodies, responses, and relevant `4xx`/`5xx` handling. All created/edited endpoints need required fields, explicit status codes, and realistic examples; do not leave partial operations.
 - Use reusable components first; only inline definitions when they are truly local and not repeated elsewhere.
 - Keep all naming, casing, and status code usage consistent across the entire specification.
 - Do not introduce breaking API changes without explicit approval. Describe approved contract changes and their client impact in the change summary; do not use source comments as an approval mechanism.

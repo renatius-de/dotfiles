@@ -5,18 +5,11 @@ description: "Create and maintain high-quality OpenAPI 3 documentation for Java 
 
 # Document Java APIs with OpenAPI 3
 
-Use this skill when adding, reviewing, or improving OpenAPI 3 documentation for Java REST APIs, especially APIs implemented with Spring MVC, Spring WebFlux, Jakarta REST, or another framework supported by Swagger Core or springdoc-openapi.
+Use when creating/reviewing OpenAPI 3 docs for Java REST APIs using Spring MVC/WebFlux, Jakarta REST, or another Swagger Core/springdoc-supported framework.
 
 ## Goals
 
-Produce API documentation that is:
-
-- accurate to the implemented HTTP contract
-- useful to API consumers and client generators
-- consistent across controllers, DTOs, errors, and security requirements
-- compatible with the project's actual OpenAPI tooling and version
-- explicit about validation, nullability, examples, authorization, and failure responses
-- maintainable without duplicating descriptions or inventing behavior
+Document the implemented HTTP contract accurately for consumers/client generators; keep controllers, DTOs, errors, and security consistent and tooling-compatible. State validation, nullability, examples, authorization, and failures without duplication or invented behavior.
 
 Treat the generated OpenAPI document as the contract. An annotation is successful only when it produces the intended paths, operations, parameters, schemas, responses, and security metadata.
 
@@ -24,7 +17,7 @@ Treat the generated OpenAPI document as the contract. An annotation is successfu
 
 ### 1. Establish the project contract
 
-Before changing annotations or configuration, inspect:
+Before changing annotations/configuration, inspect:
 
 - the Java and framework versions
 - the existing OpenAPI dependency and its version
@@ -34,13 +27,13 @@ Before changing annotations or configuration, inspect:
 - authentication, authorization, and API versioning conventions
 - existing OpenAPI annotations and nearby documentation patterns
 
-Use the project's established integration. Do not upgrade springdoc-openapi, Swagger Core, Jackson, or the web framework as part of a documentation-only change unless explicitly requested.
+Use the established integration. Do not upgrade springdoc-openapi, Swagger Core, Jackson, or the framework for a docs-only change unless requested.
 
 If the source code and requested documentation disagree, document the behavior that is actually implemented only after resolving whether the implementation or the contract is authoritative. Do not guess missing business rules, security requirements, status codes, or field semantics.
 
 ### 2. Choose the annotation boundary
 
-Keep documentation close to the code that owns the behavior:
+Keep documentation with the code that owns behavior:
 
 - Put `@Tag` on a controller or resource class when it groups related operations.
 - Put `@Operation` on each public endpoint when its summary, description, operation ID, tags, or security differs from defaults.
@@ -55,7 +48,7 @@ Prefer annotations that describe observable HTTP behavior over comments about im
 
 ### 3. Document controllers and operations
 
-For every exposed operation:
+For each exposed operation:
 
 - Provide a concise, verb-led summary.
 - Provide a description when behavior, side effects, authorization, filtering, pagination, idempotency, or constraints need explanation.
@@ -143,7 +136,7 @@ Never put secrets, internal hostnames, production tokens, or environment-specifi
 
 ### 8. Verify the result
 
-After changing Java annotations or OpenAPI configuration:
+After changing annotations or OpenAPI configuration:
 
 1. Compile the affected module with the repository's normal build command.
 2. Run focused controller, serialization, or documentation tests when available.
@@ -182,13 +175,7 @@ Ask for clarification before documenting when any of these are unknown and mater
 
 ## Expected output
 
-A completed OpenAPI documentation change should include:
-
-- accurate Java annotations or configuration aligned with the existing integration
-- complete operation, parameter, schema, response, and security metadata
-- realistic examples and reusable error documentation
-- validation evidence for the generated OpenAPI document
-- a concise report of unavailable checks, assumptions, and any contract changes
+A completed change includes accurate, integration-aligned Java metadata; complete operations/parameters/schemas/responses/security; realistic examples and reusable error docs; generated-document validation; and a concise report of unavailable checks, assumptions, and contract changes.
 
 ## Final instruction
 

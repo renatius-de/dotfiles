@@ -5,21 +5,19 @@ description: "Safely convert a Java data-oriented class to a record while preser
 
 # Convert Java Class to Record
 
-Use this skill when an existing Java class is a data carrier and should be converted to a Java record. The conversion must preserve the class's observable behavior, validation rules, relevant construction patterns, and required framework integration. Do not convert a class automatically when it owns mutable state, identity-based lifecycle behavior, inheritance requirements, or behavior that is incompatible with record semantics.
+Use when converting a data-carrier class to a record while preserving observable behavior, validation, required construction APIs, and framework integration. Do not convert classes with mutable state, identity lifecycle, inheritance requirements, or incompatible behavior.
 
 ## Objective
 
-- Convert a suitable class to `public record ClassName(...)`.
-- Preserve the public contract, validation behavior, exception behavior, and domain methods unless a change is explicitly requested.
-- Remove boilerplate supplied by Lombok or Immutables when the record replaces it.
-- Keep construction and usage practical when the original type exposed a builder, withers, serialization contract, or framework-specific integration.
-- Verify the complete result after editing.
+- Convert suitable classes to `public record ClassName(...)`; preserve public/validation/exception/domain behavior unless change is requested.
+- Remove replaced Lombok/Immutables boilerplate. Preserve required builders, withers, serialization, and framework integration.
+- Verify the complete result.
 
 ## Mandatory workflow
 
 ### Step 1: Analyze the target class
 
-Read the complete target Java file and inspect nearby tests, usages, and build configuration when they affect the conversion. Before editing, identify:
+Read the complete target Java file and relevant tests, usages, and build configuration. Before editing, identify:
 
 - Whether Project Lombok is used, including annotations such as `@Data`, `@Value`, `@Getter`, `@Setter`, `@AllArgsConstructor`, `@RequiredArgsConstructor`, `@NoArgsConstructor`, `@Builder`, `@SuperBuilder`, `@With`, and `@EqualsAndHashCode`.
 - Whether the Immutables framework is used, including annotations such as `@Value.Immutable` and related generated immutable types or builders. Consult the official framework documentation or the project's existing usage when the generated API is unclear: https://immutables.github.io/.
@@ -122,7 +120,7 @@ Do not silently change external contracts. Ask for clarification when callers re
 
 ### Step 7: Validate the result
 
-After the conversion, read the complete newly created or modified Java file from disk. Then verify:
+After conversion, reread the complete Java file and verify:
 
 - The declaration is syntactically valid and uses the intended `public record ClassName(...)` form.
 - Every record component has the correct type, name, order, and required annotation.

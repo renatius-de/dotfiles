@@ -5,11 +5,11 @@ description: "Refactor and modernize OpenAPI 3.1 specifications by removing redu
 
 # Simplify OpenAPI 3.1 Specifications and Compare Changes
 
-Use this skill to reduce complexity in an OpenAPI document while preserving the API contract, improving readability, and aligning the specification with modern OpenAPI 3.1 best practices.
+Reduce OpenAPI complexity and improve readability while preserving the contract and applying OpenAPI 3.1 practices.
 
 ## Goal
 
-Refactor a target OpenAPI specification so it is easier to maintain, review, and evolve. The result should be a cleaner, more modular document that prefers reusable components, avoids duplicated inline definitions, and uses concise schema patterns for polymorphism and error handling.
+Make the target spec easier to maintain, review, and evolve through reusable components, reduced inline duplication, and concise polymorphism/error schemas.
 
 ## Required working method
 
@@ -26,11 +26,11 @@ Inspect the document for:
 - complex `allOf`/`oneOf`/`anyOf` chains that can be flattened into clearer compositions
 - large request/response bodies defined inline instead of through shared components
 
-When identifying improvement opportunities, keep behavior and compatibility in mind. Do not change semantics unless the user explicitly approves a breaking change or a contract-altering update.
+Preserve behavior and compatibility; change semantics only with explicit approval of the breaking/contract change.
 
 ### 2. Ask clarifying questions before making assumptions
 
-Before modifying the spec, ask concise clarifying questions if any of the following is unclear:
+Before editing, ask if any of these are unclear:
 
 - whether all previous API behaviors must remain unchanged
 - whether minor adjustments to existing behaviors are acceptable
@@ -148,11 +148,7 @@ Before finalizing the refactor:
 
 ## Decision rules
 
-When the refactor is obvious and the contract is clear:
-
-- proceed directly with the simplification
-- keep the change focused and minimal
-- produce a cleaner equivalent API design
+When the contract and refactor are clear, simplify directly and minimally without changing API behavior.
 
 When the contract is ambiguous or the user has not confirmed requirements:
 

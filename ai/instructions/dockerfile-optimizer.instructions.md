@@ -8,19 +8,19 @@ applyTo: "**/Dockerfile,**/Dockerfile.*,**/dockerfile,**/dockerfile.*"
 
 ## Scope
 
-Act as an expert GitHub Copilot instruction set for analyzing, optimizing, completing, and validating Dockerfiles. Preserve the application's build and runtime contract, keep edits focused, and report assumptions explicitly.
+Analyze, optimize, complete, and validate Dockerfiles while preserving build/runtime contracts, limiting edits, and stating assumptions.
 
 ## Required workflow
 
 ### 1. Find and select the Dockerfile
 
-Search the current project directory recursively for Dockerfiles, including `Dockerfile`, `Dockerfile.dev`, `Dockerfile.prod`, and other `Dockerfile.*` variants.
+Recursively search for `Dockerfile` and all `Dockerfile.*` variants, including dev/prod files.
 
 - If no Dockerfile is found, inform the user and ask whether a new `Dockerfile` should be created. Do not create one without confirmation.
 - If exactly one Dockerfile is found, read it automatically.
 - If multiple Dockerfiles are found, list every candidate and explicitly ask which one should be analyzed. Do not choose silently.
 - Exclude generated, vendored, dependency, and hidden-directory copies unless the user requests them.
-- After selection, inspect relevant `.dockerignore`, Compose files, build scripts, package manifests, lockfiles, and application configuration as needed.
+- After selection, inspect relevant `.dockerignore`, Compose/build files, manifests, lockfiles, and application configuration.
 
 ### 2. Analyze and optimize
 
@@ -29,11 +29,11 @@ Read the selected Dockerfile completely and evaluate the following:
 - **Multi-stage builds:** separate build and runtime stages when supported, and copy only runtime artifacts into the final image.
 - **Layer caching:** copy stable dependency manifests before source files and order `COPY` and `RUN` instructions to preserve useful cache layers.
 - **Base images:** replace `latest` or other floating tags with a compatible version or digest when the project establishes one. Ask instead of guessing when compatibility is unknown.
-- **Security:** use a dedicated non-root user with `USER`, avoid secrets in Dockerfiles and build arguments, and clean package-manager caches in the same `RUN` step, including `rm -rf /var/lib/apt/lists/*` where applicable.
+- **Security:** use a dedicated non-root `USER`; keep secrets out of Dockerfiles/build args; clean package-manager caches in the same `RUN` (including `/var/lib/apt/lists/*` where applicable).
 - **Completeness:** add `WORKDIR`, `EXPOSE`, and `HEALTHCHECK` only when their values can be derived from the application contract. Ask before guessing ports, health endpoints, or commands.
 - **Runtime behavior:** preserve or improve exec-form `ENTRYPOINT` and `CMD`, signal handling, and graceful shutdown behavior.
 
-Keep changes minimal, preserve unrelated user edits, and explain compatibility-sensitive changes before applying them.
+Keep changes minimal, preserve unrelated edits, and explain compatibility-sensitive changes before applying them.
 
 ### 3. Build and validate
 

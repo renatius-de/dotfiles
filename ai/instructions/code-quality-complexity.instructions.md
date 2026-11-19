@@ -6,29 +6,18 @@ applyTo: "**"
 
 ## Scope
 
-- Applies to all code, scripts, configuration, and automation files in this project.
-- Use this rule for any implementation, refactor, or bug fix that changes runtime behavior or maintainability.
-- This rule is limited to code structure and maintainability; it does not define OpenAPI contracts, README approval, or documentation language policy.
+Applies to implementation, refactoring, and bug fixes across project code, scripts, configuration, and automation. Covers structure and maintainability, not OpenAPI contracts, README approval, or documentation language.
 
 ## Required behavior
 
-- Reduce cyclomatic and cognitive complexity in all code you write or modify.
-- Keep nesting shallow; prefer a maximum of two conditional levels before extracting a helper or returning early.
-- Use guard clauses and early exits to handle invalid input and edge cases before deeper logic.
-- Break complex behavior into small, single-responsibility functions or components with clear names.
-- Prefer direct, declarative patterns over clever or over-abstracted solutions when the simpler option is clearer.
-- Keep variable names, function names, and control flow explicit so the code is easy to reason about.
-- Write English error messages that explain what failed, why it failed, and which context or input triggered the issue without leaking sensitive data.
+- Reduce cyclomatic and cognitive complexity. Keep nesting to at most two conditional levels; use guard clauses/early returns and extract clear, single-purpose helpers for complex behavior.
+- Prefer direct, declarative solutions over cleverness or needless abstraction. Keep names and control flow explicit.
+- Write English errors that explain what failed, why, and relevant context without exposing sensitive data.
 
 ## Do not
 
-- Do not add unnecessary abstraction layers or indirection.
-- Do not keep deeply nested conditionals when a guard clause or helper would reduce complexity.
-- Do not use generic failure text such as "An error occurred" or "Invalid input" when a more specific message is available.
-- Do not introduce unclear naming or mixed responsibilities in the same function or component.
+- Avoid needless abstraction, deep nesting when guards/helpers simplify it, generic errors when specifics are available, unclear names, and mixed responsibilities.
 
 ## Quality standard
 
-- Favor maintainability and readability over cleverness.
-- Keep the logic easy for a future maintainer to trace in a single pass.
-- Prefer the simplest correct implementation that still matches the project conventions.
+Favor readable, maintainable logic that is easy to follow in one pass; use the simplest correct solution consistent with project conventions.

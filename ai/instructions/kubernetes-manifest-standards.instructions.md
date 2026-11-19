@@ -8,26 +8,21 @@ applyTo: "**/k8s/**/*.yaml,**/k8s/**/*.yml,**/kubernetes/**/*.yaml,**/kubernetes
 
 ## Scope
 
-- Apply these rules when creating, reviewing, or changing Kubernetes resource manifests or Helm chart templates and values.
-- This repository is primarily a personal macOS/Linux dotfiles project, not a Kubernetes application repository. Do not introduce cluster manifests, charts, or deployment tooling unless the user requests them.
-- The `ai/` module installs repository-managed instructions from `ai/instructions/`; keep this file consistent with the frontmatter and naming conventions used by neighboring instruction files.
-- `kubectl` and `helm` are optional work-environment tools here, not guaranteed dependencies. Do not assume cluster access or install new tooling without approval.
-- If a YAML file's Kubernetes purpose is unclear, inspect its context before applying these rules; do not treat Compose files, CI workflows, or unrelated YAML as Kubernetes resources.
+Apply when authoring/reviewing Kubernetes manifests or Helm templates/values. This is a macOS/Linux dotfiles repo: do not add cluster resources or deployment tools unless requested. Keep this instruction's frontmatter/naming consistent with `ai/instructions/`. `kubectl`, `helm`, and cluster access are optional; do not install tools without approval. If YAML's purpose is unclear, inspect context; do not misclassify Compose, CI, or other YAML.
 
 ## Required workflow
 
 ### 1. Understand the deployment context
 
-- Locate all relevant manifests, chart templates, values files, overlays, kustomizations, and referenced configuration before editing.
+- Before editing, locate relevant manifests, templates, values, overlays, kustomizations, and referenced configuration.
 - Identify the target Kubernetes version, namespace, deployment environment, workload type, and existing conventions from project evidence.
-- Check API versions and fields against the declared target version. Do not silently migrate API versions or change compatibility assumptions.
+- Check API versions/fields against the target; never silently migrate APIs or compatibility assumptions.
 - When the required image, port, health endpoint, storage behavior, permissions, or resource sizing cannot be established, ask rather than inventing values.
-- Preserve user changes and keep edits limited to the requested workload and its necessary references.
+- Preserve user changes; limit edits to the requested workload and necessary references.
 
 ### 2. Author declarative, maintainable resources
 
-- Keep desired state in version-controlled manifests, Kustomize overlays, or Helm chart sources; do not recommend imperative production changes as the source of truth.
-- Make environment-specific differences explicit through overlays or chart values rather than copying and drifting whole manifests.
+- Keep desired state declarative in version-controlled manifests, Kustomize, or Helm; do not treat imperative production changes as source of truth. Express environment differences with overlays/values rather than copied manifests.
 - Keep templates deterministic and review rendered output. Avoid runtime mutation of deployed images or resources; use immutable image references, preferably digests when the workflow supports them.
 - Pin image versions instead of using floating tags such as `latest`. Derive compatible versions from project evidence or ask before changing them.
 - Avoid embedding credentials, private keys, or other secret values in manifests, chart values, examples, logs, or diffs. Use the repository's established external secret-management mechanism; if none exists, ask which mechanism to use.
@@ -35,7 +30,7 @@ applyTo: "**/k8s/**/*.yaml,**/k8s/**/*.yml,**/kubernetes/**/*.yaml,**/kubernetes
 
 ### 3. Specify workload resources and health
 
-- Set meaningful CPU and memory requests and limits for every container in each pod specification, including application containers, sidecars, and init containers. Do not rely on namespace defaults as an undocumented substitute.
+- Set meaningful CPU/memory requests and limits for every application, sidecar, and init container; do not rely on undocumented namespace defaults.
 - Base resource values on measured usage, known workload requirements, or explicit operator input. If safe values are unknown, explain the gap and ask rather than guessing.
 - Check that container-level values and their pod-level aggregate are appropriate for scheduling and cluster policy; account for the different scheduling and runtime effects of requests and limits.
 - Configure startup, readiness, and liveness probes for long-running application containers when the application exposes a reliable way to check them. Derive probe type, path, port, command, and timing from the application contract.
@@ -45,11 +40,10 @@ applyTo: "**/k8s/**/*.yaml,**/k8s/**/*.yml,**/kubernetes/**/*.yaml,**/kubernetes
 
 ### 4. Apply least privilege and isolate workloads
 
-- Run containers as a non-root user. Set `runAsNonRoot` and an explicit nonzero `runAsUser` when the image supports it.
-- Set `allowPrivilegeEscalation: false`, `readOnlyRootFilesystem: true`, and drop all Linux capabilities by default. Add only individually justified capabilities or writable mounts required by the application.
+- Run as non-root; set `runAsNonRoot` and nonzero `runAsUser` when supported. Set `allowPrivilegeEscalation: false`, `readOnlyRootFilesystem: true`, and drop all capabilities by default; add only justified capabilities/writable mounts.
 - Use a `RuntimeDefault` seccomp profile where supported. Set compatible pod- and container-level security contexts without weakening either scope.
 - Do not use privileged containers, host namespaces, host paths, or broad Linux capabilities unless the user confirms a documented requirement and the exception is narrowly scoped.
-- Disable service-account token automounting when the workload does not call the Kubernetes API. If API access is necessary, use a dedicated service account and narrowly scoped RBAC.
+- Disable service-account token automounting unless API access is needed; then use a dedicated account and narrow RBAC.
 - Place workloads in an explicitly selected, non-default namespace. Keep environment or tenant boundaries separate where the deployment design requires it; do not create or repurpose namespaces silently.
 - Use NetworkPolicies to restrict ingress and egress when the cluster supports them and the required traffic is known. Avoid opening ports or granting cross-namespace access without justification.
 
@@ -66,7 +60,7 @@ applyTo: "**/k8s/**/*.yaml,**/k8s/**/*.yml,**/kubernetes/**/*.yaml,**/kubernetes
 - Review both the source and the complete rendered manifests after changing overlays or Helm templates; check that templating has not omitted required resources or introduced unsafe defaults.
 - Use available, existing validation commands appropriate to the files: `helm lint` and `helm template` for charts, and `kubectl apply --dry-run=client` or a server-side dry run for raw manifests when the required context is available.
 - Treat server-side validation as dependent on cluster access and target-version compatibility. Report checks that could not be run; do not imply validation succeeded when it did not.
-- Do not apply, upgrade, delete, or otherwise change live cluster state without explicit user approval. Dry runs and diffs do not authorize deployment.
+- Never apply, upgrade, delete, or otherwise change live cluster state without explicit approval; dry runs/diffs are not deployment approval.
 - Review changes for accidental secret exposure, excessive privileges, missing container resources or probes, selector drift, unintended public access, and destructive storage changes.
 
 ## Expected output

@@ -5,22 +5,22 @@ description: "Safely identify, update, and verify direct Maven and Gradle depend
 
 # Update Direct Maven and Gradle Dependencies
 
-Use this skill when reviewing or updating dependencies declared directly in Maven `pom.xml` files, Gradle `build.gradle` files, Gradle `build.gradle.kts` files, or Gradle version catalogs. The objective is to keep declared direct dependencies current and secure while preserving build behavior and avoiding accidental changes to transitive dependencies.
+Use when reviewing/updating direct dependencies in Maven POMs, Gradle Groovy/Kotlin build files, or version catalogs. Keep them current and secure without changing build behavior or accidentally editing transitives.
 
 ## Scope and non-negotiable boundary
 
-- Inspect and update only dependencies explicitly declared by the project in its Maven or Gradle configuration.
+- Inspect/update only dependencies explicitly declared in project Maven/Gradle configuration.
 - Never add a transitive dependency directly to a build file merely because a vulnerability scanner reports it.
 - Never change a transitive dependency through an override, exclusion replacement, resolution strategy, dependency constraint, or forced version unless the user explicitly promotes that library to a direct dependency.
 - If a transitive vulnerability cannot be fixed through a safe direct-dependency update, report the path, affected component, and available remediation options. Do not silently add an override.
-- Treat dependencies managed by a Maven BOM, Gradle platform, or version catalog as direct only when the project explicitly declares the dependency in the relevant dependency declaration. A managed version is not itself a direct dependency.
+- BOM/platform/catalog management is not a direct declaration; the project must explicitly declare the dependency in the relevant configuration.
 - Preserve existing repositories, plugin management, scopes, configurations, exclusions, classifiers, platforms, and version-catalog structure unless the requested update requires a documented change.
 
 ## Required workflow
 
 ### 1. Establish the build contract
 
-Before editing, locate and read the relevant build files, wrapper files, settings, version catalogs, parent POMs, BOM imports, dependency-management configuration, and repository instructions.
+Before editing, read relevant build/wrapper files, settings, catalogs, parent POMs, BOM imports, dependency management, and repository instructions.
 
 Determine:
 
@@ -55,7 +55,7 @@ Record each candidate with its declaration file, configuration or scope, coordin
 
 ### 3. Establish a pre-update security baseline
 
-Run a vulnerability scan before every dependency update. The baseline must cover the relevant module and lockfile or resolved dependency graph without exposing secrets.
+Before every update, scan the relevant module and lockfile/resolved graph without exposing secrets.
 
 Use the security tooling already configured by the project. Supported approaches include:
 
@@ -71,7 +71,7 @@ Record the baseline findings, including component, CVE or advisory identifier, s
 
 ### 4. Identify safe candidate versions
 
-Use the project's established update tooling to identify newer direct dependency versions:
+Use established project tooling to identify newer direct versions:
 
 - Maven: use the configured `org.codehaus.mojo:versions-maven-plugin`, commonly with `mvn versions:display-dependency-updates` and, where appropriate, `mvn versions:display-plugin-updates`
 - Gradle: use the configured `com.github.ben-manes.versions` Gradle Versions Plugin and its `dependencyUpdates` task, commonly `./gradlew dependencyUpdates`
@@ -96,7 +96,7 @@ Ask for approval before applying a major update when it changes public APIs, run
 
 ### 6. Apply the smallest direct update
 
-Change only the version declaration or existing version source for the approved direct dependency. Keep coordinates, configuration or scope, exclusions, classifiers, aliases, and dependency ordering unchanged unless a documented migration requires otherwise.
+Change only the approved direct dependency's declaration or existing version source. Preserve coordinates, scope/configuration, exclusions, classifiers, aliases, and order unless a documented migration requires change.
 
 - Maven: update the direct declaration or its existing property in the owning POM; do not add a dependency-management override for a transitive component
 - Gradle: update the direct declaration or its existing version-catalog key; do not add `resolutionStrategy.force`, a new constraint, or a direct declaration for a transitive component as a workaround
@@ -105,7 +105,7 @@ Change only the version declaration or existing version source for the approved 
 
 ### 7. Verify the build and dependency graph
 
-After each update, run the narrowest relevant checks before moving to another dependency:
+After each update, before another dependency, run the narrowest relevant checks:
 
 1. Resolve or compile the affected Maven module with the repository's wrapper, such as `./mvnw -pl <module> -am test` or the documented focused command.
 2. Resolve or compile the affected Gradle project with the repository's wrapper, such as `./gradlew <project>:test` or the documented focused command.

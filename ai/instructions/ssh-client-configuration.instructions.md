@@ -8,17 +8,15 @@ applyTo: "ssh/config"
 
 ## Scope
 
-- Apply these rules to the tracked client configuration in `ssh/config` and its `~/.ssh/config.local` override contract.
-- Preserve the current split between shared configuration and host-specific local settings. The local override may contain private host details and is not a source for tracked secrets.
-- This instruction covers OpenSSH client configuration only. Follow the repository Makefile standards separately when changing SSH installation targets.
+Apply to tracked `ssh/config` and its `~/.ssh/config.local` contract. Preserve shared/local separation; the local override may contain private host details and is not a source for tracked secrets. For SSH installation targets, also follow repository Makefile standards.
 
 ## Required behavior
 
-- Check directive spelling, supported OpenSSH versions, and configuration scope before editing. `Host`, `Match`, and `Include` blocks affect different portions of the configuration; preserve their intended ordering and scope.
+- Check directive spelling, supported OpenSSH versions, and scope before editing; preserve `Host`, `Match`, and `Include` ordering and effects.
 - Preserve secure host-key verification and public-key authentication defaults. Explain any proposed weakening or change to authentication, forwarding, or host-key policy and obtain approval before applying it.
 - Keep private keys, credentials, personal hostnames, and machine-specific settings out of tracked files. Put host-specific values in the existing local override and do not read or reproduce sensitive local values in reports.
 - Keep settings minimal and specific to the intended hosts. Do not add broad forwarding, wildcard trust, or password-based authentication without an explicit requirement.
-- Treat validation as configuration parsing only; do not connect to a remote host as part of a syntax check.
+- Parse configuration only; never connect to a remote host for syntax validation.
 
 ## Do not
 

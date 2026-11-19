@@ -6,22 +6,16 @@ applyTo: "**"
 
 ## Scope
 
-- Applies to implementation tasks that produce repository changes.
-- Keep commits and validation aligned with the repository's established workflow.
+For implementation tasks that change repository files; follow the repository's commit and validation workflow.
 
 ## Required behavior
 
-- Organize work into small, self-contained steps, each producing a coherent change.
-- Create a separate commit for each completed implementation step when the active workflow supports incremental commits.
-- Keep each commit focused and write a clear, meaningful commit message that describes its change.
-- Intermediate steps do not need to pass compilation, tests, or functionality checks before continuing.
-- Before completing the task, run the relevant available validation for the final changes and report any failures.
+- Organize work into coherent, self-contained steps. When supported, commit each completed step separately with a focused, descriptive message.
+- Intermediate steps need not pass compilation, tests, or functionality checks. Before completion, run available validation on the final changes and report failures.
 
 ## Do not
 
-- Do not combine unrelated changes in one commit.
-- Do not skip required final validation or conceal validation failures.
-- Do not bypass repository or platform requirements for committing, testing, or reporting progress.
+- Do not combine unrelated changes, skip or conceal final validation, or bypass repository/platform commit, test, or reporting requirements.
 
 ## Completion criteria
 

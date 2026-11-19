@@ -5,11 +5,11 @@ description: "Analyze and refactor a JPA/Hibernate entity against its actual dat
 
 # JPA Entity Refactoring
 
-Use this skill when a selected `@Entity` class must be compared with its database table, corrected, simplified, or modernized with Project Lombok.
+Use when comparing an `@Entity` with its database table, correcting mappings, or modernizing it with Lombok.
 
 ## Preconditions
 
-Before making changes, locate all of the following:
+Before changing code, locate:
 
 - The selected Java class annotated with `@Entity`.
 - Its table mapping from `@Table`, naming conventions, or ORM configuration.
@@ -17,13 +17,13 @@ Before making changes, locate all of the following:
 - The build command, Java version, JPA provider, Spring Boot version, and Lombok configuration.
 - Representative repositories, services, DTOs, queries, tests, and construction sites.
 
-If the entity or schema cannot be found, stop the refactoring and report the missing input. Do not invent mappings, table constraints, relationships, or migrations.
+If the entity or schema is unavailable, stop and report it; do not invent mappings, constraints, relationships, or migrations.
 
 ## Required workflow
 
 ### 1. Analyze the entity
 
-Read the complete entity and record:
+Read the complete entity; record:
 
 - `@Entity`, `@Table`, schema, catalog, inheritance, and JPA access strategy.
 - Identifier fields, `@Id`, generation strategy, sequence or identity configuration, and version fields.
@@ -38,7 +38,7 @@ Inspect usages before changing field names, accessor signatures, constructors, m
 
 ### 2. Compare the database table
 
-Compare every entity field with the authoritative table definition. Check:
+Compare every entity field with the authoritative table; check:
 
 - Table and column names.
 - SQL and Java data types.
@@ -70,7 +70,7 @@ Ask for clarification when the schema source, relationship ownership, equality s
 
 ### 4. Modernize with Project Lombok
 
-Use the smallest annotation set that preserves the entity contract:
+Use the smallest annotation set preserving the entity contract:
 
 - `@Getter` for generated read access.
 - `@Setter` only for intentionally mutable fields.

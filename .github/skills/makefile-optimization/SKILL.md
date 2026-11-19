@@ -5,7 +5,7 @@ description: "Analyze and optimize GNU Makefiles, consolidate repeated targets i
 
 # Optimize GNU Makefiles
 
-Use this skill to analyze existing project Makefiles, reduce duplication, and move genuinely shared behavior into the repository's existing `common.mk`. Keep each target Makefile small, predictable, and compatible with the project's established installation flow.
+Analyze project Makefiles, reduce duplication, and move genuinely shared behavior into the existing `common.mk`. Keep target Makefiles focused and compatible with the installation flow.
 
 ## Use When
 
@@ -21,14 +21,7 @@ Do not create a new shared Makefile abstraction when the project does not alread
 
 ## Goal
 
-Produce a maintainable Makefile structure in which:
-
-- shared variables, functions, flags, and recipes live in the existing `common.mk`
-- module-specific Makefiles contain only behavior owned by that module
-- each target Makefile is as small as practical
-- the target surface is preferably limited to `clean`, `install`, and `upgrade`, plus the required `include common.mk` statement
-- existing installation, cleanup, upgrade, path, permission, and error-handling behavior remains intact
-- recipes remain safe to rerun and follow the repository's GNU Make conventions
+Aim for shared variables/functions/flags/recipes in existing `common.mk`, module-owned behavior in module Makefiles, and minimal target files. Prefer only `clean`, `install`, `upgrade`, and `include common.mk`, but retain targets required for workflow compatibility. Preserve install/clean/upgrade, paths, permissions, and errors; recipes remain rerunnable and follow GNU Make conventions.
 
 The three-target shape is a target state, not permission to remove behavior that cannot be represented safely through those targets. Preserve necessary module-specific targets when removing them would change the public workflow.
 
@@ -48,7 +41,7 @@ Determine which targets are public entry points and which are internal helpers. 
 
 ### 2. Inventory duplication and ownership
 
-Compare the Makefiles and record repeated or nearly repeated:
+Compare Makefiles for duplicated or near-duplicated:
 
 - variable assignments and tool discovery
 - `.PHONY` declarations and target dependency patterns
@@ -63,7 +56,7 @@ Do not move logic merely because it is long. Keep domain-specific paths, package
 
 ### 3. Design the smallest safe structure
 
-For each target Makefile:
+In target Makefiles:
 
 - keep `include` statements and module-specific declarations explicit
 - use the existing shared helpers instead of duplicating shell logic
@@ -74,7 +67,7 @@ For each target Makefile:
 - use `.PHONY` for lifecycle targets and any non-file targets that remain
 - keep recipe lines tab-indented and consistent with the repository style
 
-For `common.mk`:
+In `common.mk`:
 
 - centralize only reusable behavior
 - use explicit, descriptive variable and function names
@@ -111,7 +104,7 @@ Do not create a second `common.mk`, duplicate an existing helper under a new nam
 
 ### 6. Verify the result
 
-Run the narrowest useful checks first, then broaden them as practical:
+Start with the narrowest useful checks, broadening as practical:
 
 - parse every changed Makefile with `make -n` or an equivalent dry run
 - inspect the expanded commands for `clean`, `install`, and `upgrade`
@@ -144,15 +137,7 @@ After completing the work, report:
 
 ## Quality Bar
 
-The result should be:
-
-- valid GNU Make syntax
-- minimal without hiding module behavior
-- consistent with the repository's existing `common.mk` and installation flow
-- explicit about target ownership and dependencies
-- safe to rerun
-- clear about failures
-- verified with dry runs or executable Makefile checks
+The result must be valid GNU Make, minimal without hiding module behavior, consistent with existing helpers and install flow, clear about target ownership/dependencies and failures, rerunnable, and verified by dry runs or executable checks.
 
 ## Final Instruction
 
