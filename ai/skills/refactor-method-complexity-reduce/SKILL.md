@@ -75,7 +75,7 @@ The refactored method should:
    - **NEVER assume tests passed** - always examine the actual test output
    - Search for the summary line containing pass/fail counts (e.g., "passed=X failed=Y")
    - **If the summary shows any number other than "failed=0", tests have FAILED**
-   - If test output is in a file, read the entire file to locate and verify the failure count
+   - If test output is in a file, use a targeted search or bounded read to verify the failure count and inspect relevant failures; do not read the entire file solely to find the summary
    - Running tests is NOT the same as verifying tests passed
    - **Do not proceed** until you have explicitly confirmed zero failures
 3. **If any tests fail (failed > 0):**

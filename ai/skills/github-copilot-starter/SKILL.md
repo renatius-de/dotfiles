@@ -96,11 +96,7 @@ Create Coding Agent workflow file:
 
 For each file, follow these principles:
 
-**MANDATORY FIRST STEP**: Always use the fetch tool to research existing patterns before creating any content:
-1. **Fetch specific instruction from awesome-copilot docs**: https://github.com/github/awesome-copilot/blob/main/docs/README.instructions.md
-2. **Fetch specific agents from awesome-copilot docs**: https://github.com/github/awesome-copilot/blob/main/docs/README.agents.md
-3. **Fetch specific skills from awesome-copilot docs**: https://github.com/github/awesome-copilot/blob/main/docs/README.skills.md
-4. **Check for existing patterns** that match the technology stack
+**Before authoring, research existing patterns** with the fetch tool. Check the index and matching files for the asset types and technology stack in scope; fetch only relevant sources. Prefer repository-native examples, then exact stack matches, then general patterns. Record every reused source for attribution.
 
 **Primary Approach**: Reference and adapt existing instructions from awesome-copilot repository:
 - **Use existing content** when available - don't reinvent the wheel
@@ -156,27 +152,6 @@ description: "Java Spring Boot development standards"
 - ✅ **"Write unit tests for all public methods"**
 - ✅ **"Use TypeScript strict mode for better type safety"**
 - ✅ **"Follow the repository's established error handling patterns"**
-
-**Research Strategy with fetch tool:**
-1. **Check awesome-copilot first** - Always start here for ALL file types
-2. **Look for exact tech stack matches** (e.g., React, Node.js, Spring Boot)
-3. **Look for general matches** (e.g., frontend agents, testing skills, review workflows)
-4. **Check the docs and relevant directories directly** for related files
-5. **Prefer repo-native examples** over inventing new formats
-6. **Only create custom content** if nothing relevant exists
-
-**Fetch these awesome-copilot directories:**
-- **Instructions**: https://github.com/github/awesome-copilot/tree/main/instructions
-- **Agents**: https://github.com/github/awesome-copilot/tree/main/agents
-- **Skills**: https://github.com/github/awesome-copilot/tree/main/skills
-
-**Awesome-Copilot Areas to Check:**
-- **Frontend Web Development**: React, Angular, Vue, TypeScript, CSS frameworks
-- **C# .NET Development**: Testing, documentation, and best practices
-- **Java Development**: Spring Boot, Quarkus, testing, documentation
-- **Database Development**: PostgreSQL, SQL Server, and general database best practices
-- **Azure Development**: Infrastructure as Code, serverless functions
-- **Security & Performance**: Security frameworks, accessibility, performance optimization
 
 ## File Structure Standards
 
