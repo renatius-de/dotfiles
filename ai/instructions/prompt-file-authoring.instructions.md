@@ -81,7 +81,3 @@ Every prompt file should include YAML frontmatter with the following fields:
 - Version-control prompts alongside the code they affect; update them when dependencies, tooling, or review processes change.
 - Review prompts periodically to ensure tool lists, model requirements, and linked documents remain valid.
 - Coordinate with other repositories: when a prompt proves broadly useful, extract common guidance into instruction files or shared prompt packs.
-
-## Additional Resources
-- [Prompt Files Documentation](https://code.visualstudio.com/docs/agent-customization/prompt-files#_prompt-file-format)
-- [Tool Configuration](https://code.visualstudio.com/docs/agents/run/tools)
