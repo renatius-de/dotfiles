@@ -13,7 +13,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 REPORT = ROOT / "audit_report.md"
 ASSET_PATTERNS = (
-    "instructions/*.instructions.md",
+    "instructions/*.md",
     "skills/**/SKILL.md",
     "prompt/*.prompt.md",
     "../.github/prompts/*.prompt.md",
@@ -88,7 +88,10 @@ def code_block_checks(text: str) -> list[str]:
 def metadata_checks(path: Path, metadata: dict[str, str], errors: list[str]) -> list[str]:
     findings = list(errors)
     is_instruction = path.name.endswith(".instructions.md")
+    is_instruction_directory_asset = path.parent.name == "instructions" and path.suffix == ".md"
     is_prompt = path.name.endswith(".prompt.md")
+    if is_instruction_directory_asset and not is_instruction:
+        findings.append("instruction asset filename must end with .instructions.md")
     if is_instruction:
         expected_name = path.name.removesuffix(".instructions.md")
     elif is_prompt:
