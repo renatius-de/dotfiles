@@ -15,11 +15,11 @@ The goal is to improve task performance, reliability, observability, maintainabi
 
 ### 0. Reduce prompt cost without changing behavior
 
-When optimizing instruction or skill files:
+When optimizing instruction, skill, or prompt files:
 
-- Inventory and read the complete in-scope files before editing. Preserve every rule, trigger, scope, exception, condition, and behavior; shorten wording or remove only demonstrably redundant phrasing.
+- Read every `*.instructions.md` recursively under `.github/instructions/` and `ai/instructions/`, every `SKILL.md` recursively under `.github/skills/` and `ai/skills/`, and every `*.prompt.md` recursively under `.github/prompts/` and `ai/prompts/` before editing. Preserve every rule, trigger, scope, exception, condition, and behavior; shorten wording or remove only demonstrably redundant phrasing.
 - Keep required metadata and valid Markdown. Prefer concise, direct language and compact structure; do not trade away clarity or constraints for token count.
-- Identify directives that demand repeated tool calls or bulky/extraneous outputs. Before executing, removing, or changing such a directive, ask the user and obtain confirmation. Do not silently skip or weaken it.
+- Identify directives that require redundant tool calls or bulky/extraneous outputs. Before executing, removing, or changing one, explain its impact and ask the user to confirm. Do not silently skip, weaken, remove, or rewrite it; if confirmation is declined, preserve it and continue only with independent work.
 - Reread changed files and validate their structure and meaning. Report token or word-count comparisons only when measured with the same method.
 
 ### 1. Establish the configuration contract
@@ -128,7 +128,7 @@ If platform access, credentials, model limits, or evaluation data are unavailabl
 
 ## Decision rules
 
-- Optimize instruction tokens by removing repetition and tightening phrasing, never by dropping or weakening behavior. Ask before acting on or changing directives that require redundant calls or extraneous output.
+- Reduce tokens only through meaning-preserving compression; preserve behavior and obtain confirmation before acting on or changing directives that require redundant calls or extraneous output.
 - Preserve existing contracts and safety boundaries unless the user explicitly approves a change.
 - Ask for clarification when the target platform, model capability, context limit, tool permission, or success criterion is materially unclear.
 - Prefer the smallest change that addresses a measured failure.
@@ -139,7 +139,7 @@ If platform access, credentials, model limits, or evaluation data are unavailabl
 
 ## Anti-patterns to avoid
 
-- Do not reduce token use by deleting rules, conditions, triggers, exceptions, or confirmation gates. Do not execute or edit a cost-triggering directive before obtaining the required confirmation.
+- Do not reduce tokens by deleting or weakening rules, conditions, triggers, exceptions, or confirmation gates.
 - Do not add vague instructions such as "be smarter" or "always be perfect" without an observable behavior and evaluation.
 - Do not pile new rules onto a contradictory prompt; remove or reconcile the conflicting source.
 - Do not tune parameters without identifying the target model and measuring a baseline.

@@ -372,7 +372,7 @@ If `apply-automation-tooling == true`, then apply the following configurable ins
 
 ### Pre-update Hooks
 
-**Add pre-commit checks for:**
+**When the project already uses pre-commit hooks, include checks for:**
 
 - Documentation build succeeds
 - No broken links
@@ -462,20 +462,7 @@ If `apply-best-practices == true`, then apply the following configurable instruc
 
 If `apply-validation-commands == true`, then apply the following configurable instruction section.
 
-Example scripts to apply to your project for documentation validation:
-
-```json
-{
-  "scripts": {
-    "docs:build": "Build documentation",
-    "docs:test": "Test code examples in docs",
-    "docs:lint": "Lint documentation files",
-    "docs:links": "Check for broken links",
-    "docs:spell": "Spell check documentation",
-    "docs:validate": "Run all documentation checks"
-  }
-}
-```
+Use the project's existing documentation validation scripts. Do not invent commands or add placeholder scripts; if suitable checks are unavailable, report the gap instead.
 
 ## Maintenance Schedule `apply-maintenance-schedule`
 
