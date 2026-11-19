@@ -82,7 +82,7 @@ OSIV keeps the persistence context (and a database connection) open until the HT
 Tradeoffs:
 - Pros: no `LazyInitializationException` in the view layer.
 - Cons: connection held during rendering and any remote call (pool starvation), queries issued from the view layer escape transaction/service design, hidden N+1, and with auto-commit-less modes extra statements outside the transaction.
-- Recommendation: disable OSIV where the framework enables it by default, return DTOs, and define fetch plans in the service layer. If kept, monitor connection hold time. Enabling/disabling is framework configuration (see `java-springboot` for Spring's `spring.jpa.open-in-view`).
+- Recommendation: disable OSIV where the framework enables it by default, return DTOs, and define fetch plans in the service layer. If kept, monitor connection hold time. Enabling/disabling is framework configuration (see `java-spring-boot` for Spring's `spring.jpa.open-in-view`).
 
 ## DTO projections
 

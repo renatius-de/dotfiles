@@ -5,7 +5,7 @@ description: 'Diagnose and fix Hibernate ORM / Jakarta Persistence problems in p
 
 # Hibernate ORM and Jakarta Persistence
 
-Problem -> anti-pattern -> fix library for entity mapping and querying. Framework-neutral: it covers `EntityManager`/`Session` behavior, JPQL/HQL, and mapping annotations. If the project uses Spring Boot and the `java-springboot` and `spring-boot-testing` skills are installed, use them for Spring Data repositories, transaction wiring, and `@DataJpaTest`; for Panache and reactive persistence see the Quarkus skills. Integration tests against a real database: `java-testcontainers`.
+Problem -> anti-pattern -> fix library for entity mapping and querying. Framework-neutral: it covers `EntityManager`/`Session` behavior, JPQL/HQL, and mapping annotations. If the project uses Spring Boot and the `java-spring-boot` and `spring-boot-testing` skills are installed, use them for Spring Data repositories, transaction wiring, and `@DataJpaTest`; for Panache and reactive persistence see the Quarkus skills. Integration tests against a real database: `java-testcontainers`.
 
 ## First: detect the stack
 
