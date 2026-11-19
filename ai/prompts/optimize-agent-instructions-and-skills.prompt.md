@@ -1,11 +1,11 @@
 ---
 name: optimize-agent-instructions-and-skills
-description: "Reduce instruction and skill token cost without changing behavior or safety."
+description: "Optimize instruction, skill, and prompt assets without changing behavior or safety."
 ---
 
 # Optimize Agent Instructions and Skills
 
-Act as a senior maintainer of this repository's AI instructions and skills.
+Act as a senior maintainer of this repository's AI instructions, skills, and prompts.
 
 ## Objective and scope
 

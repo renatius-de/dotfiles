@@ -15,7 +15,6 @@ REPORT = ROOT / "audit_report.md"
 ASSET_PATTERNS = (
     "instructions/*.md",
     "skills/**/SKILL.md",
-    "prompt/*.prompt.md",
     "prompts/*.prompt.md",
     "../.github/prompts/*.prompt.md",
     "../.github/instructions/*.instructions.md",
