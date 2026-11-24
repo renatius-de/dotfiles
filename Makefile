@@ -123,7 +123,7 @@ brew-update: | brew-ensure
 		printf "INFO: target [brew-update] skipped because Homebrew is not installed.\n"; \
 		printf "BREW_SKIP: target [brew-update] was skipped because Homebrew is not installed.\n" >> "$(MAKE_STATUS_FILE)"; \
 	else \
-		$(BREW) update --quiet || { $(call fail_target,brew-update); }; \
+		$(BREW) update --auto-update --quiet || { $(call fail_target,brew-update); }; \
 	fi
 	$(call target_end,brew-update)
 
