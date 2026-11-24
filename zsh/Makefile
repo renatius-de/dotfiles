@@ -78,17 +78,7 @@ ohmyzsh_update: ensure-git
 clone-or-update-external: ensure-git
 	$(call target_start,clone-or-update-external)
 	@$(MKDIR) $(OMZ_CUSTOM) || { $(call fail_target,clone-or-update-external); }
-	@$(foreach repo,$(EXTERNAL_PLUGINS), \
-		name=$$(basename $(repo)); \
-		dir=$(OMZ_CUSTOM)/$$name; \
-		if [ ! -d "$$dir" ]; then \
-		  git clone --depth=1 https://github.com/$(repo).git "$$dir" >/dev/null \
-		    || { printf "❌: target [clone-or-update-external] failed while cloning %s into %s\n" "$(repo)" "$$dir" >&2; exit 1; }; \
-		else \
-		  git -C "$$dir" pull --ff-only >/dev/null \
-		    || { printf "❌: target [clone-or-update-external] failed while updating %s in %s\n" "$(repo)" "$$dir" >&2; exit 1; }; \
-		fi; \
-	)
+	@$(foreach repo,$(EXTERNAL_PLUGINS),$(call clone_or_update_repo,$(repo),$(OMZ_CUSTOM));)
 	$(call target_end,clone-or-update-external)
 
 configuration: | $(ZSH_HOME) $(ZSH_CACHE_DIR) $(ZSHRC_LOCAL_FILE) $(ZSH_COPY_TARGETS)
