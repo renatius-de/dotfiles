@@ -7,16 +7,16 @@ SSH_CONFIG_LOCAL := $(SSH_DIR)/config.local
 SSH_KEYS_DIR := $(SSH_DIR)/keys
 SSH_CONFIG_SOURCE := $(ROOT_DIR)/ssh/config
 
-.PHONY: install upgrade clean init-ssh $(SSH_DIR) $(SSH_CONFIG) $(SSH_CONFIG_LOCAL)
+.PHONY: install upgrade clean $(SSH_DIR) $(SSH_CONFIG) $(SSH_CONFIG_LOCAL)
 
 $(SSH_DIR):
 	$(call ensure_directory,$@,install)
-	@chmod 700 "$@" || { printf "❌: target [install] failed while securing permissions on %s\n" "$@" >&2; exit 1; }
+	$(call ensure_directory_permissions,$@,700,install)
 	@printf "✅ Ready: [%s]\n" "$@"
 
 $(SSH_CONTROL_DIR): | $(SSH_DIR)
 	$(call ensure_directory,$@,install)
-	@chmod 700 "$@" || { printf "❌: target [install] failed while securing permissions on %s\n" "$@" >&2; exit 1; }
+	$(call ensure_directory_permissions,$@,700,install)
 	@printf "✅ Ready: [%s]\n" "$@"
 
 $(SSH_KEYS_DIR): | $(SSH_DIR)
@@ -31,11 +31,7 @@ $(SSH_CONFIG_LOCAL): | $(SSH_KEYS_DIR)
 $(SSH_CONFIG): | $(SSH_DIR)
 	$(call link_file_to_target,install,$@,$(SSH_CONFIG_SOURCE))
 
-init-ssh: $(SSH_CONTROL_DIR)
-	$(call target_start,init-ssh)
-	$(call target_end,init-ssh)
-
-install: init-ssh $(SSH_CONFIG) $(SSH_CONFIG_LOCAL)
+install: $(SSH_CONTROL_DIR) $(SSH_CONFIG) $(SSH_CONFIG_LOCAL)
 	$(call target_start,install)
 	$(call target_end,install)
 

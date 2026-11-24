@@ -92,6 +92,10 @@ define ensure_directory
 	@$(call ensure_dir,$(1)) || { $(call fail_target,$(2)); }
 endef
 
+define ensure_directory_permissions
+	@chmod $(2) "$(1)" || { printf "❌: target [$(3)] failed while securing permissions on %s\n" "$(1)" >&2; exit 1; }
+endef
+
 define clone_or_update_repo
 	name=$$(basename $(1)); \
 	if [ -n "$(3)" ]; then dest="$(3)"; else dest="$$name"; fi; \
