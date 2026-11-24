@@ -26,12 +26,6 @@ upgrade: install
 	$(call target_end,upgrade)
 
 CLEAN_FILES := \
-	$(HOME)/.ctags \
-	$(HOME)/.viminfo \
-	$(HOME)/.vimoutlinerrc \
-	$(HOME)/.vimpagerrc \
-	$(HOME)/.vim \
-	$(HOME)/.vimrc \
 	$(NVIM_INIT)
 
 CLEAN_DIRS := \

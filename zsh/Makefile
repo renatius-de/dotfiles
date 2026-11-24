@@ -51,7 +51,7 @@ $(ZSH_CACHE_DIR):
 	$(call ensure_directory,$@,configuration)
 	@printf "✅ Ready: [%s]\n" "$@"
 
-$(ZSH_COPY_TARGETS): $(HOME)/.%: $(ROOT_DIR)/zsh/%
+$(ZSH_COPY_TARGETS): $(HOME)/.%: ohmyzsh $(ROOT_DIR)/zsh/%
 	$(call link_file_to_target,configuration,$@,$<)
 
 $(ZSHRC_LOCAL_FILE):
@@ -81,15 +81,17 @@ clone-or-update-external: ensure-git
 	@$(foreach repo,$(EXTERNAL_PLUGINS),$(call clone_or_update_repo,$(repo),$(OMZ_CUSTOM));)
 	$(call target_end,clone-or-update-external)
 
-configuration: | $(ZSH_HOME) $(ZSH_CACHE_DIR) $(ZSHRC_LOCAL_FILE) $(ZSH_COPY_TARGETS)
+configuration: | ohmyzsh clone-or-update-external $(ZSH_HOME) $(ZSH_CACHE_DIR) $(ZSHRC_LOCAL_FILE) $(ZSH_COPY_TARGETS)
 	$(call target_start,configuration)
 	$(call target_end,configuration)
 
-install: | ohmyzsh clone-or-update-external configuration
+install: | configuration
 	$(call target_start,install)
 	$(call target_end,install)
 
-upgrade: | install ohmyzsh_update
+ohmyzsh_update: | install
+
+upgrade: | ohmyzsh_update
 	$(call target_start,upgrade)
 	$(call target_end,upgrade)
 
