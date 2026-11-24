@@ -101,9 +101,9 @@ define clone_or_update_repo
 	if [ -n "$(3)" ]; then dest="$(3)"; else dest="$$name"; fi; \
 	dir=$(2)/$$dest; \
 	if [ ! -d "$$dir" ]; then \
-		$(call run_cmd,git clone --depth=1 "https://github.com/$(1).git" "$$dir",clone_or_update_repo); \
+		$(call run_cmd,git clone --quiet --depth=1 "https://github.com/$(1).git" "$$dir",clone_or_update_repo); \
 	else \
-		git -C "$$dir" pull --ff-only --depth=1 >/dev/null \
+		git -C "$$dir" pull --quiet --ff-only --depth=1 >/dev/null \
 			|| { printf "❌: target [clone_or_update_repo] failed while updating %s in %s\n" "$(1)" "$$dir" >&2; exit 1; }; \
 	fi
 endef
