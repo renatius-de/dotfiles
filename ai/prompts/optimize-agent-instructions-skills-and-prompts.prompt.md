@@ -1,5 +1,5 @@
 ---
-name: optimize-agent-instructions-and-skills
+name: optimize-agent-instructions-skills-and-prompts
 description: "Optimize instruction, skill, and prompt assets without changing behavior or safety."
 ---
 
