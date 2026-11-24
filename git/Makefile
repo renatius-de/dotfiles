@@ -9,7 +9,7 @@ GITIGNORE_REPO_DIR := $(GIT_PROJECTS_DIR)/GitIgnoreRepository
 REPO_DIRS := $(GITATTR_REPO_DIR) $(GITIGNORE_REPO_DIR)
 
 .PHONY: ensure-git install plugin upgrade clean \
-	$(GIT_CONFIG_FILE) $(GIT_CONFIG_LOCAL_FILE) $(GIT_IGNORE_FILE)
+	$(GIT_CONFIG_FILE) $(GIT_CONFIG_LOCAL_FILE) $(GIT_IGNORE_FILE) $(REPO_DIRS)
 
 ensure-git:
 	$(call target_start,ensure-git)

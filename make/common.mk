@@ -112,7 +112,7 @@ define link_file_to_target
 	@printf "ⓘ Linking %s to [%s]\n" "$(3)" "$(2)"
 	@$(call ensure_dir,$(dir $(2))) || { $(call fail_target,$(1)); }
 	@$(RM_RF) "$(2)" || { $(call fail_target,$(1)); }
-	@ln -s "$(3)" "$(2)" || { printf "❌: target [%s] failed while linking %s to %s\n" "$(1)" "$(3)" "$(2)" >&2; exit 1; }
+	@ln -sfn "$(3)" "$(2)" || { printf "❌: target [%s] failed while linking %s to %s\n" "$(1)" "$(3)" "$(2)" >&2; exit 1; }
 	@printf "✅ Linked %s to [%s]\n" "$(3)" "$(2)"
 endef
 
@@ -120,7 +120,7 @@ define link_tree_to_target
 	@printf "ⓘ Linking %s to [%s]\n" "$(3)" "$(2)"
 	@$(RM_RF) "$(2)" || { $(call fail_target,$(1)); }
 	@$(call ensure_dir,$(dir $(2))) || { $(call fail_target,$(1)); }
-	@ln -s "$(3)" "$(2)" || { printf "❌: target [%s] failed while linking %s to %s\n" "$(1)" "$(3)" "$(2)" >&2; exit 1; }
+	@ln -sfn "$(3)" "$(2)" || { printf "❌: target [%s] failed while linking %s to %s\n" "$(1)" "$(3)" "$(2)" >&2; exit 1; }
 	@printf "✅ Linked %s to [%s]\n" "$(3)" "$(2)"
 endef
 
