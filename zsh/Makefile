@@ -51,7 +51,7 @@ $(ZSH_CACHE_DIR):
 	$(call ensure_directory,$@,configuration)
 	@printf "✅ Ready: [%s]\n" "$@"
 
-$(ZSH_COPY_TARGETS): $(HOME)/.%: ohmyzsh $(ROOT_DIR)/zsh/%
+$(ZSH_COPY_TARGETS): $(HOME)/.%: $(ROOT_DIR)/zsh/% ohmyzsh
 	$(call link_file_to_target,configuration,$@,$<)
 
 $(ZSHRC_LOCAL_FILE):
